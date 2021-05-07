@@ -87,12 +87,27 @@ const Login: React.FC = () => {
         textAlign={'center'}
         stretched
         style={{
-          backgroundColor: 'white'
+          backgroundColor: 'white',
+          height: '100vh'
         }}
       >
-        <Container>
-          <LoginForm />
-        </Container>
+        <div
+          style={{
+            position: 'relative'
+          }}
+        >
+          <div
+            style={{
+              margin: 0,
+              position: 'absolute',
+              top: '50%',
+              width: '100%',
+              transform: 'translateY(-50%)'
+            }}
+          >
+            <LoginForm />
+          </div>
+        </div>
       </Grid.Column>
     </Grid>
   )
