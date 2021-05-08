@@ -1,9 +1,16 @@
-import React from 'react'
-import { Grid, Container } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Grid } from 'semantic-ui-react'
 
-import LoginForm from '@root/components/forms/LoginForm'
+import Index from '@root/components/forms/LoginForm'
+import ForgotPasswordForm from '@root/components/forms/ForgotPasswordForm'
 
 const Login: React.FC = () => {
+  const [isForgotPasswordPressed, setIsForgotPasswordPressed] = useState<boolean>(false)
+
+  const handleForgotPassword = () => {
+    setIsForgotPasswordPressed(!isForgotPasswordPressed)
+  }
+
   return (
     <Grid stackable padded={true}>
       <Grid.Column
@@ -105,7 +112,8 @@ const Login: React.FC = () => {
               transform: 'translateY(-50%)'
             }}
           >
-            <LoginForm />
+            {!isForgotPasswordPressed && <Index handleForgotPassword={handleForgotPassword} />}
+            {isForgotPasswordPressed && <ForgotPasswordForm handleBack={handleForgotPassword} />}
           </div>
         </div>
       </Grid.Column>
