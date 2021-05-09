@@ -1,16 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Grid } from 'semantic-ui-react'
 
-import Index from '@root/components/forms/LoginForm'
+import LoginForm from '@root/components/forms/LoginForm'
 import ForgotPasswordForm from '@root/components/forms/ForgotPasswordForm'
+import { Redirect, Route, Switch } from 'react-router-dom'
 
 const Login: React.FC = () => {
-  const [isForgotPasswordPressed, setIsForgotPasswordPressed] = useState<boolean>(false)
-
-  const handleForgotPassword = () => {
-    setIsForgotPasswordPressed(!isForgotPasswordPressed)
-  }
-
   return (
     <Grid stackable padded={true}>
       <Grid.Column
@@ -94,7 +89,6 @@ const Login: React.FC = () => {
         textAlign={'center'}
         stretched
         style={{
-          backgroundColor: 'white',
           height: '100vh'
         }}
       >
@@ -112,8 +106,15 @@ const Login: React.FC = () => {
               transform: 'translateY(-50%)'
             }}
           >
-            {!isForgotPasswordPressed && <Index handleForgotPassword={handleForgotPassword} />}
-            {isForgotPasswordPressed && <ForgotPasswordForm handleBack={handleForgotPassword} />}
+            <Switch>
+              <Route path="/login/singin">
+                <LoginForm />
+              </Route>
+              <Route path="/login/forgot-password">
+                <ForgotPasswordForm />
+              </Route>
+              <Redirect to={'/login/singin'} />
+            </Switch>
           </div>
         </div>
       </Grid.Column>

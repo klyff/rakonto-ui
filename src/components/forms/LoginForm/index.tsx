@@ -1,16 +1,29 @@
 import React from 'react'
 import { Header, Message, Button } from 'semantic-ui-react'
+import { Link, useHistory } from 'react-router-dom'
 import { Form, Input, SubmitButton } from 'formik-semantic-ui-react'
 import { Formik } from 'formik'
 import schema from './schema'
+import { singin } from '@root/api'
+import { useLocalStorage } from '@root/hooks/useLocalStorage'
+import { toast } from 'react-semantic-toasts'
 
-interface LoginFormProps {
-  handleForgotPassword: () => void
-}
+const LoginForm: React.FC = () => {
+  const history = useHistory()
+  const [token, setToken] = useLocalStorage<string>('token', '')
 
-const LoginForm: React.FC<LoginFormProps> = ({ handleForgotPassword }) => {
-  const handleSubmit = () => {
-    console.log('submited')
+  const handleSubmit = async ({ email, password }: any) => {
+    try {
+      const result = await singin({ email, password })
+      setToken(result)
+      history.push('/')
+    } catch (error) {
+      toast({
+        title: 'Login',
+        description: 'Error on do login!',
+        type: 'error'
+      })
+    }
   }
 
   return (
@@ -33,9 +46,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleForgotPassword }) => {
               border: 'none'
             }}
           >
-            <a href="#" onClick={handleForgotPassword}>
-              Forgot Password
-            </a>
+            <Link to="/login/forgot-password">Forgot Password</Link>
           </Message>
           <Button basic color="blue" fluid size="large">
             Create new Account

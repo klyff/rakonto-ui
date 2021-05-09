@@ -5,22 +5,30 @@ import { Formik } from 'formik'
 import schema from './schema'
 import { useSetRecoilState } from 'recoil'
 import { InfoModalState } from '@root/components/modals/InfoModal'
+import { Link, useHistory } from 'react-router-dom'
+import { requestPasswordReset } from '@root/api'
+import { toast } from 'react-semantic-toasts'
 
-interface LoginFormProps {
-  handleBack: () => void
-}
-
-const ForgotPasswordForm: React.FC<LoginFormProps> = ({ handleBack }) => {
+const ForgotPasswordForm: React.FC = () => {
+  const history = useHistory()
   const setInfoModalState = useSetRecoilState(InfoModalState)
 
-  const handleSubmit = () => {
-    console.log('submited')
-    setInfoModalState({
-      open: true,
-      title: 'Forgot Password',
-      content: 'Instructions have been sent to change your password in your e-mail address.'
-    })
-    handleBack()
+  const handleSubmit = async (values: any) => {
+    try {
+      await requestPasswordReset(values.email)
+      setInfoModalState({
+        open: true,
+        title: 'Forgot Password',
+        content: 'Instructions have been sent to change your password in your e-mail address.'
+      })
+      history.push('/login/singin')
+    } catch (error) {
+      toast({
+        title: 'Forgot password',
+        description: 'Erro on try to recover password!',
+        type: 'error'
+      })
+    }
   }
 
   return (
@@ -42,9 +50,7 @@ const ForgotPasswordForm: React.FC<LoginFormProps> = ({ handleBack }) => {
               border: 'none'
             }}
           >
-            <a href="#" onClick={handleBack}>
-              Back to login
-            </a>
+            <Link to="/login/singin">Back to login</Link>
           </Message>
         </Form>
       </Formik>
