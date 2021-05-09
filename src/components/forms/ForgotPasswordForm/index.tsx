@@ -13,9 +13,9 @@ const ForgotPasswordForm: React.FC = () => {
   const history = useHistory()
   const setInfoModalState = useSetRecoilState(InfoModalState)
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async ({ email }: { email: string }) => {
     try {
-      await requestPasswordReset(values.email)
+      await requestPasswordReset(email)
       setInfoModalState({
         open: true,
         title: 'Forgot Password',
@@ -25,7 +25,7 @@ const ForgotPasswordForm: React.FC = () => {
     } catch (error) {
       toast({
         title: 'Forgot password',
-        description: 'Erro on try to recover password!',
+        description: error.response.data.message,
         type: 'error'
       })
     }

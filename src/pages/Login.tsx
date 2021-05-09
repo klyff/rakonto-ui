@@ -3,6 +3,7 @@ import { Grid } from 'semantic-ui-react'
 
 import LoginForm from '@root/components/forms/LoginForm'
 import ForgotPasswordForm from '@root/components/forms/ForgotPasswordForm'
+import CreateAccountForm from '@root/components/forms/CreateAccountForm'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 const Login: React.FC = () => {
@@ -112,6 +113,9 @@ const Login: React.FC = () => {
               </Route>
               <Route path="/login/forgot-password">
                 <ForgotPasswordForm />
+              </Route>
+              <Route path="/login/singup">
+                <CreateAccountForm />
               </Route>
               <Redirect to={'/login/singin'} />
             </Switch>

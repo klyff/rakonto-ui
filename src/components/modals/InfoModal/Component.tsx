@@ -17,7 +17,12 @@ const InfoModal: React.FC = () => {
     <Modal open={open} size="tiny">
       <Modal.Header>{title}</Modal.Header>
       <Modal.Content image>
-        <Modal.Description>
+        <Modal.Description
+          style={{
+            wordBreak: 'break-word',
+            width: 'fit-content'
+          }}
+        >
           <p>{content}</p>
         </Modal.Description>
       </Modal.Content>

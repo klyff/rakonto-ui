@@ -40,11 +40,11 @@ const Routes: React.FC = () => {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/">
+          <PrivateRoute path="/">
             <Page>
               <Home />
             </Page>
-          </Route>
+          </PrivateRoute>
         </Switch>
       </div>
     </Router>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Image, Icon } from 'semantic-ui-react'
+import { Menu, Image, Icon, Input, Button } from 'semantic-ui-react'
 import { useRecoilState } from 'recoil'
 import { sidebarState } from '../state'
 
@@ -25,7 +25,19 @@ const NavBar: React.FC = () => {
       </Menu.Item>
 
       <Menu.Menu position="right">
-        <Menu.Item>teste</Menu.Item>
+        <Menu.Item>
+          <Input action={{ type: 'submit', content: 'Go' }} placeholder="Navigate to..." />
+        </Menu.Item>
+        <Menu.Item>
+          <Button primary>New Story</Button>
+        </Menu.Item>
+        <Menu.Item
+          style={{
+            borderLeft: '1px solid rgba(34, 36, 38, 0.15)'
+          }}
+        >
+          <Icon size="big" name="clock outline" />
+        </Menu.Item>
       </Menu.Menu>
     </Menu>
   )

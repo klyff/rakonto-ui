@@ -1,5 +1,5 @@
 import React from 'react'
-import { Segment, Sidebar as SidebarSemantic, Menu, Icon } from 'semantic-ui-react'
+import { Sidebar as SidebarSemantic, Menu, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import { sidebarState } from '../state'

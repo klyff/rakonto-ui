@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { Form, Input, SubmitButton } from 'formik-semantic-ui-react'
 import { Formik } from 'formik'
 import schema from './schema'
-import { singin } from '@root/api'
+import { iSingin, singin } from '@root/api'
 import { useLocalStorage } from '@root/hooks/useLocalStorage'
 import { toast } from 'react-semantic-toasts'
 
@@ -12,7 +12,7 @@ const LoginForm: React.FC = () => {
   const history = useHistory()
   const [token, setToken] = useLocalStorage<string>('token', '')
 
-  const handleSubmit = async ({ email, password }: any) => {
+  const handleSubmit = async ({ email, password }: iSingin) => {
     try {
       const result = await singin({ email, password })
       setToken(result)
@@ -20,7 +20,7 @@ const LoginForm: React.FC = () => {
     } catch (error) {
       toast({
         title: 'Login',
-        description: 'Error on do login!',
+        description: error.response.data.message,
         type: 'error'
       })
     }
@@ -48,7 +48,7 @@ const LoginForm: React.FC = () => {
           >
             <Link to="/login/forgot-password">Forgot Password</Link>
           </Message>
-          <Button basic color="blue" fluid size="large">
+          <Button basic color="blue" fluid size="large" as={Link} to="/login/singup">
             Create new Account
           </Button>
         </Form>

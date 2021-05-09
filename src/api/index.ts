@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { throws } from 'assert'
 
 const api = axios.create({
   baseURL: '/'
@@ -21,7 +20,7 @@ export const getMe = async () => {
   }
 }
 
-interface iSingin {
+export interface iSingin {
   email: string
   password: string
 }
@@ -31,7 +30,7 @@ export const singin = async (data: iSingin) => {
   return response.data
 }
 
-interface iSingup {
+export interface iSingup {
   firstName: string
   lastName: string
   email: string
@@ -40,36 +39,21 @@ interface iSingup {
 }
 
 export const singup = async (data: iSingup) => {
-  try {
-    const response = await api.post('/u/auth/signup', data)
-    return response.data
-  } catch (err) {
-    console.error(err)
-    return null
-  }
+  const response = await api.post('/u/auth/signup', data)
+  return response.data
 }
 
 export const singout = async () => {
-  try {
-    const response = await api.post('/u/auth/signout')
-    return response.data
-  } catch (err) {
-    console.error(err)
-    return null
-  }
+  const response = await api.post('/u/auth/signout')
+  return response.data
 }
 
 export const confirmEmail = async (token: string) => {
-  try {
-    const response = await api.post(`u/confirmation-email/${token}`)
-    return response.data
-  } catch (err) {
-    console.error(err)
-    return null
-  }
+  const response = await api.post(`u/confirmation-email/${token}`)
+  return response.data
 }
 
-interface iPasswordReset {
+export interface iPasswordReset {
   token: string
   email: string
   password: string
@@ -77,21 +61,11 @@ interface iPasswordReset {
 
 export const passwordReset = async (data: iPasswordReset) => {
   const { token, ...rest } = data
-  try {
-    const response = await api.post(`u/password-reset/${token}`, rest)
-    return response.data
-  } catch (err) {
-    console.error(err)
-    return null
-  }
+  const response = await api.post(`u/password-reset/${token}`, rest)
+  return response.data
 }
 
 export const requestPasswordReset = async (email: string) => {
-  try {
-    const response = await api.post(`u/password-reset`, { email })
-    return response.data
-  } catch (err) {
-    console.error(err)
-    return null
-  }
+  const response = await api.post(`u/password-reset`, { email })
+  return response.data
 }
