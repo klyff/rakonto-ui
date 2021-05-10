@@ -1,0 +1,6 @@
+// TODO fluxo de reenviar email de ativação (quando o usuario logar com uma conta não ativada, mostrar o link e reenvio da ativação (tela igual do esquei meu password))
+// TODO tela de confimar o email
+// TODO tela de alterar senha
+// TODO mensagem de erro dentro do form na area de login
+// TODO testar token invalid e expeirado
+// TODO logout
