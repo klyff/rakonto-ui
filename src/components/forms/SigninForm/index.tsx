@@ -4,19 +4,21 @@ import { Link, useHistory } from 'react-router-dom'
 import { Form, Input, SubmitButton } from 'formik-semantic-ui-react'
 import { Formik } from 'formik'
 import schema from './schema'
-import { iSingin, singin } from '@root/api'
-import { useLocalStorage } from '@root/hooks/useLocalStorage'
+import { iSignin, signin } from '@root/api'
 import { toast } from 'react-semantic-toasts'
+import { useSetRecoilState } from 'recoil'
+import { userState } from '@root/states/userState'
 
-const LoginForm: React.FC = () => {
+const SigninForm: React.FC = () => {
   const history = useHistory()
-  const [token, setToken] = useLocalStorage<string>('token', '')
+  const setUser = useSetRecoilState(userState)
 
-  const handleSubmit = async ({ email, password }: iSingin) => {
+  const handleSubmit = async ({ email, password }: iSignin) => {
     try {
-      const result = await singin({ email, password })
-      setToken(result)
-      history.push('/')
+      const { token, user } = await signin({ email, password })
+      localStorage.setItem('token', JSON.stringify(token))
+      setUser(user)
+      history.push('/a')
     } catch (error) {
       toast({
         title: 'Login',
@@ -46,9 +48,9 @@ const LoginForm: React.FC = () => {
               border: 'none'
             }}
           >
-            <Link to="/login/forgot-password">Forgot Password</Link>
+            <Link to="/u/forgot-password">Forgot Password</Link>
           </Message>
-          <Button basic color="blue" fluid size="large" as={Link} to="/login/singup">
+          <Button basic color="blue" fluid size="large" as={Link} to="/u/signup">
             Create new Account
           </Button>
         </Form>
@@ -57,4 +59,4 @@ const LoginForm: React.FC = () => {
   )
 }
 
-export default LoginForm
+export default SigninForm

@@ -1,9 +1,9 @@
 import React from 'react'
-import Header from '../NavBar'
-import Content from '../Content'
-import Sidebar from '../Sidebar'
+import Header from './NavBar'
+import Content from './Content'
+import Sidebar from './Sidebar'
 
-const Page: React.FC = ({ children }) => {
+const AuthenticatedLayout: React.FC = ({ children }) => {
   return (
     <div
       style={{
@@ -18,4 +18,4 @@ const Page: React.FC = ({ children }) => {
   )
 }
 
-export default Page
+export default AuthenticatedLayout

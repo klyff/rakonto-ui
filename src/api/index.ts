@@ -5,10 +5,18 @@ const api = axios.create({
 })
 
 api.interceptors.request.use(function (config) {
-  const token = localStorage.getItem('token')
-  config.headers.Authorization = token
+  const storageToken = localStorage.getItem('token')
+  const token = storageToken ? JSON.parse(storageToken) : ''
+  config.headers.Authorization = `Bearer ${token}`
   return config
 })
+
+// TODO null user when 401
+// api.interceptors.response.use(function (config) {
+//   const token = JSON.parse(localStorage.getItem('token') || '')
+//   config.headers.Authorization = `Bearer ${token}`
+//   return config
+// })
 
 export const getMe = async () => {
   try {
@@ -20,12 +28,12 @@ export const getMe = async () => {
   }
 }
 
-export interface iSingin {
+export interface iSignin {
   email: string
   password: string
 }
 
-export const singin = async (data: iSingin) => {
+export const signin = async (data: iSignin) => {
   const response = await api.post('/u/auth/signin', data)
   return response.data
 }

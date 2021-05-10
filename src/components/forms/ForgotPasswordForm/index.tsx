@@ -21,11 +21,11 @@ const ForgotPasswordForm: React.FC = () => {
         title: 'Forgot Password',
         content: 'Instructions have been sent to change your password in your e-mail address.'
       })
-      history.push('/login/singin')
+      history.push('/u/singin')
     } catch (error) {
       toast({
         title: 'Forgot password',
-        description: error.response.data.message,
+        description: 'Erro on try to recover password!',
         type: 'error'
       })
     }

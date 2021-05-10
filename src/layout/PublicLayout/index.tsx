@@ -1,12 +1,7 @@
 import React from 'react'
 import { Grid } from 'semantic-ui-react'
 
-import LoginForm from '@root/components/forms/LoginForm'
-import ForgotPasswordForm from '@root/components/forms/ForgotPasswordForm'
-import CreateAccountForm from '@root/components/forms/CreateAccountForm'
-import { Redirect, Route, Switch } from 'react-router-dom'
-
-const Login: React.FC = () => {
+const PublicLayout: React.FC = ({ children }) => {
   return (
     <Grid stackable padded={true}>
       <Grid.Column
@@ -107,18 +102,7 @@ const Login: React.FC = () => {
               transform: 'translateY(-50%)'
             }}
           >
-            <Switch>
-              <Route path="/login/singin">
-                <LoginForm />
-              </Route>
-              <Route path="/login/forgot-password">
-                <ForgotPasswordForm />
-              </Route>
-              <Route path="/login/singup">
-                <CreateAccountForm />
-              </Route>
-              <Redirect to={'/login/singin'} />
-            </Switch>
+            {children}
           </div>
         </div>
       </Grid.Column>
@@ -126,4 +110,4 @@ const Login: React.FC = () => {
   )
 }
 
-export default Login
+export default PublicLayout

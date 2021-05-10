@@ -9,7 +9,7 @@ import { toast } from 'react-semantic-toasts'
 import { useSetRecoilState } from 'recoil'
 import { InfoModalState } from '@root/components/modals/InfoModal'
 
-const CreateAccountForm: React.FC = () => {
+const SignupForm: React.FC = () => {
   const history = useHistory()
   const setInfoModalState = useSetRecoilState(InfoModalState)
 
@@ -63,7 +63,7 @@ const CreateAccountForm: React.FC = () => {
               border: 'none'
             }}
           >
-            <Link to="/login/singin">Back to login</Link>
+            <Link to="/u/signin">Back to login</Link>
           </Message>
         </Form>
       </Formik>
@@ -71,4 +71,4 @@ const CreateAccountForm: React.FC = () => {
   )
 }
 
-export default CreateAccountForm
+export default SignupForm
