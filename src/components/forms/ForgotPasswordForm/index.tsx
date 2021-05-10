@@ -45,6 +45,7 @@ const ForgotPasswordForm: React.FC = () => {
           <Message
             size="huge"
             style={{
+              textAlign: 'center',
               background: 'none',
               boxShadow: 'none',
               border: 'none'

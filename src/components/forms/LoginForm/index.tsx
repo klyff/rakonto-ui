@@ -41,12 +41,13 @@ const LoginForm: React.FC = () => {
           <Message
             size="huge"
             style={{
+              textAlign: 'center',
               background: 'none',
               boxShadow: 'none',
               border: 'none'
             }}
           >
-            <Link to="/login/forgot-password">Forgot Password</Link>
+            <Link to="/login/forgot-password">Forgot Password?</Link>
           </Message>
           <Button basic color="blue" fluid size="large" as={Link} to="/login/singup">
             Create new Account

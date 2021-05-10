@@ -8,44 +8,30 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 
 const Login: React.FC = () => {
   return (
-    <Grid stackable padded={true}>
+    <Grid stackable padded>
       <Grid.Column
-        verticalAlign="middle"
         width={10}
         style={{
-          backgroundColor: 'transparent',
           position: 'relative',
           display: 'flex',
           height: '100vh',
           backgroundImage: 'url(/sideLogin.png)',
           backgroundSize: 'cover'
         }}
-        only="tablet computer Large Screen Widescreen "
+        only="tablet computer"
       >
         <div
           style={{
             position: 'absolute',
             background: 'rgba(0,0,0,0.5)',
-            height: '100%',
-            width: '100%',
-            marginLeft: '-1rem',
-            marginTop: '-1rem'
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            zIndex: 1,
-            height: '100%',
-            color: 'white',
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
             justifyContent: 'center',
-            fontFamily: "'Lato', sans-serif",
-            fontStyle: 'normal',
-            letterSpacing: '0.04em',
-            maxWidth: '656px'
+            padding: '1rem'
           }}
         >
           <div
@@ -53,29 +39,21 @@ const Login: React.FC = () => {
               fontSize: '56px',
               fontWeight: 'bolder',
               lineHeight: '67px',
-              textAlign: 'left',
+              color: 'white',
+              alignSelf: 'center',
               width: '100%'
             }}
           >
-            Discover your family
-          </div>
-          <div
-            style={{
-              fontSize: '56px',
-              fontWeight: 'bold',
-              lineHeight: '67px',
-              textAlign: 'left',
-              width: '100%'
-            }}
-          >
-            story
+            Discover your family <br />
+            story <br />
           </div>
           <div
             style={{
               fontSize: '32px',
               fontWeight: 'lighter',
               lineHeight: '38px',
-              textAlign: 'justify',
+              color: 'white',
+              alignSelf: 'center',
               width: '100%'
             }}
           >
@@ -85,26 +63,22 @@ const Login: React.FC = () => {
       </Grid.Column>
       <Grid.Column
         width={6}
-        centered
-        verticalAlign={'middle'}
-        textAlign={'center'}
-        stretched
         style={{
           height: '100vh'
         }}
       >
         <div
           style={{
-            position: 'relative'
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            height: '100%'
           }}
         >
           <div
             style={{
-              margin: 0,
-              position: 'absolute',
-              top: '50%',
               width: '100%',
-              transform: 'translateY(-50%)'
+              alignSelf: 'center'
             }}
           >
             <Switch>
