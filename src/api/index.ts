@@ -4,7 +4,7 @@ import { history } from '../App'
 export type { iSingup, iSignin, iPasswordReset } from './services'
 
 const request = axios.create({
-  baseURL: '/'
+  baseURL: '/api'
 })
 
 request.interceptors.request.use(function (config) {
