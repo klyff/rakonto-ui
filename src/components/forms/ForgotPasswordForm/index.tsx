@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Header, Message, Button } from 'semantic-ui-react'
 import { Formik, Form } from 'formik'
 import schema from './schema'
@@ -6,12 +6,12 @@ import { useSetRecoilState } from 'recoil'
 import { InfoModalState } from '@root/components/modals/InfoModal'
 import { Link, useHistory } from 'react-router-dom'
 import { api } from '@root/api'
-import { toast } from 'react-semantic-toasts'
 import FormField from '@root/components/suport/FormField'
 
 const ForgotPasswordForm: React.FC = () => {
   const history = useHistory()
   const setInfoModalState = useSetRecoilState(InfoModalState)
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
 
   const handleSubmit = async ({ email }: { email: string }) => {
     try {
@@ -23,11 +23,7 @@ const ForgotPasswordForm: React.FC = () => {
       })
       history.push('/u/singin')
     } catch (error) {
-      toast({
-        title: 'Forgot password',
-        description: 'Erro on try to recover password!',
-        type: 'error'
-      })
+      setErrorMessage(error.response.data.message)
     }
   }
 
@@ -37,23 +33,25 @@ const ForgotPasswordForm: React.FC = () => {
         Forgot password
       </Header>
       <Formik initialValues={{ email: '' }} validationSchema={schema} onSubmit={handleSubmit}>
-        <Form>
-          <FormField name="email" placeholder="E-mail address" />
-          <Button color="blue" fluid size="large" type="submit">
-            Submit
-          </Button>
-          <Message
-            size="huge"
-            style={{
-              textAlign: 'center',
-              background: 'none',
-              boxShadow: 'none',
-              border: 'none'
-            }}
-          >
-            <Link to="/login/singin">Back to login</Link>
-          </Message>
-        </Form>
+        {({ isSubmitting }) => (
+          <Form>
+            <FormField name="email" placeholder="E-mail address" errorMessage={errorMessage} />
+            <Button color="blue" fluid size="large" type="submit" loading={isSubmitting}>
+              Submit
+            </Button>
+            <Message
+              size="huge"
+              style={{
+                textAlign: 'center',
+                background: 'none',
+                boxShadow: 'none',
+                border: 'none'
+              }}
+            >
+              <Link to="/u/signin">Back to login</Link>
+            </Message>
+          </Form>
+        )}
       </Formik>
     </>
   )

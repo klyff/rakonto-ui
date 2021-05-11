@@ -34,7 +34,7 @@ export const singup = (request: AxiosInstance) => async (data: iSingup) => {
 }
 
 export const singout = (request: AxiosInstance) => async () => {
-  const response = await request.post('/u/auth/signout')
+  const response = await request.post('/a/auth/signout')
   return response.data
 }
 
@@ -45,7 +45,7 @@ export const confirmEmail = (request: AxiosInstance) => async (token: string) =>
 
 export interface iPasswordReset {
   token: string
-  email: string
+  confirmation: string
   password: string
 }
 

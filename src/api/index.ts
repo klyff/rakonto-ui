@@ -20,7 +20,10 @@ request.interceptors.response.use(
   },
   error => {
     if (error.response.status === 401) {
-      history.push('/u/signout')
+      localStorage.removeItem('token')
+      if (history.location.pathname === '/u/signin') return Promise.reject(error)
+      history.push('/u/signin')
+      window.location.reload()
     }
 
     return Promise.reject(error)

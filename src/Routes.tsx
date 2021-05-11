@@ -10,6 +10,7 @@ import Home from '@root/components/contents/Home'
 import Signout from '@root/components/contents/Signout'
 
 import { SemanticToastContainer } from 'react-semantic-toasts'
+import ChangePasswordForm from '@root/components/forms/ChangePasswordForm'
 
 const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   const tokenItem = localStorage.getItem('token')
@@ -31,6 +32,9 @@ const PublicRoutes: React.FC<RouteProps> = () => {
   return (
     <PublicLayout>
       <Switch>
+        <Route path="/u/signout">
+          <Signout />
+        </Route>
         <Route path="/u/signin">
           <SigninForm />
         </Route>
@@ -40,8 +44,8 @@ const PublicRoutes: React.FC<RouteProps> = () => {
         <Route path="/u/forgot-password">
           <ForgotPasswordForm />
         </Route>
-        <Route path="/u/signout">
-          <Signout />
+        <Route path="/u/password-reset">
+          <ChangePasswordForm />
         </Route>
         <Redirect to="/u/signin" />
       </Switch>
