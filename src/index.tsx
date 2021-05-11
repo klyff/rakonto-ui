@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import 'react-semantic-toasts/styles/react-semantic-alert.css'
 import 'semantic-ui-less/semantic.less'
 
 ReactDOM.render(

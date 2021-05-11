@@ -1,13 +1,13 @@
 import React from 'react'
-import { Header, Message } from 'semantic-ui-react'
-import { Form, Input, SubmitButton } from 'formik-semantic-ui-react'
-import { Formik } from 'formik'
+import { Header, Message, Button } from 'semantic-ui-react'
+import { Formik, Form } from 'formik'
 import schema from './schema'
 import { useSetRecoilState } from 'recoil'
 import { InfoModalState } from '@root/components/modals/InfoModal'
 import { Link, useHistory } from 'react-router-dom'
-import { requestPasswordReset } from '@root/api'
+import { api } from '@root/api'
 import { toast } from 'react-semantic-toasts'
+import FormField from '@root/components/suport/FormField'
 
 const ForgotPasswordForm: React.FC = () => {
   const history = useHistory()
@@ -15,7 +15,7 @@ const ForgotPasswordForm: React.FC = () => {
 
   const handleSubmit = async ({ email }: { email: string }) => {
     try {
-      await requestPasswordReset(email)
+      await api.requestPasswordReset(email)
       setInfoModalState({
         open: true,
         title: 'Forgot Password',
@@ -38,10 +38,10 @@ const ForgotPasswordForm: React.FC = () => {
       </Header>
       <Formik initialValues={{ email: '' }} validationSchema={schema} onSubmit={handleSubmit}>
         <Form>
-          <Input fluid name="email" placeholder="E-mail address" errorPrompt />
-          <SubmitButton color="blue" fluid size="large" type="submit">
+          <FormField name="email" placeholder="E-mail address" />
+          <Button color="blue" fluid size="large" type="submit">
             Submit
-          </SubmitButton>
+          </Button>
           <Message
             size="huge"
             style={{

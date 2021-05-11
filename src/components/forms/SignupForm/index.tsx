@@ -1,13 +1,13 @@
 import React from 'react'
-import { Header, Message } from 'semantic-ui-react'
+import { Header, Message, Button } from 'semantic-ui-react'
 import { Link, useHistory } from 'react-router-dom'
-import { Form, Input, SubmitButton } from 'formik-semantic-ui-react'
-import { Formik } from 'formik'
+import { Formik, Form } from 'formik'
 import schema from './schema'
-import { iSingup, singup } from '@root/api'
+import { iSingup, api } from '@root/api'
 import { toast } from 'react-semantic-toasts'
 import { useSetRecoilState } from 'recoil'
 import { InfoModalState } from '@root/components/modals/InfoModal'
+import FormField from '@root/components/suport/FormField'
 
 const SignupForm: React.FC = () => {
   const history = useHistory()
@@ -15,7 +15,7 @@ const SignupForm: React.FC = () => {
 
   const handleSubmit = async ({ email, firstName, lastName, password, confirmation }: iSingup) => {
     try {
-      await singup({ email, firstName, lastName, password, confirmation })
+      await api.singup({ email, firstName, lastName, password, confirmation })
       history.push('/login/singin')
       setInfoModalState({
         open: true,
@@ -47,14 +47,14 @@ const SignupForm: React.FC = () => {
         onSubmit={handleSubmit}
       >
         <Form>
-          <Input name="email" fluid placeholder="E-mail address" errorPrompt />
-          <Input name="firstName" fluid placeholder="First Name" errorPrompt />
-          <Input name="lastName" fluid placeholder="Last Name" errorPrompt />
-          <Input name="password" fluid icon="eye" placeholder="Password" type="password" errorPrompt />
-          <Input name="confirmation" fluid icon="eye" placeholder="Confirm password" type="password" errorPrompt />
-          <SubmitButton color="blue" fluid size="large">
+          <FormField name="email" placeholder="E-mail address" />
+          <FormField name="firstName" placeholder="First Name" />
+          <FormField name="lastName" placeholder="Last Name" />
+          <FormField name="password" placeholder="Password" type="password" icon="eye" />
+          <FormField name="confirmation" placeholder="Confirmation password" type="password" icon="eye" />
+          <Button color="blue" fluid size="large">
             Create account
-          </SubmitButton>
+          </Button>
           <Message
             size="huge"
             style={{

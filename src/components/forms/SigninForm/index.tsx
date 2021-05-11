@@ -1,13 +1,13 @@
 import React from 'react'
 import { Header, Message, Button } from 'semantic-ui-react'
 import { Link, useHistory } from 'react-router-dom'
-import { Form, Input, SubmitButton } from 'formik-semantic-ui-react'
-import { Formik } from 'formik'
+import { Form, Formik } from 'formik'
 import schema from './schema'
-import { iSignin, signin } from '@root/api'
+import { iSignin, api } from '@root/api'
 import { toast } from 'react-semantic-toasts'
 import { useSetRecoilState } from 'recoil'
 import { userState } from '@root/states/userState'
+import FormField from '@root/components/suport/FormField'
 
 const SigninForm: React.FC = () => {
   const history = useHistory()
@@ -15,7 +15,7 @@ const SigninForm: React.FC = () => {
 
   const handleSubmit = async ({ email, password }: iSignin) => {
     try {
-      const { token, user } = await signin({ email, password })
+      const { token, user } = await api.signin({ email, password })
       localStorage.setItem('token', JSON.stringify(token))
       setUser(user)
       history.push('/a')
@@ -28,18 +28,19 @@ const SigninForm: React.FC = () => {
     }
   }
 
+  const initialValues: iSignin = { email: '', password: '' }
   return (
     <>
       <Header as="h2" color="black" textAlign="left">
         Login
       </Header>
-      <Formik initialValues={{ email: '', password: '' }} validationSchema={schema} onSubmit={handleSubmit}>
+      <Formik initialValues={initialValues} validationSchema={schema} onSubmit={handleSubmit}>
         <Form>
-          <Input name="email" fluid placeholder="E-mail address" errorPrompt />
-          <Input name="password" fluid icon="eye" placeholder="Password" type="password" errorPrompt />
-          <SubmitButton color="blue" fluid size="large">
+          <FormField name="email" placeholder="E-mail address" />
+          <FormField name="password" placeholder="Password" type="password" icon="eye" />
+          <Button color="blue" fluid size="large">
             Login
-          </SubmitButton>
+          </Button>
           <Message
             size="huge"
             style={{
