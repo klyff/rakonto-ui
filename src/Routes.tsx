@@ -8,6 +8,7 @@ import ForgotPasswordForm from '@root/components/forms/ForgotPasswordForm'
 import SignupForm from '@root/components/forms/SignupForm'
 import Home from '@root/components/contents/Home'
 import Signout from '@root/components/contents/Signout'
+import ConfirmEmail from '@root/components/contents/ConfirmEmail'
 
 import { SemanticToastContainer } from 'react-semantic-toasts'
 import ChangePasswordForm from '@root/components/forms/ChangePasswordForm'
@@ -46,6 +47,11 @@ const PublicRoutes: React.FC<RouteProps> = () => {
         </Route>
         <Route path="/u/password-reset">
           <ChangePasswordForm />
+        </Route>
+        <Route path="/u/confirmation-email">
+          <ConfirmEmail>
+            <SigninForm />
+          </ConfirmEmail>
         </Route>
         <Redirect to="/u/signin" />
       </Switch>
