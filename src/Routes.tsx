@@ -22,6 +22,9 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
         <Route path="/a/home">
           <Home />
         </Route>
+        <Route path="/a/signout">
+          <Signout />
+        </Route>
         <Redirect to="/a/home" />
       </Switch>
     </AuthenticatedLayout>
@@ -32,9 +35,6 @@ const PublicRoutes: React.FC<RouteProps> = () => {
   return (
     <PublicLayout>
       <Switch>
-        <Route path="/u/signout">
-          <Signout />
-        </Route>
         <Route path="/u/signin">
           <SigninForm />
         </Route>
