@@ -7,11 +7,13 @@ import { iSignin, api } from '@root/api'
 import { useSetRecoilState } from 'recoil'
 import { userState } from '@root/states/userState'
 import FormField from '@root/components/suport/FormField'
+import { InfoModalState } from '@root/components/modals/InfoModal'
 
 const SigninForm: React.FC = () => {
   const history = useHistory()
   const setUser = useSetRecoilState(userState)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
+  const setInfoModalState = useSetRecoilState(InfoModalState)
 
   const handleSubmit = async ({ email, password }: iSignin) => {
     try {
@@ -20,6 +22,25 @@ const SigninForm: React.FC = () => {
       setUser(user)
       history.push('/a')
     } catch (error) {
+      if (error.response.data.code === '1004') {
+        setErrorMessage('E-mail or password are incorrect. Please try again')
+        return
+      }
+      if (error.response.data.code === '1005') {
+        setInfoModalState({
+          open: true,
+          title: 'Confirm email',
+          content: (
+            <>
+              This email has not confirmed. <br />
+              In the next few minutes, we are sending another confirmation e-mail.
+              <br />
+              Please, verify our e-mail box and confirm it.
+            </>
+          )
+        })
+        return
+      }
       setErrorMessage(error.response.data.message)
     }
   }

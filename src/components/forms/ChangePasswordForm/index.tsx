@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Header, Button, Message } from 'semantic-ui-react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { Formik, Form } from 'formik'
@@ -26,7 +26,33 @@ const ChangePasswordForm: React.FC = () => {
         content: <>Your password has been reset.</>
       })
     } catch (error) {
-      setErrorMessage(error.response.data.message)
+      if (error.response.data.code === '1003') {
+        setInfoModalState({
+          open: true,
+          title: 'Password change',
+          content: (
+            <>
+              This token is expired. <br />
+              Repeat the flow to forgot your email.
+            </>
+          )
+        })
+        history.push('/u/signin')
+      }
+
+      if (error.response.data.code === '1002') {
+        setInfoModalState({
+          open: true,
+          title: 'Password change',
+          content: (
+            <>
+              This token not found. <br />
+            </>
+          )
+        })
+        history.push('/u/signin')
+      }
+      setErrorMessage('Something was wrong! please try again.')
     }
   }
 

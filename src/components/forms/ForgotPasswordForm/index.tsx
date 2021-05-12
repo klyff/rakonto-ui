@@ -23,7 +23,7 @@ const ForgotPasswordForm: React.FC = () => {
       })
       history.push('/u/singin')
     } catch (error) {
-      setErrorMessage(error.response.data.message)
+      setErrorMessage('Something was wrong! please try again.')
     }
   }
 

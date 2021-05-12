@@ -17,7 +17,6 @@ const ConfirmEmail: React.FC = ({ children }) => {
 
   useEffect(() => {
     const confirm = async () => {
-      debugger
       try {
         setShowLoading(true)
         const { user, token } = await api.confirmEmail(confirmationToken as string)
@@ -32,31 +31,32 @@ const ConfirmEmail: React.FC = ({ children }) => {
         history.push('/a/home')
       } catch (error) {
         setShowLoading(false)
-
-        let errorMsg: string | ReactNode = ''
         if (error.response.data.code === '1003') {
-          errorMsg = (
-            <>
-              This token is expired. <br />
-              We have sent an email in next minutes, please confirm it.
-            </>
-          )
+          setInfoModalState({
+            open: true,
+            title: 'Confirm email',
+            content: (
+              <>
+                This token is expired. <br />
+                We have sent an email in next minutes, please confirm it.
+              </>
+            )
+          })
         }
 
         if (error.response.data.code === '1002') {
-          errorMsg = (
-            <>
-              This token not found. <br />
-              if you have registred, please try to login to retrive another confirmation e-mail.
-            </>
-          )
+          setInfoModalState({
+            open: true,
+            title: 'Confirm email',
+            content: (
+              <>
+                This token not found. <br />
+                if you have registred, please try to login to retrive another confirmation e-mail.
+              </>
+            )
+          })
         }
 
-        setInfoModalState({
-          open: true,
-          title: 'Confirm email',
-          content: errorMsg
-        })
         history.push('/u/signin')
       }
     }

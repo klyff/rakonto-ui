@@ -28,6 +28,10 @@ const SignupForm: React.FC = () => {
         )
       })
     } catch (error) {
+      if (error.response.data.code === '1001') {
+        setErrorMessage('E-mail is already taken')
+        return
+      }
       setErrorMessage(error.response.data.message)
     }
   }
