@@ -35,12 +35,11 @@ const PublicLayout: React.FC = ({ children }) => {
               fontWeight: 'bolder',
               lineHeight: '67px',
               color: 'white',
-              alignSelf: 'center',
-              width: '100%'
+              maxWidth: '515px',
+              marginBottom: '50px'
             }}
           >
-            Discover your family <br />
-            story <br />
+            Discover your family story
           </div>
           <div
             style={{
@@ -48,8 +47,7 @@ const PublicLayout: React.FC = ({ children }) => {
               fontWeight: 'lighter',
               lineHeight: '38px',
               color: 'white',
-              alignSelf: 'center',
-              width: '100%'
+              width: '455px'
             }}
           >
             Grow your family tree, find new relatives, and explore billions of historical records

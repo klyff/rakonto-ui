@@ -43,6 +43,11 @@ export const confirmEmail = (request: AxiosInstance) => async (token: string) =>
   return response.data
 }
 
+export const requestConfirmEmail = (request: AxiosInstance) => async (email: string) => {
+  const response = await request.post(`u/confirmation-email`, { email })
+  return response.data
+}
+
 export interface iPasswordReset {
   token: string
   confirmation: string

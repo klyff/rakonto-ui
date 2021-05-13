@@ -1,18 +1,19 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import { Dimmer, Icon, Header } from 'semantic-ui-react'
 import { userState } from '@root/states/userState'
 import { api } from '@root/api'
 import { parse } from 'qs'
-import { InfoModalState } from '@root/components/modals/InfoModal'
+import { basicModalState } from '@root/components/modals/BasicModal'
+import ExpiredLinkModalForm from '@root/components/forms/ExpiredLinkModalForm'
 
 const ConfirmEmail: React.FC = ({ children }) => {
   const setUser = useSetRecoilState(userState)
   const history = useHistory()
   const { search } = useLocation()
   const { token: confirmationToken } = parse(search, { ignoreQueryPrefix: true })
-  const setInfoModalState = useSetRecoilState(InfoModalState)
+  const setBasicModalState = useSetRecoilState(basicModalState)
   const [showLoading, setShowLoading] = useState<boolean>(false)
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const ConfirmEmail: React.FC = ({ children }) => {
         setShowLoading(false)
         setUser(user)
         localStorage.setItem('token', JSON.stringify(token))
-        setInfoModalState({
+        setBasicModalState({
           open: true,
           title: 'Welcome!',
           content: <>You are about to enter a platform to create and watch videos. enjoy it!</>
@@ -32,22 +33,19 @@ const ConfirmEmail: React.FC = ({ children }) => {
       } catch (error) {
         setShowLoading(false)
         if (error.response.data.code === '1003') {
-          setInfoModalState({
+          setBasicModalState({
             open: true,
-            title: 'Confirm email',
-            content: (
-              <>
-                This token is expired. <br />
-                We have sent an email in next minutes, please confirm it.
-              </>
-            )
+            title: 'Expired link',
+            type: 'warning',
+            content: <ExpiredLinkModalForm />
           })
         }
 
         if (error.response.data.code === '1002') {
-          setInfoModalState({
+          setBasicModalState({
             open: true,
             title: 'Confirm email',
+            type: 'error',
             content: (
               <>
                 This token not found. <br />
@@ -55,9 +53,8 @@ const ConfirmEmail: React.FC = ({ children }) => {
               </>
             )
           })
+          history.push('/u/signin')
         }
-
-        history.push('/u/signin')
       }
     }
     confirm()
@@ -69,8 +66,6 @@ const ConfirmEmail: React.FC = ({ children }) => {
       <Dimmer active={showLoading} page>
         <Header as="h2" icon inverted>
           <Icon name="spinner" loading />
-          Confirming email!
-          <Header.Subheader>we try to confirm your e-mail, please wait a moment!</Header.Subheader>
         </Header>
       </Dimmer>
     </>

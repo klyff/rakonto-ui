@@ -7,13 +7,44 @@ import { iSignin, api } from '@root/api'
 import { useSetRecoilState } from 'recoil'
 import { userState } from '@root/states/userState'
 import FormField from '@root/components/suport/FormField'
-import { InfoModalState } from '@root/components/modals/InfoModal'
+import { basicModalState } from '@root/components/modals/BasicModal'
 
 const SigninForm: React.FC = () => {
   const history = useHistory()
   const setUser = useSetRecoilState(userState)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
-  const setInfoModalState = useSetRecoilState(InfoModalState)
+  const setBasicModalState = useSetRecoilState(basicModalState)
+
+  const handleResend = async (email: string) => {
+    try {
+      await api.requestConfirmEmail(email)
+      setBasicModalState({
+        open: true,
+        title: 'Request confirm email',
+        content: (
+          <>
+            In the next few minutes, we are sending another confirmation e-mail.
+            <br />
+            Please, verify our e-mail box and confirm it.
+          </>
+        )
+      })
+    } catch (error) {
+      setBasicModalState({
+        open: true,
+        title: 'Confirm email',
+        type: 'error',
+        content: (
+          <>
+            This email has not confirmed. <br />
+            In the next few minutes, we are sending another confirmation e-mail.
+            <br />
+            Please, verify our e-mail box and confirm it.
+          </>
+        )
+      })
+    }
+  }
 
   const handleSubmit = async ({ email, password }: iSignin) => {
     try {
@@ -27,15 +58,17 @@ const SigninForm: React.FC = () => {
         return
       }
       if (error.response.data.code === '1005') {
-        setInfoModalState({
+        setBasicModalState({
           open: true,
-          title: 'Confirm email',
+          title: 'Verify email',
           content: (
             <>
-              This email has not confirmed. <br />
-              In the next few minutes, we are sending another confirmation e-mail.
+              Please verify your email by clicking the link in the message we sent you.
               <br />
-              Please, verify our e-mail box and confirm it.
+              <br />
+              <Button basic color="blue" onClick={() => handleResend(email)}>
+                Resend email
+              </Button>
             </>
           )
         })
@@ -55,7 +88,7 @@ const SigninForm: React.FC = () => {
         {({ isSubmitting }) => (
           <Form>
             <FormField name="email" placeholder="E-mail address" errorMessage={errorMessage} />
-            <FormField name="password" placeholder="Password" type="password" icon="eye" errorMessage={errorMessage} />
+            <FormField name="password" placeholder="Password" type="password" errorMessage={errorMessage} />
             <Button color="blue" fluid size="large" loading={isSubmitting} type="submit">
               Login
             </Button>

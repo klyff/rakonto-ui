@@ -5,7 +5,7 @@ import { Formik, Form } from 'formik'
 import schema from './schema'
 import { iPasswordReset, api } from '@root/api'
 import { useSetRecoilState } from 'recoil'
-import { InfoModalState } from '@root/components/modals/InfoModal'
+import { basicModalState } from '@root/components/modals/BasicModal'
 import FormField from '@root/components/suport/FormField'
 import { parse } from 'qs'
 
@@ -13,23 +13,24 @@ const ChangePasswordForm: React.FC = () => {
   const history = useHistory()
   const { search } = useLocation()
   const { token } = parse(search, { ignoreQueryPrefix: true })
-  const setInfoModalState = useSetRecoilState(InfoModalState)
+  const setBasicModalState = useSetRecoilState(basicModalState)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
 
   const handleSubmit = async ({ password, confirmation, token }: iPasswordReset) => {
     try {
       await api.passwordReset({ password, confirmation, token })
       history.push('/u/signin')
-      setInfoModalState({
+      setBasicModalState({
         open: true,
         title: 'Password changed',
         content: <>Your password has been reset.</>
       })
     } catch (error) {
       if (error.response.data.code === '1003') {
-        setInfoModalState({
+        setBasicModalState({
           open: true,
           title: 'Password change',
+          type: 'error',
           content: (
             <>
               This token is expired. <br />
@@ -41,9 +42,10 @@ const ChangePasswordForm: React.FC = () => {
       }
 
       if (error.response.data.code === '1002') {
-        setInfoModalState({
+        setBasicModalState({
           open: true,
           title: 'Password change',
+          type: 'error',
           content: (
             <>
               This token not found. <br />
@@ -78,12 +80,11 @@ const ChangePasswordForm: React.FC = () => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <FormField name="password" placeholder="Password" type="password" icon="eye" errorMessage={errorMessage} />
+            <FormField name="password" placeholder="Password" type="password" errorMessage={errorMessage} />
             <FormField
               name="confirmation"
               placeholder="Confirmation password"
               type="password"
-              icon="eye"
               errorMessage={errorMessage}
             />
             <Button color="blue" fluid size="large" loading={isSubmitting} type="submit">
@@ -92,6 +93,7 @@ const ChangePasswordForm: React.FC = () => {
             <Message
               size="huge"
               style={{
+                textAlign: 'center',
                 background: 'none',
                 boxShadow: 'none',
                 border: 'none'
