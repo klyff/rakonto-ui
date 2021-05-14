@@ -23,7 +23,7 @@ const ChangePasswordForm: React.FC = () => {
       setBasicModalState({
         open: true,
         title: 'Password changed',
-        content: <>Your password has been reset.</>
+        content: <>Your password has been reseted.</>
       })
     } catch (error) {
       if (error.response.data.code === '1003') {
@@ -31,12 +31,7 @@ const ChangePasswordForm: React.FC = () => {
           open: true,
           title: 'Password change',
           type: 'error',
-          content: (
-            <>
-              This token is expired. <br />
-              Repeat the flow to forgot your email.
-            </>
-          )
+          content: <>This link to change the password has expired. Please try again!</>
         })
         history.push('/u/signin')
       }
@@ -46,11 +41,7 @@ const ChangePasswordForm: React.FC = () => {
           open: true,
           title: 'Password change',
           type: 'error',
-          content: (
-            <>
-              This token not found. <br />
-            </>
-          )
+          content: <>This link not exists.</>
         })
         history.push('/u/signin')
       }
@@ -69,8 +60,7 @@ const ChangePasswordForm: React.FC = () => {
         }}
       >
         <Header as="h4" color="black" textAlign="left">
-          We suggest you use 8 or more characters with a mix of letters, numbers and symbols for the most secure
-          password:
+          For the most secure password create one with at least 8 numbers or letters:
         </Header>
       </div>
       <Formik
@@ -83,7 +73,7 @@ const ChangePasswordForm: React.FC = () => {
             <FormField name="password" placeholder="Password" type="password" errorMessage={errorMessage} />
             <FormField
               name="confirmation"
-              placeholder="Confirmation password"
+              placeholder="Confirm new password"
               type="password"
               errorMessage={errorMessage}
             />

@@ -19,27 +19,20 @@ const SigninForm: React.FC = () => {
     try {
       await api.requestConfirmEmail(email)
       setBasicModalState({
-        open: true,
-        title: 'Request confirm email',
-        content: (
-          <>
-            In the next few minutes, we are sending another confirmation e-mail.
-            <br />
-            Please, verify our e-mail box and confirm it.
-          </>
-        )
+        open: false,
+        title: '',
+        content: ''
       })
     } catch (error) {
       setBasicModalState({
         open: true,
         title: 'Confirm email',
-        type: 'error',
         content: (
           <>
             This email has not confirmed. <br />
-            In the next few minutes, we are sending another confirmation e-mail.
+            In the next few minutes, we are sending another confirmation email.
             <br />
-            Please, verify our e-mail box and confirm it.
+            Please, verify our email box and confirm it.
           </>
         )
       })
@@ -48,13 +41,14 @@ const SigninForm: React.FC = () => {
 
   const handleSubmit = async ({ email, password }: iSignin) => {
     try {
+      setErrorMessage('')
       const { token, user } = await api.signin({ email, password })
       localStorage.setItem('token', JSON.stringify(token))
       setUser(user)
       history.push('/a')
     } catch (error) {
       if (error.response.data.code === '1004') {
-        setErrorMessage('E-mail or password are incorrect. Please try again')
+        setErrorMessage('Email or password are incorrect. Please try again')
         return
       }
       if (error.response.data.code === '1005') {
@@ -87,7 +81,7 @@ const SigninForm: React.FC = () => {
       <Formik initialValues={initialValues} validationSchema={schema} onSubmit={handleSubmit}>
         {({ isSubmitting }) => (
           <Form>
-            <FormField name="email" placeholder="E-mail address" errorMessage={errorMessage} />
+            <FormField name="email" placeholder="Email address" errorMessage={errorMessage} />
             <FormField name="password" placeholder="Password" type="password" errorMessage={errorMessage} />
             <Button color="blue" fluid size="large" loading={isSubmitting} type="submit">
               Login

@@ -16,15 +16,8 @@ const ExpiredLinkModalForm = () => {
       await api.requestConfirmEmail(email)
       setBasicModalState({
         open: true,
-        title: 'Request confirm email',
-        content: (
-          <>
-            In the next few minutes, we are sending another confirmation e-mail.
-            <br />
-            <br />
-            Please, verify our e-mail box and confirm it.
-          </>
-        )
+        title: 'Confirm email',
+        content: <>We sent an email to you to confirm your account. Please check this.</>
       })
       history.push('/u/signin')
     } catch (error) {
@@ -44,7 +37,7 @@ const ExpiredLinkModalForm = () => {
       <div>
         <Formik initialValues={{ email: '' }} validationSchema={schema} onSubmit={handleSubmit}>
           <Form>
-            <FormField name="email" placeholder="E-mail address" />
+            <FormField name="email" placeholder="Email address" />
           </Form>
         </Formik>
       </div>

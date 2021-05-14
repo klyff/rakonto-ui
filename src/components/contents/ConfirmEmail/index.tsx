@@ -49,7 +49,7 @@ const ConfirmEmail: React.FC = ({ children }) => {
             content: (
               <>
                 This token not found. <br />
-                if you have registred, please try to login to retrive another confirmation e-mail.
+                if you have registered, please try to login to request another confirmation email.
               </>
             )
           })

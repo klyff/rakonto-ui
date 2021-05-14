@@ -19,17 +19,12 @@ const SignupForm: React.FC = () => {
       history.push('/login/singin')
       setBasicModalState({
         open: true,
-        title: 'Create account',
-        content: (
-          <>
-            You need to confirm your e-mail address. <br />
-            In a few minutes a confirmation email going to send for you!
-          </>
-        )
+        title: 'Confirm email',
+        content: <>We sent an email to you to confirm your account. Please check this.</>
       })
     } catch (error) {
       if (error.response.data.code === '1001') {
-        setErrorMessage('E-mail is already taken')
+        setErrorMessage('Email is already taken.')
         return
       }
       setErrorMessage(error.response.data.message)
@@ -48,7 +43,7 @@ const SignupForm: React.FC = () => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <FormField name="email" placeholder="E-mail address" errorMessage={errorMessage} />
+            <FormField name="email" placeholder="Email address" errorMessage={errorMessage} />
             <FormField name="firstName" placeholder="First Name" errorMessage={errorMessage} />
             <FormField name="lastName" placeholder="Last Name" errorMessage={errorMessage} />
             <FormField name="password" placeholder="Password" type="password" errorMessage={errorMessage} />

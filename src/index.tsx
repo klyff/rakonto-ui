@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import './themes/semantic.css'
 import 'react-semantic-toasts/styles/react-semantic-alert.css'
-import 'semantic-ui-less/semantic.less'
+import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>

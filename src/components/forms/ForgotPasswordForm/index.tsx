@@ -19,7 +19,7 @@ const ForgotPasswordForm: React.FC = () => {
       setBasicModalState({
         open: true,
         title: 'Forgot Password',
-        content: 'Instructions have been sent to change your password in your e-mail address.'
+        content: 'We sent you an email with a link to reset your password.'
       })
       history.push('/u/singin')
     } catch (error) {
@@ -35,7 +35,7 @@ const ForgotPasswordForm: React.FC = () => {
       <Formik initialValues={{ email: '' }} validationSchema={schema} onSubmit={handleSubmit}>
         {({ isSubmitting }) => (
           <Form>
-            <FormField name="email" placeholder="E-mail address" errorMessage={errorMessage} />
+            <FormField name="email" placeholder="Email address" errorMessage={errorMessage} />
             <Button color="blue" fluid size="large" type="submit" loading={isSubmitting}>
               Submit
             </Button>
