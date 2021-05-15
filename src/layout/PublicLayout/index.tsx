@@ -1,9 +1,9 @@
 import React from 'react'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Segment } from 'semantic-ui-react'
 
 const PublicLayout: React.FC = ({ children }) => {
   return (
-    <Grid stackable padded>
+    <Grid stackable inverted padded>
       <Grid.Column
         width={10}
         style={{
@@ -32,24 +32,24 @@ const PublicLayout: React.FC = ({ children }) => {
           <div
             style={{
               fontSize: '56px',
-              fontWeight: 'bolder',
+              fontWeight: 'bold',
               lineHeight: '67px',
+              letterSpacing: '0.04em',
               color: 'white',
-              alignSelf: 'center',
-              width: '100%'
+              maxWidth: '560px',
+              marginBottom: '64px'
             }}
           >
-            Discover your family <br />
-            story <br />
+            Discover your family story
           </div>
           <div
             style={{
               fontSize: '32px',
-              fontWeight: 'lighter',
+              letterSpacing: '0.04em',
+              fontWeight: 'normal',
               lineHeight: '38px',
               color: 'white',
-              alignSelf: 'center',
-              width: '100%'
+              maxWidth: '684px'
             }}
           >
             Grow your family tree, find new relatives, and explore billions of historical records

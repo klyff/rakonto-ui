@@ -1,10 +1,12 @@
 import React from 'react'
-import { InfoModal } from './InfoModal'
+import { BasicModal } from './BasicModal'
+import { FormModal } from './FormModal'
 
 const Modals: React.FC = () => {
   return (
     <>
-      <InfoModal />
+      <BasicModal />
+      <FormModal />
     </>
   )
 }

@@ -1,5 +1,14 @@
 import axios from 'axios'
-import { singup, singout, requestPasswordReset, getMe, passwordReset, signin, confirmEmail } from './services'
+import {
+  singup,
+  singout,
+  requestPasswordReset,
+  getMe,
+  passwordReset,
+  signin,
+  confirmEmail,
+  requestConfirmEmail
+} from './services'
 import { history } from '../App'
 export type { iSingup, iSignin, iPasswordReset } from './services'
 
@@ -37,5 +46,6 @@ export const api = {
   getMe: getMe(request),
   passwordReset: passwordReset(request),
   signin: signin(request),
-  confirmEmail: confirmEmail(request)
+  confirmEmail: confirmEmail(request),
+  requestConfirmEmail: requestConfirmEmail(request)
 }
