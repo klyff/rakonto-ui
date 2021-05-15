@@ -6,7 +6,10 @@ import { userState } from '@root/states/userState'
 import { api } from '@root/api'
 import { parse } from 'qs'
 import { basicModalState } from '@root/components/modals/BasicModal'
-import ExpiredLinkModalForm from '@root/components/forms/ExpiredLinkModalForm'
+import { formModalState } from '@root/components/modals/FormModal'
+import { Form } from 'formik'
+import FormField from '@root/components/suport/FormField'
+import schema from './schema'
 
 const ConfirmEmail: React.FC = ({ children }) => {
   const setUser = useSetRecoilState(userState)
@@ -14,7 +17,22 @@ const ConfirmEmail: React.FC = ({ children }) => {
   const { search } = useLocation()
   const { token: confirmationToken } = parse(search, { ignoreQueryPrefix: true })
   const setBasicModalState = useSetRecoilState(basicModalState)
+  const setFormModalState = useSetRecoilState(formModalState)
   const [showLoading, setShowLoading] = useState<boolean>(false)
+
+  const handleSubmit = async ({ email }: any) => {
+    try {
+      await api.requestConfirmEmail(email)
+      setBasicModalState({
+        open: true,
+        title: 'Confirm email',
+        content: <>We sent an email to you to confirm your account. Please check this.</>
+      })
+      history.push('/u/signin')
+    } catch (error) {
+      history.push('/u/signin')
+    }
+  }
 
   useEffect(() => {
     const confirm = async () => {
@@ -33,11 +51,30 @@ const ConfirmEmail: React.FC = ({ children }) => {
       } catch (error) {
         setShowLoading(false)
         if (error.response.data.code === '1003') {
-          setBasicModalState({
+          setFormModalState({
             open: true,
             title: 'Expired link',
             type: 'warning',
-            content: <ExpiredLinkModalForm />
+            initialValues: { email: '' },
+            validationSchema: schema,
+            onSubmit: handleSubmit,
+            content: (
+              <>
+                <div
+                  style={{
+                    marginBottom: '16px'
+                  }}
+                >
+                  This link has expired. Please enter your email address to resend another link to you to confirm your
+                  account.
+                </div>
+                <div>
+                  <Form>
+                    <FormField name="email" placeholder="Email address" />
+                  </Form>
+                </div>
+              </>
+            )
           })
         }
 

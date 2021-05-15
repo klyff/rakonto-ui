@@ -6,6 +6,7 @@ interface iBasicModalState {
   title: string
   content: string | ReactNode
   type?: 'default' | 'error' | 'warning'
+  onClose?: () => void
 }
 
 export const basicModalState = atom<iBasicModalState>({
