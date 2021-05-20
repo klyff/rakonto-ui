@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Header, Grid } from 'semantic-ui-react'
-import { api } from '@root/api'
+
 import StorieCard from '@root/components/suport/StorieCard'
+import useInfiniteScroll from '@root/hooks/useInfiniteScroll'
+import { useLoadStories } from './useLoadStories'
 
 const Home: React.FC = () => {
-  useEffect(() => {
-    api.getMe()
-  }, [])
-
-  const arrayExample = new Array(100).fill('x')
+  const { loading, items, hasNextPage, error, loadMore } = useLoadStories()
+  const [sentryRef] = useInfiniteScroll({
+    loading,
+    hasNextPage,
+    onLoadMore: loadMore,
+    disabled: !!error,
+    rootMargin: '0px 0px 400px 0px'
+  })
 
   return (
     <div
@@ -19,7 +24,7 @@ const Home: React.FC = () => {
       <Header as="h1">Home</Header>
       <Grid padded>
         <Grid.Row>
-          {arrayExample.map((card, i) => {
+          {items.map((card, i) => {
             return (
               <Grid.Column
                 key={i}
@@ -36,6 +41,7 @@ const Home: React.FC = () => {
               </Grid.Column>
             )
           })}
+          <div ref={sentryRef}>loading...</div>
         </Grid.Row>
       </Grid>
     </div>

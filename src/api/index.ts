@@ -7,7 +7,8 @@ import {
   passwordReset,
   signin,
   confirmEmail,
-  requestConfirmEmail
+  requestConfirmEmail,
+  searchStories
 } from './services'
 import { history } from '../App'
 export type { iSingup, iSignin, iPasswordReset } from './services'
@@ -47,5 +48,6 @@ export const api = {
   passwordReset: passwordReset(request),
   signin: signin(request),
   confirmEmail: confirmEmail(request),
-  requestConfirmEmail: requestConfirmEmail(request)
+  requestConfirmEmail: requestConfirmEmail(request),
+  searchStories: searchStories(request)
 }

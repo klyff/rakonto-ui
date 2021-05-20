@@ -1,10 +1,13 @@
 import React from 'react'
 import { Menu, Image, Icon, Input, Button } from 'semantic-ui-react'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { sidebarState } from '../state'
+import { userState } from '@root/states/userState'
+import Avatar from './Avatar'
 
 const NavBar: React.FC = () => {
   const [showSidebar, setShowsidebar] = useRecoilState(sidebarState)
+  const user = useRecoilValue(userState)
   const onToggle = () => {
     setShowsidebar(!showSidebar)
   }
@@ -31,13 +34,7 @@ const NavBar: React.FC = () => {
         <Menu.Item>
           <Button primary>New Story</Button>
         </Menu.Item>
-        <Menu.Item
-          style={{
-            borderLeft: '1px solid rgba(34, 36, 38, 0.15)'
-          }}
-        >
-          <Icon size="big" name="clock outline" />
-        </Menu.Item>
+        <Avatar name={user ? `${user?.firstName} ${user?.lasName}` : ''} />
       </Menu.Menu>
     </Menu>
   )

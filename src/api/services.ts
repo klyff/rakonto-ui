@@ -64,3 +64,7 @@ export const requestPasswordReset = (request: AxiosInstance) => async (email: st
   const response = await request.post(`u/password-reset`, { email })
   return response.data
 }
+
+export const searchStories = (request: AxiosInstance) => async () => {
+  return Promise.resolve(new Array(10).fill('x'))
+}
