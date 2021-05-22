@@ -23,7 +23,7 @@ const Sidebar: React.FC = ({ children }) => {
           >
             <Menu />
           </SidebarSemantic>
-          <SidebarSemantic.Pusher id="pusher" style={{ marginRight: showSidebar ? '250px' : '0' }}>
+          <SidebarSemantic.Pusher id="pusher" style={{ width: showSidebar ? 'calc(100% - 260px)' : '100%' }}>
             {children}
           </SidebarSemantic.Pusher>
         </SidebarSemantic.Pushable>
