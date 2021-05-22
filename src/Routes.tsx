@@ -33,6 +33,9 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
 }
 
 const PublicRoutes: React.FC<RouteProps> = () => {
+  const tokenItem = localStorage.getItem('token')
+  const token = tokenItem ? JSON.parse(tokenItem) : undefined
+  if (token) return <Redirect to="/a/home" />
   return (
     <PublicLayout>
       <Switch>
