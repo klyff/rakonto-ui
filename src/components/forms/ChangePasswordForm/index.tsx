@@ -1,12 +1,13 @@
-import React, { ReactNode, useState } from 'react'
-import { Header, Button, Message } from 'semantic-ui-react'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Header, Button } from 'semantic-ui-react'
+import { useHistory, useLocation } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 import schema from './schema'
 import { iPasswordReset, api } from '@root/api'
 import { useSetRecoilState } from 'recoil'
 import { basicModalState } from '@root/components/modals/BasicModal'
 import FormField from '@root/components/suport/FormField'
+import MessageLink from '@root/components/suport/MessageLink'
 import { parse } from 'qs'
 
 const ChangePasswordForm: React.FC = () => {
@@ -80,17 +81,7 @@ const ChangePasswordForm: React.FC = () => {
             <Button color="blue" fluid size="large" loading={isSubmitting} type="submit">
               Change
             </Button>
-            <Message
-              size="huge"
-              style={{
-                textAlign: 'center',
-                background: 'none',
-                boxShadow: 'none',
-                border: 'none'
-              }}
-            >
-              <Link to="/u/signin">Back to login</Link>
-            </Message>
+            <MessageLink to="/u/signin">Back to login</MessageLink>
           </Form>
         )}
       </Formik>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { AvatarWrapper } from './style'
 
 const getInitials = (name: string): string => {
   const splitedName = name.split(' ')
@@ -15,20 +16,9 @@ interface iAvatar {
 }
 
 const Avatar: React.FC<iAvatar> = ({ name }) => (
-  <div
-    style={{
-      borderRadius: '50%',
-      border: '1px solid #000000',
-      height: '36px',
-      width: '36px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute'
-    }}
-  >
+  <AvatarWrapper>
     <span>{getInitials(name)}</span>
-  </div>
+  </AvatarWrapper>
 )
 
 export default Avatar

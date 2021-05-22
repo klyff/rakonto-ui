@@ -1,36 +1,28 @@
 import React, { useState } from 'react'
 import { Image, Placeholder } from 'semantic-ui-react'
 import { ImageProps } from 'semantic-ui-react/dist/commonjs/elements/Image/Image'
+import { LazyImageWrapper } from './style'
 
-const LazyImage: React.FC<ImageProps> = ({ style, ...rest }) => {
+interface iLazeImage extends ImageProps {
+  height: number
+}
+
+const LazyImage: React.FC<iLazeImage> = ({ height, ...rest }) => {
   const [isLoasing, setLoading] = useState<boolean>(true)
 
-  const showImage = () => {
+  const handleLoaded = () => {
     setLoading(false)
   }
 
   return (
-    <div
-      className="lazyImage"
-      style={{
-        position: 'relative'
-      }}
-    >
-      <Image {...rest} style={style} onLoad={() => showImage()} />
+    <LazyImageWrapper className="lazyImage" height={height}>
+      <Image {...rest} onLoad={() => handleLoaded()} onError={() => handleLoaded()} />
       {isLoasing && (
-        <Placeholder
-          style={{
-            ...style,
-            width: '100%',
-            position: 'absolute',
-            top: 0,
-            left: 0
-          }}
-        >
+        <Placeholder>
           <Placeholder.Image square />
         </Placeholder>
       )}
-    </div>
+    </LazyImageWrapper>
   )
 }
 

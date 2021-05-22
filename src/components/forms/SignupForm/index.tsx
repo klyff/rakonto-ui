@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import { Header, Message, Button } from 'semantic-ui-react'
-import { Link, useHistory } from 'react-router-dom'
+import { Header, Button } from 'semantic-ui-react'
+import { useHistory } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 import schema from './schema'
 import { iSingup, api } from '@root/api'
 import { useSetRecoilState } from 'recoil'
 import { basicModalState } from '@root/components/modals/BasicModal'
 import FormField from '@root/components/suport/FormField'
+import MessageLink from '@root/components/suport/MessageLink'
 
 const SignupForm: React.FC = () => {
   const history = useHistory()
@@ -56,17 +57,7 @@ const SignupForm: React.FC = () => {
             <Button color="blue" fluid size="large" loading={isSubmitting} type="submit">
               Create account
             </Button>
-            <Message
-              size="huge"
-              style={{
-                textAlign: 'center',
-                background: 'none',
-                boxShadow: 'none',
-                border: 'none'
-              }}
-            >
-              <Link to="/u/signin">Back to login</Link>
-            </Message>
+            <MessageLink to="/u/signin">Back to login</MessageLink>
           </Form>
         )}
       </Formik>

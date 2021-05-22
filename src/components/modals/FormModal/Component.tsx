@@ -2,7 +2,7 @@ import React from 'react'
 import { Formik } from 'formik'
 import { useRecoilState } from 'recoil'
 import { formModalState } from './state'
-import Modal from '../layout/Modal'
+import Modal from '../ModalBasicLayout'
 
 const FormModal: React.FC = () => {
   const [{ open, content, title, type, onClose, initialValues, validationSchema, onSubmit }, setOpen] =

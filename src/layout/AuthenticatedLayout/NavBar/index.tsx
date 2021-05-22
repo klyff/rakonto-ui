@@ -1,10 +1,11 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Menu, Image, Icon, Input, Button, Dropdown } from 'semantic-ui-react'
+import { Image, Icon, Input, Button } from 'semantic-ui-react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { sidebarState } from '../state'
 import { userState } from '@root/states/userState'
 import Avatar from '@root/components/suport/Avatar'
+import { Menu, Dropdown } from './style'
 
 const NavBar: React.FC = () => {
   const history = useHistory()
@@ -24,13 +25,7 @@ const NavBar: React.FC = () => {
   }
 
   return (
-    <Menu
-      borderless
-      style={{
-        margin: 0,
-        borderRadius: 0
-      }}
-    >
+    <Menu borderless style={{}}>
       <Menu.Item onClick={onToggle}>
         <Icon name="sidebar" />
       </Menu.Item>
@@ -52,11 +47,6 @@ const NavBar: React.FC = () => {
           icon={''}
           pointing={false}
           trigger={<Avatar name={user ? `${user?.firstName} ${user?.lasName}` : ''} />}
-          style={{
-            borderLeft: '1px solid rgba(34, 36, 38, 0.15)',
-            position: 'relative',
-            width: '68px'
-          }}
         >
           <Dropdown.Menu>
             <Dropdown.Item icon="user" text="Profile" />

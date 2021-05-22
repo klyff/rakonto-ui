@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import { Header, Message, Button } from 'semantic-ui-react'
+import { Header, Button } from 'semantic-ui-react'
 import { Formik, Form } from 'formik'
 import schema from './schema'
 import { useSetRecoilState } from 'recoil'
 import { basicModalState } from '@root/components/modals/BasicModal'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { api } from '@root/api'
 import FormField from '@root/components/suport/FormField'
+import MessageLink from '@root/components/suport/MessageLink'
 
 const ForgotPasswordForm: React.FC = () => {
   const history = useHistory()
@@ -39,17 +40,7 @@ const ForgotPasswordForm: React.FC = () => {
             <Button color="blue" fluid size="large" type="submit" loading={isSubmitting}>
               Submit
             </Button>
-            <Message
-              size="huge"
-              style={{
-                textAlign: 'center',
-                background: 'none',
-                boxShadow: 'none',
-                border: 'none'
-              }}
-            >
-              <Link to="/u/signin">Back to login</Link>
-            </Message>
+            <MessageLink to="/u/signin">Back to login</MessageLink>
           </Form>
         )}
       </Formik>

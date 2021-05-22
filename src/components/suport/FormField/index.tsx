@@ -1,5 +1,6 @@
 import { Field, FieldAttributes } from 'formik'
 import { Icon, Input } from 'semantic-ui-react'
+import { ErrorMessage, FieldWrapper } from './style'
 import React from 'react'
 
 interface iFormField {
@@ -12,38 +13,13 @@ interface iFormField {
 
 export const Error: React.FC = ({ children }) => {
   return (
-    <span
-      className="ui red basic errorMessage"
-      style={{
-        position: 'absolute',
-        right: 0,
-        color: 'red',
-        display: 'flex',
-        alignItems: 'center',
-        marginTop: '0.5em'
-      }}
-    >
+    <ErrorMessage className="ui red basic errorMessage">
       <Icon.Group size="tiny">
-        <Icon
-          name="circle outline"
-          size="big"
-          style={{
-            margin: 'unset'
-          }}
-        />
+        <Icon name="circle outline" size="big" />
         <Icon name="exclamation" />
       </Icon.Group>
-      <span
-        className="ui red basic errorMessage"
-        style={{
-          lineHeight: '1em',
-          fontSize: '0.8em',
-          marginLeft: '0.5em'
-        }}
-      >
-        {children}
-      </span>
-    </span>
+      <span className="ui red basic errorMessage">{children}</span>
+    </ErrorMessage>
   )
 }
 
@@ -51,12 +27,7 @@ const FormField: React.FC<iFormField> = ({ name, placeholder, errorMessage, ...r
   return (
     <Field name={name}>
       {({ field, meta }: FieldAttributes<any>) => (
-        <div
-          style={{
-            marginBottom: 32,
-            position: 'relative'
-          }}
-        >
+        <FieldWrapper>
           <Input
             {...field}
             {...rest}
@@ -66,7 +37,7 @@ const FormField: React.FC<iFormField> = ({ name, placeholder, errorMessage, ...r
             placeholder={placeholder}
           />
           {((meta.touched && !!meta.error) || !!errorMessage) && <Error>{meta.error || errorMessage}</Error>}
-        </div>
+        </FieldWrapper>
       )}
     </Field>
   )

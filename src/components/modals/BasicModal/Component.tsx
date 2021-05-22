@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRecoilState } from 'recoil'
-import Modal from '../layout/Modal'
+import Modal from '../ModalBasicLayout'
 
 import { basicModalState } from './state'
 
