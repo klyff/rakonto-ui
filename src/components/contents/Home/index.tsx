@@ -16,35 +16,19 @@ const Home: React.FC = () => {
   })
 
   return (
-    <div
-      style={{
-        padding: '20px 24px 0px 24px'
-      }}
-    >
+    <>
       <Header as="h1">Home</Header>
-      <Grid padded>
-        <Grid.Row>
-          {items.map((card, i) => {
-            return (
-              <Grid.Column
-                key={i}
-                tablet={8}
-                mobile={16}
-                widescreen={2}
-                computer={8}
-                largeScreen={4}
-                style={{
-                  marginBottom: '24px'
-                }}
-              >
-                <StorieCard />
-              </Grid.Column>
-            )
-          })}
-          <div ref={sentryRef}>loading...</div>
-        </Grid.Row>
+      <Grid>
+        {items.map((card, i) => {
+          return (
+            <Grid.Column key={i} tablet={8} mobile={16} widescreen={4} computer={8} largeScreen={4}>
+              <StorieCard />
+            </Grid.Column>
+          )
+        })}
+        <div ref={sentryRef}>loading...</div>
       </Grid>
-    </div>
+    </>
   )
 }
 

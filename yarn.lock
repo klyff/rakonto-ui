@@ -1855,6 +1855,11 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.168.tgz#fe24632e79b7ade3f132891afff86caa5e5ce008"
   integrity sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q==
 
+"@types/matchmediaquery@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@types/matchmediaquery/-/matchmediaquery-0.3.0.tgz#1bc61874e97c80b688aed322203a37de8c3d6a3e"
+  integrity sha512-dltdCwl2cmcDT5fGY4AqYeeQTjRNYucaAHBmdcnHPOhSKNPXeclwxxjgcwMoUPOciFTviyjAuRlYIugIlA7ysw==
+
 "@types/minimatch@*":
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.4.tgz#f0ec25dbf2f0e4b18647313ac031134ca5b24b21"
@@ -7341,7 +7346,7 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-matchmediaquery@^0.3.0:
+matchmediaquery@^0.3.0, matchmediaquery@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/matchmediaquery/-/matchmediaquery-0.3.1.tgz#8247edc47e499ebb7c58f62a9ff9ccf5b815c6d7"
   integrity sha512-Hlk20WQHRIm9EE9luN1kjRjYXAQToHOIAHPJn9buxBwuhfTHoKUcX+lXBbxc85DVQfXYbEQ4HcwQdd128E3qHQ==

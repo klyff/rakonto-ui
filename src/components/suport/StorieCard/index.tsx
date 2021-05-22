@@ -1,22 +1,21 @@
-import React from 'react'
-import { Card, Icon, Image } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Card, Icon } from 'semantic-ui-react'
+import LazyImage from '../LazyImage'
+import img0 from './img0.png'
 
 const StorieCard: React.FC = () => {
   return (
     <Card fluid>
-      <Image
-        src={`/imgs/img${Math.floor(Math.random() * 4)}.png`}
+      <LazyImage
+        className={`${Math.floor(Math.random() * 2) % 2 ? 'audio' : 'video'}`}
+        src={img0}
         wrapped
         rounded={false}
-        ui={false}
         style={{
-          height: 200,
-          backgroundColor: 'black',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
+          height: 200
         }}
       />
+
       <Card.Content>
         <Card.Header>Matthew</Card.Header>
         <Card.Meta>

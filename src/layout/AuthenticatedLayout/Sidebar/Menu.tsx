@@ -7,7 +7,6 @@ const Menu: React.FC = () => {
   const { pathname } = useLocation()
 
   const matchRouter = (value: string) => {
-    console.log(value, pathname, pathname.startsWith(value))
     return pathname.startsWith(value)
   }
 

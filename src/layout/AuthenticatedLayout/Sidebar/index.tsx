@@ -9,13 +9,9 @@ const Sidebar: React.FC = ({ children }) => {
   const showSidebar = useRecoilValue(sidebarState)
 
   return (
-    <div
-      style={{
-        marginBottom: '2.85714286em'
-      }}
-    >
+    <>
       <MediaQuery minWidth={768}>
-        <SidebarSemantic.Pushable as={'div'} style={{ overflow: 'hidden' }} padded={false}>
+        <SidebarSemantic.Pushable id="pushable" as={'div'} style={{ overflow: 'hidden' }} padded={false}>
           <SidebarSemantic
             as={SMenu}
             color="blue"
@@ -27,13 +23,13 @@ const Sidebar: React.FC = ({ children }) => {
           >
             <Menu />
           </SidebarSemantic>
-          <SidebarSemantic.Pusher style={{ marginRight: showSidebar ? '250px' : '0' }}>
+          <SidebarSemantic.Pusher id="pusher" style={{ marginRight: showSidebar ? '250px' : '0' }}>
             {children}
           </SidebarSemantic.Pusher>
         </SidebarSemantic.Pushable>
       </MediaQuery>
       <MediaQuery minWidth={0} maxWidth={767}>
-        <SidebarSemantic.Pushable as={'div'} padded={false}>
+        <SidebarSemantic.Pushable id="pushable" as={'div'} padded={false}>
           <SidebarSemantic
             as={SMenu}
             color="blue"
@@ -47,10 +43,10 @@ const Sidebar: React.FC = ({ children }) => {
             <Menu />
           </SidebarSemantic>
 
-          <SidebarSemantic.Pusher>{children}</SidebarSemantic.Pusher>
+          <SidebarSemantic.Pusher id="pusher">{children}</SidebarSemantic.Pusher>
         </SidebarSemantic.Pushable>
       </MediaQuery>
-    </div>
+    </>
   )
 }
 export default Sidebar

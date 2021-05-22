@@ -1,6 +1,7 @@
 import { atom } from 'recoil'
+import matchMedia from 'matchmediaquery'
 
 export const sidebarState = atom<boolean>({
-  key: 'infoModalState',
-  default: true
+  key: 'sidebarState',
+  default: !matchMedia('(max-width: 767px)').matches
 })

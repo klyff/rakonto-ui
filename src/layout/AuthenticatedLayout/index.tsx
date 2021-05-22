@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
 import Header from './NavBar'
-import Content from './Content'
 import Sidebar from './Sidebar'
 import { api } from '@root/api'
 
@@ -19,16 +18,10 @@ const AuthenticatedLayout: React.FC = ({ children }) => {
   }, [])
 
   return (
-    <div
-      style={{
-        height: '100vh'
-      }}
-    >
+    <>
       <Header />
-      <Sidebar>
-        <Content>{children}</Content>
-      </Sidebar>
-    </div>
+      <Sidebar>{children}</Sidebar>
+    </>
   )
 }
 

@@ -5,10 +5,13 @@ import reportWebVitals from './reportWebVitals'
 import './themes/semantic.css'
 import 'react-semantic-toasts/styles/react-semantic-alert.css'
 import './index.css'
+import { RecoilRoot } from 'recoil'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')
 )
