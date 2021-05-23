@@ -46,7 +46,12 @@ const NavBar: React.FC = () => {
           item
           icon={''}
           pointing={false}
-          trigger={<Avatar name={user ? `${user?.firstName} ${user?.lasName}` : ''} />}
+          trigger={
+            <Avatar
+              src="https://avatars0.githubusercontent.com/u/246180?v=4"
+              name={user ? `${user?.firstName} ${user?.lasName}` : ''}
+            />
+          }
         >
           <Dropdown.Menu>
             <Dropdown.Item icon="user" text="Profile" />

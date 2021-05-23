@@ -1,4 +1,5 @@
 import React from 'react'
+import { Image } from 'semantic-ui-react'
 import { AvatarWrapper } from './style'
 
 const getInitials = (name: string): string => {
@@ -13,12 +14,18 @@ const getInitials = (name: string): string => {
 
 interface iAvatar {
   name: string
+  size?: 'small' | 'medium' | 'large'
+  src?: string
 }
 
-const Avatar: React.FC<iAvatar> = ({ name }) => (
-  <AvatarWrapper>
-    <span>{getInitials(name)}</span>
-  </AvatarWrapper>
-)
+const Avatar: React.FC<iAvatar> = ({ name, size = 'medium', src }) => {
+  const hasImage = !!src
+  return (
+    <AvatarWrapper className="avatar" size={size} borderless={hasImage}>
+      {hasImage && <Image src={src} circular />}
+      {!hasImage && <span>{getInitials(name)}</span>}
+    </AvatarWrapper>
+  )
+}
 
 export default Avatar

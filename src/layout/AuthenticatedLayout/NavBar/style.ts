@@ -12,4 +12,7 @@ export const Dropdown = styled(SDropdown)`
   border-left: 1px solid rgba(34, 36, 38, 0.15);
   position: relative;
   width: 68px;
+  & > i {
+    display: none;
+  }
 `

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Card as SCard } from 'semantic-ui-react'
+import { Card as SCard, Button as SButton } from 'semantic-ui-react'
 import PlaceholderAudio from './PlaceholderAudio.png'
 import PlaceholderVideo from './PlaceholderVideo.png'
 
@@ -33,5 +33,53 @@ export const Card = styled(SCard)`
 
   & > .lazyImage > .image.audio > img::after {
     background-image: url(${PlaceholderAudio});
+  }
+`
+
+export const Description = styled(SCard.Description)`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+`
+
+export const TextBasicEllipsis = styled(SCard.Meta)`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
+
+export const Extra = styled.div`
+  margin-top: 0.5em;
+  display: flex;
+  align-items: center;
+  & > .icon.audio,
+  & > .icon.video {
+    margin-right: 1rem;
+  }
+  & > .avatar {
+    min-width: 24px;
+    margin-right: 0.8rem;
+  }
+  & > span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 0.8rem;
+  }
+`
+
+export const Actions = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  line-height: 24px;
+`
+export const ActionButton = styled(SButton)`
+  &.ui.basic.button,
+  &.ui.basic.button:hover {
+    box-shadow: unset;
   }
 `
