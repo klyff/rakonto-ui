@@ -8,7 +8,8 @@ import {
   signin,
   confirmEmail,
   requestConfirmEmail,
-  searchStories
+  searchStories,
+  postVideoFile
 } from './services'
 import { history } from '../App'
 export type { iSingup, iSignin, iPasswordReset } from './services'
@@ -49,5 +50,6 @@ export const api = {
   signin: signin(request),
   confirmEmail: confirmEmail(request),
   requestConfirmEmail: requestConfirmEmail(request),
-  searchStories: searchStories(request)
+  searchStories: searchStories(request),
+  postVideoFile: postVideoFile(request)
 }

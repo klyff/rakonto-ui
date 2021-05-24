@@ -68,3 +68,12 @@ export const requestPasswordReset = (request: AxiosInstance) => async (email: st
 export const searchStories = (request: AxiosInstance) => async () => {
   return Promise.resolve(new Array(10).fill('x'))
 }
+
+export const postVideoFile = (request: AxiosInstance) => async (file: File, progressCallback: (event: any) => void) => {
+  const data = new FormData()
+  data.append('file', file)
+  const response = await request.post(`a/videos`, data, {
+    onUploadProgress: progressCallback
+  })
+  return response.data
+}
