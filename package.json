@@ -22,6 +22,7 @@
     "recoil": "^0.2.0",
     "recoil-persist": "^2.5.0",
     "semantic-ui-react": "^2.0.3",
+    "sockjs-client": "^1.5.1",
     "styled-components": "^5.3.0",
     "web-vitals": "^1.0.1",
     "yup": "^0.32.9"
@@ -38,6 +39,7 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-responsive": "^8.0.2",
     "@types/react-router-dom": "^5.1.7",
+    "@types/sockjs-client": "^1.5.0",
     "@types/styled-components": "^5.1.9",
     "@types/yup": "^0.29.11",
     "@typescript-eslint/eslint-plugin": "^4.22.0",

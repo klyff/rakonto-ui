@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Client } from '@stomp/stompjs'
+import { Stomp } from '@stomp/stompjs'
+import SockJS from 'sockjs-client'
 
 export interface Item {
   key: number
@@ -15,19 +16,18 @@ export const useFileStatus = () => {
   }
 
   useEffect(() => {
-    const client = new Client({
-      brokerURL: `ws://localhost:8080/api/ws?jwt=${getToken()}`
-    })
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    client.onConnect(function (frame) {
-      console.log('connected')
-      client.subscribe('/user/queue/video-progess', function (msg) {
+    const client = Stomp.over(new SockJS(`/api/ws?jwt=${getToken()}`, null))
+    client.onConnect = frame => {
+      console.log('connected', frame)
+      client.subscribe('/user/queue/video-progess', msg => {
         console.log('msg', msg)
         setFileStatus(msg.body)
       })
-    })
+    }
     client.activate()
+    return () => {
+      client.deactivate()
+    }
   }, [])
 
   return { fileStatus }
