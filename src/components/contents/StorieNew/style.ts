@@ -1,3 +1,4 @@
+import React from 'react'
 import { Button, Segment } from 'semantic-ui-react'
 import styled, { css } from 'styled-components'
 
@@ -7,7 +8,7 @@ interface iDropArea {
   isDragReject: boolean
 }
 
-export const DropArea = styled(Segment)<iDropArea>`
+const DropArea = styled.div<iDropArea>`
   text-align: center;
   &.ui.placeholder.segment {
     border-width: 2px;
@@ -47,6 +48,10 @@ export const DropArea = styled(Segment)<iDropArea>`
   height: 50vh;
 `
 
+DropArea.defaultProps = {
+  className: 'ui placeholder segment'
+}
+
 const SelectFileButton = styled(Button)`
   &.ui.button {
     margin-top: 3em;
@@ -79,4 +84,4 @@ HugeButton.defaultProps = {
   size: 'massive'
 }
 
-export { HugeButton, SelectFileButton }
+export { HugeButton, SelectFileButton, DropArea }

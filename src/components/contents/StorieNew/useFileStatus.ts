@@ -6,7 +6,7 @@ export interface Item {
   value: string
 }
 
-export const useFileStatus = (id: string) => {
+export const useFileStatus = () => {
   const [fileStatus, setFileStatus] = useState<string>('')
 
   const getToken = () => {
@@ -16,22 +16,16 @@ export const useFileStatus = (id: string) => {
 
   useEffect(() => {
     const client = new Client({
-      brokerURL: `ws://localhost:8080/api/ws?token=${getToken()}`,
-      debug: str => {
-        console.log(str)
-      },
-      onWebSocketError: e => {
-        console.log(e)
-      },
-      onStompError: e => {
-        console.log(e)
-      },
-      onConnect: frame => {
-        console.log('connected')
-        client.subscribe('/user/queue/video-progess', msg => {
-          setFileStatus(msg.body)
-        })
-      }
+      brokerURL: `ws://localhost:8080/api/ws?jwt=${getToken()}`
+    })
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    client.onConnect(function (frame) {
+      console.log('connected')
+      client.subscribe('/user/queue/video-progess', function (msg) {
+        console.log('msg', msg)
+        setFileStatus(msg.body)
+      })
     })
     client.activate()
   }, [])

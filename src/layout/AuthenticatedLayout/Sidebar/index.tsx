@@ -10,7 +10,7 @@ const Sidebar: React.FC = ({ children }) => {
 
   return (
     <>
-      <Pushable padded={false}>
+      <Pushable>
         <SSidebar
           as={SMenu}
           color="blue"

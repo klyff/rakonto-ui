@@ -25,7 +25,7 @@ const NavBar: React.FC = () => {
   }
 
   return (
-    <Menu borderless style={{}}>
+    <Menu borderless>
       <Menu.Item onClick={onToggle}>
         <Icon name="sidebar" />
       </Menu.Item>

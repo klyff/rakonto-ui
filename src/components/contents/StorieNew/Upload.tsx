@@ -35,7 +35,6 @@ const Upload: React.FC<iUpload> = ({ handleNext, sendFile }) => {
           {!isMobile && (
             <DropArea
               {...getRootProps()}
-              placeholder
               isDragActive={isDragActive}
               isDragAccept={isDragAccept}
               isDragReject={isDragReject}
@@ -67,7 +66,7 @@ const Upload: React.FC<iUpload> = ({ handleNext, sendFile }) => {
             </HugeButton>
           </Grid.Column>
           <Grid.Column width={5}>
-            <HugeButton icon="audio">
+            <HugeButton>
               <Icon name="microphone" size="big" />
               <h3>Create your video</h3>
             </HugeButton>

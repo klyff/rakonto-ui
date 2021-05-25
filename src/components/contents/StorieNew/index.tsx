@@ -5,6 +5,8 @@ import { Progress } from 'semantic-ui-react'
 import { parse, stringify } from 'qs'
 import { useSendFile } from './useSendFile'
 import { useFileStatus } from './useFileStatus'
+import { useRecoilValue } from 'recoil'
+import { fileIdState } from './state'
 
 export type Steps = 'videoDetails'
 
@@ -13,10 +15,11 @@ const StorieNew: React.FC = () => {
   const parsedQs = parse(search, { ignoreQueryPrefix: true })
   const { step: currentStep } = parsedQs
   const history = useHistory()
-  const { sendFile, progress, resultId } = useSendFile()
-  const { fileStatus } = useFileStatus(resultId)
 
-  console.log(fileStatus)
+  const fileId = useRecoilValue(fileIdState)
+
+  const { sendFile, progress } = useSendFile()
+  const { fileStatus } = useFileStatus()
 
   const nextStep = (nextStep: Steps) => {
     history.replace({
@@ -31,7 +34,7 @@ const StorieNew: React.FC = () => {
     })
   }
 
-  if (currentStep === 'videoDetails') {
+  if (fileId && currentStep === 'videoDetails') {
     return (
       <div>
         <Progress percent={progress} indicating />

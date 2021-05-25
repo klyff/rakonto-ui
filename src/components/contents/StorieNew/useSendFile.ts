@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { api } from '@root/api'
+import { useSetRecoilState } from 'recoil'
+import { fileIdState } from './state'
 
 export interface Item {
   key: number
@@ -8,14 +10,14 @@ export interface Item {
 
 export const useSendFile = () => {
   const [progress, setProgress] = useState<number>(0)
-  const [resultId, setResultId] = useState<string>('')
+  const setResult = useSetRecoilState(fileIdState)
 
   const sendFile = async (file: File) => {
     const { id } = await api.postVideoFile(file, event => {
       setProgress(Math.round((event.loaded * 100) / event.total))
     })
-    setResultId(id)
+    setResult(id)
   }
 
-  return { sendFile, resultId, progress }
+  return { sendFile, progress }
 }

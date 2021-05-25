@@ -21,37 +21,37 @@ const Menu: React.FC = () => {
       <SMenu.Item>
         <SMenu.Header>My libbary</SMenu.Header>
         <SMenu.Menu>
-          <SMenu.Item as={Link} active={matchRouter('/a/stories')}>
+          <SMenu.Item as={Link} to="a/stories" active={matchRouter('/a/stories')}>
             <div>
               <Icon name="photo" />
               Stories
             </div>
           </SMenu.Item>
-          <SMenu.Item as={Link} active={matchRouter('/a/colection')}>
+          <SMenu.Item as={Link} to="a/colection" active={matchRouter('/a/colection')}>
             <div>
               <Icon name="book" />
               Colections
             </div>
           </SMenu.Item>
-          <SMenu.Item as={Link} active={matchRouter('/a/people')}>
+          <SMenu.Item as={Link} to="a/people" active={matchRouter('/a/people')}>
             <div>
               <Icon name="users" />
               People
             </div>
           </SMenu.Item>
-          <SMenu.Item as={Link} active={matchRouter('/a/places')}>
+          <SMenu.Item as={Link} to="a/places" active={matchRouter('/a/places')}>
             <div>
               <Icon name="map marker" />
               Places
             </div>
           </SMenu.Item>
-          <SMenu.Item as={Link} active={matchRouter('/a/photos')}>
+          <SMenu.Item as={Link} to="a/photos" active={matchRouter('/a/photos')}>
             <div>
               <Icon name="camera" />
               Photos
             </div>
           </SMenu.Item>
-          <SMenu.Item as={Link} active={matchRouter('/a/files')}>
+          <SMenu.Item as={Link} to="a/files" active={matchRouter('/a/files')}>
             <div>
               <Icon name="file" />
               Files
