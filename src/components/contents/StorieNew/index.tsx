@@ -1,14 +1,28 @@
 import React from 'react'
 import Upload from './Upload'
 import { useHistory, useLocation } from 'react-router-dom'
-import { Progress } from 'semantic-ui-react'
 import { parse, stringify } from 'qs'
 import { useSendFile } from './useSendFile'
-import { useFileStatus } from './useFileStatus'
 import { useRecoilValue } from 'recoil'
 import { fileIdState } from './state'
+import { StompSessionProvider, useSubscription } from 'react-stomp-hooks'
 
 export type Steps = 'videoDetails'
+
+const WS = function <T>(Component: React.ComponentType<T>) {
+  const getToken = () => {
+    const tokenItem = localStorage.getItem('token')
+    return tokenItem ? JSON.parse(tokenItem) : null
+  }
+
+  const ws = (props: T) => (
+    <StompSessionProvider url={`/api/ws?jwt=${getToken()}`}>
+      <Component {...props} />
+    </StompSessionProvider>
+  )
+
+  return ws
+}
 
 const StorieNew: React.FC = () => {
   const { pathname, search } = useLocation()
@@ -19,7 +33,6 @@ const StorieNew: React.FC = () => {
   const fileId = useRecoilValue(fileIdState)
 
   const { sendFile, progress } = useSendFile()
-  const { fileStatus } = useFileStatus()
 
   const nextStep = (nextStep: Steps) => {
     history.replace({
@@ -34,14 +47,15 @@ const StorieNew: React.FC = () => {
     })
   }
 
-  if (fileId && currentStep === 'videoDetails') {
-    return (
-      <div>
-        <Progress percent={progress} indicating />
-      </div>
-    )
-  }
-  return <Upload handleNext={nextStep} sendFile={sendFile} />
+  useSubscription('/user/queue/video-progress', (message: { body: string }) => {
+    console.log(JSON.parse(message.body))
+  })
+
+  return (
+    <>
+      <Upload handleNext={nextStep} sendFile={sendFile} />
+    </>
+  )
 }
 
-export default StorieNew
+export default WS(StorieNew)
