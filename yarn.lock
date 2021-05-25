@@ -1596,7 +1596,7 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@stomp/stompjs@^6.0.0":
+"@stomp/stompjs@^6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@stomp/stompjs/-/stompjs-6.1.0.tgz#b77ca240775a7a34289b2c09618e256be761d142"
   integrity sha512-Bt+whL0V51rSKP35OkgM1yeVu/usunpz5l1VYuoWw8mGsDMNd3W3FpWa4/4eis6QfXO3uteNGfyE21XWn0pGAQ==
@@ -9535,14 +9535,6 @@ react-semantic-toasts@^0.6.5:
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/react-semantic-toasts/-/react-semantic-toasts-0.6.5.tgz#d35b7dacf821860b85683d6d875c08f68a83f3e9"
   integrity sha512-XsSvlix69XbzXkT728sRx9TnP7c7g8rGf31KS37Hf/DQLEuAJzsUwqHmo70Q6u7tIcWbCF58UnCzg9mNlYlijA==
-
-react-stomp-hooks@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/react-stomp-hooks/-/react-stomp-hooks-1.2.4.tgz#8e8058c1bd149fd988a065df66eeba08adb91ad9"
-  integrity sha512-pRNRLlbDLOq6vRIdOHLe3wWqlIUnuzQmQ2gInzWOWglXzVaKVRN7wQX2a8yCvKVsagjojYT2LZiWlW134ZFUyw==
-  dependencies:
-    "@stomp/stompjs" "^6.0.0"
-    sockjs-client "^1.5.0"
 
 react@^17.0.2:
   version "17.0.2"
