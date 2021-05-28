@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Client } from '@stomp/stompjs'
 import SockeJS from 'sockjs-client'
 
-export const useFileStatus = () => {
+export const useStoryStatus = () => {
   const [fileStatus, setFileStatus] = useState<number>(0)
   const [client] = useState<Client>(new Client())
 
@@ -14,7 +14,7 @@ export const useFileStatus = () => {
   client.configure({
     webSocketFactory: () => new SockeJS(`/api/ws?jwt=${getToken()}`),
     onConnect: () => {
-      client.subscribe('/user/queue/video-progress', (message: { body: string }) => {
+      client.subscribe('/queue/media-progress', (message: { body: string }) => {
         console.log(JSON.parse(message.body))
         setFileStatus(JSON.parse(message.body))
       })

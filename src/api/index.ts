@@ -9,7 +9,8 @@ import {
   confirmEmail,
   requestConfirmEmail,
   searchStories,
-  postVideoFile
+  createStory,
+  getStory
 } from './services'
 import { history } from '../App'
 export type { iSingup, iSignin, iPasswordReset } from './services'
@@ -51,5 +52,6 @@ export const api = {
   confirmEmail: confirmEmail(request),
   requestConfirmEmail: requestConfirmEmail(request),
   searchStories: searchStories(request),
-  postVideoFile: postVideoFile(request)
+  getStory: getStory(request),
+  createStory: createStory(request)
 }

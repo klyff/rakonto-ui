@@ -1,28 +1,34 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { useDropzone } from 'react-dropzone'
 import { Grid, Icon, Button, Header } from 'semantic-ui-react'
 import { HugeButton, DropArea, SelectFileButton } from './style'
 import { mediaQueryState } from '@root/states/mediaQueryState'
 import { useRecoilValue } from 'recoil'
-import { Steps } from './index'
+import Lottie from 'react-lottie'
+import animationData from './airplane-upload-icon-launch.json'
+import { useCreateStory } from './useCreateStory'
+import { Link } from 'react-router-dom'
 
-interface iUpload {
-  handleNext: (value: Steps) => void
-  sendFile: (file: File) => void
-}
-
-const Upload: React.FC<iUpload> = ({ handleNext, sendFile }) => {
+const Index: React.FC = () => {
   const { isMobile } = useRecoilValue(mediaQueryState)
+  const { createStory, progress, isUploading } = useCreateStory()
   const { open, getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     accept: ['video/*', 'audio/*'],
     noClick: true,
     noKeyboard: true,
-    onDrop: acceptedFiles => {
-      sendFile(acceptedFiles[0])
-      handleNext('videoDetails')
+    onDrop: async acceptedFiles => {
+      await createStory(acceptedFiles[0])
     }
   })
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  }
 
   return (
     <>
@@ -40,14 +46,24 @@ const Upload: React.FC<iUpload> = ({ handleNext, sendFile }) => {
               isDragReject={isDragReject}
             >
               <input {...getInputProps()} />
-              <Header icon>
-                <Icon name="upload" />
-                Drag and drop your video, audio files to upload
-              </Header>
-              <Header>or</Header>
-              <Button primary onClick={open}>
-                Select file
-              </Button>
+              {isUploading && (
+                <>
+                  <Lottie options={defaultOptions} height={'inherit'} width={'inherit'} isClickToPauseDisabled />
+                  <Header>{`${progress}%`}</Header>
+                </>
+              )}
+              {!isUploading && (
+                <>
+                  <Header icon>
+                    <Icon name="upload" />
+                    Drag and drop your video, audio files to upload
+                  </Header>
+                  <Header>or</Header>
+                  <Button primary onClick={open}>
+                    Select file
+                  </Button>
+                </>
+              )}
             </DropArea>
           )}
           {isMobile && (
@@ -60,13 +76,13 @@ const Upload: React.FC<iUpload> = ({ handleNext, sendFile }) => {
         </Grid.Column>
         <Grid.Row>
           <Grid.Column width={5}>
-            <HugeButton>
+            <HugeButton disabled={isUploading}>
               <Icon name="video" size="big" />
               <h3>Create your video</h3>
             </HugeButton>
           </Grid.Column>
           <Grid.Column width={5}>
-            <HugeButton>
+            <HugeButton disabled={isUploading}>
               <Icon name="microphone" size="big" />
               <h3>Create your video</h3>
             </HugeButton>
@@ -77,4 +93,4 @@ const Upload: React.FC<iUpload> = ({ handleNext, sendFile }) => {
   )
 }
 
-export default Upload
+export default Index

@@ -69,10 +69,15 @@ export const searchStories = (request: AxiosInstance) => async () => {
   return Promise.resolve(new Array(10).fill('x'))
 }
 
-export const postVideoFile = (request: AxiosInstance) => async (file: File, progressCallback: (event: any) => void) => {
+export const getStory = (request: AxiosInstance) => async (id: string) => {
+  const response = await request.get(`a/stories/${id}`)
+  return response.data
+}
+
+export const createStory = (request: AxiosInstance) => async (file: File, progressCallback: (event: any) => void) => {
   const data = new FormData()
   data.append('file', file)
-  const response = await request.post(`a/videos`, data, {
+  const response = await request.post(`a/stories`, data, {
     onUploadProgress: progressCallback
   })
   return response.data

@@ -9,7 +9,8 @@ import SignupForm from '@root/components/forms/SignupForm'
 import Home from '@root/components/contents/Home'
 import Signout from '@root/components/contents/Signout'
 import ConfirmEmail from '@root/components/contents/ConfirmEmail'
-import StorieNew from '@root/components/contents/StorieNew'
+import StoryNew from '@root/components/contents/StoryNew'
+import StoryDetails from '@root/components/contents/StoryDetails'
 
 import { SemanticToastContainer } from 'react-semantic-toasts'
 import ChangePasswordForm from '@root/components/forms/ChangePasswordForm'
@@ -24,8 +25,11 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
         <Route path="/a/home">
           <Home />
         </Route>
-        <Route path="/a/storie/new">
-          <StorieNew />
+        <Route path="/a/story/new/:id">
+          <StoryDetails />
+        </Route>
+        <Route path="/a/story/new">
+          <StoryNew />
         </Route>
         <Route path="/a/signout">
           <Signout />
