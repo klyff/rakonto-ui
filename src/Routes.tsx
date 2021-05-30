@@ -25,7 +25,7 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
         <Route path="/a/home">
           <Home />
         </Route>
-        <Route path="/a/story/new/:id">
+        <Route path="/a/story/new/:storyId">
           <StoryDetails />
         </Route>
         <Route path="/a/story/new">

@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { api } from '@root/api'
+import { StoryType } from '@root/types'
 
-export const useGetStory = () => {
-  const { id } = useParams<{ id: string }>()
-  const [file, setFile] = useState<unknown | null>(null)
+export const useGetStory = (storyId: string) => {
+  const [story, setStory] = useState<StoryType | undefined>(undefined)
 
   useEffect(() => {
     const get = async () => {
-      const result = api.getStory(id)
-      setFile(result)
+      const result = await api.getStory(storyId)
+      setStory(result)
     }
     get()
   }, [])
 
-  return { file }
+  return { ...story }
 }

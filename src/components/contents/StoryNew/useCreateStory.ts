@@ -15,8 +15,10 @@ export const useCreateStory = () => {
   const createStory = async (file: File) => {
     setIsUploading(true)
     const { id } = await api.createStory(file, event => {
-      setProgress(Math.round((event.loaded * 100) / event.total))
+      const progress = Math.round((event.loaded * 100) / event.total) - 1
+      setProgress(progress < 0 ? 0 : progress)
     })
+    setProgress(100)
     setIsUploading(false)
     history.push(`/a/story/new/${id}`)
   }

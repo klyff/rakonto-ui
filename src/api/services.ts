@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios'
+import { StoryType } from '@root/types'
 
 export const getMe = (request: AxiosInstance) => async () => {
   try {
@@ -69,10 +70,12 @@ export const searchStories = (request: AxiosInstance) => async () => {
   return Promise.resolve(new Array(10).fill('x'))
 }
 
-export const getStory = (request: AxiosInstance) => async (id: string) => {
-  const response = await request.get(`a/stories/${id}`)
-  return response.data
-}
+export const getStory =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<StoryType> => {
+    const response = await request.get<StoryType>(`a/stories/${id}`)
+    return response.data
+  }
 
 export const createStory = (request: AxiosInstance) => async (file: File, progressCallback: (event: any) => void) => {
   const data = new FormData()
