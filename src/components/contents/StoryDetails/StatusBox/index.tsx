@@ -12,7 +12,7 @@ const StatusBox: React.FC<iStatusBox> = ({ type, storyId }) => {
   const { storyProgress } = useStoryStatus(storyId)
   return (
     <StatusBoxWrapper>
-      <Icon name={`file ${type ? type.toLowerCase() : ''}` as SemanticICONS} size="huge" />
+      <Icon name={`file${type ? ` ${type.toLowerCase()}` : ''}` as SemanticICONS} size="huge" />
       <div>
         <Header>File processing....</Header>
         <Progress percent={storyProgress} success active size="small" />

@@ -16,9 +16,9 @@ export const useStoryStatus = (storyId: string) => {
     onConnect: () => {
       client.subscribe('/user/queue/media-progress', (message: { body: string }) => {
         const { total, current, id } = JSON.parse(message.body)
+        console.log(storyId, id)
         if (storyId !== id) return
         const progress = (current / total) * 100
-        console.log(total, current, progress)
         setStoryProgress(progress)
       })
     }
