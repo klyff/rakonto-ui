@@ -18,7 +18,7 @@ const Menu: React.FC = () => {
       </SMenu.Item>
       <Divider />
       <SMenu.Item className="menu-item" as={Link} to="/a/stories" active={matchRouter('/a/stories')}>
-        <Icon name="video" />
+        <Icon name="play" />
         Stories
       </SMenu.Item>
       <SMenu.Item className="menu-item" as={Link} to="/a/colection" active={matchRouter('/a/colection')}>
