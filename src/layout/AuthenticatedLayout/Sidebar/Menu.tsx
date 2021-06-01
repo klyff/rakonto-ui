@@ -12,52 +12,34 @@ const Menu: React.FC = () => {
 
   return (
     <>
-      <SMenu.Item as={Link} to="a/home" active={matchRouter('/a/home')}>
-        <div>
-          <Icon name="home" /> Home
-        </div>
+      <SMenu.Item className="menu-item" as={Link} to="a/home" active={matchRouter('/a/home')}>
+        <Icon name="home" />
+        Home
       </SMenu.Item>
       <Divider />
-      <SMenu.Item>
-        <SMenu.Header>My libbary</SMenu.Header>
-        <SMenu.Menu>
-          <SMenu.Item as={Link} to="a/stories" active={matchRouter('/a/stories')}>
-            <div>
-              <Icon name="photo" />
-              Stories
-            </div>
-          </SMenu.Item>
-          <SMenu.Item as={Link} to="a/colection" active={matchRouter('/a/colection')}>
-            <div>
-              <Icon name="book" />
-              Colections
-            </div>
-          </SMenu.Item>
-          <SMenu.Item as={Link} to="a/people" active={matchRouter('/a/people')}>
-            <div>
-              <Icon name="users" />
-              People
-            </div>
-          </SMenu.Item>
-          <SMenu.Item as={Link} to="a/places" active={matchRouter('/a/places')}>
-            <div>
-              <Icon name="map marker" />
-              Places
-            </div>
-          </SMenu.Item>
-          <SMenu.Item as={Link} to="a/photos" active={matchRouter('/a/photos')}>
-            <div>
-              <Icon name="camera" />
-              Photos
-            </div>
-          </SMenu.Item>
-          <SMenu.Item as={Link} to="a/files" active={matchRouter('/a/files')}>
-            <div>
-              <Icon name="file" />
-              Files
-            </div>
-          </SMenu.Item>
-        </SMenu.Menu>
+      <SMenu.Item className="menu-item" as={Link} to="/a/stories" active={matchRouter('/a/stories')}>
+        <Icon name="video" />
+        Stories
+      </SMenu.Item>
+      <SMenu.Item className="menu-item" as={Link} to="/a/colection" active={matchRouter('/a/colection')}>
+        <Icon name="book" />
+        Colections
+      </SMenu.Item>
+      <SMenu.Item className="menu-item" as={Link} to="/a/people" active={matchRouter('/a/people')}>
+        <Icon name="users" />
+        People
+      </SMenu.Item>
+      <SMenu.Item className="menu-item" as={Link} to="/a/places" active={matchRouter('/a/places')}>
+        <Icon name="map marker" />
+        Places
+      </SMenu.Item>
+      <SMenu.Item className="menu-item" as={Link} to="/a/photos" active={matchRouter('/a/photos')}>
+        <Icon name="camera" />
+        Photos
+      </SMenu.Item>
+      <SMenu.Item className="menu-item" as={Link} to="/a/files" active={matchRouter('/a/files')}>
+        <Icon name="file" />
+        Files
       </SMenu.Item>
     </>
   )

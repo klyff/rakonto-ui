@@ -13,7 +13,7 @@ const Sidebar: React.FC = ({ children }) => {
       <Pushable>
         <SSidebar
           as={SMenu}
-          color="blue"
+          className="side-menu"
           animation="overlay"
           direction="left"
           visible={showSidebar}

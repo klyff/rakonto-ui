@@ -2,3 +2,17 @@
   height: 100vh;
   overflow: hidden;
 }
+
+.ui.vertical.menu .menu-item > i.icon {
+  width: 1.18em;
+  float: none;
+  margin: 0em 1em 0em 0em;
+}
+
+.side-menu {
+  padding: 12px 0 24px 0;
+}
+
+.side-menu .divider {
+  margin: 12px 0;
+}
