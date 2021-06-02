@@ -46,3 +46,27 @@ export type StoryType = {
   type?: MediaType
   video?: VideoDetails
 }
+
+export type StoryUpdateType = {
+  title: string
+  description: string
+  published: true
+  coverId: string
+  collectionsToAdd: string[]
+  collectionsToRemove: string[]
+  watchersToAdd: string[]
+  watchersToRemove: string[]
+}
+
+export type ImageUploadType = {
+  id: string
+  processedAt: Date
+  thumbnails: Record<
+    string,
+    {
+      id: string
+      url: string
+      resolution: string
+    }
+  >[]
+}

@@ -1,17 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { api } from '@root/api'
 import { StoryType } from '@root/types'
 
 export const useGetStory = (storyId: string) => {
   const [story, setStory] = useState<StoryType | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  useEffect(() => {
-    const get = async () => {
+  const refresh = useCallback(async () => {
+    setIsLoading(true)
+    try {
       const result = await api.getStory(storyId)
       setStory(result)
+    } finally {
+      setIsLoading(false)
     }
-    get()
+  }, [storyId])
+
+  useEffect(() => {
+    refresh()
   }, [])
 
-  return { ...story }
+  return { ...story, refresh, isLoading }
 }

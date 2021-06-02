@@ -3,10 +3,12 @@ import { useHistory } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 import schema from './schema'
 import FormField from '@root/components/suport/FormField'
+import { useCollectionList } from './useCollectionList'
 
 const StoryDetailForm: React.FC = () => {
   const history = useHistory()
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
+  const { collectionList, isLoading } = useCollectionList()
 
   const handleSubmit = async ({ title, description }: any) => {
     console.log('submitted')
@@ -26,8 +28,18 @@ const StoryDetailForm: React.FC = () => {
               rows={10}
               errorMessage={errorMessage}
             />
-            {/* <FormField name="firstName" placeholder="First Name" errorMessage={errorMessage} /> */}
-            {/* <FormField name="lastName" placeholder="Last Name" errorMessage={errorMessage} /> */}
+            <FormField
+              placeholder="select one collection"
+              label="Collections"
+              isSelect
+              name="collectionList"
+              selectProps={{
+                multiple: true,
+                search: true,
+                selection: true,
+                options: collectionList
+              }}
+            />
           </Form>
         )}
       </Formik>

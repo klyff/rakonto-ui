@@ -1,37 +1,48 @@
-import React from 'react'
-import { Embed, Grid, Header, Icon } from 'semantic-ui-react'
-import StoryDetailForm from '@root/components/forms/StoryDetailForm'
+import React, { useState } from 'react'
+import { Header, Icon } from 'semantic-ui-react'
+import StoryDetailForm from './StoryDetailForm'
 import { Link, useParams } from 'react-router-dom'
 import StatusBox from './StatusBox'
 import { useGetStory } from './useGetStory'
 import VideoPlayer from '@root/components/suport/VideoPlayer'
+import LoadingArea from '@root/components/suport/LoadingArea'
+import { PreviewBox, ColumnContainer, ColumnPreview, ColumnForm } from './style'
+import DropArea from './DropArea'
 
 const StoryDetails: React.FC = () => {
   const { storyId } = useParams<{ storyId: string }>()
-  const { type, ready, video, cover } = useGetStory(storyId)
+  const { type, ready, video, cover, refresh, isLoading } = useGetStory(storyId)
+  const [coverId, setCoverId] = useState<string | undefined>(undefined)
+
+  const handleUploadFinish = (coverId: string | undefined) => {
+    setCoverId(coverId)
+  }
 
   return (
-    <>
+    <LoadingArea isLoading={isLoading}>
       <Link to={'/a/home'}>
         <Icon name="arrow left" />
         Back
       </Link>
       <Header as="h1">Story</Header>
-      <Grid stackable columns={3}>
-        <Grid.Column>
+      <ColumnContainer>
+        <ColumnForm>
           <StoryDetailForm />
-        </Grid.Column>
-        <Grid.Column>
-          <>
-            {!ready && <StatusBox type={type} storyId={storyId} />}
-            {ready && <VideoPlayer video={video} cover={cover} />}
-          </>
-        </Grid.Column>
-        <Grid.Column>
+        </ColumnForm>
+        <ColumnPreview>
+          <PreviewBox>
+            <>
+              {!ready && <StatusBox type={type} videoId={video?.id} onComplete={() => refresh()} />}
+              {ready && <VideoPlayer video={video} cover={cover} />}
+            </>
+          </PreviewBox>
+          <DropArea handledUploadFinish={handleUploadFinish} />
+        </ColumnPreview>
+        <ColumnForm>
           <StoryDetailForm />
-        </Grid.Column>
-      </Grid>
-    </>
+        </ColumnForm>
+      </ColumnContainer>
+    </LoadingArea>
   )
 }
 

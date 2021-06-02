@@ -1,33 +1,18 @@
 import React from 'react'
-import { useDropzone } from 'react-dropzone'
-import { Grid, Icon, Button, Header } from 'semantic-ui-react'
-import { HugeButton, DropArea, SelectFileButton } from './style'
+import { Grid, Icon, Header } from 'semantic-ui-react'
+import { HugeButton, SelectFileButton, DropAreaBox } from './style'
 import { mediaQueryState } from '@root/states/mediaQueryState'
+import DropArea from './DropArea'
 import { useRecoilValue } from 'recoil'
-import Lottie from 'react-lottie'
-import animationData from './airplane-upload-icon-launch.json'
 import { useCreateStory } from './useCreateStory'
 import { Link } from 'react-router-dom'
 
 const Index: React.FC = () => {
   const { isMobile } = useRecoilValue(mediaQueryState)
   const { createStory, progress, isUploading } = useCreateStory()
-  const { open, getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
-    accept: ['video/*', 'audio/*'],
-    noClick: true,
-    noKeyboard: true,
-    onDrop: async acceptedFiles => {
-      await createStory(acceptedFiles[0])
-    }
-  })
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice'
-    }
+  const handleDrop = async (acceptedFiles: File[]) => {
+    await createStory(acceptedFiles[0])
   }
 
   return (
@@ -39,32 +24,9 @@ const Index: React.FC = () => {
       <Grid centered stackable>
         <Grid.Column width={10}>
           {!isMobile && (
-            <DropArea
-              {...getRootProps()}
-              isDragActive={isDragActive}
-              isDragAccept={isDragAccept}
-              isDragReject={isDragReject}
-            >
-              <input {...getInputProps()} />
-              {isUploading && (
-                <>
-                  <Lottie options={defaultOptions} height={'inherit'} width={'inherit'} isClickToPauseDisabled />
-                  <Header>{`${progress}%`}</Header>
-                </>
-              )}
-              {!isUploading && (
-                <>
-                  <Header icon>
-                    <Icon name="upload" />
-                    Drag and drop your video, audio files to upload
-                  </Header>
-                  <Header>or</Header>
-                  <Button primary onClick={open}>
-                    Select file
-                  </Button>
-                </>
-              )}
-            </DropArea>
+            <DropAreaBox>
+              <DropArea isUploading={isUploading} progress={progress} handleDrop={handleDrop} />
+            </DropAreaBox>
           )}
           {isMobile && (
             <>

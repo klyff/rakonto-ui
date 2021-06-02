@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Client } from '@stomp/stompjs'
 import SockeJS from 'sockjs-client'
 
-export const useStoryStatus = (storyId: string) => {
+export const useStoryStatus = (videoId?: string) => {
   const [storyProgress, setStoryProgress] = useState<number>(0)
   const [client] = useState<Client>(new Client())
 
@@ -15,10 +15,10 @@ export const useStoryStatus = (storyId: string) => {
     webSocketFactory: () => new SockeJS(`/api/ws?jwt=${getToken()}`),
     onConnect: () => {
       client.subscribe('/user/queue/media-progress', (message: { body: string }) => {
+        if (!videoId) return
         const { total, current, id } = JSON.parse(message.body)
-        console.log(storyId, id)
-        if (storyId !== id) return
-        const progress = (current / total) * 100
+        if (videoId !== id) return
+        const progress = Math.round((current / total) * 100)
         setStoryProgress(progress)
       })
     }

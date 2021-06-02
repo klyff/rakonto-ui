@@ -1,7 +1,8 @@
 import { Field, FieldAttributes } from 'formik'
-import { Icon, Input } from 'semantic-ui-react'
+import { Icon, Input, Dropdown } from 'semantic-ui-react'
 import { ErrorMessage, FieldWrapper, TextArea } from './style'
 import React from 'react'
+import { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown'
 
 interface iFormField {
   name: string
@@ -11,6 +12,8 @@ interface iFormField {
   type?: string
   icon?: string
   isTextArea?: boolean
+  isSelect?: boolean
+  selectProps?: Partial<DropdownProps>
   rows?: number
 }
 
@@ -32,6 +35,8 @@ const FormField: React.FC<iFormField> = ({
   placeholder,
   errorMessage,
   isTextArea = false,
+  isSelect = false,
+  selectProps,
   rows,
   ...rest
 }) => {
@@ -39,10 +44,17 @@ const FormField: React.FC<iFormField> = ({
     <Field name={name}>
       {({ field, meta }: FieldAttributes<any>) => (
         <FieldWrapper
-          className={isTextArea ? ((meta.touched && !!meta.error) || !!errorMessage ? 'ui form error' : 'ui form') : ''}
+          className={
+            isTextArea || isSelect
+              ? (meta.touched && !!meta.error) || !!errorMessage
+                ? 'ui form error'
+                : 'ui form'
+              : ''
+          }
         >
           {label && <label>{label}</label>}
-          {isTextArea ? (
+          {isSelect && <Dropdown as={Input} la placeholder={placeholder} {...selectProps} />}
+          {isTextArea && (
             <TextArea
               {...field}
               {...rest}
@@ -52,7 +64,8 @@ const FormField: React.FC<iFormField> = ({
               fluid="true"
               placeholder={placeholder}
             />
-          ) : (
+          )}
+          {!isTextArea && !isSelect && (
             <Input
               {...field}
               {...rest}

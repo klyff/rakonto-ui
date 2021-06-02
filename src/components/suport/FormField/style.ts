@@ -23,6 +23,10 @@ export const FieldWrapper = styled.div`
   margin-bottom: 32px;
   position: relative;
 
+  &.ui.form > div.dropdown {
+    display: block;
+  }
+
   &.ui.form.error > textarea {
     background-color: #fff6f6;
     border-color: #e0b4b4;

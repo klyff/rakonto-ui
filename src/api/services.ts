@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios'
-import { StoryType } from '@root/types'
+import { StoryType, StoryUpdateType, ImageUploadType } from '@root/types'
 
 export const getMe = (request: AxiosInstance) => async () => {
   try {
@@ -83,5 +83,26 @@ export const createStory = (request: AxiosInstance) => async (file: File, progre
   const response = await request.post(`a/stories`, data, {
     onUploadProgress: progressCallback
   })
+  return response.data
+}
+
+export const updateStory = (request: AxiosInstance) => async (id: string, data: Partial<StoryUpdateType>) => {
+  const response = await request.put(`a/stories`, data)
+  return response.data
+}
+
+export const uploadImage =
+  (request: AxiosInstance) =>
+  async (file: File, progressCallback: (event: any) => void): Promise<ImageUploadType> => {
+    const data = new FormData()
+    data.append('file', file)
+    const response = await request.post<ImageUploadType>(`a/images`, data, {
+      onUploadProgress: progressCallback
+    })
+    return response.data
+  }
+
+export const getCollections = (request: AxiosInstance) => async (page: number, size: number) => {
+  const response = await request.get(`/a/collections?page=${page}&size=${size}`)
   return response.data
 }

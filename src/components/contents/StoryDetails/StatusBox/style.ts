@@ -4,7 +4,6 @@ export const StatusBoxWrapper = styled.div`
   width: 100%;
   height: 15em;
   background-color: #000000;
-  margin-top: 20px;
   color: white;
   display: flex;
   align-items: center;
