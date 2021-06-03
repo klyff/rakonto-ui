@@ -13,19 +13,12 @@ const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview: string 
   const videoNode = useRef(null)
 
   useEffect(() => {
-    console.log('aqui')
-    const playerInstance = videojs(
-      videoNode.current,
-      {
-        ...options,
-        controlBar: {
-          children: ['playToggle', 'progressControl', 'volumePanel', 'qualitySelector', 'fullscreenToggle']
-        }
-      },
-      function onPlayerReady() {
-        console.log('onPlayerReady', player)
+    const playerInstance = videojs(videoNode.current, {
+      ...options,
+      controlBar: {
+        children: ['playToggle', 'progressControl', 'volumePanel', 'qualitySelector', 'fullscreenToggle']
       }
-    )
+    })
     setPlayer(playerInstance)
     return () => {
       player && player.dispose()

@@ -7,11 +7,11 @@ import { useGetStory } from './useGetStory'
 import VideoPlayer from '@root/components/suport/VideoPlayer'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import { PreviewBox, ColumnContainer, ColumnPreview, ColumnForm } from './style'
-import DropArea from './DropArea'
+import CoverDropArea from './CoverDropArea'
 
 const StoryDetails: React.FC = () => {
   const { storyId } = useParams<{ storyId: string }>()
-  const { type, ready, video, cover, refresh, isLoading } = useGetStory(storyId)
+  const { type, ready, video, cover, refresh, isLoading, thumbnail } = useGetStory(storyId)
   const [coverId, setCoverId] = useState<string | undefined>(undefined)
 
   const handleUploadFinish = (coverId: string | undefined) => {
@@ -36,7 +36,7 @@ const StoryDetails: React.FC = () => {
               {ready && <VideoPlayer video={video} cover={cover} />}
             </>
           </PreviewBox>
-          <DropArea handledUploadFinish={handleUploadFinish} />
+          <CoverDropArea handledUploadFinish={handleUploadFinish} thumbnailSrc={thumbnail} />
         </ColumnPreview>
         <ColumnForm>
           <StoryDetailForm />

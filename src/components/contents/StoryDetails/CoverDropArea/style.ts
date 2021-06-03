@@ -4,6 +4,7 @@ interface iDropArea {
   isDragActive: boolean
   isDragAccept: boolean
   isDragReject: boolean
+  thumbSrc: string
 }
 
 const DropAreaWrapper = styled.div<iDropArea>`
@@ -47,6 +48,16 @@ const DropAreaWrapper = styled.div<iDropArea>`
     }};
     border-style: dashed;
     background-color: #fafafa;
+    ${({ thumbSrc }) => {
+      console.log(thumbSrc)
+      if (thumbSrc)
+        return css`
+          background-image: url(${thumbSrc});
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+        `
+    }};
   }
   &.ui.placeholder .header {
     margin: 1em;

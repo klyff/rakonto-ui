@@ -1,18 +1,27 @@
 import React from 'react'
-import { Loader, Dimmer } from 'semantic-ui-react'
+import { Loader, Dimmer, Header } from 'semantic-ui-react'
 import { ImageProps } from 'semantic-ui-react/dist/commonjs/elements/Image/Image'
 
 interface iLoadingArea extends ImageProps {
   isLoading: boolean
   progress?: number
+  message?: string
 }
 
-const LoadingArea: React.FC<iLoadingArea> = ({ isLoading, children, progress }) => {
+const LoadingArea: React.FC<iLoadingArea> = ({ isLoading, message, children, progress }) => {
   return (
     <>
       {isLoading && (
         <Dimmer inverted active={isLoading}>
-          <Loader>{progress ? `${progress}%` : 'loading'}</Loader>
+          <Loader>
+            {progress !== undefined ? `${progress}%` : 'loading'}
+            {message && (
+              <>
+                <br />
+                {message}
+              </>
+            )}
+          </Loader>
         </Dimmer>
       )}
       {!isLoading && children}

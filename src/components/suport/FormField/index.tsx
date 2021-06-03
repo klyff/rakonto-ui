@@ -53,7 +53,7 @@ const FormField: React.FC<iFormField> = ({
           }
         >
           {label && <label>{label}</label>}
-          {isSelect && <Dropdown as={Input} la placeholder={placeholder} {...selectProps} />}
+          {isSelect && <Dropdown as={Input} placeholder={placeholder} {...selectProps} />}
           {isTextArea && (
             <TextArea
               {...field}

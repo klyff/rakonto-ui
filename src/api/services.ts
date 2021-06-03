@@ -102,6 +102,13 @@ export const uploadImage =
     return response.data
   }
 
+export const getImage =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<ImageUploadType> => {
+    const response = await request.get<ImageUploadType>(`a/images/${id}`)
+    return response.data
+  }
+
 export const getCollections = (request: AxiosInstance) => async (page: number, size: number) => {
   const response = await request.get(`/a/collections?page=${page}&size=${size}`)
   return response.data

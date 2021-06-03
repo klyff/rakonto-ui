@@ -11,6 +11,7 @@ import {
   searchStories,
   createStory,
   updateStory,
+  getImage,
   getStory,
   getCollections,
   uploadImage
@@ -57,7 +58,8 @@ export const api = {
   searchStories: searchStories(request),
   getStory: getStory(request),
   createStory: createStory(request),
-  updateStory: createStory(request),
+  updateStory: updateStory(request),
   uploadImage: uploadImage(request),
+  getImage: getImage(request),
   getCollections: getCollections(request)
 }

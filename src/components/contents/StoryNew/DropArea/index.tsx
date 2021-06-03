@@ -2,8 +2,7 @@ import React from 'react'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 import { DropAreaWrapper } from './style'
 import { Button, Header, Icon } from 'semantic-ui-react'
-import Lottie from 'react-lottie'
-import animationData from '@root/components/contents/StoryNew/airplane-upload-icon-launch.json'
+import LoadingArea from '@root/components/suport/LoadingArea'
 
 interface iDropArea {
   handleDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void
@@ -19,15 +18,6 @@ const DropArea: React.FC<iDropArea> = ({ handleDrop, isUploading, progress }) =>
     onDrop: handleDrop
   })
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice'
-    }
-  }
-
   return (
     <DropAreaWrapper
       {...getRootProps()}
@@ -36,12 +26,7 @@ const DropArea: React.FC<iDropArea> = ({ handleDrop, isUploading, progress }) =>
       isDragReject={isDragReject}
     >
       <input {...getInputProps()} />
-      {isUploading && (
-        <>
-          <Lottie options={defaultOptions} height={'inherit'} width={'inherit'} isClickToPauseDisabled />
-          <Header>{`${progress}%`}</Header>
-        </>
-      )}
+      {isUploading && <LoadingArea progress={progress} isLoading={isUploading} />}
       {!isUploading && (
         <>
           <Header icon>

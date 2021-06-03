@@ -41,6 +41,7 @@ export type StoryType = {
   cover?: string
   description?: string
   id?: string
+  thumbnail: string
   ready?: boolean
   title?: string
   type?: MediaType
@@ -61,6 +62,7 @@ export type StoryUpdateType = {
 export type ImageUploadType = {
   id: string
   processedAt: Date
+  thumbnail: string
   thumbnails: Record<
     string,
     {
