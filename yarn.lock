@@ -5410,6 +5410,11 @@ form-data@^3.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
+formik-semantic-ui-react@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/formik-semantic-ui-react/-/formik-semantic-ui-react-2.0.0.tgz#a0b0abf57e37e85a8c6092dc70b6d7dc9ef88b1f"
+  integrity sha512-vLFqhM4KaOTh3Bic52XaGBwjB+TB246Ud2uBYdwJJa7ZJukEpgauXPz4IKAOkTu6q2RroUVvKrNH5jajo/qkEA==
+
 formik@^2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/formik/-/formik-2.2.8.tgz#986c3cd73849dde7c5154e5f6093a5568e482854"

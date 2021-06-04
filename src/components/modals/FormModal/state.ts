@@ -1,5 +1,6 @@
 import { atom } from 'recoil'
 import { ReactNode } from 'react'
+import { FormikValues } from 'formik'
 
 interface iFormModalState {
   open: boolean
@@ -7,9 +8,9 @@ interface iFormModalState {
   content: string | ReactNode
   type?: 'default' | 'error' | 'warning'
   onClose?: () => void
-  initialValues: any
-  validationSchema: any
-  onSubmit: (values: any) => void
+  initialValues: FormikValues
+  validationSchema: unknown
+  onSubmit: (values: FormikValues) => void
 }
 
 export const formModalState = atom<iFormModalState>({
@@ -21,6 +22,6 @@ export const formModalState = atom<iFormModalState>({
     type: 'default',
     initialValues: {},
     validationSchema: '',
-    onSubmit: values => undefined
+    onSubmit: () => undefined
   }
 })

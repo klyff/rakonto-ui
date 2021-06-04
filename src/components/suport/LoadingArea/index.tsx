@@ -1,5 +1,5 @@
 import React from 'react'
-import { Loader, Dimmer, Header } from 'semantic-ui-react'
+import { Loader, Dimmer } from 'semantic-ui-react'
 import { ImageProps } from 'semantic-ui-react/dist/commonjs/elements/Image/Image'
 
 interface iLoadingArea extends ImageProps {

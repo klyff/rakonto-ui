@@ -1,5 +1,5 @@
 import React from 'react'
-import { Formik } from 'formik'
+import { Formik, FormikValues } from 'formik'
 import { useRecoilState } from 'recoil'
 import { formModalState } from './state'
 import Modal from '../ModalBasicLayout'
@@ -16,10 +16,10 @@ const FormModal: React.FC = () => {
       type: 'default',
       initialValues: {},
       validationSchema: '',
-      onSubmit: values => undefined
+      onSubmit: () => undefined
     })
   }
-  const submit = (values: any) => {
+  const submit = (values: FormikValues) => {
     onSubmit(values)
     close()
   }

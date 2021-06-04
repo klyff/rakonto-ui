@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Client } from '@stomp/stompjs'
 import SockeJS from 'sockjs-client'
 
-export const useStoryStatus = (videoId?: string) => {
+export const useStoryStatus = (videoId?: string): { storyProgress: number } => {
   const [storyProgress, setStoryProgress] = useState<number>(0)
   const [client] = useState<Client>(new Client())
 

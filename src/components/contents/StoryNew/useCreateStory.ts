@@ -7,7 +7,7 @@ export interface Item {
   value: string
 }
 
-export const useCreateStory = () => {
+export const useCreateStory = (): { createStory: (file: File) => void; progress: number; isUploading: boolean } => {
   const history = useHistory()
   const [progress, setProgress] = useState<number>(0)
   const [isUploading, setIsUploading] = useState<boolean>(false)

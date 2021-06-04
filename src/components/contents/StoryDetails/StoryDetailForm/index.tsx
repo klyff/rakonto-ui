@@ -1,47 +1,59 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { Formik, Form } from 'formik'
-import schema from './schema'
-import FormField from '@root/components/suport/FormField'
+import React from 'react'
+import { Formik } from 'formik'
+import { Input, TextArea, Select } from '@root/components/suport/FormFields'
 import { useCollectionList } from './useCollectionList'
+import { ColumnForm, ColumnPreview, Form } from './style'
 
-const StoryDetailForm: React.FC = () => {
-  const history = useHistory()
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
+interface StoryDetailForm {
+  initalValues: Partial<{
+    title: string
+    description: string
+    collections: string[]
+  }>
+  onChange: (values: { name: string; value: string | string[] }) => void
+}
+
+const StoryDetailForm: React.FC<StoryDetailForm> = ({ initalValues, onChange, children }) => {
   const { collectionList, isLoading } = useCollectionList()
-
-  const handleSubmit = async ({ title, description }: any) => {
-    console.log('submitted')
-  }
 
   return (
     <>
-      <Formik initialValues={{ title: '', description: '' }} validationSchema={schema} onSubmit={handleSubmit}>
-        {({ isSubmitting }) => (
-          <Form>
-            <FormField name="title" placeholder="Add a title" errorMessage={errorMessage} label="Title" />
-            <FormField
+      <Formik
+        initialValues={initalValues}
+        onSubmit={values => {
+          console.log(values)
+        }}
+      >
+        <Form>
+          <ColumnForm>
+            <Input
+              name="title"
+              placeholder="Add a title"
+              label="Title"
+              onChange={e => onChange({ name: e.target.name, value: e.target.value })}
+            />
+            <TextArea
+              onChange={e => onChange({ name: e.target.name, value: e.target.value })}
               name="description"
               label="Description"
-              isTextArea={true}
-              placeholder="Tell us more"
+              placeholder="Talk about your video"
               rows={10}
-              errorMessage={errorMessage}
             />
-            <FormField
-              placeholder="select one collection"
+            <Select
+              onChange={(e, data) => onChange({ name: 'collections', value: data.value as string[] })}
+              loading={isLoading}
+              options={collectionList}
               label="Collections"
-              isSelect
-              name="collectionList"
-              selectProps={{
-                multiple: true,
-                search: true,
-                selection: true,
-                options: collectionList
-              }}
+              multiple
+              name="collections"
+              placeholder="Select"
             />
-          </Form>
-        )}
+          </ColumnForm>
+          <ColumnPreview>{children}</ColumnPreview>
+          <ColumnForm>
+            <div>test</div>
+          </ColumnForm>
+        </Form>
       </Formik>
     </>
   )

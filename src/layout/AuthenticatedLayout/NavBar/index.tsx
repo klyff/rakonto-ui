@@ -49,7 +49,7 @@ const NavBar: React.FC = () => {
           trigger={
             <Avatar
               src="https://avatars0.githubusercontent.com/u/246180?v=4"
-              name={user ? `${user?.firstName} ${user?.lasName}` : ''}
+              name={user ? `${user?.firstName} ${user?.lastName}` : ''}
             />
           }
         >

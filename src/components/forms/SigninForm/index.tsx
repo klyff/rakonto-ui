@@ -3,12 +3,13 @@ import { Header, Button } from 'semantic-ui-react'
 import { Link, useHistory } from 'react-router-dom'
 import { Form, Formik } from 'formik'
 import schema from './schema'
-import { iSignin, api } from '@root/api'
+import { api } from '@root/api'
 import { useSetRecoilState } from 'recoil'
 import { userState } from '@root/states/userState'
-import FormField from '@root/components/suport/FormField'
+import { Input } from '@root/components/suport/FormFields'
 import MessageLink from '@root/components/suport/MessageLink'
 import { basicModalState } from '@root/components/modals/BasicModal'
+import { SigninFormType } from '@root/types'
 
 const SigninForm: React.FC = () => {
   const history = useHistory()
@@ -40,7 +41,7 @@ const SigninForm: React.FC = () => {
     }
   }
 
-  const handleSubmit = async ({ email, password }: iSignin) => {
+  const handleSubmit = async ({ email, password }: SigninFormType) => {
     try {
       setErrorMessage('')
       const { token, user } = await api.signin({ email, password })
@@ -73,7 +74,7 @@ const SigninForm: React.FC = () => {
     }
   }
 
-  const initialValues: iSignin = { email: '', password: '' }
+  const initialValues: SigninFormType = { email: '', password: '' }
   return (
     <>
       <Header as="h2" color="black" textAlign="left">
@@ -82,8 +83,8 @@ const SigninForm: React.FC = () => {
       <Formik initialValues={initialValues} validationSchema={schema} onSubmit={handleSubmit}>
         {({ isSubmitting }) => (
           <Form>
-            <FormField name="email" placeholder="Email address" errorMessage={errorMessage} />
-            <FormField name="password" placeholder="Password" type="password" errorMessage={errorMessage} />
+            <Input name="email" placeholder="Email address" errorMessage={errorMessage} />
+            <Input name="password" placeholder="Password" type="password" errorMessage={errorMessage} />
             <Button color="blue" fluid size="large" loading={isSubmitting} type="submit">
               Login
             </Button>

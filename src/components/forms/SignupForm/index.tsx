@@ -3,18 +3,19 @@ import { Header, Button } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 import schema from './schema'
-import { iSingup, api } from '@root/api'
+import { api } from '@root/api'
 import { useSetRecoilState } from 'recoil'
 import { basicModalState } from '@root/components/modals/BasicModal'
-import FormField from '@root/components/suport/FormField'
+import { Input } from '@root/components/suport/FormFields'
 import MessageLink from '@root/components/suport/MessageLink'
+import { SingupFormType } from '@root/types'
 
 const SignupForm: React.FC = () => {
   const history = useHistory()
   const setBasicModalState = useSetRecoilState(basicModalState)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
 
-  const handleSubmit = async ({ email, firstName, lastName, password, confirmation }: iSingup) => {
+  const handleSubmit = async ({ email, firstName, lastName, password, confirmation }: SingupFormType) => {
     try {
       await api.singup({ email, firstName, lastName, password, confirmation })
       history.push('/login/singin')
@@ -44,11 +45,11 @@ const SignupForm: React.FC = () => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <FormField name="email" placeholder="Email address" errorMessage={errorMessage} />
-            <FormField name="firstName" placeholder="First Name" errorMessage={errorMessage} />
-            <FormField name="lastName" placeholder="Last Name" errorMessage={errorMessage} />
-            <FormField name="password" placeholder="Password" type="password" errorMessage={errorMessage} />
-            <FormField
+            <Input name="email" placeholder="Email address" errorMessage={errorMessage} />
+            <Input name="firstName" placeholder="First Name" errorMessage={errorMessage} />
+            <Input name="lastName" placeholder="Last Name" errorMessage={errorMessage} />
+            <Input name="password" placeholder="Password" type="password" errorMessage={errorMessage} />
+            <Input
               name="confirmation"
               placeholder="Confirmation password"
               type="password"

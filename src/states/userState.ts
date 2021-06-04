@@ -1,13 +1,7 @@
 import { atom } from 'recoil'
+import { UserType } from '@root/types'
 
-export interface User {
-  id: string
-  email: string
-  firstName: string
-  lasName: string
-}
-
-export const userState = atom<User | null>({
+export const userState = atom<UserType | null>({
   key: 'userState',
   default: null
 })

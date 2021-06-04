@@ -18,10 +18,4 @@ export const Pushable = styled(Sidebar.Pushable)`
   }
 `
 
-export const Pusher = styled(Sidebar.Pusher)`
-  .pushable > & {
-    height: calc(100vh - 61px);
-    overflow: auto;
-    padding: 24px;
-  }
-`
+export const Pusher = styled(Sidebar.Pusher)``

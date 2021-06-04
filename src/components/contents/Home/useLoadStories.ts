@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState } from 'react'
 import { api } from '@root/api'
 
 export interface Item {
@@ -6,17 +6,23 @@ export interface Item {
   value: string
 }
 
-export const useLoadStories = () => {
-  const [loading, setLoading] = React.useState(false)
-  const [items, setItems] = React.useState<Item[]>([])
-  const [hasNextPage, setHasNextPage] = React.useState<boolean>(true)
-  const [error, setError] = React.useState<Error>()
+export const useLoadStories = (): {
+  loading: boolean
+  items: Item[]
+  hasNextPage: boolean
+  error: Error | undefined
+  loadMore: () => void
+} => {
+  const [loading, setLoading] = useState(false)
+  const [items, setItems] = useState<Item[]>([])
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true)
+  const [error, setError] = useState<Error | undefined>()
 
   async function loadMore() {
     setLoading(true)
     try {
       const data = await api.searchStories()
-      setItems(current => [...current, ...data])
+      setItems(current => [...current, ...(data as Item[])])
       setHasNextPage(true)
     } catch (err) {
       setError(err)

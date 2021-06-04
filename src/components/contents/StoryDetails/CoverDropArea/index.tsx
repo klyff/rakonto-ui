@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { DropAreaWrapper } from './style'
-import { Button, Header, Icon, Image } from 'semantic-ui-react'
+import { Button, Header, Icon } from 'semantic-ui-react'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import { useCoverApi } from './useCoverApi'
 import { useCoverStatus } from './useCoverStatus'

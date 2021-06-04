@@ -17,7 +17,6 @@ import {
   uploadImage
 } from './services'
 import { history } from '../App'
-export type { iSingup, iSignin, iPasswordReset } from './services'
 
 const request = axios.create({
   baseURL: '/api'

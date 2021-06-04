@@ -7,8 +7,8 @@ import { api } from '@root/api'
 import { parse } from 'qs'
 import { basicModalState } from '@root/components/modals/BasicModal'
 import { formModalState } from '@root/components/modals/FormModal'
-import { Form } from 'formik'
-import FormField from '@root/components/suport/FormField'
+import { Form, FormikValues } from 'formik'
+import { Input } from '@root/components/suport/FormFields'
 import schema from './schema'
 
 const ConfirmEmail: React.FC = ({ children }) => {
@@ -20,7 +20,7 @@ const ConfirmEmail: React.FC = ({ children }) => {
   const setFormModalState = useSetRecoilState(formModalState)
   const [showLoading, setShowLoading] = useState<boolean>(false)
 
-  const handleSubmit = async ({ email }: any) => {
+  const handleSubmit = async ({ email }: FormikValues) => {
     try {
       await api.requestConfirmEmail(email)
       setBasicModalState({
@@ -70,7 +70,7 @@ const ConfirmEmail: React.FC = ({ children }) => {
                 </div>
                 <div>
                   <Form>
-                    <FormField name="email" placeholder="Email address" />
+                    <Input name="email" placeholder="Email address" />
                   </Form>
                 </div>
               </>

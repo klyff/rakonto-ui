@@ -3,12 +3,13 @@ import { Header, Button } from 'semantic-ui-react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 import schema from './schema'
-import { iPasswordReset, api } from '@root/api'
+import { api } from '@root/api'
 import { useSetRecoilState } from 'recoil'
 import { basicModalState } from '@root/components/modals/BasicModal'
-import FormField from '@root/components/suport/FormField'
+import { Input } from '@root/components/suport/FormFields'
 import MessageLink from '@root/components/suport/MessageLink'
 import { parse } from 'qs'
+import { PasswordResetForm } from '@root/types'
 
 const ChangePasswordForm: React.FC = () => {
   const history = useHistory()
@@ -17,7 +18,7 @@ const ChangePasswordForm: React.FC = () => {
   const setBasicModalState = useSetRecoilState(basicModalState)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
 
-  const handleSubmit = async ({ password, confirmation, token }: iPasswordReset) => {
+  const handleSubmit = async ({ password, confirmation, token }: PasswordResetForm) => {
     try {
       await api.passwordReset({ password, confirmation, token })
       history.push('/u/signin')
@@ -71,13 +72,8 @@ const ChangePasswordForm: React.FC = () => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <FormField name="password" placeholder="Password" type="password" errorMessage={errorMessage} />
-            <FormField
-              name="confirmation"
-              placeholder="Confirm new password"
-              type="password"
-              errorMessage={errorMessage}
-            />
+            <Input name="password" placeholder="Password" type="password" errorMessage={errorMessage} />
+            <Input name="confirmation" placeholder="Confirm new password" type="password" errorMessage={errorMessage} />
             <Button color="blue" fluid size="large" loading={isSubmitting} type="submit">
               Change
             </Button>

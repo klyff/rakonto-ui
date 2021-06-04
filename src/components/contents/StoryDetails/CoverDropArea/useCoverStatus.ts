@@ -2,7 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Client } from '@stomp/stompjs'
 import SockeJS from 'sockjs-client'
 
-export const useCoverStatus = (coverId?: string, callback?: (id: string) => void) => {
+export const useCoverStatus = (
+  coverId?: string,
+  callback?: (id: string) => void
+): {
+  coverProgress: number
+  isProcessingCover: boolean
+  startProcess: () => void
+} => {
   const [coverProgress, setCoverProgress] = useState<number>(0)
   const coverIdRef = useRef<string | undefined | null>(null)
   const [isProcessingCover, setIsProcessingCover] = useState<boolean>(false)

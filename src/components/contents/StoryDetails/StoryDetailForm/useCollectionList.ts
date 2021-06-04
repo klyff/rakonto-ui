@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { api } from '@root/api'
-import { StoryType } from '@root/types'
 import { DropdownItemProps } from 'semantic-ui-react'
 
-export const useCollectionList = () => {
-  const [collectionList, setCollectionList] = useState<DropdownItemProps[] | undefined>([])
+export const useCollectionList = (): {
+  collectionList: DropdownItemProps[]
+  isLoading: boolean
+} => {
+  const [collectionList, setCollectionList] = useState<DropdownItemProps[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const fetch = useCallback(async () => {

@@ -1,3 +1,63 @@
+export type Pageable<T> = {
+  totalPages: number
+  totalElements: number
+  size: number
+  content: T[]
+  number: number
+  sort: {
+    sorted: boolean
+    unsorted: boolean
+    empty: boolean
+  }
+  numberOfElements: number
+  pageable: {
+    offset: number
+    sort: {
+      sorted: boolean
+      unsorted: boolean
+      empty: boolean
+    }
+    pageNumber: 0
+    unpaged: boolean
+    paged: boolean
+    pageSize: 0
+  }
+  first: boolean
+  last: boolean
+  empty: boolean
+}
+
+export type UserType = {
+  id: string
+  email: string
+  firstName: string
+  lastName: string
+}
+
+export type AuthType = {
+  token: string
+  user: UserType
+}
+
+export type SigninFormType = {
+  email: string
+  password: string
+}
+
+export type SingupFormType = {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  confirmation: string
+}
+
+export type PasswordResetForm = {
+  token: string
+  confirmation: string
+  password: string
+}
+
 export type MediaType = 'AUDIO' | 'VIDEO'
 export enum Resolutions {
   '360p' = '360p',
@@ -37,7 +97,7 @@ export type VideoDetails = {
 
 export type StoryType = {
   audio?: string
-  collections: []
+  collections: CollectionType[]
   cover?: string
   description?: string
   id?: string
@@ -51,12 +111,27 @@ export type StoryType = {
 export type StoryUpdateType = {
   title: string
   description: string
-  published: true
+  published: boolean
   coverId: string
   collectionsToAdd: string[]
   collectionsToRemove: string[]
   watchersToAdd: string[]
   watchersToRemove: string[]
+}
+
+export type CollectionType = {
+  id: string
+  title: string
+  description: string
+  cover: ImageUploadType
+  watchers: [
+    {
+      email: string
+      user: UserType
+    }
+  ]
+  thumbnail: string
+  stories: StoryType[]
 }
 
 export type ImageUploadType = {

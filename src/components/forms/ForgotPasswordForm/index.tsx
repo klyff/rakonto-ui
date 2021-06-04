@@ -6,7 +6,7 @@ import { useSetRecoilState } from 'recoil'
 import { basicModalState } from '@root/components/modals/BasicModal'
 import { useHistory } from 'react-router-dom'
 import { api } from '@root/api'
-import FormField from '@root/components/suport/FormField'
+import { Input } from '@root/components/suport/FormFields'
 import MessageLink from '@root/components/suport/MessageLink'
 
 const ForgotPasswordForm: React.FC = () => {
@@ -36,7 +36,7 @@ const ForgotPasswordForm: React.FC = () => {
       <Formik initialValues={{ email: '' }} validationSchema={schema} onSubmit={handleSubmit}>
         {({ isSubmitting }) => (
           <Form>
-            <FormField name="email" placeholder="Email address" errorMessage={errorMessage} />
+            <Input name="email" placeholder="Email address" errorMessage={errorMessage} />
             <Button color="blue" fluid size="large" type="submit" loading={isSubmitting}>
               Submit
             </Button>
