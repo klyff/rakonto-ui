@@ -15,8 +15,8 @@ export const useCreateStory = (): { createStory: (file: File) => void; progress:
   const createStory = async (file: File) => {
     setIsUploading(true)
     const { id } = await api.createStory(file, event => {
-      const progress = Math.round((event.loaded * 100) / event.total) - 1
-      setProgress(progress < 0 ? 0 : progress)
+      const progress = Math.round((event.loaded * 100) / event.total)
+      setProgress(progress)
     })
     setProgress(100)
     setIsUploading(false)

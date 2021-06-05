@@ -12,7 +12,7 @@ const DropAreaWrapper = styled.div<iDropArea>`
   text-align: center;
   height: 186px;
   width: 328px;
-  @media only screen and (max-width: 767px) {
+  @media only screen and (max-width: 1024px) {
     height: 124px;
     width: 219px;
     &.ui.placeholder.segment {
@@ -49,7 +49,6 @@ const DropAreaWrapper = styled.div<iDropArea>`
     border-style: dashed;
     background-color: #fafafa;
     ${({ thumbSrc }) => {
-      console.log(thumbSrc)
       if (thumbSrc)
         return css`
           background-image: url(${thumbSrc});

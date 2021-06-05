@@ -1,8 +1,12 @@
 import styled from 'styled-components'
+import { Form as FForm } from 'formik-semantic-ui-react'
 
 export const PreviewBox = styled.div`
   margin-top: 20px;
   width: 100%;
+  min-width: 426px;
+  min-height: 240px;
+  position: relative;
 `
 export const Footer = styled.div`
   border-top: 1px solid rgba(34, 36, 38, 0.15);
@@ -15,7 +19,7 @@ export const Footer = styled.div`
   justify-content: flex-end;
   background-color: white;
   & > button {
-    @media only screen and (max-width: 767px) {
+    @media only screen and (max-width: 1024px) {
       flex: 1;
     }
   }

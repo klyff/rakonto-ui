@@ -14,7 +14,8 @@ import {
   getImage,
   getStory,
   getCollections,
-  uploadImage
+  uploadImage,
+  getWatcher
 } from './services'
 import { history } from '../App'
 
@@ -60,5 +61,6 @@ export const api = {
   updateStory: updateStory(request),
   uploadImage: uploadImage(request),
   getImage: getImage(request),
+  getWatcher: getWatcher(request),
   getCollections: getCollections(request)
 }

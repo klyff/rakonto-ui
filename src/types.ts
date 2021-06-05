@@ -32,6 +32,7 @@ export type UserType = {
   email: string
   firstName: string
   lastName: string
+  picture: ImageType
 }
 
 export type AuthType = {
@@ -106,6 +107,7 @@ export type StoryType = {
   title?: string
   type?: MediaType
   video?: VideoDetails
+  watchers?: WatcherType[]
 }
 
 export type StoryUpdateType = {
@@ -123,18 +125,13 @@ export type CollectionType = {
   id: string
   title: string
   description: string
-  cover: ImageUploadType
-  watchers: [
-    {
-      email: string
-      user: UserType
-    }
-  ]
+  cover: ImageType
+  watchers: WatcherType[]
   thumbnail: string
   stories: StoryType[]
 }
 
-export type ImageUploadType = {
+export type ImageType = {
   id: string
   processedAt: Date
   thumbnail: string
@@ -146,4 +143,9 @@ export type ImageUploadType = {
       resolution: string
     }
   >[]
+}
+
+export type WatcherType = {
+  email: string
+  user: UserType
 }

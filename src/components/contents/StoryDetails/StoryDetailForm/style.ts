@@ -1,20 +1,24 @@
 import styled from 'styled-components'
-import { Form as FForm } from 'formik'
 
 export const ColumnForm = styled.div`
   flex: 1;
   padding: 0 12px;
+  min-width: 426px;
 `
 
 export const ColumnPreview = styled.div`
-  width: 504px;
+  width: fit-content;
   padding: 0 12px;
+  min-width: 450px;
 `
 
-export const Form = styled(FForm)`
+export const FormColumnsArea = styled.div`
   display: flex;
   margin-bottom: 50px;
-  @media only screen and (max-width: 767px) {
+  & > div:last-child {
+    margin-top: 20px;
+  }
+  @media only screen and (max-width: 1024px) {
     flex-direction: column;
     align-items: center;
     flex-flow: column;
@@ -28,7 +32,6 @@ export const Form = styled(FForm)`
       order: 3;
     }
     & > div {
-      margin-top: 20px;
       flex: 1;
       width: 100%;
     }

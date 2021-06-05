@@ -26,7 +26,13 @@ const DropArea: React.FC<iDropArea> = ({ handleDrop, isUploading, progress }) =>
       isDragReject={isDragReject}
     >
       <input {...getInputProps()} />
-      {isUploading && <LoadingArea progress={progress} isLoading={isUploading} />}
+      {isUploading && (
+        <LoadingArea
+          progress={progress !== 100 ? progress : undefined}
+          message={progress === 100 ? 'Processing...' : ''}
+          isLoading={isUploading}
+        />
+      )}
       {!isUploading && (
         <>
           <Header icon>

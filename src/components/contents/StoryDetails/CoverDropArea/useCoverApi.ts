@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react'
 import { api } from '@root/api'
-import { ImageUploadType } from '@root/types'
+import { ImageType } from '@root/types'
 
 export const useCoverApi = (): {
-  coverInfo: Partial<ImageUploadType>
+  coverInfo: Partial<ImageType>
   uploadProgress: number
   isUploadingCover: boolean
   uploadCover: (file: File) => void
@@ -11,7 +11,7 @@ export const useCoverApi = (): {
 } => {
   const [isUploadingCover, setIsUploadingCover] = useState<boolean>(false)
   const [uploadProgress, setUploadProgress] = useState<number>(0)
-  const [coverInfo, setCoverInfo] = useState<Partial<ImageUploadType>>({})
+  const [coverInfo, setCoverInfo] = useState<Partial<ImageType>>({})
 
   const uploadCover = async (file: File) => {
     setIsUploadingCover(true)

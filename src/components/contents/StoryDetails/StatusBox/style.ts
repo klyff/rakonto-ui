@@ -2,7 +2,8 @@ import styled from 'styled-components'
 
 export const StatusBoxWrapper = styled.div`
   width: 100%;
-  height: 15em;
+  position: absolute;
+  height: 100%;
   background-color: #000000;
   color: white;
   display: flex;

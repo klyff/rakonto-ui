@@ -2,14 +2,15 @@ import { AxiosInstance } from 'axios'
 import {
   StoryType,
   StoryUpdateType,
-  ImageUploadType,
+  ImageType,
   SingupFormType,
   PasswordResetForm,
   SigninFormType,
   UserType,
   AuthType,
   CollectionType,
-  Pageable
+  Pageable,
+  WatcherType
 } from '@root/types'
 
 export const getMe = (request: AxiosInstance) => async (): Promise<UserType> => {
@@ -99,13 +100,10 @@ export const updateStory =
 
 export const uploadImage =
   (request: AxiosInstance) =>
-  async (
-    file: File,
-    progressCallback: (progress: { total: number; loaded: number }) => void
-  ): Promise<ImageUploadType> => {
+  async (file: File, progressCallback: (progress: { total: number; loaded: number }) => void): Promise<ImageType> => {
     const data = new FormData()
     data.append('file', file)
-    const response = await request.post<ImageUploadType>(`a/images`, data, {
+    const response = await request.post<ImageType>(`a/images`, data, {
       onUploadProgress: e => progressCallback({ total: e.total, loaded: e.loaded })
     })
     return response.data
@@ -113,8 +111,8 @@ export const uploadImage =
 
 export const getImage =
   (request: AxiosInstance) =>
-  async (id: string): Promise<ImageUploadType> => {
-    const response = await request.get<ImageUploadType>(`a/images/${id}`)
+  async (id: string): Promise<ImageType> => {
+    const response = await request.get<ImageType>(`a/images/${id}`)
     return response.data
   }
 
@@ -122,5 +120,12 @@ export const getCollections =
   (request: AxiosInstance) =>
   async (page: number, size: number): Promise<Pageable<CollectionType>> => {
     const response = await request.get(`/a/collections?page=${page}&size=${size}`)
+    return response.data
+  }
+
+export const getWatcher =
+  (request: AxiosInstance) =>
+  async (email: string): Promise<WatcherType> => {
+    const response = await request.get(`/a/watchers/${email}`)
     return response.data
   }

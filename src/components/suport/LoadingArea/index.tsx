@@ -14,7 +14,7 @@ const LoadingArea: React.FC<iLoadingArea> = ({ isLoading, message, children, pro
       {isLoading && (
         <Dimmer inverted active={isLoading}>
           <Loader>
-            {progress !== undefined ? `${progress}%` : 'loading'}
+            {progress !== undefined && `${progress}%`}
             {message && (
               <>
                 <br />
