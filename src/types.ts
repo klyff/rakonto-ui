@@ -104,6 +104,7 @@ export type StoryType = {
   id?: string
   thumbnail: string
   ready?: boolean
+  published?: boolean
   title?: string
   type?: MediaType
   video?: VideoDetails

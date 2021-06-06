@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Header, Icon } from 'semantic-ui-react'
-import { SubmitButton } from 'formik-semantic-ui-react'
+import { Header, Icon, Button } from 'semantic-ui-react'
 import StoryDetailForm from './StoryDetailForm'
 import { Link, useParams } from 'react-router-dom'
 import StatusBox from './StatusBox'
@@ -11,23 +10,44 @@ import { PreviewBox, Footer } from './style'
 import { ContentArea } from '../style'
 import CoverDropArea from './CoverDropArea'
 import { CollectionType, StoryUpdateType, WatcherType } from '@root/types'
-import { Formik, FormikValues, Form } from 'formik'
+import { Formik, Form, FormikHelpers } from 'formik'
 import schema from './schema'
+
+interface iformikValues {
+  title: string
+  collections: CollectionType[]
+  watchers: WatcherType[]
+  description: string
+  watcherShare: string
+  published: boolean
+}
 
 const StoryDetails: React.FC = () => {
   const { storyId } = useParams<{ storyId: string }>()
   const { story, isLoading, getStory, updateStory } = useApiStory(storyId)
-  const { title = '', collections = [], watchers = [], description = '', type, ready, video, cover, thumbnail } = story
+  const {
+    title = '',
+    published = false,
+    collections = [],
+    watchers = [],
+    description = '',
+    type,
+    ready,
+    video,
+    cover,
+    thumbnail
+  } = story
   const [coverId, setCoverId] = useState<string | undefined>('')
 
   const handleUploadFinish = (coverId: string | undefined) => {
     setCoverId(coverId)
   }
 
-  const submit = async (values: FormikValues) => {
+  const submit = async (values: iformikValues, helpers: FormikHelpers<iformikValues>) => {
     const newValues: Partial<StoryUpdateType> = {
       coverId,
       title: values.title,
+      published: values.published,
       description: values.description,
       watchersToAdd: values.watchers.map((watcher: WatcherType) => watcher.email),
       watchersToRemove: watchers
@@ -45,20 +65,20 @@ const StoryDetails: React.FC = () => {
     await updateStory(newValues)
   }
 
+  const initialValues: iformikValues = {
+    title: title || '',
+    collections: collections || [],
+    watchers: watchers || [],
+    description: description || '',
+    watcherShare: '',
+    published
+  }
+
   return (
     <LoadingArea isLoading={isLoading}>
       <ContentArea>
-        <Formik
-          initialValues={{
-            title: title || '',
-            collections: collections?.map(item => item.id) || [],
-            watchers: watchers || [],
-            description: description || ''
-          }}
-          onSubmit={submit}
-          validationSchema={schema}
-        >
-          {({ isSubmitting }) => (
+        <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
+          {({ isSubmitting, setFieldValue, handleSubmit }) => (
             <Form>
               <Link to={'/a/home'}>
                 <Icon name="arrow left" />
@@ -75,9 +95,24 @@ const StoryDetails: React.FC = () => {
                 <CoverDropArea handledUploadFinish={handleUploadFinish} thumbnailSrc={thumbnail} />
               </StoryDetailForm>
               <Footer>
-                <SubmitButton primary loading={isSubmitting}>
-                  Save
-                </SubmitButton>
+                <Button.Group>
+                  <Button type="submit" primary id="save" loading={isSubmitting}>
+                    Save
+                  </Button>
+                  <Button.Or />
+                  <Button
+                    id="publish"
+                    type="button"
+                    loading={isSubmitting}
+                    positive
+                    onClick={() => {
+                      setFieldValue('published', true)
+                      handleSubmit()
+                    }}
+                  >
+                    Save and Publish
+                  </Button>
+                </Button.Group>
               </Footer>
             </Form>
           )}

@@ -18,9 +18,9 @@ export const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
   background-color: white;
-  & > button {
+  & > div.ui.buttons {
     @media only screen and (max-width: 1024px) {
-      flex: 1;
+      width: 100%;
     }
   }
 `
