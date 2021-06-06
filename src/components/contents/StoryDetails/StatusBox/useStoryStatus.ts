@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Client } from '@stomp/stompjs'
 import SockeJS from 'sockjs-client'
+import { VideoDetails } from '@root/types'
 
-export const useStoryStatus = (videoId?: string): { storyProgress: number } => {
+export const useStoryStatus = (
+  callBack: (payload: VideoDetails) => void,
+  videoId?: string
+): { storyProgress: number } => {
   const [storyProgress, setStoryProgress] = useState<number>(0)
   const [client] = useState<Client>(new Client())
 
@@ -16,8 +20,11 @@ export const useStoryStatus = (videoId?: string): { storyProgress: number } => {
     onConnect: () => {
       client.subscribe('/user/queue/media-progress', (message: { body: string }) => {
         if (!videoId) return
-        const { total, current, id } = JSON.parse(message.body)
+        const { total, current, id, payload, finished } = JSON.parse(message.body)
         if (videoId !== id) return
+        if (finished) {
+          callBack(payload as VideoDetails)
+        }
         const progress = Math.round((current / total) * 100)
         setStoryProgress(progress)
       })

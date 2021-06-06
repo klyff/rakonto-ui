@@ -73,6 +73,13 @@ export const searchStories = (request: AxiosInstance) => async (): Promise<any[]
   return Promise.resolve(new Array(10).fill('x'))
 }
 
+export const getStories =
+  (request: AxiosInstance) =>
+  async (page: number, size: number): Promise<Pageable<StoryType>> => {
+    const response = await request.get<Pageable<StoryType>>(`a/stories?page=${page}&size=${size}`)
+    return response.data
+  }
+
 export const getStory =
   (request: AxiosInstance) =>
   async (id: string): Promise<StoryType> => {

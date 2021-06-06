@@ -18,7 +18,7 @@ const Index: React.FC = () => {
 
   return (
     <ContentArea>
-      <Link to={'/a/home'}>
+      <Link to={'/a/stories'}>
         <Icon name="arrow left" />
         Back
       </Link>

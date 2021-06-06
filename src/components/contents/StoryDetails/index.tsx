@@ -10,7 +10,7 @@ import { PreviewBox, Footer } from './style'
 import { ContentArea } from '../style'
 import CoverDropArea from './CoverDropArea'
 import { CollectionType, StoryUpdateType, WatcherType } from '@root/types'
-import { Formik, Form, FormikHelpers } from 'formik'
+import { Formik, Form } from 'formik'
 import schema from './schema'
 
 interface iformikValues {
@@ -24,7 +24,8 @@ interface iformikValues {
 
 const StoryDetails: React.FC = () => {
   const { storyId } = useParams<{ storyId: string }>()
-  const { story, isLoading, getStory, updateStory } = useApiStory(storyId)
+  const { story, isLoading, setStory, updateStory } = useApiStory(storyId)
+
   const {
     title = '',
     published = false,
@@ -43,7 +44,7 @@ const StoryDetails: React.FC = () => {
     setCoverId(coverId)
   }
 
-  const submit = async (values: iformikValues, helpers: FormikHelpers<iformikValues>) => {
+  const submit = async (values: iformikValues) => {
     const newValues: Partial<StoryUpdateType> = {
       coverId,
       title: values.title,
@@ -80,7 +81,7 @@ const StoryDetails: React.FC = () => {
         <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
           {({ isSubmitting, setFieldValue, handleSubmit }) => (
             <Form>
-              <Link to={'/a/home'}>
+              <Link to={'/a/stories'}>
                 <Icon name="arrow left" />
                 Back
               </Link>
@@ -88,7 +89,25 @@ const StoryDetails: React.FC = () => {
               <StoryDetailForm watchers={watchers}>
                 <PreviewBox>
                   <>
-                    {!ready && <StatusBox type={type} videoId={video?.id} onComplete={() => getStory()} />}
+                    {!ready && (
+                      <StatusBox
+                        type={type}
+                        videoId={video?.id}
+                        onComplete={payload => {
+                          setStory(value => {
+                            return {
+                              ...value,
+                              ready: true,
+                              thumbnail: payload.thumbnail,
+                              video: {
+                                ...value.video,
+                                ...payload
+                              }
+                            }
+                          })
+                        }}
+                      />
+                    )}
                     {ready && <VideoPlayer video={video} cover={cover} />}
                   </>
                 </PreviewBox>

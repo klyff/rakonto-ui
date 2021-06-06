@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { api } from '@root/api'
 import { StoryType, StoryUpdateType } from '@root/types'
 
@@ -7,7 +7,7 @@ export const useApiStory = (
 ): {
   story: Partial<StoryType>
   updateStory: (data: Partial<StoryUpdateType>) => void
-  getStory: () => void
+  setStory: Dispatch<SetStateAction<Partial<StoryType>>>
   isLoading: boolean
   isSaving: boolean
 } => {
@@ -40,5 +40,5 @@ export const useApiStory = (
     getStory()
   }, [])
 
-  return { story, updateStory, getStory, isLoading, isSaving }
+  return { story, updateStory, setStory, isLoading, isSaving }
 }

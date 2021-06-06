@@ -21,7 +21,7 @@ const NavBar: React.FC = () => {
   }
 
   const handleNewStorie = () => {
-    history.push('/a/story/new')
+    history.push('/a/stories/new')
   }
 
   return (

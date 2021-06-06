@@ -3,7 +3,7 @@ import { Loader, Dimmer } from 'semantic-ui-react'
 import { ImageProps } from 'semantic-ui-react/dist/commonjs/elements/Image/Image'
 
 interface iLoadingArea extends ImageProps {
-  isLoading: boolean
+  isLoading?: boolean
   progress?: number
   message?: string
 }
@@ -14,6 +14,7 @@ const LoadingArea: React.FC<iLoadingArea> = ({ isLoading, message, children, pro
       {isLoading && (
         <Dimmer inverted active={isLoading}>
           <Loader>
+            {!isLoading && 'Loading...'}
             {progress !== undefined && `${progress}%`}
             {message && (
               <>

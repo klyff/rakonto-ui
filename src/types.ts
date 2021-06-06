@@ -94,6 +94,7 @@ export type VideoDetails = {
   alternatives: Partial<Record<Resolutions, Video[]>>
   gifs: Partial<Record<Resolutions, Gif[]>>
   thumbnails: Partial<Record<Resolutions, Thumbnail[]>>
+  thumbnail: string
 }
 
 export type StoryType = {

@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Input, TextArea, Select } from '@root/components/suport/FormFields'
 import { useCollectionList } from './useCollectionList'
 import { ColumnForm, ColumnPreview, FormColumnsArea } from './style'
 import { Header, Segment, SegmentGroup, Button } from 'semantic-ui-react'
 import Whatchers from './Whatchers'
 import { WatcherType } from '@root/types'
-import { useField, useFormikContext } from 'formik'
+import { useField } from 'formik'
 import { api } from '@root/api'
 
 interface StoryDetailForm {
   watchers: WatcherType[]
 }
 
-const StoryDetailForm: React.FC<StoryDetailForm> = ({ children, watchers: initialWatchers }) => {
+const StoryDetailForm: React.FC<StoryDetailForm> = ({ children }) => {
   const { collectionList, isLoading } = useCollectionList()
   const [watcherShareField, watcherShareMeta] = useField('watcherShare')
   const [watchersShareField, , watchersHelper] = useField<WatcherType[]>('watchers')

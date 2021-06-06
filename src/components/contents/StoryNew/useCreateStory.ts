@@ -20,7 +20,7 @@ export const useCreateStory = (): { createStory: (file: File) => void; progress:
     })
     setProgress(100)
     setIsUploading(false)
-    history.push(`/a/story/new/${id}`)
+    history.push(`/a/stories/new/${id}`)
   }
 
   return { createStory, progress, isUploading }

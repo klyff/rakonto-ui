@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Form as FForm } from 'formik-semantic-ui-react'
 
 export const PreviewBox = styled.div`
   margin-top: 20px;

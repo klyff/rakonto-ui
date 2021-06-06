@@ -1,20 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useStoryStatus } from './useStoryStatus'
 import { Icon, Progress, Header, SemanticICONS } from 'semantic-ui-react'
 import { StatusBoxWrapper } from './style'
-import { MediaType } from '@root/types'
+import { MediaType, VideoDetails } from '@root/types'
 
 interface iStatusBox {
   type?: MediaType
   videoId?: string
-  onComplete?: () => void
+  onComplete: (payload: VideoDetails) => void
 }
 const StatusBox: React.FC<iStatusBox> = ({ type, videoId, onComplete }) => {
-  const { storyProgress } = useStoryStatus(videoId)
-
-  useEffect(() => {
-    if (onComplete && storyProgress === 100) onComplete()
-  }, [storyProgress])
+  const { storyProgress } = useStoryStatus(onComplete, videoId)
 
   return (
     <StatusBoxWrapper>

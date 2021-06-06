@@ -4,11 +4,10 @@ import StoryCard from '@root/components/suport/StoryCard'
 import useInfiniteScroll from '@root/hooks/useInfiniteScroll'
 import { usePageableRequest } from '@root/hooks/usePageableRequest'
 import { ContentArea } from '../style'
-import LoadingArea from '@root/components/suport/LoadingArea'
 import { StoryType } from '@root/types'
 import { api } from '@root/api'
 
-const Home: React.FC = () => {
+const StoryList: React.FC = () => {
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<StoryType>({
     size: 15,
     request: api.getStories
@@ -23,7 +22,7 @@ const Home: React.FC = () => {
 
   return (
     <ContentArea>
-      <Header as="h1">Home</Header>
+      <Header as="h1">Stories</Header>
       <Grid>
         {items.map((card, i) => {
           return (
@@ -32,12 +31,10 @@ const Home: React.FC = () => {
             </Grid.Column>
           )
         })}
-        <div ref={sentryRef}>
-          <LoadingArea />
-        </div>
+        {hasNextPage && <div ref={sentryRef}>loading...</div>}
       </Grid>
     </ContentArea>
   )
 }
 
-export default Home
+export default StoryList
