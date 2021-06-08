@@ -126,7 +126,7 @@ const StoryDetails: React.FC = () => {
                     handleSubmit()
                   }}
                 >
-                  Finalize
+                  Done
                 </Button>
               </Footer>
             </Form>
