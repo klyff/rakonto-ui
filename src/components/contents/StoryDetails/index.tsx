@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Header, Icon, Button } from 'semantic-ui-react'
 import StoryDetailForm from './StoryDetailForm'
 import { Link, useParams } from 'react-router-dom'
@@ -40,31 +40,30 @@ const StoryDetails: React.FC = () => {
   } = story
   const [coverId, setCoverId] = useState<string | undefined>('')
 
-  const handleUploadFinish = (coverId: string | undefined) => {
-    setCoverId(coverId)
-  }
-
-  const submit = async (values: iformikValues) => {
-    const newValues: Partial<StoryUpdateType> = {
-      coverId,
-      title: values.title,
-      published: values.published,
-      description: values.description,
-      watchersToAdd: values.watchers.map((watcher: WatcherType) => watcher.email),
-      watchersToRemove: watchers
-        ?.filter((watcher: WatcherType) => {
-          return !values.watchers.some((item: WatcherType) => item.email === watcher.email)
-        })
-        .map((watcher: WatcherType) => watcher.email),
-      collectionsToAdd: values.collections.map((collection: CollectionType) => collection.id),
-      collectionsToRemove: collections
-        ?.filter((collection: CollectionType) => {
-          return !values.collections.some((item: CollectionType) => item.id === collection.id)
-        })
-        .map((collection: CollectionType) => collection.id)
-    }
-    await updateStory(newValues)
-  }
+  const submit = useCallback(
+    async (values: iformikValues) => {
+      const newValues: Partial<StoryUpdateType> = {
+        coverId: coverId,
+        title: values.title,
+        published: values.published,
+        description: values.description,
+        watchersToAdd: values.watchers.map((watcher: WatcherType) => watcher.email),
+        watchersToRemove: watchers
+          ?.filter((watcher: WatcherType) => {
+            return !values.watchers.some((item: WatcherType) => item.email === watcher.email)
+          })
+          .map((watcher: WatcherType) => watcher.email),
+        collectionsToAdd: values.collections.map((collection: CollectionType) => collection.id),
+        collectionsToRemove: collections
+          ?.filter((collection: CollectionType) => {
+            return !values.collections.some((item: CollectionType) => item.id === collection.id)
+          })
+          .map((collection: CollectionType) => collection.id)
+      }
+      await updateStory(newValues)
+    },
+    [coverId]
+  )
 
   const initialValues: iformikValues = {
     title: title || '',
@@ -111,27 +110,24 @@ const StoryDetails: React.FC = () => {
                     {ready && <VideoPlayer video={video} cover={cover} />}
                   </>
                 </PreviewBox>
-                <CoverDropArea handledUploadFinish={handleUploadFinish} thumbnailSrc={thumbnail} />
+                <CoverDropArea onIdChange={setCoverId} thumbnailSrc={thumbnail} />
               </StoryDetailForm>
               <Footer>
-                <Button.Group>
-                  <Button type="submit" primary id="save" loading={isSubmitting}>
-                    Save
-                  </Button>
-                  <Button.Or />
-                  <Button
-                    id="publish"
-                    type="button"
-                    loading={isSubmitting}
-                    positive
-                    onClick={() => {
-                      setFieldValue('published', true)
-                      handleSubmit()
-                    }}
-                  >
-                    Save and Publish
-                  </Button>
-                </Button.Group>
+                <Button type="submit" primary id="save" loading={isSubmitting}>
+                  Save
+                </Button>
+                <Button
+                  id="publish"
+                  type="button"
+                  loading={isSubmitting}
+                  positive
+                  onClick={() => {
+                    setFieldValue('published', true)
+                    handleSubmit()
+                  }}
+                >
+                  Finalize
+                </Button>
               </Footer>
             </Form>
           )}

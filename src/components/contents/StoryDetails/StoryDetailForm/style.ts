@@ -1,15 +1,22 @@
 import styled from 'styled-components'
 
 export const ColumnForm = styled.div`
-  flex: 1;
   padding: 0 12px;
+  max-width: 426px;
   min-width: 426px;
+  @media only screen and (max-width: 1024px) {
+    margin-top: 20px;
+    min-width: unset;
+    max-width: unset;
+  }
 `
 
 export const ColumnPreview = styled.div`
   width: fit-content;
   padding: 0 12px;
   min-width: 450px;
+  max-width: 720px;
+  flex: 1;
 `
 
 export const FormColumnsArea = styled.div`

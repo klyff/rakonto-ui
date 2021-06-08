@@ -7,23 +7,23 @@ import { useCoverApi } from './useCoverApi'
 import { useCoverStatus } from './useCoverStatus'
 
 interface iCoverDropArea {
-  handledUploadFinish: (coverId: string | undefined) => void
+  onIdChange: (coverId: string | undefined) => void
   progress?: number
   thumbnailSrc?: string
 }
 
-const CoverDropArea: React.FC<iCoverDropArea> = ({ handledUploadFinish, thumbnailSrc }) => {
+const CoverDropArea: React.FC<iCoverDropArea> = ({ onIdChange, thumbnailSrc }) => {
   const { coverInfo, uploadProgress, isUploadingCover, uploadCover, getCoverInfo } = useCoverApi()
   const { coverProgress, isProcessingCover, startProcess } = useCoverStatus(coverInfo?.id, getCoverInfo)
   const [src, setSrc] = useState<string | undefined>(thumbnailSrc)
 
   useEffect(() => {
     if (coverInfo?.thumbnail) setSrc(coverInfo?.thumbnail)
+    onIdChange(coverInfo?.id)
   }, [coverInfo])
 
   const handleDrop = async (acceptedFiles: File[]) => {
     await uploadCover(acceptedFiles[0])
-    handledUploadFinish(coverInfo?.id)
     startProcess()
   }
 

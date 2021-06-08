@@ -10,17 +10,20 @@ interface iDropArea {
 const DropAreaWrapper = styled.div<iDropArea>`
   margin-top: 20px;
   text-align: center;
-  height: 186px;
-  width: 328px;
+  height: 124px;
+  width: 219px;
+  &.ui.placeholder.segment {
+    min-height: unset;
+  }
+  & > .ui.header,
+  & > .ui.icon.header .icon {
+    font-size: 1em;
+  }
   @media only screen and (max-width: 1024px) {
     height: 124px;
     width: 219px;
     &.ui.placeholder.segment {
       min-height: unset;
-    }
-    & > .ui.header,
-    & > .ui.icon.header .icon {
-      font-size: 1em;
     }
   }
   &.ui.placeholder.segment {
