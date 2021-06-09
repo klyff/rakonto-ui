@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { Header, Icon, Button } from 'semantic-ui-react'
 import StoryDetailForm from './StoryDetailForm'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useHistory } from 'react-router-dom'
 import StatusBox from './StatusBox'
 import { useApiStory } from './useApiStory'
 import VideoPlayer from '@root/components/suport/VideoPlayer'
@@ -23,6 +23,7 @@ interface iformikValues {
 }
 
 const StoryDetails: React.FC = () => {
+  const history = useHistory()
   const { storyId } = useParams<{ storyId: string }>()
   const { story, isLoading, setStory, updateStory } = useApiStory(storyId)
 
@@ -122,8 +123,8 @@ const StoryDetails: React.FC = () => {
                   loading={isSubmitting}
                   positive
                   onClick={() => {
-                    setFieldValue('published', true)
                     handleSubmit()
+                    history.push('/a/stories')
                   }}
                 >
                   Done

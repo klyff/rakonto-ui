@@ -25,10 +25,10 @@ const Home: React.FC = () => {
     <ContentArea>
       <Header as="h1">Home</Header>
       <Grid>
-        {items.map((card, i) => {
+        {items.map(story => {
           return (
-            <Grid.Column key={i} tablet={8} mobile={16} widescreen={4} computer={8} largeScreen={4}>
-              <StoryCard />
+            <Grid.Column key={story.id} tablet={8} mobile={16} widescreen={4} computer={8} largeScreen={4}>
+              <StoryCard story={story} />
             </Grid.Column>
           )
         })}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Input, TextArea, Select } from '@root/components/suport/FormFields'
 import { useCollectionList } from './useCollectionList'
-import { ColumnForm, ColumnPreview, FormColumnsArea } from './style'
+import { ColumnForm, ColumnPreview, FormColumnsArea, WhatchersContainer } from './style'
 import { Header, Segment, SegmentGroup, Button } from 'semantic-ui-react'
 import Whatchers from './Whatchers'
 import { WatcherType } from '@root/types'
@@ -87,10 +87,21 @@ const StoryDetailForm: React.FC<StoryDetailForm> = ({ children }) => {
               Share
             </Button>
           </Segment>
-          <Segment>
+          <WhatchersContainer>
             <Whatchers list={watchersShareField.value} onRemoveWatcher={onRemoveWatcher} />
-          </Segment>
+          </WhatchersContainer>
         </SegmentGroup>
+        <Select
+          options={[
+            { key: 'published', value: true, text: 'Published' },
+            { key: 'draft', value: false, text: 'Draft' }
+          ]}
+          label="Published"
+          name="published"
+          onKeyPress={(e: React.KeyboardEvent) => {
+            if (e.key === 'Enter') e.preventDefault()
+          }}
+        />
       </ColumnForm>
     </FormColumnsArea>
   )

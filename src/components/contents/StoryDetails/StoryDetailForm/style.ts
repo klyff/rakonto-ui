@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Segment } from 'semantic-ui-react'
 
 export const ColumnForm = styled.div`
   padding: 0 12px;
@@ -43,4 +44,9 @@ export const FormColumnsArea = styled.div`
       width: 100%;
     }
   }
+`
+
+export const WhatchersContainer = styled(Segment)`
+  height: 15em;
+  overflow: auto;
 `

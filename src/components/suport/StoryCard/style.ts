@@ -42,6 +42,7 @@ export const Description = styled(SCard.Description)`
   display: -webkit-box;
   -webkit-line-clamp: 2; /* number of lines to show */
   -webkit-box-orient: vertical;
+  height: 3em;
 `
 
 export const TextBasicEllipsis = styled(SCard.Meta)`
@@ -52,6 +53,7 @@ export const TextBasicEllipsis = styled(SCard.Meta)`
 
 export const Extra = styled.div`
   margin-top: 0.5em;
+  height: 1em;
   display: flex;
   align-items: center;
   & > .icon.audio,
