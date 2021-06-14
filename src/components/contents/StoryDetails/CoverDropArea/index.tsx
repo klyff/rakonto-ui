@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { DropAreaWrapper } from './style'
+import { DropAreaWrapper, ButtonRemove } from './style'
 import { Button, Header, Icon } from 'semantic-ui-react'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import { useCoverApi } from './useCoverApi'
 import { useCoverStatus } from './useCoverStatus'
+import { ImageType } from '@root/types'
 
 interface iCoverDropArea {
   onIdChange: (coverId: string | undefined) => void
   progress?: number
-  thumbnailSrc?: string
+  cover?: Partial<ImageType>
 }
 
-const CoverDropArea: React.FC<iCoverDropArea> = ({ onIdChange, thumbnailSrc }) => {
-  const { coverInfo, uploadProgress, isUploadingCover, uploadCover, getCoverInfo } = useCoverApi()
+const CoverDropArea: React.FC<iCoverDropArea> = ({ onIdChange, cover }) => {
+  const { coverInfo, uploadProgress, isUploadingCover, uploadCover, getCoverInfo, removeCover } = useCoverApi({ cover })
   const { coverProgress, isProcessingCover, startProcess } = useCoverStatus(coverInfo?.id, getCoverInfo)
-  const [src, setSrc] = useState<string | undefined>(thumbnailSrc)
 
   useEffect(() => {
-    if (coverInfo?.thumbnail) setSrc(coverInfo?.thumbnail)
     onIdChange(coverInfo?.id)
   }, [coverInfo])
 
@@ -37,7 +36,7 @@ const CoverDropArea: React.FC<iCoverDropArea> = ({ onIdChange, thumbnailSrc }) =
   return (
     <>
       <DropAreaWrapper
-        thumbSrc={src || ''}
+        thumbSrc={coverInfo?.thumbnail || ''}
         {...getRootProps()}
         isDragActive={isDragActive}
         isDragAccept={isDragAccept}
@@ -50,7 +49,7 @@ const CoverDropArea: React.FC<iCoverDropArea> = ({ onIdChange, thumbnailSrc }) =
         )}
         {!isUploadingCover && !isProcessingCover && (
           <>
-            {!src && (
+            {!coverInfo?.thumbnail && (
               <Header icon>
                 <Icon name="upload" />
                 Drag and drop your cover
@@ -59,9 +58,12 @@ const CoverDropArea: React.FC<iCoverDropArea> = ({ onIdChange, thumbnailSrc }) =
           </>
         )}
       </DropAreaWrapper>
-      <Button primary onClick={open}>
+      <Button type="button" primary basic onClick={open}>
         Change Cover
       </Button>
+      <ButtonRemove type="button" disabled={!coverInfo?.thumbnail} color="black" basic onClick={removeCover}>
+        Remove
+      </ButtonRemove>
     </>
   )
 }

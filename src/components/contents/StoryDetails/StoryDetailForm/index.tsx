@@ -10,9 +10,10 @@ import { api } from '@root/api'
 
 interface StoryDetailForm {
   watchers: WatcherType[]
+  storyId: string
 }
 
-const StoryDetailForm: React.FC<StoryDetailForm> = ({ children }) => {
+const StoryDetailForm: React.FC<StoryDetailForm> = ({ children, storyId }) => {
   const { collectionList, isLoading } = useCollectionList()
   const [watcherShareField, watcherShareMeta] = useField('watcherShare')
   const [watchersShareField, , watchersHelper] = useField<WatcherType[]>('watchers')
@@ -29,6 +30,10 @@ const StoryDetailForm: React.FC<StoryDetailForm> = ({ children }) => {
 
   const onRemoveWatcher = async (email: string) => {
     watchersHelper.setValue([...watchersShareField.value.filter(item => item.email !== email)], false)
+  }
+
+  const resendInvite = async (email: string) => {
+    await api.resendInvite(storyId, email)
   }
 
   return (
@@ -88,7 +93,7 @@ const StoryDetailForm: React.FC<StoryDetailForm> = ({ children }) => {
             </Button>
           </Segment>
           <WhatchersContainer>
-            <Whatchers list={watchersShareField.value} onRemoveWatcher={onRemoveWatcher} />
+            <Whatchers list={watchersShareField.value} onRemoveWatcher={onRemoveWatcher} resendInvite={resendInvite} />
           </WhatchersContainer>
         </SegmentGroup>
         <Select
@@ -96,7 +101,7 @@ const StoryDetailForm: React.FC<StoryDetailForm> = ({ children }) => {
             { key: 'published', value: true, text: 'Published' },
             { key: 'draft', value: false, text: 'Draft' }
           ]}
-          label="Published"
+          label="Status"
           name="published"
           onKeyPress={(e: React.KeyboardEvent) => {
             if (e.key === 'Enter') e.preventDefault()

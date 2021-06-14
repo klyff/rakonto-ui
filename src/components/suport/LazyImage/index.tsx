@@ -7,8 +7,8 @@ interface iLazeImage extends ImageProps {
   height: number
 }
 
-const LazyImage: React.FC<iLazeImage> = ({ height, ...rest }) => {
-  const [isLoasing, setLoading] = useState<boolean>(true)
+const LazyImage: React.FC<iLazeImage> = ({ height, src, ...rest }) => {
+  const [isLoading, setLoading] = useState<boolean>(true)
 
   const handleLoaded = () => {
     setLoading(false)
@@ -16,12 +16,8 @@ const LazyImage: React.FC<iLazeImage> = ({ height, ...rest }) => {
 
   return (
     <LazyImageWrapper className="lazyImage" height={height}>
-      <Image {...rest} onLoad={() => handleLoaded()} onError={() => handleLoaded()} />
-      {isLoasing && (
-        <Placeholder>
-          <Placeholder.Image square />
-        </Placeholder>
-      )}
+      <Image src={src || ''} {...rest} onLoad={() => handleLoaded()} onError={() => handleLoaded()} />
+      {isLoading && <Placeholder />}
     </LazyImageWrapper>
   )
 }

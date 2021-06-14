@@ -8,7 +8,7 @@ import '@silvermine/videojs-quality-selector/dist/css/quality-selector.css'
 
 videojsQualitySelector(videojs)
 
-const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview: string }> = ({ options, preview }) => {
+const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview?: string }> = ({ options, preview }) => {
   const [player, setPlayer] = useState<VideoJsPlayer | null>(null)
   const videoNode = useRef(null)
 
@@ -25,7 +25,11 @@ const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview: string 
     }
   }, [])
 
-  return <Video preview={preview} ref={videoNode} className="video-js" width="100%" />
+  return (
+    <div data-vjs-player>
+      <Video preview={preview} ref={videoNode} className="video-js" width="100%" />
+    </div>
+  )
 }
 
 export default VideoJsWrapper

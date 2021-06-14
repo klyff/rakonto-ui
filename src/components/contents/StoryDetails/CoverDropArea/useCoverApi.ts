@@ -2,16 +2,19 @@ import { useCallback, useState } from 'react'
 import { api } from '@root/api'
 import { ImageType } from '@root/types'
 
-export const useCoverApi = (): {
-  coverInfo: Partial<ImageType>
+interface iUseCoverApi {
+  coverInfo?: Partial<ImageType>
   uploadProgress: number
   isUploadingCover: boolean
   uploadCover: (file: File) => void
   getCoverInfo: (id: string) => void
-} => {
+  removeCover: () => void
+}
+
+export const useCoverApi = ({ cover }: { cover?: Partial<ImageType> }): iUseCoverApi => {
   const [isUploadingCover, setIsUploadingCover] = useState<boolean>(false)
   const [uploadProgress, setUploadProgress] = useState<number>(0)
-  const [coverInfo, setCoverInfo] = useState<Partial<ImageType>>({})
+  const [coverInfo, setCoverInfo] = useState<Partial<ImageType> | undefined>(cover)
 
   const uploadCover = async (file: File) => {
     setIsUploadingCover(true)
@@ -32,5 +35,9 @@ export const useCoverApi = (): {
     [coverInfo]
   )
 
-  return { coverInfo, uploadProgress, isUploadingCover, uploadCover, getCoverInfo }
+  const removeCover = useCallback(async () => {
+    setCoverInfo(undefined)
+  }, [coverInfo])
+
+  return { coverInfo, uploadProgress, isUploadingCover, uploadCover, getCoverInfo, removeCover }
 }

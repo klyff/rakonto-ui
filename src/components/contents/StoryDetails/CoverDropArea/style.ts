@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { Button } from 'semantic-ui-react'
 
 interface iDropArea {
   isDragActive: boolean
@@ -77,3 +78,10 @@ DropAreaWrapper.defaultProps = {
 }
 
 export { DropAreaWrapper }
+
+export const ButtonRemove = styled(Button)`
+  &.button,
+  &.ui.basic.black.button {
+    box-shadow: unset !important;
+  }
+`

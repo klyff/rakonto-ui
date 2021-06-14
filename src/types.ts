@@ -67,7 +67,7 @@ export enum Resolutions {
   '1028p' = '1028p'
 }
 
-export type Video = {
+export type Media = {
   id: string
   info: Partial<{
     [key: string]: string | number | null
@@ -91,16 +91,22 @@ export type Thumbnail = {
 export type VideoDetails = {
   id: string
   processedAt?: Date
-  alternatives: Partial<Record<Resolutions, Video[]>>
+  alternatives: Partial<Record<Resolutions, Media[]>>
   gifs: Partial<Record<Resolutions, Gif[]>>
   thumbnails: Partial<Record<Resolutions, Thumbnail[]>>
   thumbnail: string
 }
 
+export type AudioDetails = {
+  id: string
+  processedAt: Date
+  alternatives: Media[]
+}
+
 export type StoryType = {
-  audio?: string
+  audio?: AudioDetails
   collections: CollectionType[]
-  cover?: string
+  cover?: { id?: string }
   description?: string
   id?: string
   thumbnail: string

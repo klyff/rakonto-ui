@@ -29,6 +29,9 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
         <Route exact path="/a/stories/new">
           <StoryNew />
         </Route>
+        <Route exact path="/a/stories/:storyId/edit">
+          <StoryDetails />
+        </Route>
         <Route exact path="/a/stories/:storyId">
           <StoryDetails />
         </Route>

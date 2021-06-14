@@ -27,11 +27,11 @@ export const Card = styled(SCard)`
     bottom: 0;
   }
 
-  & > .lazyImage > .image.video > img::after {
+  & > .lazyImage > .ui.image.video > img::after {
     background-image: url(${PlaceholderVideo});
   }
 
-  & > .lazyImage > .image.audio > img::after {
+  & > .lazyImage > .ui.image.audio > img::after {
     background-image: url(${PlaceholderAudio});
   }
 `

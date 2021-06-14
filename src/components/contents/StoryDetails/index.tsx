@@ -4,7 +4,7 @@ import StoryDetailForm from './StoryDetailForm'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import StatusBox from './StatusBox'
 import { useApiStory } from './useApiStory'
-import VideoPlayer from '@root/components/suport/VideoPlayer'
+import Player from '@root/components/suport/Player'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import { PreviewBox, Footer } from './style'
 import { ContentArea } from '../style'
@@ -15,7 +15,7 @@ import schema from './schema'
 
 interface iformikValues {
   title: string
-  collections: CollectionType[]
+  collections: string[]
   watchers: WatcherType[]
   description: string
   watcherShare: string
@@ -36,10 +36,12 @@ const StoryDetails: React.FC = () => {
     type,
     ready,
     video,
-    cover,
+    audio,
+    cover = { id: '' },
     thumbnail
   } = story
-  const [coverId, setCoverId] = useState<string | undefined>('')
+
+  const [coverId, setCoverId] = useState<string | undefined>()
 
   const submit = useCallback(
     async (values: iformikValues) => {
@@ -54,10 +56,10 @@ const StoryDetails: React.FC = () => {
             return !values.watchers.some((item: WatcherType) => item.email === watcher.email)
           })
           .map((watcher: WatcherType) => watcher.email),
-        collectionsToAdd: values.collections.map((collection: CollectionType) => collection.id),
+        collectionsToAdd: values.collections,
         collectionsToRemove: collections
           ?.filter((collection: CollectionType) => {
-            return !values.collections.some((item: CollectionType) => item.id === collection.id)
+            return !values.collections.some((item: string) => item === collection.id)
           })
           .map((collection: CollectionType) => collection.id)
       }
@@ -68,7 +70,7 @@ const StoryDetails: React.FC = () => {
 
   const initialValues: iformikValues = {
     title: title || '',
-    collections: collections || [],
+    collections: collections.map((collection: CollectionType) => collection.id) || [],
     watchers: watchers || [],
     description: description || '',
     watcherShare: '',
@@ -79,14 +81,14 @@ const StoryDetails: React.FC = () => {
     <LoadingArea isLoading={isLoading}>
       <ContentArea>
         <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
-          {({ isSubmitting, setFieldValue, handleSubmit }) => (
+          {({ isSubmitting, handleSubmit }) => (
             <Form>
               <Link to={'/a/stories'}>
                 <Icon name="arrow left" />
                 Back
               </Link>
               <Header as="h1">Story</Header>
-              <StoryDetailForm watchers={watchers}>
+              <StoryDetailForm watchers={watchers} storyId={storyId}>
                 <PreviewBox>
                   <>
                     {!ready && (
@@ -108,10 +110,10 @@ const StoryDetails: React.FC = () => {
                         }}
                       />
                     )}
-                    {ready && <VideoPlayer video={video} cover={cover} />}
+                    {ready && <Player type={story.type} media={video || audio} cover={thumbnail} />}
                   </>
                 </PreviewBox>
-                <CoverDropArea onIdChange={setCoverId} thumbnailSrc={thumbnail} />
+                <CoverDropArea onIdChange={setCoverId} cover={cover} />
               </StoryDetailForm>
               <Footer>
                 <Button type="submit" primary id="save" loading={isSubmitting}>

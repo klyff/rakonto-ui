@@ -48,5 +48,16 @@ export const FormColumnsArea = styled.div`
 
 export const WhatchersContainer = styled(Segment)`
   height: 15em;
-  overflow: auto;
+  overflow-y: auto;
+`
+
+export const Actions = styled.div`
+  display: table-cell;
+  vertical-align: middle;
+  div {
+    display: flex;
+    i {
+      cursor: pointer;
+    }
+  }
 `

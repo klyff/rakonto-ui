@@ -30,25 +30,26 @@ const Stories: React.FC = () => {
           return (
             <Grid.Column key={story.id} tablet={8} mobile={16} widescreen={4} computer={8} largeScreen={4}>
               <StoryCard
+                showAutor={false}
                 story={story}
                 actions={
                   <>
-                    <Dropdown icon="ellipsis vertical">
+                    <Dropdown pointing="bottom right" icon="ellipsis vertical">
                       <Dropdown.Menu>
                         <Dropdown.Item
                           text="Edit"
                           icon="pencil"
-                          onClick={() => history.push(`/a/stories/${story.id}`)}
+                          onClick={() => history.push(`/a/stories/${story.id}/edit`)}
                         />
                         <Dropdown.Item
                           text="Delete Forever"
                           icon="trash"
-                          onClick={() => history.push(`/a/stories/${story.id}`)}
+                          onClick={() => history.push(`/a/stories/${story.id}/edit`)}
                         />
                         <Dropdown.Item
                           text="Download"
                           icon="download"
-                          onClick={() => history.push(`/a/stories/${story.id}`)}
+                          onClick={() => history.push(`/a/stories/${story.id}/edit`)}
                         />
                       </Dropdown.Menu>
                     </Dropdown>

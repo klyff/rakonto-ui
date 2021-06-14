@@ -14,7 +14,7 @@ const StatusBox: React.FC<iStatusBox> = ({ type, videoId, onComplete }) => {
 
   return (
     <StatusBoxWrapper>
-      <Icon name={`file` as SemanticICONS} size="huge" />
+      <Icon name={`file ${type?.toLowerCase()}` as SemanticICONS} size="huge" />
       <div>
         <Header>File processing....</Header>
         <Progress percent={storyProgress} success active size="small" progress="percent" />
