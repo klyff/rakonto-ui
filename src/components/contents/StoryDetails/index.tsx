@@ -122,7 +122,6 @@ const StoryDetails: React.FC = () => {
                 <Button
                   id="publish"
                   type="button"
-                  loading={isSubmitting}
                   positive
                   onClick={() => {
                     handleSubmit()

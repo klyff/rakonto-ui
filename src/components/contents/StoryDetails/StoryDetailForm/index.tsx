@@ -7,6 +7,8 @@ import Whatchers from './Whatchers'
 import { WatcherType } from '@root/types'
 import { useField } from 'formik'
 import { api } from '@root/api'
+import { useSetRecoilState } from 'recoil'
+import { basicModalState } from '@root/components/modals/BasicModal'
 
 interface StoryDetailForm {
   watchers: WatcherType[]
@@ -15,6 +17,7 @@ interface StoryDetailForm {
 
 const StoryDetailForm: React.FC<StoryDetailForm> = ({ children, storyId }) => {
   const { collectionList, isLoading } = useCollectionList()
+  const setBasicModalState = useSetRecoilState(basicModalState)
   const [watcherShareField, watcherShareMeta] = useField('watcherShare')
   const [watchersShareField, , watchersHelper] = useField<WatcherType[]>('watchers')
 
@@ -33,7 +36,16 @@ const StoryDetailForm: React.FC<StoryDetailForm> = ({ children, storyId }) => {
   }
 
   const resendInvite = async (email: string) => {
-    await api.resendInvite(storyId, email)
+    try {
+      await api.resendInvite(storyId, email)
+      setBasicModalState({
+        open: true,
+        title: 'Resend email',
+        content: <>Invite email sent again to {email}!</>
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (

@@ -47,7 +47,7 @@ export const FormColumnsArea = styled.div`
 `
 
 export const WhatchersContainer = styled(Segment)`
-  height: 15em;
+  height: 28em;
   overflow-y: auto;
 `
 

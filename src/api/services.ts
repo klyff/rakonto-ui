@@ -101,7 +101,6 @@ export const createStory =
 export const updateStory =
   (request: AxiosInstance) =>
   async (id: string, data: Partial<StoryUpdateType>): Promise<StoryType> => {
-    console.log(data)
     const response = await request.put(`a/stories/${id}`, data)
     return response.data
   }
@@ -141,5 +140,5 @@ export const getWatcher =
 export const resendInvite =
   (request: AxiosInstance) =>
   async (id: string, email: string): Promise<void> => {
-    return await request.get(`/api/a/stories/${id}/watcher/${email}/resend-invite`)
+    return await request.get(`/a/stories/${id}/watcher/${email}/resend-invite`)
   }

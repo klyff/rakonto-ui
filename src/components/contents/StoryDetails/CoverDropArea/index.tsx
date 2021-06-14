@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { DropAreaWrapper, ButtonRemove } from './style'
 import { Button, Header, Icon } from 'semantic-ui-react'
