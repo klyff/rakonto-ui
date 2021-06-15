@@ -140,5 +140,5 @@ export const getWatcher =
 export const resendInvite =
   (request: AxiosInstance) =>
   async (id: string, email: string): Promise<void> => {
-    return await request.get(`/a/stories/${id}/watcher/${email}/resend-invite`)
+    return await request.post(`/a/stories/${id}/watcher/${email}/resend-invite`)
   }
