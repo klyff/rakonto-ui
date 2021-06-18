@@ -116,6 +116,7 @@ export type StoryType = {
   type?: MediaType
   video?: VideoDetails
   watchers?: WatcherType[]
+  persons: PersonType[]
 }
 
 export type StoryUpdateType = {
@@ -156,4 +157,17 @@ export type ImageType = {
 export type WatcherType = {
   email: string
   user: UserType
+}
+
+export type PersonFormType = {
+  name: string
+  description: string
+  pictureId: string
+}
+
+export type PersonType = {
+  id: string
+  name: string
+  description: string
+  picture: ImageType
 }

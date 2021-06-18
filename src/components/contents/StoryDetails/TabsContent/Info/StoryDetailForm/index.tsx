@@ -1,7 +1,8 @@
 import React from 'react'
 import { Input, TextArea, Select } from '@root/components/suport/FormFields'
 import { useCollectionList } from './useCollectionList'
-import { ColumnForm, ColumnPreview, FormColumnsArea, WhatchersContainer } from './style'
+import { FormColumnsArea, WhatchersContainer, ColumnForm } from './style'
+import { ColumnPreview } from '../../style'
 import { Header, Segment, SegmentGroup, Button } from 'semantic-ui-react'
 import Whatchers from './Whatchers'
 import { WatcherType } from '@root/types'
@@ -63,7 +64,7 @@ const StoryDetailForm: React.FC<StoryDetailForm> = ({ children, storyId }) => {
           name="description"
           label="Description"
           placeholder="Talk about your video"
-          rows={10}
+          rows={26}
           onKeyPress={(e: React.KeyboardEvent) => {
             if (e.key === 'Enter') e.preventDefault()
           }}

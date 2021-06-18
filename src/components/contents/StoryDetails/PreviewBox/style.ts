@@ -1,5 +1,13 @@
 import styled from 'styled-components'
 
+export const PreviewBox = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  min-width: 426px;
+  min-height: 240px;
+  position: relative;
+`
+
 export const StatusBoxWrapper = styled.div`
   width: 100%;
   position: absolute;

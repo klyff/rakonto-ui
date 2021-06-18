@@ -1,28 +1,20 @@
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
 
-export const ColumnForm = styled.div`
-  padding: 0 12px;
+import { ColumnForm as SColumnForm } from '../../style'
+
+export const ColumnForm = styled(SColumnForm)`
   max-width: 426px;
   min-width: 426px;
   @media only screen and (max-width: 1024px) {
-    margin-top: 20px;
-    min-width: unset;
     max-width: unset;
+    min-width: unset;
   }
-`
-
-export const ColumnPreview = styled.div`
-  width: fit-content;
-  padding: 0 12px;
-  min-width: 450px;
-  max-width: 720px;
-  flex: 1;
 `
 
 export const FormColumnsArea = styled.div`
   display: flex;
-  margin-bottom: 50px;
+  overflow: auto;
   & > div:last-child {
     margin-top: 20px;
   }
@@ -30,6 +22,7 @@ export const FormColumnsArea = styled.div`
     flex-direction: column;
     align-items: center;
     flex-flow: column;
+    height: calc(100vh - 300px);
     & :nth-child(1) {
       order: 2;
     }
@@ -47,7 +40,7 @@ export const FormColumnsArea = styled.div`
 `
 
 export const WhatchersContainer = styled(Segment)`
-  height: 28em;
+  height: 26em;
   overflow-y: auto;
 `
 

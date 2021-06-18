@@ -11,8 +11,8 @@ interface iUserList {
 }
 
 const Whatchers: React.FC<iUserList> = ({ list, onRemoveWatcher, resendInvite }) => {
-  const { initialValues } = useFormikContext<{ watchers: UserType[] }>()
-
+  const { initialValues } = useFormikContext<{ watchers: UserType[]; published: boolean }>()
+  console.log(initialValues)
   return (
     <List divided relaxed>
       {list.map(({ email, user }) => (
@@ -33,7 +33,9 @@ const Whatchers: React.FC<iUserList> = ({ list, onRemoveWatcher, resendInvite })
               <Dropdown.Menu>
                 <Dropdown.Item text="Remove" icon="close" onClick={() => onRemoveWatcher(email)} />
                 <Dropdown.Item
-                  disabled={!initialValues.watchers.some(watcher => watcher.email === email)}
+                  disabled={
+                    !(initialValues.published && initialValues.watchers.some(watcher => watcher.email === email))
+                  }
                   text="Resend invite"
                   icon="mail outline"
                   onClick={() => resendInvite(email)}

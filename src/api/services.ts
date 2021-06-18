@@ -10,9 +10,12 @@ import {
   AuthType,
   CollectionType,
   Pageable,
-  WatcherType
+  WatcherType,
+  PersonType,
+  PersonFormType
 } from '@root/types'
 
+// User api
 export const getMe = (request: AxiosInstance) => async (): Promise<UserType> => {
   try {
     const response = await request.get('/a/me')
@@ -69,6 +72,7 @@ export const requestPasswordReset =
     await request.post(`u/password-reset`, { email })
   }
 
+// Story api
 export const searchStories = (request: AxiosInstance) => async (): Promise<any[]> => {
   return Promise.resolve(new Array(10).fill('x'))
 }
@@ -105,6 +109,27 @@ export const updateStory =
     return response.data
   }
 
+export const getCollections =
+  (request: AxiosInstance) =>
+  async (page: number, size: number): Promise<Pageable<CollectionType>> => {
+    const response = await request.get(`/a/collections?page=${page}&size=${size}`)
+    return response.data
+  }
+
+export const getWatcher =
+  (request: AxiosInstance) =>
+  async (email: string): Promise<WatcherType> => {
+    const response = await request.get(`/a/watchers/${email}`)
+    return response.data
+  }
+
+export const resendInvite =
+  (request: AxiosInstance) =>
+  async (id: string, email: string): Promise<void> => {
+    return await request.get(`/a/stories/${id}/watcher/${email}/resend-invite`)
+  }
+
+// Image api
 export const uploadImage =
   (request: AxiosInstance) =>
   async (file: File, progressCallback: (progress: { total: number; loaded: number }) => void): Promise<ImageType> => {
@@ -123,22 +148,39 @@ export const getImage =
     return response.data
   }
 
-export const getCollections =
+// Person api
+export const getPerson =
   (request: AxiosInstance) =>
   async (page: number, size: number): Promise<Pageable<CollectionType>> => {
     const response = await request.get(`/a/collections?page=${page}&size=${size}`)
     return response.data
   }
 
-export const getWatcher =
+export const createPerson =
   (request: AxiosInstance) =>
-  async (email: string): Promise<WatcherType> => {
-    const response = await request.get(`/a/watchers/${email}`)
+  async (data: PersonFormType): Promise<PersonType> => {
+    const response = await request.post(`/a/persons`, data)
     return response.data
   }
 
-export const resendInvite =
+export const updatePerson =
   (request: AxiosInstance) =>
-  async (id: string, email: string): Promise<void> => {
-    return await request.post(`/a/stories/${id}/watcher/${email}/resend-invite`)
+  async (data: PersonFormType): Promise<PersonType> => {
+    const response = await request.put(`/a/persons`, data)
+    return response.data
+  }
+
+export const uploadPicture =
+  (request: AxiosInstance) =>
+  async (
+    id: string,
+    file: File,
+    progressCallback?: (progress: { total: number; loaded: number }) => void
+  ): Promise<ImageType> => {
+    const data = new FormData()
+    data.append('file', file)
+    const response = await request.post<ImageType>(`/a/persons/${id}/picture`, data, {
+      onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
+    })
+    return response.data
   }
