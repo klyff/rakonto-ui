@@ -7,8 +7,9 @@ import Modal from '../ModalBasicLayout'
 const FormModal: React.FC = () => {
   const [{ open, content, title, type, onClose, initialValues, validationSchema, onSubmit }, setOpen] =
     useRecoilState(formModalState)
-  const close = () => {
-    if (onClose) onClose()
+
+  const close = (isSuccess: boolean) => {
+    if (onClose) onClose(isSuccess)
     setOpen({
       open: false,
       title: '',
@@ -19,19 +20,21 @@ const FormModal: React.FC = () => {
       onSubmit: () => undefined
     })
   }
+
   const submit = (values: FormikValues) => {
     onSubmit(values)
-    close()
   }
 
   return (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submit}>
       {({ submitForm }) => {
-        const handleClose = async () => {
-          await submitForm()
-          close()
+        const handleClose = async (isSuccess: boolean) => {
+          if (isSuccess) await submitForm()
+          close(isSuccess)
         }
-        return <Modal open={open} content={content} title={title} type={type} onClose={handleClose} />
+        return (
+          <Modal open={open} content={content} title={title} type={type} onClose={handleClose} isConfirmation={false} />
+        )
       }}
     </Formik>
   )

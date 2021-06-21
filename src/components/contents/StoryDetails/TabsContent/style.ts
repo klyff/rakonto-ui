@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const Layout = styled.div`
   display: flex;
   overflow: auto;
+  height: calc(100% - 57px);
   & > div:last-child {
     margin-top: 20px;
   }
@@ -10,7 +11,8 @@ export const Layout = styled.div`
     flex-direction: column;
     align-items: center;
     flex-flow: column;
-    height: calc(100vh - 300px);
+    overflow-x: hidden;
+    height: calc(100% - 136px);
     & :nth-child(1) {
       order: 2;
     }
@@ -22,11 +24,16 @@ export const Layout = styled.div`
       width: 100%;
     }
   }
+
+  @media only screen and (max-width: 767px) {
+    height: calc(100% - 400px);
+  }
 `
 
 export const ColumnForm = styled.div`
   padding: 0 12px;
   flex: 1;
+  height: inherit;
   @media only screen and (max-width: 1024px) {
     flex: unset;
     margin-top: 20px;

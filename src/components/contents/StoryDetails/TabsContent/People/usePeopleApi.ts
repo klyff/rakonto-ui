@@ -1,20 +1,52 @@
 import { useState } from 'react'
 import { api } from '@root/api'
-import { PersonFormType } from '@root/types'
+import { PersonType } from '@root/types'
 
 interface iUsePeopleApi {
-  createPerson: (data: PersonFormType) => void
-  updatePerson: (data: PersonFormType) => void
+  getPersonList: (name: string) => void
+  clearPersonList: () => void
+  addPerson: (storyId: string, personId: string) => void
+  removePerson: (storyId: string, personId: string) => void
+  personList: PersonType[]
+  loadingPeopleList: boolean
 }
 
 export const usePeopleApi = (): iUsePeopleApi => {
-  const createPerson = async (data: PersonFormType) => {
-    await api.createPerson(data)
+  const [personList, setPersonList] = useState<PersonType[]>([])
+  const [loadingPeopleList, setLoadingPeopleList] = useState<boolean>(false)
+
+  const addPerson = async (storyId: string, personId: string) => {
+    await api.addPersonToStory(storyId, personId)
   }
 
-  const updatePerson = async (data: PersonFormType) => {
-    await api.updatePerson(data)
+  const removePerson = async (storyId: string, personId: string) => {
+    await api.removePersonFromStory(storyId, personId)
   }
 
-  return { updatePerson, createPerson }
+  const clearPersonList = () => {
+    setPersonList([])
+  }
+
+  const getPersonList = async (name: string) => {
+    setLoadingPeopleList(true)
+    try {
+      if (!name) {
+        setPersonList([])
+        return
+      }
+      const result = await api.getPersons(0, 1000, name)
+      setPersonList(result.content)
+    } finally {
+      setLoadingPeopleList(false)
+    }
+  }
+
+  return {
+    getPersonList,
+    personList,
+    loadingPeopleList,
+    removePerson,
+    addPerson,
+    clearPersonList
+  }
 }

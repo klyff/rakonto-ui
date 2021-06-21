@@ -5,10 +5,10 @@ import Modal from '../ModalBasicLayout'
 import { basicModalState } from './state'
 
 const BasicModal: React.FC = () => {
-  const [{ open, content, title, type, onClose }, setOpen] = useRecoilState(basicModalState)
+  const [{ open, content, title, type, onClose, isConfirmation }, setOpen] = useRecoilState(basicModalState)
 
-  const handleClose = () => {
-    if (onClose) onClose()
+  const handleClose = (isSuccess: boolean) => {
+    if (onClose) onClose(isSuccess)
     setOpen({
       open: false,
       title: '',
@@ -17,7 +17,16 @@ const BasicModal: React.FC = () => {
     })
   }
 
-  return <Modal open={open} content={content} title={title} type={type} onClose={handleClose} />
+  return (
+    <Modal
+      open={open}
+      content={content}
+      title={title}
+      type={type}
+      onClose={handleClose}
+      isConfirmation={isConfirmation || false}
+    />
+  )
 }
 
 export default BasicModal

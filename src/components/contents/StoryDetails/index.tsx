@@ -25,7 +25,7 @@ const StoryDetails: React.FC = () => {
   const { tab } = parsedQs
 
   const { storyId } = useParams<{ storyId: string; tab: string }>()
-  const { story, isLoading, setStory, updateStory } = useApiStory(storyId)
+  const { story, isLoading, setStory, updateStory, refresh } = useApiStory(storyId)
 
   const { type, ready, video, audio, thumbnail, persons } = story
 
@@ -78,21 +78,7 @@ const StoryDetails: React.FC = () => {
         return <Places />
       case 'people':
         return (
-          <People
-            persons={[
-              {
-                id: '1',
-                description: 'http://192.168.9.1',
-                name: 'João da luz',
-                picture: {
-                  id: '1231',
-                  thumbnail: '1231',
-                  processedAt: new Date(),
-                  thumbnails: []
-                }
-              }
-            ]}
-          >
+          <People storyId={storyId} persons={persons} refresh={refresh} isLoading={isLoading}>
             {PreviewComponent}
           </People>
         )
@@ -108,7 +94,7 @@ const StoryDetails: React.FC = () => {
         return <Links />
       default:
         return (
-          <Info story={story} updateStory={updateStory}>
+          <Info story={story} updateStory={updateStory} isLoading={isLoading}>
             {PreviewComponent}
           </Info>
         )
@@ -116,17 +102,15 @@ const StoryDetails: React.FC = () => {
   }
 
   return (
-    <LoadingArea isLoading={isLoading}>
-      <ContentArea>
-        <Link to={'/a/stories'}>
-          <Icon name="arrow left" />
-          Back
-        </Link>
-        <Header as="h1">Story</Header>
-        <Menu tab={tab as string} onChange={handleTabChange} />
-        {stiwchRender()}
-      </ContentArea>
-    </LoadingArea>
+    <ContentArea>
+      <Link to={'/a/stories'}>
+        <Icon name="arrow left" />
+        Back
+      </Link>
+      <Header as="h1">Story</Header>
+      <Menu tab={tab as string} onChange={handleTabChange} />
+      {stiwchRender()}
+    </ContentArea>
   )
 }
 

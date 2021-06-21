@@ -5,8 +5,9 @@ interface iBasicModalState {
   open: boolean
   title: string
   content: string | ReactNode
+  isConfirmation?: boolean
   type?: 'default' | 'error' | 'warning'
-  onClose?: () => void
+  onClose?: (isSuccess: boolean) => void
 }
 
 export const basicModalState = atom<iBasicModalState>({

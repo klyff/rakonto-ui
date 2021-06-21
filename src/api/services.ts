@@ -129,6 +129,18 @@ export const resendInvite =
     return await request.get(`/a/stories/${id}/watcher/${email}/resend-invite`)
   }
 
+export const addPersonToStory =
+  (request: AxiosInstance) =>
+  async (id: string, personId: string): Promise<void> => {
+    return await request.post(`/a/stories/${id}/add-person`, { personId })
+  }
+
+export const removePersonFromStory =
+  (request: AxiosInstance) =>
+  async (id: string, personId: string): Promise<void> => {
+    return await request.post(`/a/stories/${id}/remove-person`, { personId })
+  }
+
 // Image api
 export const uploadImage =
   (request: AxiosInstance) =>
@@ -149,10 +161,10 @@ export const getImage =
   }
 
 // Person api
-export const getPerson =
+export const getPersons =
   (request: AxiosInstance) =>
-  async (page: number, size: number): Promise<Pageable<CollectionType>> => {
-    const response = await request.get(`/a/collections?page=${page}&size=${size}`)
+  async (page: number, size: number, name?: string): Promise<Pageable<PersonType>> => {
+    const response = await request.get(`/a/persons?page=${page}&size=${size}${name ? `&name=${name}` : ''}`)
     return response.data
   }
 
@@ -165,8 +177,8 @@ export const createPerson =
 
 export const updatePerson =
   (request: AxiosInstance) =>
-  async (data: PersonFormType): Promise<PersonType> => {
-    const response = await request.put(`/a/persons`, data)
+  async (id: string, data: PersonFormType): Promise<PersonType> => {
+    const response = await request.put(`/a/persons/${id}`, data)
     return response.data
   }
 

@@ -7,10 +7,12 @@ import CoverDropArea from './CoverDropArea'
 import { CollectionType, StoryType, StoryUpdateType, WatcherType } from '@root/types'
 import { Formik, Form } from 'formik'
 import schema from './schema'
+import LoadingArea from '@root/components/suport/LoadingArea'
 
 interface iInfo {
   story: Partial<StoryType>
   updateStory: (newValues: Partial<StoryUpdateType>) => void
+  isLoading: boolean
 }
 
 interface iformikValues {
@@ -22,7 +24,7 @@ interface iformikValues {
   published: boolean
 }
 
-const StoryDetails: React.FC<iInfo> = ({ story, updateStory, children }) => {
+const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children }) => {
   const history = useHistory()
 
   const {
@@ -72,32 +74,34 @@ const StoryDetails: React.FC<iInfo> = ({ story, updateStory, children }) => {
   }
 
   return (
-    <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
-      {({ isSubmitting, handleSubmit }) => (
-        <Form>
-          <StoryDetailForm watchers={watchers} storyId={id || ''}>
-            {children}
-            <CoverDropArea onIdChange={setCoverId} cover={cover} />
-          </StoryDetailForm>
-          <Footer>
-            <Button type="submit" primary id="save" loading={isSubmitting}>
-              Save
-            </Button>
-            <Button
-              id="publish"
-              type="button"
-              positive
-              onClick={() => {
-                handleSubmit()
-                history.push('/a/stories')
-              }}
-            >
-              Done
-            </Button>
-          </Footer>
-        </Form>
-      )}
-    </Formik>
+    <LoadingArea isLoading={isLoading}>
+      <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
+        {({ isSubmitting, handleSubmit }) => (
+          <Form>
+            <StoryDetailForm watchers={watchers} storyId={id || ''}>
+              {children}
+              <CoverDropArea onIdChange={setCoverId} cover={cover} />
+            </StoryDetailForm>
+            <Footer>
+              <Button type="submit" primary id="save" loading={isSubmitting}>
+                Save
+              </Button>
+              <Button
+                id="publish"
+                type="button"
+                positive
+                onClick={() => {
+                  handleSubmit()
+                  history.push('/a/stories')
+                }}
+              >
+                Done
+              </Button>
+            </Footer>
+          </Form>
+        )}
+      </Formik>
+    </LoadingArea>
   )
 }
 

@@ -1,21 +1,17 @@
 import { Button, Header, Modal as SModal, SemanticCOLORS, SemanticICONS } from 'semantic-ui-react'
 import React, { ReactNode } from 'react'
-import styled from 'styled-components'
+import { ModalDescription } from './style'
 
 interface iModal {
   open: boolean
   title: string
   content: string | ReactNode
+  isConfirmation: boolean
   type?: 'default' | 'error' | 'warning'
-  onClose?: () => void
+  onClose: (success: boolean) => void
 }
 
-const ModalDescription = styled(SModal.Description)`
-  word-break: break-word;
-  width: fit-content;
-`
-
-const ModalBasicLayout: React.FC<iModal> = ({ open, content, title, type, onClose }) => {
+const ModalBasicLayout: React.FC<iModal> = ({ open, isConfirmation, content, title, type, onClose }) => {
   const headerProps: Partial<{ icon: SemanticICONS; color: SemanticCOLORS }> = {}
   const buttonProps: Partial<{ basic: boolean; color: SemanticCOLORS; positive: boolean }> = {}
 
@@ -44,9 +40,21 @@ const ModalBasicLayout: React.FC<iModal> = ({ open, content, title, type, onClos
         <ModalDescription>{content}</ModalDescription>
       </SModal.Content>
       <SModal.Actions>
-        <Button onClick={onClose} {...buttonProps}>
-          Ok
-        </Button>
+        {!isConfirmation && (
+          <Button onClick={() => onClose && onClose(false)} {...buttonProps}>
+            Ok
+          </Button>
+        )}
+        {isConfirmation && (
+          <>
+            <Button onClick={() => onClose && onClose(false)} basic>
+              Cancel
+            </Button>
+            <Button onClick={() => onClose && onClose(true)} {...buttonProps}>
+              Confirm
+            </Button>
+          </>
+        )}
       </SModal.Actions>
     </SModal>
   )

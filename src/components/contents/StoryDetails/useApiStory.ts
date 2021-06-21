@@ -10,6 +10,7 @@ export const useApiStory = (
   setStory: Dispatch<SetStateAction<Partial<StoryType>>>
   isLoading: boolean
   isSaving: boolean
+  refresh: () => void
 } => {
   const [story, setStory] = useState<Partial<StoryType>>({})
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -40,5 +41,5 @@ export const useApiStory = (
     getStory()
   }, [])
 
-  return { story, updateStory, setStory, isLoading, isSaving }
+  return { story, updateStory, setStory, isLoading, isSaving, refresh: getStory }
 }

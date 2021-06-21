@@ -7,7 +7,8 @@ interface iFormModalState {
   title: string
   content: string | ReactNode
   type?: 'default' | 'error' | 'warning'
-  onClose?: () => void
+  isConfirmation?: boolean
+  onClose?: (isSuccess: boolean) => void
   initialValues: FormikValues
   validationSchema: unknown
   onSubmit: (values: FormikValues) => void

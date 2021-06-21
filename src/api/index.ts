@@ -18,8 +18,11 @@ import {
   uploadImage,
   getWatcher,
   resendInvite,
+  getPersons,
   updatePerson,
-  createPerson
+  createPerson,
+  addPersonToStory,
+  removePersonFromStory
 } from './services'
 import { history } from '../App'
 
@@ -69,6 +72,9 @@ export const api = {
   getWatcher: getWatcher(request),
   getCollections: getCollections(request),
   resendInvite: resendInvite(request),
+  getPersons: getPersons(request),
   updatePerson: updatePerson(request),
-  createPerson: createPerson(request)
+  createPerson: createPerson(request),
+  addPersonToStory: addPersonToStory(request),
+  removePersonFromStory: removePersonFromStory(request)
 }
