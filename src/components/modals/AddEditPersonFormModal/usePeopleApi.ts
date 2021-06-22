@@ -1,14 +1,15 @@
 import { api } from '@root/api'
-import { PersonFormType } from '@root/types'
+import { PersonFormType, PersonType } from '@root/types'
 
 interface iUsePeopleApi {
-  createPerson: (data: PersonFormType) => void
+  createPerson: (data: PersonFormType) => Promise<PersonType>
   updatePerson: (id: string, data: PersonFormType) => void
 }
 
 export const usePeopleApi = (): iUsePeopleApi => {
   const createPerson = async (data: PersonFormType) => {
-    await api.createPerson(data)
+    const person = await api.createPerson(data)
+    return person
   }
 
   const updatePerson = async (id: string, data: PersonFormType) => {

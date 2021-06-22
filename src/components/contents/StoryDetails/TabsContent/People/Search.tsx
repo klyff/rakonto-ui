@@ -29,9 +29,9 @@ const Search: React.FC<iSearch> = ({ personList, onChange, onSelected, loading }
     <SSearch
       fluid
       loading={loading}
-      resultRenderer={({ name, photo }: SearchResultProps) => (
+      resultRenderer={({ name, picture }: SearchResultProps) => (
         <SearchItem>
-          <Avatar name={name} src={photo} size="small" />
+          <Avatar name={name} src={picture?.thumbnail} size="small" />
           {name}
         </SearchItem>
       )}

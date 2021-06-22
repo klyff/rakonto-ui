@@ -21,11 +21,7 @@ interface iPeople {
 
 const People: React.FC<iPeople> = ({ storyId, children, isLoading, refresh, persons = [] }) => {
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const [editPerson, setEditPerson] = useState<{ name: string; link: string; id?: string; picture: string }>({
-    name: '',
-    link: '',
-    picture: ''
-  })
+  const [editPerson, setEditPerson] = useState<PersonType | null>(null)
   const setBasicModalState = useSetRecoilState(basicModalState)
   const { personList, loadingPeopleList, addPerson, getPersonList, clearPersonList, removePerson } = usePeopleApi()
 
@@ -73,12 +69,7 @@ const People: React.FC<iPeople> = ({ storyId, children, isLoading, refresh, pers
 
   const addEditPerson = (person?: PersonType) => {
     setOpenModal(true)
-    setEditPerson({
-      name: person?.name || '',
-      picture: person?.picture?.id || '',
-      link: person?.description || '',
-      id: person?.id || ''
-    })
+    setEditPerson(person || null)
   }
 
   return (
@@ -104,13 +95,13 @@ const People: React.FC<iPeople> = ({ storyId, children, isLoading, refresh, pers
         isEdit={false}
         open={openModal}
         person={editPerson}
-        onClose={() => {
+        onClose={async person => {
+          if (person) {
+            await addPerson(storyId, person.id)
+          }
           setOpenModal(false)
-          setEditPerson({
-            name: '',
-            link: '',
-            picture: ''
-          })
+          setEditPerson(null)
+          refresh()
         }}
       />
     </Layout>
