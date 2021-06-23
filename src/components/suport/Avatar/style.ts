@@ -3,10 +3,18 @@ import styled, { css } from 'styled-components'
 interface iAvatarWrapper {
   size: 'small' | 'medium' | 'large'
   borderless: boolean
+  image?: string
 }
 
 export const AvatarWrapper = styled.div<iAvatarWrapper>`
   border-radius: 10em;
+  ${({ image }) =>
+    image &&
+    css`
+      background-image: url(${image});
+      background-position: center;
+      background-size: cover;
+    `}
   ${({ borderless }) =>
     !borderless &&
     css`

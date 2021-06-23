@@ -21,8 +21,7 @@ interface iAvatar {
 const Avatar: React.FC<iAvatar> = ({ name, size = 'medium', src }) => {
   const hasImage = !!src
   return (
-    <AvatarWrapper className="avatar" size={size} borderless={hasImage}>
-      {hasImage && <Image src={src} circular />}
+    <AvatarWrapper className="avatar" image={src} size={size} borderless={hasImage}>
       {!hasImage && <span>{getInitials(name)}</span>}
     </AvatarWrapper>
   )
