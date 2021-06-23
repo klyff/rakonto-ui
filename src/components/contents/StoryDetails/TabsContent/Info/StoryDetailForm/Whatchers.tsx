@@ -12,7 +12,7 @@ interface iUserList {
 
 const Whatchers: React.FC<iUserList> = ({ list, onRemoveWatcher, resendInvite }) => {
   const { initialValues } = useFormikContext<{ watchers: UserType[]; published: boolean }>()
-  console.log(initialValues)
+
   return (
     <List divided relaxed>
       {list.map(({ email, user }) => (
