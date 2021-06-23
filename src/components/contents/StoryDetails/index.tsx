@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Header, Icon } from 'semantic-ui-react'
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import { useApiStory } from './useApiStory'
-import LoadingArea from '@root/components/suport/LoadingArea'
 import { ContentArea } from '../style'
 import Menu from './Menu'
 import { parse, stringify } from 'qs'
 import { Location } from 'history'
+import { useRecoilValue } from 'recoil'
+import { mediaStatusState } from '@root/states/mediaStatusState'
 import Info from './TabsContent/Info'
 import Transcript from './TabsContent/Transcript'
 import Timeline from './TabsContent/Timeline'
@@ -16,10 +17,11 @@ import Gallery from './TabsContent/Gallery'
 import People from './TabsContent/People'
 import Places from './TabsContent/Places'
 import Preview from './PreviewBox'
-import { useStoryStatus } from './useStoryStatus'
 
 const StoryDetails: React.FC = () => {
   const { search, pathname } = useLocation()
+  const [storyProgress, seStoryProgress] = useState<number>(0)
+  const mediaStatus = useRecoilValue(mediaStatusState)
   const history = useHistory()
   const parsedQs = parse(search, { ignoreQueryPrefix: true })
   const { tab } = parsedQs
@@ -29,19 +31,25 @@ const StoryDetails: React.FC = () => {
 
   const { type, ready, video, audio, thumbnail, persons } = story
 
-  const { storyProgress } = useStoryStatus(payload => {
-    setStory(value => {
-      return {
-        ...value,
-        ready: true,
-        thumbnail: payload.thumbnail,
-        video: {
-          ...value.video,
-          ...payload
+  useEffect(() => {
+    const id = audio?.id || video?.id || ''
+    if (!mediaStatus[id]) return
+    const { payload, finished, progress } = mediaStatus[id]
+    if (finished) {
+      setStory(value => {
+        return {
+          ...value,
+          ready: true,
+          thumbnail: payload.thumbnail,
+          video: {
+            ...value.video,
+            ...payload
+          }
         }
-      }
-    })
-  }, audio?.id || video?.id)
+      })
+    }
+    seStoryProgress(progress)
+  }, [mediaStatus])
 
   const handleTabChange = (name: string, isToReplace?: boolean) => {
     const search = stringify(

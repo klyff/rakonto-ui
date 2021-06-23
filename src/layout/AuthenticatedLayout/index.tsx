@@ -5,9 +5,11 @@ import Sidebar from './Sidebar'
 import { api } from '@root/api'
 
 import { userState } from '@root/states/userState'
+import { useMediaStatus } from '@root/hooks/useMediaStatus'
 
 const AuthenticatedLayout: React.FC = ({ children }) => {
   const setUser = useSetRecoilState(userState)
+  useMediaStatus()
 
   useEffect(() => {
     const get = async () => {

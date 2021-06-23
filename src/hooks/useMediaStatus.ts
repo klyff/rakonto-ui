@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Client } from '@stomp/stompjs'
 import SockeJS from 'sockjs-client'
-import { VideoDetails } from '@root/types'
+import { useSetRecoilState } from 'recoil'
+import { mediaStatusState } from '@root/states/mediaStatusState'
 
-export const useStoryStatus = (
-  callBack: (payload: VideoDetails) => void,
-  videoId?: string
-): { storyProgress: number } => {
-  const [storyProgress, setStoryProgress] = useState<number>(0)
+export const useMediaStatus = (): void => {
   const [client] = useState<Client>(new Client())
+  const setMediaStatusState = useSetRecoilState(mediaStatusState)
 
   const getToken = () => {
     const tokenItem = localStorage.getItem('token')
@@ -19,14 +17,18 @@ export const useStoryStatus = (
     webSocketFactory: () => new SockeJS(`/api/ws?jwt=${getToken()}`),
     onConnect: () => {
       client.subscribe('/user/queue/media-progress', (message: { body: string }) => {
-        if (!videoId) return
         const { total, current, id, payload, finished } = JSON.parse(message.body)
-        if (videoId !== id) return
-        if (finished) {
-          callBack(payload as VideoDetails)
-        }
         const progress = Math.round((current / total) * 100)
-        setStoryProgress(progress)
+        setMediaStatusState(value => {
+          return {
+            ...value,
+            [id]: {
+              progress,
+              payload,
+              finished
+            }
+          }
+        })
       })
     }
   })
@@ -37,6 +39,4 @@ export const useStoryStatus = (
       client.deactivate()
     }
   }, [])
-
-  return { storyProgress }
 }

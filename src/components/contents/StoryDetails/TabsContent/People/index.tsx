@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Layout, ColumnForm, ColumnPreview } from '../style'
+import { SearchButton } from './style'
 import { PersonType } from '@root/types'
-import { Button, Divider, Header } from 'semantic-ui-react'
+import { Divider, Header } from 'semantic-ui-react'
 import { useSetRecoilState } from 'recoil'
 import { usePeopleApi } from './usePeopleApi'
 import Peoples from './Peoples'
@@ -76,9 +77,9 @@ const People: React.FC<iPeople> = ({ storyId, children, isLoading, refresh, pers
     <Layout>
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
-          <Button type="submit" primary id="save" onClick={() => addEditPerson()}>
-            Add new person
-          </Button>
+          <SearchButton type="submit" primary id="save" onClick={() => addEditPerson()}>
+            Add a new person
+          </SearchButton>
           <Search
             personList={personList}
             loading={loadingPeopleList}

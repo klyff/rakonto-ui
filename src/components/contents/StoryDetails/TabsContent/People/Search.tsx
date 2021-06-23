@@ -35,6 +35,7 @@ const Search: React.FC<iSearch> = ({ personList, onChange, onSelected, loading }
           {name}
         </SearchItem>
       )}
+      placeholder="Search for existing person"
       onResultSelect={handleResultSelect}
       onSearchChange={handleSearchChange}
       results={personList.map(person => ({ ...person, title: person.name }))}

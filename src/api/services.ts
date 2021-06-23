@@ -144,11 +144,11 @@ export const removePersonFromStory =
 // Image api
 export const uploadImage =
   (request: AxiosInstance) =>
-  async (file: File, progressCallback: (progress: { total: number; loaded: number }) => void): Promise<ImageType> => {
+  async (file: File, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<ImageType> => {
     const data = new FormData()
     data.append('file', file)
     const response = await request.post<ImageType>(`a/images`, data, {
-      onUploadProgress: e => progressCallback({ total: e.total, loaded: e.loaded })
+      onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
     })
     return response.data
   }

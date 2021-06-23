@@ -15,10 +15,10 @@ const Peoples: React.FC<iPeoples> = ({ persons, removePerson, editPerson }) => {
     <List relaxed="very" size="big">
       {persons.map(person => (
         <List.Item item="true" key={person.id} as={Segment}>
-          <div className="ui avatar image">
+          <div className="ui image">
             <Avatar name={person.name} src={person.picture?.thumbnail} />
           </div>
-          <List.Content>
+          <List.Content verticalAlign="middle">
             <List.Header>{person.name}</List.Header>
             <List.Description>
               <a>
