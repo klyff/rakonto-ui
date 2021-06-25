@@ -7,6 +7,7 @@ import SigninForm from '@root/components/forms/SigninForm'
 import ForgotPasswordForm from '@root/components/forms/ForgotPasswordForm'
 import SignupForm from '@root/components/forms/SignupForm'
 import Home from '@root/components/contents/Home'
+import Profile from '@root/components/contents/Profile'
 import Signout from '@root/components/contents/Signout'
 import ConfirmEmail from '@root/components/contents/ConfirmEmail'
 import StoryNew from '@root/components/contents/StoryNew'
@@ -25,6 +26,9 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
       <Switch>
         <Route exact path="/a/home">
           <Home />
+        </Route>
+        <Route exact path="/a/profile">
+          <Profile />
         </Route>
         <Route exact path="/a/stories/new">
           <StoryNew />

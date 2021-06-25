@@ -33,6 +33,16 @@ export type UserType = {
   firstName: string
   lastName: string
   picture: ImageType
+  about: string
+  location: string
+}
+
+export type UserFormType = {
+  firstName: string
+  lastName: string
+  pictureId: string
+  about: string
+  location: string
 }
 
 export type AuthType = {
@@ -55,6 +65,12 @@ export type SingupFormType = {
 
 export type PasswordResetForm = {
   token: string
+  confirmation: string
+  password: string
+}
+
+export type PasswordChangeForm = {
+  newPassword: string
   confirmation: string
   password: string
 }

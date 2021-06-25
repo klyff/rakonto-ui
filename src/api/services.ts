@@ -12,7 +12,9 @@ import {
   Pageable,
   WatcherType,
   PersonType,
-  PersonFormType
+  PersonFormType,
+  PasswordChangeForm,
+  UserFormType
 } from '@root/types'
 
 // User api
@@ -25,6 +27,13 @@ export const getMe = (request: AxiosInstance) => async (): Promise<UserType> => 
     throw err
   }
 }
+
+export const updateMe =
+  (request: AxiosInstance) =>
+  async (data: UserFormType): Promise<UserType> => {
+    const response = await request.put(`/a/profile`, data)
+    return response.data
+  }
 
 export const signin =
   (request: AxiosInstance) =>
@@ -63,6 +72,13 @@ export const passwordReset =
   async (data: PasswordResetForm): Promise<AuthType> => {
     const { token, ...rest } = data
     const response = await request.post(`u/password-reset/${token}`, rest)
+    return response.data
+  }
+
+export const passwordChange =
+  (request: AxiosInstance) =>
+  async (data: PasswordChangeForm): Promise<AuthType> => {
+    const response = await request.put(`a/password`, data)
     return response.data
   }
 
