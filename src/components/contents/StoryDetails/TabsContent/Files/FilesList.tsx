@@ -17,7 +17,7 @@ const FilesList: React.FC<iFiles> = ({ files, onRemove }) => {
           <Icon name="file alternate outline" size="big" />
           <List.Content verticalAlign="middle">
             <List.Header>
-              <a onClick={() => api.getFile(file.id)}>
+              <a href={file.url}>
                 <b>{file.originalName}</b>
               </a>
             </List.Header>

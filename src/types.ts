@@ -176,6 +176,7 @@ export type FileType = {
   createdAt: Date
   name: string
   originalName: string
+  url: string
   size: number
   mimeType: string
 }
