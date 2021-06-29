@@ -24,7 +24,12 @@ import {
   updatePerson,
   createPerson,
   addPersonToStory,
-  removePersonFromStory
+  removePersonFromStory,
+  uploadFile,
+  getFile,
+  deleteFile,
+  addFileToStory,
+  removeFileFromStory
 } from './services'
 import { history } from '../App'
 
@@ -80,5 +85,10 @@ export const api = {
   updatePerson: updatePerson(request),
   createPerson: createPerson(request),
   addPersonToStory: addPersonToStory(request),
-  removePersonFromStory: removePersonFromStory(request)
+  removePersonFromStory: removePersonFromStory(request),
+  uploadFile: uploadFile(request),
+  deleteFile: deleteFile(request),
+  getFile: getFile(request),
+  addFileToStory: addFileToStory(request),
+  removeFileFromStory: removeFileFromStory(request)
 }

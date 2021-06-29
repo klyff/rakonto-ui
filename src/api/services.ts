@@ -14,7 +14,8 @@ import {
   PersonType,
   PersonFormType,
   PasswordChangeForm,
-  UserFormType
+  UserFormType,
+  FileType
 } from '@root/types'
 
 // User api
@@ -157,6 +158,18 @@ export const removePersonFromStory =
     return await request.post(`/a/stories/${id}/remove-person`, { personId })
   }
 
+export const addFileToStory =
+  (request: AxiosInstance) =>
+  async (id: string, fileId: string): Promise<void> => {
+    return await request.post(`/a/stories/${id}/add-file`, { fileId })
+  }
+
+export const removeFileFromStory =
+  (request: AxiosInstance) =>
+  async (id: string, fileId: string): Promise<void> => {
+    return await request.post(`/a/stories/${id}/remove-file`, { fileId })
+  }
+
 // Image api
 export const uploadImage =
   (request: AxiosInstance) =>
@@ -174,6 +187,31 @@ export const getImage =
   async (id: string): Promise<ImageType> => {
     const response = await request.get<ImageType>(`a/images/${id}`)
     return response.data
+  }
+
+// File api
+export const uploadFile =
+  (request: AxiosInstance) =>
+  async (file: File, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<FileType> => {
+    const data = new FormData()
+    data.append('file', file)
+    const response = await request.post<FileType>(`a/files`, data, {
+      onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
+    })
+    return response.data
+  }
+
+export const getFile =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<FileType> => {
+    const response = await request.get<FileType>(`a/files/${id}`)
+    return response.data
+  }
+
+export const deleteFile =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    await request.delete<FileType>(`a/files/${id}`)
   }
 
 // Person api
@@ -195,20 +233,5 @@ export const updatePerson =
   (request: AxiosInstance) =>
   async (id: string, data: PersonFormType): Promise<PersonType> => {
     const response = await request.put(`/a/persons/${id}`, data)
-    return response.data
-  }
-
-export const uploadPicture =
-  (request: AxiosInstance) =>
-  async (
-    id: string,
-    file: File,
-    progressCallback?: (progress: { total: number; loaded: number }) => void
-  ): Promise<ImageType> => {
-    const data = new FormData()
-    data.append('file', file)
-    const response = await request.post<ImageType>(`/a/persons/${id}/picture`, data, {
-      onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
-    })
     return response.data
   }

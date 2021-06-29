@@ -133,6 +133,7 @@ export type StoryType = {
   video?: VideoDetails
   watchers?: WatcherType[]
   persons: PersonType[]
+  files: FileType[]
 }
 
 export type StoryUpdateType = {
@@ -168,6 +169,15 @@ export type ImageType = {
       resolution: string
     }
   >[]
+}
+
+export type FileType = {
+  id: string
+  createdAt: Date
+  name: string
+  originalName: string
+  size: number
+  mimeType: string
 }
 
 export type WatcherType = {
