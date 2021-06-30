@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Search as SSearch, List as SList, Button as SButton } from 'semantic-ui-react'
+import { Button as SButton, List as SList } from 'semantic-ui-react'
 
 export const AddButton = styled(SButton)`
   &.ui.button {
@@ -7,19 +7,9 @@ export const AddButton = styled(SButton)`
   }
 `
 
-export const Search = styled(SSearch)`
-  margin-top: 4px;
-  & > .ui.input {
-    display: flex;
-    input {
-      border-radius: unset;
-    }
-  }
-`
-
 export const List = styled(SList)`
   overflow: auto;
-  height: calc(100% - 212px);
+  height: calc(100% - 216px);
   padding-bottom: 30px !important;
   padding-right: 8px !important;
 
@@ -31,15 +21,9 @@ export const List = styled(SList)`
 
   & > .ui.segment.item {
     padding: 12px;
-  }
-`
-
-export const SearchItem = styled.span`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  & > div {
-    margin-right: 8px;
+    i {
+      vertical-align: middle;
+    }
   }
 `
 
@@ -52,4 +36,9 @@ export const Actions = styled.div`
       background-color: unset;
     }
   }
+`
+
+export const Header = styled.div`
+  padding-top: 32px;
+  padding-bottom: 16px;
 `

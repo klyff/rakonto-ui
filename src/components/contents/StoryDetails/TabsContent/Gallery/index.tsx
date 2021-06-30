@@ -5,7 +5,6 @@ import { Grid, GridColumn, Actions } from './style'
 import ImageViewer from '@root/components/suport/ImageViewer'
 import UploadButton from '@root/components/suport/UploadButton'
 import { api } from '@root/api'
-import { FileType } from '@root/types'
 
 const Gallery: React.FC = ({ children }) => {
   const gallery = new Array<string>(100).fill('https://react.semantic-ui.com/images/wireframe/image.png')
@@ -21,10 +20,6 @@ const Gallery: React.FC = ({ children }) => {
     alert('delete')
   }
 
-  const handleUploadFinished = async (value: FileType) => {
-    await api.addFileToStory(value.id, value.id)
-  }
-
   const handleUploadProgress = (value: number) => {
     console.log(value)
   }
@@ -32,9 +27,9 @@ const Gallery: React.FC = ({ children }) => {
   return (
     <Layout>
       <ColumnForm>
-        <UploadButton api={api.uploadFile} onFinished={handleUploadFinished} onProgressChange={handleUploadProgress}>
-          Upload new picture
-        </UploadButton>
+        {/* <UploadButton api={api.uploadFile} onSelected={handleUploadFinished} onProgressChange={handleUploadProgress}> */}
+        {/*  Upload new picture */}
+        {/* </UploadButton> */}
         <Grid columns={3} stackable>
           {gallery.map((value, index) => {
             return (

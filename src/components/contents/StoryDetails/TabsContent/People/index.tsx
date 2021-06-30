@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Layout, ColumnForm, ColumnPreview } from '../style'
-import { SearchButton } from './style'
+import { AddButton } from './style'
 import { PersonType } from '@root/types'
 import { Divider, Header } from 'semantic-ui-react'
 import { useSetRecoilState } from 'recoil'
@@ -49,15 +49,6 @@ const People: React.FC<iPeople> = ({ storyId, children, isLoading, refresh, pers
       onClose: async isSuccess => {
         if (!isSuccess) return
         await removePerson(storyId, person.id)
-        setBasicModalState({
-          open: true,
-          title: 'Remove person',
-          content: (
-            <>
-              <b>{person.name}</b> was removed from this story.
-            </>
-          )
-        })
         await refresh()
       },
       content: (
@@ -77,9 +68,9 @@ const People: React.FC<iPeople> = ({ storyId, children, isLoading, refresh, pers
     <Layout>
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
-          <SearchButton type="submit" primary id="save" onClick={() => addEditPerson()}>
+          <AddButton primary id="save" onClick={() => addEditPerson()}>
             Add a new person
-          </SearchButton>
+          </AddButton>
           <Search
             personList={personList}
             loading={loadingPeopleList}

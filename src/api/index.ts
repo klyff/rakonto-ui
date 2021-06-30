@@ -28,8 +28,9 @@ import {
   uploadFile,
   getFile,
   deleteFile,
-  addFileToStory,
-  removeFileFromStory
+  getLink,
+  createLink,
+  deleteLink
 } from './services'
 import { history } from '../App'
 
@@ -89,6 +90,7 @@ export const api = {
   uploadFile: uploadFile(request),
   deleteFile: deleteFile(request),
   getFile: getFile(request),
-  addFileToStory: addFileToStory(request),
-  removeFileFromStory: removeFileFromStory(request)
+  getLink: getLink(request),
+  createLink: createLink(request),
+  deleteLink: deleteLink(request)
 }

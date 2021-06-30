@@ -29,7 +29,7 @@ const StoryDetails: React.FC = () => {
   const { storyId } = useParams<{ storyId: string; tab: string }>()
   const { story, isLoading, setStory, updateStory, refresh } = useApiStory(storyId)
 
-  const { type, ready, video, audio, thumbnail, persons, files } = story
+  const { type, ready, video, audio, thumbnail, persons, files, links } = story
 
   useEffect(() => {
     const id = audio?.id || video?.id || ''
@@ -103,7 +103,11 @@ const StoryDetails: React.FC = () => {
           </Files>
         )
       case 'links':
-        return <Links />
+        return (
+          <Links storyId={storyId} refresh={refresh} links={links || []} isLoading={isLoading}>
+            {PreviewComponent}
+          </Links>
+        )
       default:
         return (
           <Info story={story} updateStory={updateStory} isLoading={isLoading}>

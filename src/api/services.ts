@@ -15,7 +15,9 @@ import {
   PersonFormType,
   PasswordChangeForm,
   UserFormType,
-  FileType
+  FileType,
+  LinkType,
+  LinkFormType
 } from '@root/types'
 
 // User api
@@ -158,18 +160,6 @@ export const removePersonFromStory =
     return await request.post(`/a/stories/${id}/remove-person`, { personId })
   }
 
-export const addFileToStory =
-  (request: AxiosInstance) =>
-  async (id: string, fileId: string): Promise<void> => {
-    return await request.post(`/a/stories/${id}/add-file`, { fileId })
-  }
-
-export const removeFileFromStory =
-  (request: AxiosInstance) =>
-  async (id: string, fileId: string): Promise<void> => {
-    return await request.post(`/a/stories/${id}/remove-file`, { fileId })
-  }
-
 // Image api
 export const uploadImage =
   (request: AxiosInstance) =>
@@ -192,9 +182,14 @@ export const getImage =
 // File api
 export const uploadFile =
   (request: AxiosInstance) =>
-  async (file: File, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<FileType> => {
+  async (
+    storyId: string,
+    file: File,
+    progressCallback?: (progress: { total: number; loaded: number }) => void
+  ): Promise<FileType> => {
     const data = new FormData()
     data.append('file', file)
+    data.append('storyId', storyId)
     const response = await request.post<FileType>(`a/files`, data, {
       onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
     })
@@ -233,5 +228,27 @@ export const updatePerson =
   (request: AxiosInstance) =>
   async (id: string, data: PersonFormType): Promise<PersonType> => {
     const response = await request.put(`/a/persons/${id}`, data)
+    return response.data
+  }
+
+// Link api
+export const getLink =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<Pageable<LinkType>> => {
+    const response = await request.get(`/a/links/${id}`)
+    return response.data
+  }
+
+export const createLink =
+  (request: AxiosInstance) =>
+  async (data: LinkFormType): Promise<LinkType> => {
+    const response = await request.post(`/a/links`, data)
+    return response.data
+  }
+
+export const deleteLink =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    const response = await request.delete(`/a/links/${id}`)
     return response.data
   }

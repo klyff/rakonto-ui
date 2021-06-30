@@ -134,6 +134,7 @@ export type StoryType = {
   watchers?: WatcherType[]
   persons: PersonType[]
   files: FileType[]
+  links: LinkType[]
 }
 
 export type StoryUpdateType = {
@@ -181,6 +182,11 @@ export type FileType = {
   mimeType: string
 }
 
+export type LinkType = {
+  id: string
+  url: string
+}
+
 export type WatcherType = {
   email: string
   user: UserType
@@ -190,6 +196,11 @@ export type PersonFormType = {
   name: string
   description: string
   pictureId: string
+}
+
+export type LinkFormType = {
+  url: string
+  storyId: string
 }
 
 export type PersonType = {
