@@ -30,7 +30,11 @@ import {
   deleteFile,
   getLink,
   createLink,
-  deleteLink
+  deleteLink,
+  getTranscriptions,
+  deleteTranscriptions,
+  createTranscriptions,
+  updateTranscriptions
 } from './services'
 import { history } from '../App'
 
@@ -92,5 +96,9 @@ export const api = {
   getFile: getFile(request),
   getLink: getLink(request),
   createLink: createLink(request),
-  deleteLink: deleteLink(request)
+  deleteLink: deleteLink(request),
+  getTranscriptions: getTranscriptions(request),
+  deleteTranscriptions: deleteTranscriptions(request),
+  updateTranscriptions: updateTranscriptions(request),
+  createTranscriptions: createTranscriptions(request)
 }

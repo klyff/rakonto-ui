@@ -135,6 +135,7 @@ export type StoryType = {
   persons: PersonType[]
   files: FileType[]
   links: LinkType[]
+  transcription: TranscriptionType | null
 }
 
 export type StoryUpdateType = {
@@ -187,6 +188,13 @@ export type LinkType = {
   url: string
 }
 
+export type TranscriptionType = {
+  id: string
+  content: string
+  updatedAt: Date
+  createdAt: Date
+}
+
 export type WatcherType = {
   email: string
   user: UserType
@@ -200,6 +208,11 @@ export type PersonFormType = {
 
 export type LinkFormType = {
   url: string
+  storyId: string
+}
+
+export type TranscriptionFormType = {
+  content: string
   storyId: string
 }
 

@@ -17,7 +17,9 @@ import {
   UserFormType,
   FileType,
   LinkType,
-  LinkFormType
+  LinkFormType,
+  TranscriptionType,
+  TranscriptionFormType
 } from '@root/types'
 
 // User api
@@ -234,7 +236,7 @@ export const updatePerson =
 // Link api
 export const getLink =
   (request: AxiosInstance) =>
-  async (id: string): Promise<Pageable<LinkType>> => {
+  async (id: string): Promise<LinkType> => {
     const response = await request.get(`/a/links/${id}`)
     return response.data
   }
@@ -250,5 +252,34 @@ export const deleteLink =
   (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
     const response = await request.delete(`/a/links/${id}`)
+    return response.data
+  }
+
+// Transcipt api
+export const getTranscriptions =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<TranscriptionType> => {
+    const response = await request.get(`/a/transcriptions/${id}`)
+    return response.data
+  }
+
+export const updateTranscriptions =
+  (request: AxiosInstance) =>
+  async (id: string, data: TranscriptionFormType): Promise<TranscriptionType> => {
+    const response = await request.put(`/a/transcriptions/${id}`, data)
+    return response.data
+  }
+
+export const createTranscriptions =
+  (request: AxiosInstance) =>
+  async (data: TranscriptionFormType): Promise<TranscriptionType> => {
+    const response = await request.post(`/a/transcriptions`, data)
+    return response.data
+  }
+
+export const deleteTranscriptions =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    const response = await request.delete(`/a/transcriptions/${id}`)
     return response.data
   }

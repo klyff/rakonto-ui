@@ -29,7 +29,7 @@ const StoryDetails: React.FC = () => {
   const { storyId } = useParams<{ storyId: string; tab: string }>()
   const { story, isLoading, setStory, updateStory, refresh } = useApiStory(storyId)
 
-  const { type, ready, video, audio, thumbnail, persons, files, links } = story
+  const { type, ready, video, audio, thumbnail, persons, files, links, transcription } = story
 
   useEffect(() => {
     const id = audio?.id || video?.id || ''
@@ -91,7 +91,11 @@ const StoryDetails: React.FC = () => {
           </People>
         )
       case 'transcript':
-        return <Transcript>{PreviewComponent}</Transcript>
+        return (
+          <Transcript storyId={storyId} transcription={transcription}>
+            {PreviewComponent}
+          </Transcript>
+        )
       case 'timeline':
         return <Timeline />
       case 'gallery':
