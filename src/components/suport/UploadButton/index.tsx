@@ -4,11 +4,6 @@ import { FileType } from '@root/types'
 
 interface iUploadButton extends ButtonProps {
   onSelected: (event: React.ChangeEvent<HTMLInputElement>) => void
-  api: (
-    storyId: string,
-    file: File,
-    progressCallback?: (progress: { total: number; loaded: number }) => void
-  ) => Promise<FileType>
 }
 const UploadButton: React.FC<iUploadButton> = ({ api, onSelected, children, ...rest }) => {
   const inputRef = useRef<HTMLInputElement>(null)

@@ -136,6 +136,7 @@ export type StoryType = {
   files: FileType[]
   links: LinkType[]
   transcription: TranscriptionType | null
+  galleryEntries: GalleryType[]
 }
 
 export type StoryUpdateType = {
@@ -171,6 +172,13 @@ export type ImageType = {
       resolution: string
     }
   >[]
+}
+
+export type GalleryType = {
+  id: string
+  image: ImageType
+  updatedAt: Date
+  createdAt: Date
 }
 
 export type FileType = {
@@ -213,6 +221,11 @@ export type LinkFormType = {
 
 export type TranscriptionFormType = {
   content: string
+  storyId: string
+}
+
+export type GalleryFormType = {
+  file: File
   storyId: string
 }
 

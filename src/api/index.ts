@@ -34,7 +34,10 @@ import {
   getTranscriptions,
   deleteTranscriptions,
   createTranscriptions,
-  updateTranscriptions
+  updateTranscriptions,
+  createGallery,
+  deleteGallery,
+  getGallery
 } from './services'
 import { history } from '../App'
 
@@ -100,5 +103,8 @@ export const api = {
   getTranscriptions: getTranscriptions(request),
   deleteTranscriptions: deleteTranscriptions(request),
   updateTranscriptions: updateTranscriptions(request),
-  createTranscriptions: createTranscriptions(request)
+  createTranscriptions: createTranscriptions(request),
+  getGallery: getGallery(request),
+  createGallery: createGallery(request),
+  deleteGallery: deleteGallery(request)
 }

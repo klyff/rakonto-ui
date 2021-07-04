@@ -1,35 +1,70 @@
-import React, { useState } from 'react'
-import { Dimmer, Image } from 'semantic-ui-react'
-import { Box, Button, PreviewArea, Footer } from './style'
+import React, { useEffect, useState } from 'react'
+import { Dimmer, Image, Loader, Icon } from 'semantic-ui-react'
+import { Box, Button, PreviewArea, Footer, Stage, Header } from './style'
 import { ImageType } from '@root/types'
+import { useRecoilValue } from 'recoil'
+import { mediaStatusState } from '@root/states/mediaStatusState'
 
 interface iImageViewer {
   images: ImageType[]
-  initialIndex: number
+  index: number
   show: boolean
   onClose: () => void
+  onNextClick: () => void
+  onPrevClick: () => void
 }
-const ImageViewer: React.FC<iImageViewer> = ({ images, show = false, initialIndex = 0, onClose }) => {
-  const [index, setIndex] = useState<number>(initialIndex)
+const ImageViewer: React.FC<iImageViewer> = ({
+  images,
+  onNextClick,
+  onPrevClick,
+  show = false,
+  index = 0,
+  onClose
+}) => {
+  const mediaStatus = useRecoilValue(mediaStatusState)
+  const [selectedImage, setSelectedImage] = useState<ImageType | null>(null)
+  const [progress, setProgress] = useState<boolean>(true)
 
-  const handleNext = () => {
-    setIndex(index + 1)
-  }
+  useEffect(() => {
+    setSelectedImage(images[index])
+    setProgress(!images[index].thumbnail)
+  }, [index, images])
 
-  const handlePrev = () => {
-    setIndex(index - 1)
-  }
+  useEffect(() => {
+    if (!selectedImage) return
+    const id = selectedImage.id
+    if (!mediaStatus[id]) return
+    const { payload, finished } = mediaStatus[id]
+    setProgress(true)
+    if (finished) {
+      setProgress(false)
+      setSelectedImage(payload)
+    }
+  }, [mediaStatus])
 
   return (
-    <Dimmer active={show} page onClickOutside={onClose}>
+    <Dimmer active={show} page>
       <Box>
+        <Header>
+          <Icon name="close" size="big" onClick={onClose} />
+        </Header>
         <PreviewArea>
-          <Button icon="angle left" circular size="big" onClick={handlePrev} disabled={index === 0} />
-          <Image src={images[index]?.thumbnail} />
-          <Button icon="angle right" circular size="big" onClick={handleNext} disabled={index === images.length} />
+          {index > 0 && <Button icon="angle left" circular size="big" onClick={onPrevClick} disabled={index === 0} />}
+          <Stage>
+            {!progress ? (
+              <Image src={selectedImage?.thumbnail} />
+            ) : (
+              <Loader active inverted>
+                Processing...
+              </Loader>
+            )}
+          </Stage>
+          {index < images.length - 1 && (
+            <Button icon="angle right" circular size="big" onClick={onNextClick} disabled={index === images.length} />
+          )}
         </PreviewArea>
         <Footer>
-          {'name'} {index + 1} of {images.length}
+          {selectedImage?.thumbnail} {index + 1} of {images.length}
         </Footer>
       </Box>
     </Dimmer>

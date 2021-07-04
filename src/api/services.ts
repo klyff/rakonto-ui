@@ -19,13 +19,14 @@ import {
   LinkType,
   LinkFormType,
   TranscriptionType,
-  TranscriptionFormType
+  TranscriptionFormType,
+  GalleryFormType
 } from '@root/types'
 
 // User api
 export const getMe = (request: AxiosInstance) => async (): Promise<UserType> => {
   try {
-    const response = await request.get('/a/me')
+    const response = await request.get('a/me')
     return response.data
   } catch (err) {
     console.error(err)
@@ -36,26 +37,26 @@ export const getMe = (request: AxiosInstance) => async (): Promise<UserType> => 
 export const updateMe =
   (request: AxiosInstance) =>
   async (data: UserFormType): Promise<UserType> => {
-    const response = await request.put(`/a/profile`, data)
+    const response = await request.put(`a/profile`, data)
     return response.data
   }
 
 export const signin =
   (request: AxiosInstance) =>
   async (data: SigninFormType): Promise<AuthType> => {
-    const response = await request.post('/u/auth/signin', data)
+    const response = await request.post('/uauth/signin', data)
     return response.data
   }
 
 export const singup =
   (request: AxiosInstance) =>
   async (data: SingupFormType): Promise<AuthType> => {
-    const response = await request.post('/u/auth/signup', data)
+    const response = await request.post('/uauth/signup', data)
     return response.data
   }
 
 export const singout = (request: AxiosInstance) => async (): Promise<unknown> => {
-  const response = await request.post('/a/auth/signout')
+  const response = await request.post('aauth/signout')
   return response.data
 }
 
@@ -133,33 +134,33 @@ export const updateStory =
 export const getCollections =
   (request: AxiosInstance) =>
   async (page: number, size: number): Promise<Pageable<CollectionType>> => {
-    const response = await request.get(`/a/collections?page=${page}&size=${size}`)
+    const response = await request.get(`a/collections?page=${page}&size=${size}`)
     return response.data
   }
 
 export const getWatcher =
   (request: AxiosInstance) =>
   async (email: string): Promise<WatcherType> => {
-    const response = await request.get(`/a/watchers/${email}`)
+    const response = await request.get(`a/watchers/${email}`)
     return response.data
   }
 
 export const resendInvite =
   (request: AxiosInstance) =>
   async (id: string, email: string): Promise<void> => {
-    return await request.get(`/a/stories/${id}/watcher/${email}/resend-invite`)
+    return await request.get(`a/stories/${id}/watcher/${email}/resend-invite`)
   }
 
 export const addPersonToStory =
   (request: AxiosInstance) =>
   async (id: string, personId: string): Promise<void> => {
-    return await request.post(`/a/stories/${id}/add-person`, { personId })
+    return await request.post(`a/stories/${id}add-person`, { personId })
   }
 
 export const removePersonFromStory =
   (request: AxiosInstance) =>
   async (id: string, personId: string): Promise<void> => {
-    return await request.post(`/a/stories/${id}/remove-person`, { personId })
+    return await request.post(`a/stories/${id}/remove-person`, { personId })
   }
 
 // Image api
@@ -215,21 +216,21 @@ export const deleteFile =
 export const getPersons =
   (request: AxiosInstance) =>
   async (page: number, size: number, name?: string): Promise<Pageable<PersonType>> => {
-    const response = await request.get(`/a/persons?page=${page}&size=${size}${name ? `&name=${name}` : ''}`)
+    const response = await request.get(`a/persons?page=${page}&size=${size}${name ? `&name=${name}` : ''}`)
     return response.data
   }
 
 export const createPerson =
   (request: AxiosInstance) =>
   async (data: PersonFormType): Promise<PersonType> => {
-    const response = await request.post(`/a/persons`, data)
+    const response = await request.post(`a/persons`, data)
     return response.data
   }
 
 export const updatePerson =
   (request: AxiosInstance) =>
   async (id: string, data: PersonFormType): Promise<PersonType> => {
-    const response = await request.put(`/a/persons/${id}`, data)
+    const response = await request.put(`a/persons/${id}`, data)
     return response.data
   }
 
@@ -237,21 +238,21 @@ export const updatePerson =
 export const getLink =
   (request: AxiosInstance) =>
   async (id: string): Promise<LinkType> => {
-    const response = await request.get(`/a/links/${id}`)
+    const response = await request.get(`a/links/${id}`)
     return response.data
   }
 
 export const createLink =
   (request: AxiosInstance) =>
   async (data: LinkFormType): Promise<LinkType> => {
-    const response = await request.post(`/a/links`, data)
+    const response = await request.post(`a/links`, data)
     return response.data
   }
 
 export const deleteLink =
   (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    const response = await request.delete(`/a/links/${id}`)
+    const response = await request.delete(`a/links/${id}`)
     return response.data
   }
 
@@ -259,27 +260,51 @@ export const deleteLink =
 export const getTranscriptions =
   (request: AxiosInstance) =>
   async (id: string): Promise<TranscriptionType> => {
-    const response = await request.get(`/a/transcriptions/${id}`)
+    const response = await request.get(`a/transcriptions/${id}`)
     return response.data
   }
 
 export const updateTranscriptions =
   (request: AxiosInstance) =>
   async (id: string, data: TranscriptionFormType): Promise<TranscriptionType> => {
-    const response = await request.put(`/a/transcriptions/${id}`, data)
+    const response = await request.put(`a/transcriptions/${id}`, data)
     return response.data
   }
 
 export const createTranscriptions =
   (request: AxiosInstance) =>
   async (data: TranscriptionFormType): Promise<TranscriptionType> => {
-    const response = await request.post(`/a/transcriptions`, data)
+    const response = await request.post(`a/transcriptions`, data)
     return response.data
   }
 
 export const deleteTranscriptions =
   (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    const response = await request.delete(`/a/transcriptions/${id}`)
+    const response = await request.delete(`a/transcriptions/${id}`)
     return response.data
+  }
+
+// Gallery api
+export const getGallery =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<FileType> => {
+    const response = await request.get(`a/gallery-entries/${id}`)
+    return response.data
+  }
+
+export const createGallery =
+  (request: AxiosInstance) =>
+  async (storyId: string, imageId: string): Promise<FileType> => {
+    const response = await request.post<FileType>(`a/gallery-entries`, {
+      storyId,
+      imageId
+    })
+    return response.data
+  }
+
+export const deleteGallery =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    await request.delete(`a/gallery-entries/${id}`)
   }

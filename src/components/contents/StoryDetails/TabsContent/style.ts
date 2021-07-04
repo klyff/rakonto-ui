@@ -26,7 +26,7 @@ export const Layout = styled.div`
   }
 
   @media only screen and (max-width: 767px) {
-    height: calc(100% - 400px);
+    height: calc(100% - 140px);
   }
 `
 
