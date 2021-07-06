@@ -8,6 +8,7 @@ import UploadButton from '@root/components/suport/UploadButton'
 import { api } from '@root/api'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import GalleryItem from './GalleryItem'
+import { toast } from 'react-semantic-toasts'
 
 interface iGallery {
   galleries: GalleryType[]
@@ -34,16 +35,25 @@ const Gallery: React.FC<iGallery> = ({ children, isLoading, galleries, storyId, 
   const handleSelected = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.length) return
     const file: File = event.target.files[0]
-    const image = await api.uploadImage(file, ({ loaded, total }) => {
-      const progress = Math.round((loaded * 100) / total)
-      if (progress === 100) {
-        setProgress(0)
-        return
-      }
-      setProgress(progress < 0 ? 0 : progress)
-    })
-    await api.createGallery(storyId, image.id)
-    refresh()
+    try {
+      const image = await api.uploadImage(file, ({ loaded, total }) => {
+        const progress = Math.round((loaded * 100) / total)
+        if (progress === 100) {
+          setProgress(0)
+          return
+        }
+        setProgress(progress < 0 ? 0 : progress)
+      })
+      await api.createGallery(storyId, image.id)
+      refresh()
+    } catch (error) {
+      toast({
+        type: 'error',
+        title: error.response.data.message,
+        time: 3000,
+        description: `Error: ${error.response.data.code}`
+      })
+    }
   }
 
   return (

@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil'
 import { mediaStatusState } from '@root/states/mediaStatusState'
 import { ButtonUpload, AdvisorWrapper } from './style'
 import { Loader } from 'semantic-ui-react'
+import { toast } from 'react-semantic-toasts'
 
 interface iUploadAvatar {
   name: string
@@ -42,11 +43,20 @@ const UploadAvatar: React.FC<iUploadAvatar> = ({ name, defaultPicture, onChange 
   const handleSelected = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.length) return
     const file: File = event.target.files[0]
-    const picture = await api.uploadImage(file, () => {
-      setAvatarProgress(true)
-    })
-    setPicture(picture)
-    onChange(picture.id)
+    try {
+      const picture = await api.uploadImage(file, () => {
+        setAvatarProgress(true)
+      })
+      setPicture(picture)
+      onChange(picture.id)
+    } catch (error) {
+      toast({
+        type: 'error',
+        title: error.response.data.message,
+        time: 3000,
+        description: `Error: ${error.response.data.code}`
+      })
+    }
   }
 
   return (

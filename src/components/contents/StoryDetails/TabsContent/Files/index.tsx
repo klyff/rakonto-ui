@@ -9,6 +9,7 @@ import FilesList from './FilesList'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import { useSetRecoilState } from 'recoil'
 import { basicModalState } from '@root/components/modals/BasicModal'
+import { toast } from 'react-semantic-toasts'
 
 interface iFiles {
   files: FileType[]
@@ -45,11 +46,20 @@ const Files: React.FC<iFiles> = ({ storyId, refresh, files, isLoading, children 
   const handleSelected = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.length) return
     const file: File = event.target.files[0]
-    await api.uploadFile(storyId, file, ({ loaded, total }) => {
-      const progress = Math.round((loaded * 100) / total) - 1
-      console.log(progress < 0 ? 0 : progress)
-    })
-    refresh()
+    try {
+      await api.uploadFile(storyId, file, ({ loaded, total }) => {
+        const progress = Math.round((loaded * 100) / total) - 1
+        console.log(progress < 0 ? 0 : progress)
+      })
+      refresh()
+    } catch (error) {
+      toast({
+        type: 'error',
+        title: error.response.data.message,
+        time: 3000,
+        description: `Error: ${error.response.data.code}`
+      })
+    }
   }
 
   return (

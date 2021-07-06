@@ -33,7 +33,6 @@ export const Layout = styled.div`
 export const ColumnForm = styled.div`
   padding: 0 12px;
   flex: 1;
-  height: inherit;
   @media only screen and (max-width: 1024px) {
     flex: unset;
     margin-top: 20px;

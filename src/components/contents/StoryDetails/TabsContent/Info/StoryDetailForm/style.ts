@@ -15,14 +15,14 @@ export const ColumnForm = styled(SColumnForm)`
 export const FormColumnsArea = styled.div`
   display: flex;
   overflow: auto;
+  height: calc(100vh - 300px);
   & > div:last-child {
-    margin-top: 20px;
+    padding-top: 20px;
   }
   @media only screen and (max-width: 1024px) {
     flex-direction: column;
     align-items: center;
     flex-flow: column;
-    height: calc(100vh - 300px);
     & :nth-child(1) {
       order: 2;
     }

@@ -64,7 +64,7 @@ const ImageViewer: React.FC<iImageViewer> = ({
           )}
         </PreviewArea>
         <Footer>
-          {selectedImage?.thumbnail} {index + 1} of {images.length}
+          {selectedImage?.originalName} | {index + 1} of {images.length}
         </Footer>
       </Box>
     </Dimmer>

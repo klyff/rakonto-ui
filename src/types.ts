@@ -164,6 +164,7 @@ export type ImageType = {
   id: string
   processedAt: Date
   thumbnail: string
+  originalName: string
   thumbnails: Record<
     string,
     {
