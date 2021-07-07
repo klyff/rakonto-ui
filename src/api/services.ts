@@ -20,7 +20,8 @@ import {
   LinkFormType,
   TranscriptionType,
   TranscriptionFormType,
-  GalleryFormType
+  TimelineType,
+  TimelineFormType
 } from '@root/types'
 
 // User api
@@ -44,19 +45,19 @@ export const updateMe =
 export const signin =
   (request: AxiosInstance) =>
   async (data: SigninFormType): Promise<AuthType> => {
-    const response = await request.post('/uauth/signin', data)
+    const response = await request.post('u/auth/signin', data)
     return response.data
   }
 
 export const singup =
   (request: AxiosInstance) =>
   async (data: SingupFormType): Promise<AuthType> => {
-    const response = await request.post('/uauth/signup', data)
+    const response = await request.post('u/auth/signup', data)
     return response.data
   }
 
 export const singout = (request: AxiosInstance) => async (): Promise<unknown> => {
-  const response = await request.post('aauth/signout')
+  const response = await request.post('a/auth/signout')
   return response.data
 }
 
@@ -307,4 +308,30 @@ export const deleteGallery =
   (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
     await request.delete(`a/gallery-entries/${id}`)
+  }
+
+// Timeline api
+
+export const getTimeline =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<TimelineType> => {
+    const response = await request.get(`a/timeline-entries/${id}`)
+    return response.data
+  }
+
+export const createTimeline =
+  (request: AxiosInstance) =>
+  async (data: TimelineFormType): Promise<TimelineType> => {
+    console.log(data)
+    const response = await request.post<TimelineType>(`a/timeline-entries`, {
+      ...data,
+      at: new Date(data.at).toJSON()
+    })
+    return response.data
+  }
+
+export const deleteTimeline =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    await request.delete(`a/timeline-entries/${id}`)
   }

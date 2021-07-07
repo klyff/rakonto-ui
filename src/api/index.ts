@@ -37,7 +37,10 @@ import {
   updateTranscriptions,
   createGallery,
   deleteGallery,
-  getGallery
+  getGallery,
+  getTimeline,
+  createTimeline,
+  deleteTimeline
 } from './services'
 import { history } from '../App'
 
@@ -106,5 +109,8 @@ export const api = {
   createTranscriptions: createTranscriptions(request),
   getGallery: getGallery(request),
   createGallery: createGallery(request),
-  deleteGallery: deleteGallery(request)
+  deleteGallery: deleteGallery(request),
+  getTimeline: getTimeline(request),
+  createTimeline: createTimeline(request),
+  deleteTimeline: deleteTimeline(request)
 }

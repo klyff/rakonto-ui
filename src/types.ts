@@ -137,6 +137,7 @@ export type StoryType = {
   links: LinkType[]
   transcription: TranscriptionType | null
   galleryEntries: GalleryType[]
+  timelineEntries: TimelineType[]
 }
 
 export type StoryUpdateType = {
@@ -235,4 +236,18 @@ export type PersonType = {
   name: string
   description: string
   picture: ImageType
+}
+
+export type TimelineType = {
+  id: string
+  title: string
+  description: string
+  at: Date
+}
+
+export type TimelineFormType = {
+  storyId: string
+  title: string
+  description: string
+  at: Date
 }
