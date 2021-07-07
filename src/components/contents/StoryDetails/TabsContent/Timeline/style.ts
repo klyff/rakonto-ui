@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Search as SSearch, List as SList, Button as SButton } from 'semantic-ui-react'
+import { List as SList, Button as SButton } from 'semantic-ui-react'
 
 export const AddButton = styled(SButton)`
   &.ui.button {
@@ -13,7 +13,7 @@ export const OcurrenciesArea = styled.div`
 
 export const List = styled(SList)`
   overflow: auto;
-  height: calc(100% - 212px);
+  height: calc(100% - 16px);
   padding-bottom: 30px !important;
   padding-right: 8px !important;
 
@@ -26,6 +26,13 @@ export const List = styled(SList)`
 
 export const Item = styled.div`
   position: relative;
+  min-width: 500px;
+  & > div {
+    padding: 8px 16px;
+  }
+  @media only screen and (max-width: 1024px) {
+    min-width: unset;
+  }
 `
 
 export const Actions = styled.div`

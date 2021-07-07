@@ -5,26 +5,36 @@ import { TimelineType } from '@root/types'
 
 interface iOcurrencies {
   ocurrencies: TimelineType[]
+  removeOcurrence: (timeline: TimelineType) => void
 }
 
-const Ocurrencies: React.FC<iOcurrencies> = ({ ocurrencies }) => {
+const Ocurrencies: React.FC<iOcurrencies> = ({ ocurrencies, removeOcurrence }) => {
   return (
     <List>
-      {ocurrencies.map(ocurrency => (
-        <Item item="true" key={ocurrency.id} as={Segment}>
+      {ocurrencies.map(ocurrence => (
+        <Item item="true" key={ocurrence.id} as={Segment}>
           <div>
-            <label>At:</label> {ocurrency.at}
+            <b>
+              <label>At:</label>
+            </b>{' '}
+            {new Date(ocurrence.at).toLocaleDateString()}
           </div>
           <div>
-            <label>Title:</label> {ocurrency.title}
+            <b>
+              <label>Title:</label>
+            </b>{' '}
+            {ocurrence.title}
           </div>
           <div>
-            <label>Description:</label> {ocurrency.description}
+            <b>
+              <label>Description:</label>
+            </b>{' '}
+            {ocurrence.description}
           </div>
           <Actions>
             <div>
               <Button icon="pencil" circular disabled />
-              <Button icon="trash" circular />
+              <Button icon="trash" circular onClick={() => removeOcurrence(ocurrence)} />
             </div>
           </Actions>
         </Item>
