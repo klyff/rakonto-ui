@@ -155,7 +155,7 @@ export const resendInvite =
 export const addPersonToStory =
   (request: AxiosInstance) =>
   async (id: string, personId: string): Promise<void> => {
-    return await request.post(`a/stories/${id}add-person`, { personId })
+    return await request.post(`a/stories/${id}/add-person`, { personId })
   }
 
 export const removePersonFromStory =
