@@ -104,7 +104,7 @@ const StoryDetails: React.FC = () => {
         )
       case 'transcript':
         return (
-          <Transcript storyId={storyId} transcription={transcription}>
+          <Transcript storyId={storyId} refresh={refresh} transcription={transcription}>
             {PreviewComponent}
           </Transcript>
         )

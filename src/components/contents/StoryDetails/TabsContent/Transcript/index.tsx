@@ -11,10 +11,11 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 interface iTranscript {
   storyId: string
+  refresh: () => void
   transcription?: TranscriptionType | null
 }
 
-const Transcript: React.FC<iTranscript> = ({ children, transcription, storyId }) => {
+const Transcript: React.FC<iTranscript> = ({ children, refresh, transcription, storyId }) => {
   const [value, setValue] = useState<EditorState>(EditorState.createEmpty())
 
   useEffect(() => {
@@ -39,6 +40,7 @@ const Transcript: React.FC<iTranscript> = ({ children, transcription, storyId })
         content,
         storyId: storyId
       })
+      refresh()
       return
     }
 
@@ -46,6 +48,7 @@ const Transcript: React.FC<iTranscript> = ({ children, transcription, storyId })
       content,
       storyId: storyId
     })
+    refresh()
   }
 
   return (
