@@ -48,7 +48,7 @@ const Timeline: React.FC<iTimeline> = ({ isLoading, refresh, storyId, ocurrencie
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
           <AddButton primary onClick={() => addEditTimeline()}>
-            Add new ocurrency
+            Add new ocurrence
           </AddButton>
           <OcurrenciesArea>
             <Ocurrencies ocurrencies={ocurrencies} removeOcurrence={HandleRemove} />
