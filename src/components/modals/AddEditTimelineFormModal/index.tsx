@@ -66,7 +66,7 @@ const AddEditTimelineFormModal: React.FC<iAddEditTimelineFormModal> = ({ timelin
                   }}
                 />
                 <TextArea
-                  rows={26}
+                  rows={4}
                   name="description"
                   label="Description"
                   onKeyPress={(e: React.KeyboardEvent) => {
