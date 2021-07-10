@@ -138,6 +138,7 @@ export type StoryType = {
   transcription: TranscriptionType | null
   galleryEntries: GalleryType[]
   timelineEntries: TimelineType[]
+  places: PlaceType[]
 }
 
 export type StoryUpdateType = {
@@ -250,4 +251,22 @@ export type TimelineFormType = {
   title: string
   description: string
   at: Date
+}
+
+export type PlaceType = {
+  id: string
+  name: string
+  description: string
+  location: string
+  latitude: string
+  longitude: string
+}
+
+export type PlaceFormType = {
+  storyId: string
+  name: string
+  description: string
+  location: string
+  latitude: string
+  longitude: string
 }

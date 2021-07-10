@@ -16,6 +16,7 @@ import Stories from '@root/components/contents/Stories'
 
 import { SemanticToastContainer } from 'react-semantic-toasts'
 import ChangePasswordForm from '@root/components/forms/ChangePasswordForm'
+import VideoRecorder from '@root/components/contents/VideoRecorder'
 
 const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   const tokenItem = localStorage.getItem('token')
@@ -32,6 +33,9 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
         </Route>
         <Route exact path="/a/stories/new">
           <StoryNew />
+        </Route>
+        <Route exact path="/a/stories/record/video">
+          <VideoRecorder />
         </Route>
         <Route exact path="/a/stories/:storyId/edit">
           <StoryDetails />

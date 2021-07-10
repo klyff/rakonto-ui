@@ -40,7 +40,8 @@ const StoryDetails: React.FC = () => {
     links,
     transcription,
     galleryEntries,
-    timelineEntries
+    timelineEntries,
+    places
   } = story
 
   useEffect(() => {
@@ -95,7 +96,11 @@ const StoryDetails: React.FC = () => {
   const stiwchRender = () => {
     switch (tab) {
       case 'places':
-        return <Places />
+        return (
+          <Places isLoading={isLoading} refresh={refresh} storyId={storyId} places={places || []}>
+            {PreviewComponent}
+          </Places>
+        )
       case 'people':
         return (
           <People storyId={storyId} persons={persons} refresh={refresh} isLoading={isLoading}>

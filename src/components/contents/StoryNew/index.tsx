@@ -4,11 +4,12 @@ import { HugeButton, SelectFileButton, DropAreaBox } from './style'
 import { mediaQueryState } from '@root/states/mediaQueryState'
 import DropArea from './DropArea'
 import { useRecoilValue } from 'recoil'
-import { useCreateStory } from './useCreateStory'
-import { Link } from 'react-router-dom'
+import { useCreateStory } from '@root/hooks/useCreateStory'
+import { Link, useHistory } from 'react-router-dom'
 import { ContentArea } from '../style'
 
 const Index: React.FC = () => {
+  const history = useHistory()
   const { isMobile } = useRecoilValue(mediaQueryState)
   const { createStory, progress, isUploading } = useCreateStory()
 
@@ -24,12 +25,11 @@ const Index: React.FC = () => {
       </Link>
       <Grid centered stackable>
         <Grid.Column width={10}>
-          {!isMobile && (
+          {!isMobile ? (
             <DropAreaBox>
               <DropArea isUploading={isUploading} progress={progress} handleDrop={handleDrop} />
             </DropAreaBox>
-          )}
-          {isMobile && (
+          ) : (
             <>
               <SelectFileButton primary basic fluid size="big" onClick={open}>
                 Select file
@@ -39,13 +39,13 @@ const Index: React.FC = () => {
         </Grid.Column>
         <Grid.Row>
           <Grid.Column width={5}>
-            <HugeButton disabled={isUploading}>
+            <HugeButton disabled={isUploading} onClick={() => history.push('/a/stories/record/video')}>
               <Icon name="video" size="big" />
               <h3>Create your video</h3>
             </HugeButton>
           </Grid.Column>
           <Grid.Column width={5}>
-            <HugeButton disabled={isUploading}>
+            <HugeButton disabled={isUploading} onClick={() => history.push('/a/stories/record/audio')}>
               <Icon name="microphone" size="big" />
               <h3>Create your video</h3>
             </HugeButton>

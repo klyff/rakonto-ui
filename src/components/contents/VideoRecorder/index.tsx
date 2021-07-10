@@ -1,12 +1,20 @@
 import React from 'react'
 import { useRecordWebcam } from 'react-record-webcam'
 import { VideoBox } from './style'
+import { useCreateStory } from '@root/hooks/useCreateStory'
 
 const VideoRecorder: React.FC = () => {
-  const recordWebcam = useRecordWebcam()
+  const recordWebcam = useRecordWebcam({
+    fileType: 'webm',
+    filename: 'video',
+    codec: { audio: 'aac', video: 'av1' }
+  })
+  const { createStory, progress, isUploading } = useCreateStory()
 
   const saveFile = async () => {
-    const blob = await recordWebcam.getRecording()
+    const blob = (await recordWebcam.getRecording()) as unknown as Blob
+    console.log(blob)
+    await createStory(new File([blob], 'video.webm'))
   }
 
   return (

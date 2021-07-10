@@ -26,6 +26,7 @@
     "react-dropzone": "^11.3.2",
     "react-grid-gallery": "^0.5.5",
     "react-intersection-observer-hook": "^2.0.3",
+    "react-record-webcam": "^0.0.14",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
