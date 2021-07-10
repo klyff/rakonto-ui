@@ -49,7 +49,7 @@ const General: React.FC = () => {
   return (
     <Layout>
       <Formik initialValues={initialValues} validationSchema={schema} onSubmit={submit}>
-        {({ isSubmitting, handleSubmit, setValues }) => {
+        {({ isSubmitting, handleSubmit, setValues, values }) => {
           useEffect(() => {
             setValues(initialValues)
           }, [initialValues])
@@ -71,7 +71,7 @@ const General: React.FC = () => {
               />
               <div>
                 <UploadAvatar
-                  name={`${user?.firstName} ${user?.lastName}` || ''}
+                  name={`${values?.firstName} ${values?.lastName}` || ''}
                   defaultPicture={user?.picture || null}
                   onChange={handleUploadPictureChange}
                 />

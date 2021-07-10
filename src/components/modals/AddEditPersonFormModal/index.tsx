@@ -52,7 +52,7 @@ const AddEditPersonFormModal: React.FC<iAddEditPersonFormModal> = ({ person, ope
 
   return (
     <Formik initialValues={initialValues} validationSchema={schema} onSubmit={submit}>
-      {({ isSubmitting, handleSubmit, setValues }) => {
+      {({ isSubmitting, handleSubmit, setValues, values }) => {
         useEffect(() => {
           setValues(initialValues)
         }, [initialValues])
@@ -62,7 +62,7 @@ const AddEditPersonFormModal: React.FC<iAddEditPersonFormModal> = ({ person, ope
             <SModal.Content image>
               <ModalDescription>
                 <UploadAvatar
-                  name={person?.name || ''}
+                  name={values?.name || ''}
                   defaultPicture={person?.picture || null}
                   onChange={handleUploadPictureChange}
                 />

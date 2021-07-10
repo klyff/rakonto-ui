@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import { Button, ButtonProps } from 'semantic-ui-react'
-import { FileType } from '@root/types'
 
 interface iUploadButton extends ButtonProps {
   onSelected: (event: React.ChangeEvent<HTMLInputElement>) => void

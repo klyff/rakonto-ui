@@ -5,7 +5,7 @@ import { ImageType } from '@root/types'
 import { useRecoilValue } from 'recoil'
 import { mediaStatusState } from '@root/states/mediaStatusState'
 import { ButtonUpload, AdvisorWrapper } from './style'
-import { Loader } from 'semantic-ui-react'
+import { Progress } from 'semantic-ui-react'
 import { toast } from 'react-semantic-toasts'
 
 interface iUploadAvatar {
@@ -16,17 +16,17 @@ interface iUploadAvatar {
 }
 const UploadAvatar: React.FC<iUploadAvatar> = ({ name, defaultPicture, onChange }) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [avatarProgress, setAvatarProgress] = useState<boolean>(false)
+  const [avatarProgress, setAvatarProgress] = useState<{ progress: number; label: string } | null>(null)
   const mediaStatus = useRecoilValue(mediaStatusState)
   const [picture, setPicture] = useState<ImageType | null>(defaultPicture)
 
   useEffect(() => {
     const id = picture?.id || ''
     if (!mediaStatus[id]) return
-    const { payload, finished } = mediaStatus[id]
-    setAvatarProgress(true)
+    const { payload, finished, progress } = mediaStatus[id]
+    setAvatarProgress({ progress, label: 'Processing...' })
     if (finished) {
-      setAvatarProgress(false)
+      setAvatarProgress(null)
       setPicture(value => {
         return {
           ...value,
@@ -44,8 +44,9 @@ const UploadAvatar: React.FC<iUploadAvatar> = ({ name, defaultPicture, onChange 
     if (!event.target.files?.length) return
     const file: File = event.target.files[0]
     try {
-      const picture = await api.uploadImage(file, () => {
-        setAvatarProgress(true)
+      const picture = await api.uploadImage(file, ({ loaded, total }) => {
+        const progress = Math.round((loaded * 100) / total)
+        setAvatarProgress({ progress, label: 'Uploading...' })
       })
       setPicture(picture)
       onChange(picture.id)
@@ -59,21 +60,36 @@ const UploadAvatar: React.FC<iUploadAvatar> = ({ name, defaultPicture, onChange 
     }
   }
 
+  const handleRemove = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPicture(null)
+    onChange('')
+  }
+
   return (
     <>
       <CAvatar name={name} size="large" src={picture?.thumbnail} />
       <input ref={inputRef} type="file" hidden={true} onChange={handleSelected} />
-      {avatarProgress && (
+      {avatarProgress !== null && (
         <AdvisorWrapper>
-          <Loader active inline />
-          <span>Sending file...</span>
+          <Progress
+            color="blue"
+            progress
+            percent={avatarProgress.progress || 0}
+            label={avatarProgress.label || ''}
+            size="small"
+          />
         </AdvisorWrapper>
       )}
-      {!avatarProgress && (
-        <ButtonUpload onClick={handleFileSelectClick} basic primary>
-          Upload new picture
-        </ButtonUpload>
-      )}
+      {avatarProgress === null &&
+        (!picture?.thumbnail ? (
+          <ButtonUpload onClick={handleFileSelectClick} basic primary>
+            Upload new picture
+          </ButtonUpload>
+        ) : (
+          <ButtonUpload onClick={handleRemove} basic primary>
+            Remove picture
+          </ButtonUpload>
+        ))}
     </>
   )
 }
