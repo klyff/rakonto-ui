@@ -18,7 +18,7 @@ interface iGallery {
 }
 
 const Gallery: React.FC<iGallery> = ({ children, isLoading, galleries, storyId, refresh }) => {
-  const [selectedImage, setSelectedImage] = useState<number>(0)
+  const [selectedImage, setSelectedImage] = useState<number | null>(0)
   const [showPreview, setShowPreview] = useState<boolean>(false)
   const [progress, setProgress] = useState<number>(0)
 
@@ -84,12 +84,17 @@ const Gallery: React.FC<iGallery> = ({ children, isLoading, galleries, storyId, 
           index={selectedImage}
           show={showPreview}
           onNextClick={() => {
+            if (selectedImage === null) return
             setSelectedImage(selectedImage + 1)
           }}
           onPrevClick={() => {
+            if (selectedImage === null) return
             setSelectedImage(selectedImage - 1)
           }}
-          onClose={() => setShowPreview(false)}
+          onClose={() => {
+            setShowPreview(false)
+            setSelectedImage(null)
+          }}
         />
         <ColumnPreview>{children}</ColumnPreview>
       </LoadingArea>

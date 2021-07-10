@@ -7,27 +7,21 @@ import { mediaStatusState } from '@root/states/mediaStatusState'
 
 interface iImageViewer {
   images: ImageType[]
-  index: number
+  index: number | null
   show: boolean
   onClose: () => void
   onNextClick: () => void
   onPrevClick: () => void
 }
-const ImageViewer: React.FC<iImageViewer> = ({
-  images,
-  onNextClick,
-  onPrevClick,
-  show = false,
-  index = 0,
-  onClose
-}) => {
+const ImageViewer: React.FC<iImageViewer> = ({ images, onNextClick, onPrevClick, show = false, index, onClose }) => {
   const mediaStatus = useRecoilValue(mediaStatusState)
   const [selectedImage, setSelectedImage] = useState<ImageType | null>(null)
   const [progress, setProgress] = useState<boolean>(true)
 
   useEffect(() => {
+    if (!images.length || index === null) return
     setSelectedImage(images[index])
-    setProgress(!images[index].thumbnail)
+    setProgress(!images[index]?.thumbnail)
   }, [index, images])
 
   useEffect(() => {
@@ -40,7 +34,17 @@ const ImageViewer: React.FC<iImageViewer> = ({
       setProgress(false)
       setSelectedImage(payload)
     }
-  }, [mediaStatus])
+  }, [mediaStatus, selectedImage])
+
+  const handleNext = () => {
+    setProgress(true)
+    onNextClick()
+  }
+
+  const handlePrev = () => {
+    setProgress(true)
+    onPrevClick()
+  }
 
   return (
     <Dimmer active={show} page>
@@ -49,22 +53,24 @@ const ImageViewer: React.FC<iImageViewer> = ({
           <Icon name="close" size="big" onClick={onClose} />
         </Header>
         <PreviewArea>
-          {index > 0 && <Button icon="angle left" circular size="big" onClick={onPrevClick} disabled={index === 0} />}
+          {(index || 0) > 0 && (
+            <Button icon="angle left" circular size="big" onClick={handlePrev} disabled={index === 0} />
+          )}
           <Stage>
             {!progress ? (
               <Image src={selectedImage?.thumbnail} />
             ) : (
               <Loader active inverted>
-                Processing...
+                Loading...
               </Loader>
             )}
           </Stage>
-          {index < images.length - 1 && (
-            <Button icon="angle right" circular size="big" onClick={onNextClick} disabled={index === images.length} />
+          {(index || 0) < images.length - 1 && (
+            <Button icon="angle right" circular size="big" onClick={handleNext} disabled={index === images.length} />
           )}
         </PreviewArea>
         <Footer>
-          {selectedImage?.originalName} | {index + 1} of {images.length}
+          {selectedImage?.originalName} | {(index || 0) + 1} of {images.length}
         </Footer>
       </Box>
     </Dimmer>
