@@ -22,7 +22,7 @@ interface iformikValues {
 
 const AddEditPersonFormModal: React.FC<iAddEditPersonFormModal> = ({ person, open, onClose }) => {
   const { updatePerson, createPerson } = usePeopleApi()
-  const [pictureId, setPictureId] = useState<string>(person?.picture?.id || '')
+  const [pictureId, setPictureId] = useState<string | null>(person?.picture?.id || null)
   const [initialValues, setInitialValues] = useState<iformikValues>({
     name: person?.name || '',
     link: person?.description || ''
@@ -46,7 +46,7 @@ const AddEditPersonFormModal: React.FC<iAddEditPersonFormModal> = ({ person, ope
     })
   }, [person])
 
-  const handleUploadPictureChange = (pictureId: string) => {
+  const handleUploadPictureChange = (pictureId: string | null) => {
     setPictureId(pictureId)
   }
 

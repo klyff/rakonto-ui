@@ -40,7 +40,7 @@ export type UserType = {
 export type UserFormType = {
   firstName: string
   lastName: string
-  pictureId: string
+  pictureId: string | null
   about: string
   location: string
 }
@@ -214,7 +214,7 @@ export type WatcherType = {
 export type PersonFormType = {
   name: string
   description: string
-  pictureId: string
+  pictureId: string | null
 }
 
 export type LinkFormType = {

@@ -12,7 +12,7 @@ interface iUploadAvatar {
   name: string
   size?: 'small' | 'medium' | 'large'
   defaultPicture: ImageType | null
-  onChange: (id: string) => void
+  onChange: (id: string | null) => void
 }
 const UploadAvatar: React.FC<iUploadAvatar> = ({ name, defaultPicture, onChange }) => {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -62,7 +62,7 @@ const UploadAvatar: React.FC<iUploadAvatar> = ({ name, defaultPicture, onChange 
 
   const handleRemove = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setPicture(null)
-    onChange('')
+    onChange(null)
   }
 
   return (

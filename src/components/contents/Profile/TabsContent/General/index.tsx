@@ -19,7 +19,7 @@ interface iformikValues {
 
 const General: React.FC = () => {
   const [user, setUser] = useRecoilState(userState)
-  const [pictureId, setPictureId] = useState<string>(user?.picture?.id || '')
+  const [pictureId, setPictureId] = useState<string | null>(user?.picture?.id || null)
   const [initialValues, setInitialValues] = useState<iformikValues>({
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
@@ -42,7 +42,7 @@ const General: React.FC = () => {
     })
   }, [user])
 
-  const handleUploadPictureChange = (pictureId: string) => {
+  const handleUploadPictureChange = (pictureId: string | null) => {
     setPictureId(pictureId)
   }
 
