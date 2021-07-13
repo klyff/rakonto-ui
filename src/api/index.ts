@@ -40,7 +40,10 @@ import {
   getGallery,
   getTimeline,
   createTimeline,
-  deleteTimeline
+  deleteTimeline,
+  createPlace,
+  deletePlace,
+  searchLocation
 } from './services'
 import { history } from '../App'
 
@@ -112,5 +115,8 @@ export const api = {
   deleteGallery: deleteGallery(request),
   getTimeline: getTimeline(request),
   createTimeline: createTimeline(request),
-  deleteTimeline: deleteTimeline(request)
+  deleteTimeline: deleteTimeline(request),
+  createPlace: createPlace(request),
+  deletePlace: deletePlace(request),
+  searchLocation: searchLocation(request)
 }

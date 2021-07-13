@@ -270,3 +270,19 @@ export type PlaceFormType = {
   latitude: string
   longitude: string
 }
+
+export type LocationSearchType = {
+  boundingbox: string[]
+  class: string
+  // eslint-disable-next-line camelcase
+  display_name: string
+  icon: string
+  importance: number
+  lat: string
+  licence: string
+  lon: string
+  osmId: number
+  osmType: string
+  placeId: number
+  type: string
+}

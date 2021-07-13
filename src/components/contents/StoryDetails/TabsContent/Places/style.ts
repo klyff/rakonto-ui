@@ -27,9 +27,13 @@ export const List = styled(SList)`
 export const Item = styled.div`
   position: relative;
   min-width: 500px;
-  & > div {
+  & > div:not(:last-child & :first-child) {
     padding: 8px 16px;
   }
+  & > div:last-child {
+    height: 260px;
+  }
+
   @media only screen and (max-width: 1024px) {
     min-width: unset;
   }

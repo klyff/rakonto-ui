@@ -21,7 +21,10 @@ import {
   TranscriptionType,
   TranscriptionFormType,
   TimelineType,
-  TimelineFormType
+  TimelineFormType,
+  LocationSearchType,
+  PlaceFormType,
+  PlaceType
 } from '@root/types'
 
 // User api
@@ -334,4 +337,24 @@ export const deleteTimeline =
   (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
     await request.delete(`a/timeline-entries/${id}`)
+  }
+
+export const createPlace =
+  (request: AxiosInstance) =>
+  async (data: PlaceFormType): Promise<PlaceType> => {
+    const response = await request.post<PlaceType>(`a/places`, data)
+    return response.data
+  }
+
+export const deletePlace =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    await request.delete(`a/places/${id}`)
+  }
+
+export const searchLocation =
+  (request: AxiosInstance) =>
+  async (address: string): Promise<LocationSearchType[]> => {
+    const response = await request.get<LocationSearchType[]>(`a/geomap/search?format=json&q=${address}`)
+    return response.data
   }

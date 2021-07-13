@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import { ColumnForm, ColumnPreview, Layout } from '@root/components/contents/StoryDetails/TabsContent/style'
 import { PlaceType } from '@root/types'
-import { useTimelineApi } from './useTimelineApi'
+import { usePlacesApi } from './usePlacesApi'
 import AddEditPlaceFormModal from '@root/components/modals/AddEditPlaceFormModal'
 import PlacesList from './PlacesList'
 import { AddButton, OcurrenciesArea } from './style'
@@ -18,26 +18,26 @@ interface iTimeline {
 
 const Places: React.FC<iTimeline> = ({ isLoading, refresh, storyId, places, children }) => {
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const { addOccurrence, removeOccurrence } = useTimelineApi()
+  const { addPlace, removePlace } = usePlacesApi()
   const setBasicModalState = useSetRecoilState(basicModalState)
 
-  const addEditTimeline = (timeline?: PlaceType) => {
+  const addEditPlace = (place?: PlaceType) => {
     setOpenModal(true)
   }
 
-  const HandleRemove = async (timeline: PlaceType) => {
+  const HandleRemove = async (place: PlaceType) => {
     setBasicModalState({
       open: true,
-      title: 'Remove ocurrence',
+      title: 'Remove place',
       isConfirmation: true,
       onClose: async isSuccess => {
         if (!isSuccess) return
-        await removeOccurrence(timeline.id)
+        await removePlace(place.id)
         await refresh()
       },
       content: (
         <>
-          Do you want remove <b>{timeline.name}</b> from this story?
+          Do you want remove <b>{place.name}</b> from this story?
         </>
       )
     })
@@ -47,7 +47,7 @@ const Places: React.FC<iTimeline> = ({ isLoading, refresh, storyId, places, chil
     <Layout>
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
-          <AddButton primary onClick={() => addEditTimeline()}>
+          <AddButton primary onClick={() => addEditPlace()}>
             Add new place
           </AddButton>
           <OcurrenciesArea>
@@ -59,7 +59,17 @@ const Places: React.FC<iTimeline> = ({ isLoading, refresh, storyId, places, chil
           place={null}
           open={openModal}
           onClose={async place => {
-            console.log(place)
+            if (place) {
+              const { description, longitude, latitude, location, name } = place
+              await addPlace({
+                storyId,
+                description,
+                longitude,
+                latitude,
+                location,
+                name
+              })
+            }
             setOpenModal(false)
             refresh()
           }}
