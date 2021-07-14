@@ -36,8 +36,8 @@ const CoverDropArea: React.FC<iCoverDropArea> = ({ onIdChange, cover }) => {
   return (
     <>
       <DropAreaWrapper
-        thumbSrc={coverInfo?.thumbnail || ''}
         {...getRootProps()}
+        thumbSrc={coverInfo?.thumbnail || ''}
         isDragActive={isDragActive}
         isDragAccept={isDragAccept}
         isDragReject={isDragReject}

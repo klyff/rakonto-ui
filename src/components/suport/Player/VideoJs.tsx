@@ -10,9 +10,10 @@ videojsQualitySelector(videojs)
 
 const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview?: string }> = ({ options, preview }) => {
   const [player, setPlayer] = useState<VideoJsPlayer | null>(null)
-  const videoNode = useRef(null)
+  const videoNode = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
+    if (!videoNode.current) return
     const playerInstance = videojs(videoNode.current, {
       ...options,
       controlBar: {
@@ -23,7 +24,7 @@ const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview?: string
     return () => {
       player && player.dispose()
     }
-  }, [])
+  }, [videoNode])
 
   return (
     <div data-vjs-player>

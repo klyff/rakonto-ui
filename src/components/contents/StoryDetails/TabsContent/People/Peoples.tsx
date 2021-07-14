@@ -22,7 +22,7 @@ const Peoples: React.FC<iPeoples> = ({ persons, removePerson, editPerson }) => {
             <List.Header>{person.name}</List.Header>
             <List.Description>
               <a>
-                <b>{person.description}</b>
+                <b>{person.link}</b>
               </a>{' '}
             </List.Description>
           </List.Content>

@@ -21,9 +21,10 @@ import 'video.js/dist/video-js.css'
 const AudioJsWrapper: React.FC<{ options: VideoJsPlayerOptions; id: string }> = ({ options, id }) => {
   const [player, setPlayer] = useState<VideoJsPlayer | null>(null)
 
-  const videoNode = useRef(null)
+  const videoNode = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
+    if (!videoNode?.current) return
     const playerInstance = videojs(videoNode.current, {
       ...options
     })
@@ -32,7 +33,7 @@ const AudioJsWrapper: React.FC<{ options: VideoJsPlayerOptions; id: string }> = 
     return () => {
       player && player.dispose()
     }
-  }, [])
+  }, [videoNode])
 
   return (
     <Audio>

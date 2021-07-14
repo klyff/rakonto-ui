@@ -213,7 +213,7 @@ export type WatcherType = {
 
 export type PersonFormType = {
   name: string
-  description: string
+  link: string
   pictureId: string | null
 }
 
@@ -235,7 +235,7 @@ export type GalleryFormType = {
 export type PersonType = {
   id: string
   name: string
-  description: string
+  link: string
   picture: ImageType
 }
 

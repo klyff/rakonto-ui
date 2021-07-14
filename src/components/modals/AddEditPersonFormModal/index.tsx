@@ -25,24 +25,24 @@ const AddEditPersonFormModal: React.FC<iAddEditPersonFormModal> = ({ person, ope
   const [pictureId, setPictureId] = useState<string | null>(person?.picture?.id || null)
   const [initialValues, setInitialValues] = useState<iformikValues>({
     name: person?.name || '',
-    link: person?.description || ''
+    link: person?.link || ''
   })
 
   const isEdit = !!person?.id
 
   const submit = async (values: iformikValues) => {
     if (isEdit) {
-      await updatePerson(person?.id as string, { name: values.name, description: values.link, pictureId })
+      await updatePerson(person?.id as string, { name: values.name, link: values.link, pictureId })
       onClose(null)
       return
     }
-    onClose(await createPerson({ name: values.name, description: values.link, pictureId }))
+    onClose(await createPerson({ name: values.name, link: values.link, pictureId }))
   }
 
   useEffect(() => {
     setInitialValues({
       name: person?.name || '',
-      link: person?.description || ''
+      link: person?.link || ''
     })
   }, [person])
 
