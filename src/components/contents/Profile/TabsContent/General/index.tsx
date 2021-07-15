@@ -8,6 +8,7 @@ import { useRecoilState } from 'recoil'
 import { userState } from '@root/states/userState'
 import { Layout } from './style'
 import { api } from '@root/api'
+import { toast } from 'react-semantic-toasts'
 
 interface iformikValues {
   firstName: string
@@ -28,9 +29,23 @@ const General: React.FC = () => {
   })
 
   const submit = async (values: iformikValues) => {
-    const { firstName, lastName, about = '', location = '' } = values
-    const result = await api.updateMe({ firstName, lastName, about, location, pictureId })
-    setUser(result)
+    try {
+      const { firstName, lastName, about = '', location = '' } = values
+      const result = await api.updateMe({ firstName, lastName, about, location, pictureId })
+      setUser(result)
+      toast({
+        type: 'success',
+        title: 'Saved',
+        time: 3000
+      })
+    } catch (error) {
+      toast({
+        type: 'error',
+        title: error.response.data.message,
+        time: 3000,
+        description: `Error: ${error.response.data.code}`
+      })
+    }
   }
 
   useEffect(() => {

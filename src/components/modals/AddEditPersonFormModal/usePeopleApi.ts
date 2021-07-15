@@ -3,7 +3,7 @@ import { PersonFormType, PersonType } from '@root/types'
 
 interface iUsePeopleApi {
   createPerson: (data: PersonFormType) => Promise<PersonType>
-  updatePerson: (id: string, data: PersonFormType) => void
+  updatePerson: (id: string, data: PersonFormType) => Promise<PersonType>
 }
 
 export const usePeopleApi = (): iUsePeopleApi => {
@@ -13,7 +13,7 @@ export const usePeopleApi = (): iUsePeopleApi => {
   }
 
   const updatePerson = async (id: string, data: PersonFormType) => {
-    await api.updatePerson(id, data)
+    return api.updatePerson(id, data)
   }
 
   return {

@@ -16,6 +16,7 @@ import Links from './TabsContent/Links'
 import Gallery from './TabsContent/Gallery'
 import People from './TabsContent/People'
 import Places from './TabsContent/Places'
+import Share from './TabsContent/Share'
 import Preview from './PreviewBox'
 
 const StoryDetails: React.FC = () => {
@@ -119,6 +120,12 @@ const StoryDetails: React.FC = () => {
             {PreviewComponent}
           </Timeline>
         )
+      case 'subtitles':
+        return (
+          <Gallery isLoading={isLoading} refresh={refresh} storyId={storyId} galleries={galleryEntries || []}>
+            {PreviewComponent}
+          </Gallery>
+        )
       case 'gallery':
         return (
           <Gallery isLoading={isLoading} refresh={refresh} storyId={storyId} galleries={galleryEntries || []}>
@@ -136,6 +143,12 @@ const StoryDetails: React.FC = () => {
           <Links storyId={storyId} refresh={refresh} links={links || []} isLoading={isLoading}>
             {PreviewComponent}
           </Links>
+        )
+      case 'share':
+        return (
+          <Share storyId={storyId} refresh={refresh}>
+            {PreviewComponent}
+          </Share>
         )
       default:
         return (

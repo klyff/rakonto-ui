@@ -43,7 +43,9 @@ import {
   deleteTimeline,
   createPlace,
   deletePlace,
-  searchLocation
+  searchLocation,
+  uploadSubtitle,
+  deleteSubtitle
 } from './services'
 import { history } from '../App'
 
@@ -118,5 +120,7 @@ export const api = {
   deleteTimeline: deleteTimeline(request),
   createPlace: createPlace(request),
   deletePlace: deletePlace(request),
-  searchLocation: searchLocation(request)
+  searchLocation: searchLocation(request),
+  uploadSubtitle: uploadSubtitle(request),
+  deleteSubtitle: deleteSubtitle(request)
 }

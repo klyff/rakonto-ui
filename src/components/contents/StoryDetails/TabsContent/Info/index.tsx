@@ -2,12 +2,13 @@ import React, { useCallback, useState } from 'react'
 import { Button } from 'semantic-ui-react'
 import StoryDetailForm from './StoryDetailForm'
 import { useHistory } from 'react-router-dom'
-import { Footer } from './style'
+import { Footer, Layout } from './style'
 import CoverDropArea from './CoverDropArea'
 import { CollectionType, StoryType, StoryUpdateType, WatcherType } from '@root/types'
 import { Formik, Form } from 'formik'
 import schema from './schema'
 import LoadingArea from '@root/components/suport/LoadingArea'
+import { ColumnPreview, ColumnForm } from '../style'
 
 interface iInfo {
   story: Partial<StoryType>
@@ -44,20 +45,8 @@ const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children
       const newValues: Partial<StoryUpdateType> = {
         coverId: coverId,
         title: values.title,
-        published: values.published,
         description: values.description,
-        watchersToAdd: values.watchers.map((watcher: WatcherType) => watcher.email),
-        watchersToRemove: watchers
-          ?.filter((watcher: WatcherType) => {
-            return !values.watchers.some((item: WatcherType) => item.email === watcher.email)
-          })
-          .map((watcher: WatcherType) => watcher.email),
-        collectionsToAdd: values.collections,
-        collectionsToRemove: collections
-          ?.filter((collection: CollectionType) => {
-            return !values.collections.some((item: string) => item === collection.id)
-          })
-          .map((collection: CollectionType) => collection.id)
+        collections: values.collections
       }
       await updateStory(newValues)
     },
@@ -74,34 +63,39 @@ const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children
   }
 
   return (
-    <LoadingArea isLoading={isLoading}>
-      <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
-        {({ isSubmitting, handleSubmit }) => (
-          <Form>
-            <StoryDetailForm watchers={watchers} storyId={id || ''}>
-              {children}
-              <CoverDropArea onIdChange={setCoverId} cover={cover} />
-            </StoryDetailForm>
-            <Footer>
-              <Button type="submit" primary id="save" loading={isSubmitting}>
-                Save
-              </Button>
-              <Button
-                id="publish"
-                type="button"
-                positive
-                onClick={() => {
-                  handleSubmit()
-                  history.push('/a/stories')
-                }}
-              >
-                Done
-              </Button>
-            </Footer>
-          </Form>
-        )}
-      </Formik>
-    </LoadingArea>
+    <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
+      {({ isSubmitting, handleSubmit }) => (
+        <Form style={{ height: '100%' }}>
+          <Layout>
+            <LoadingArea isLoading={isLoading}>
+              <ColumnForm>
+                <StoryDetailForm />
+              </ColumnForm>
+              <ColumnPreview>
+                {children}
+                <CoverDropArea onIdChange={setCoverId} cover={cover} />
+              </ColumnPreview>
+            </LoadingArea>
+          </Layout>
+          <Footer>
+            <Button type="submit" primary id="save" loading={isSubmitting}>
+              Save
+            </Button>
+            <Button
+              id="publish"
+              type="button"
+              positive
+              onClick={() => {
+                handleSubmit()
+                history.push('/a/stories')
+              }}
+            >
+              Done
+            </Button>
+          </Footer>
+        </Form>
+      )}
+    </Formik>
   )
 }
 

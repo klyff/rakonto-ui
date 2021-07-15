@@ -24,7 +24,9 @@ import {
   TimelineFormType,
   LocationSearchType,
   PlaceFormType,
-  PlaceType
+  PlaceType,
+  SubtitleType,
+  LanguageEnum
 } from '@root/types'
 
 // User api
@@ -357,4 +359,29 @@ export const searchLocation =
   async (address: string): Promise<LocationSearchType[]> => {
     const response = await request.get<LocationSearchType[]>(`a/geomap/search?format=json&q=${address}`)
     return response.data
+  }
+
+// Subtitile api
+export const uploadSubtitle =
+  (request: AxiosInstance) =>
+  async (
+    storyId: string,
+    language: LanguageEnum,
+    file: File,
+    progressCallback?: (progress: { total: number; loaded: number }) => void
+  ): Promise<SubtitleType> => {
+    const data = new FormData()
+    data.append('file', file)
+    data.append('language', language)
+    data.append('storyId', storyId)
+    const response = await request.post<SubtitleType>(`a/subtitles`, data, {
+      onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
+    })
+    return response.data
+  }
+
+export const deleteSubtitle =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    await request.delete<SubtitleType>(`a/subtitles/${id}`)
   }

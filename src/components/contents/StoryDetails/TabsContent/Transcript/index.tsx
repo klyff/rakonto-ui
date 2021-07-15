@@ -8,6 +8,7 @@ import draftToHtml from 'draftjs-to-html'
 import htmlToDraft from 'html-to-draftjs'
 import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import { toast } from 'react-semantic-toasts'
 
 interface iTranscript {
   storyId: string
@@ -34,21 +35,40 @@ const Transcript: React.FC<iTranscript> = ({ children, refresh, transcription, s
   }
 
   const handleSave = async () => {
-    const content = draftToHtml(convertToRaw(value.getCurrentContent()))
-    if (!transcription) {
-      await api.createTranscriptions({
+    try {
+      const content = draftToHtml(convertToRaw(value.getCurrentContent()))
+      if (!transcription) {
+        await api.createTranscriptions({
+          content,
+          storyId: storyId
+        })
+        refresh()
+        toast({
+          type: 'success',
+          title: 'Saved',
+          time: 3000
+        })
+        return
+      }
+
+      await api.updateTranscriptions(transcription.id, {
         content,
         storyId: storyId
       })
       refresh()
-      return
+      toast({
+        type: 'success',
+        title: 'Saved',
+        time: 3000
+      })
+    } catch (error) {
+      toast({
+        type: 'error',
+        title: error.response.data.message,
+        time: 3000,
+        description: `Error: ${error.response.data.code}`
+      })
     }
-
-    await api.updateTranscriptions(transcription.id, {
-      content,
-      storyId: storyId
-    })
-    refresh()
   }
 
   return (

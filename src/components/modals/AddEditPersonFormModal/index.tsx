@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Formik } from 'formik'
+import { Formik, FormikHelpers } from 'formik'
 import { Button, Header, Modal as SModal } from 'semantic-ui-react'
 import { ModalDescription } from '../style'
 import UploadAvatar from '@root/components/suport/UploadAvatar'
@@ -7,6 +7,7 @@ import { Input } from '@root/components/suport/FormFields'
 import schema from './schema'
 import { usePeopleApi } from './usePeopleApi'
 import { PersonType } from '@root/types'
+import { toast } from 'react-semantic-toasts'
 
 interface iAddEditPersonFormModal {
   person: PersonType | null
@@ -30,13 +31,30 @@ const AddEditPersonFormModal: React.FC<iAddEditPersonFormModal> = ({ person, ope
 
   const isEdit = !!person?.id
 
-  const submit = async (values: iformikValues) => {
-    if (isEdit) {
-      await updatePerson(person?.id as string, { name: values.name, link: values.link, pictureId })
+  const submit = async (values: iformikValues, helpers: FormikHelpers<iformikValues>) => {
+    try {
+      if (isEdit) {
+        await updatePerson(person?.id as string, { name: values.name, link: values.link, pictureId })
+        onClose(null)
+      } else {
+        onClose(await createPerson({ name: values.name, link: values.link, pictureId }))
+      }
+      toast({
+        type: 'success',
+        title: 'Saved',
+        time: 3000
+      })
+    } catch (error) {
+      toast({
+        type: 'error',
+        title: error.response.data.message,
+        time: 3000,
+        description: `Error: ${error.response.data.code}`
+      })
       onClose(null)
-      return
+    } finally {
+      helpers.resetForm()
     }
-    onClose(await createPerson({ name: values.name, link: values.link, pictureId }))
   }
 
   useEffect(() => {

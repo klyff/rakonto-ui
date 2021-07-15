@@ -12,6 +12,7 @@ import debounce from 'lodash.debounce'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import { basicModalState } from '@root/components/modals/BasicModal'
 import AddEditPersonFormModal from '@root/components/modals/AddEditPersonFormModal'
+import { toast } from 'react-semantic-toasts'
 
 interface iPeople {
   persons?: PersonType[]
@@ -47,9 +48,23 @@ const People: React.FC<iPeople> = ({ storyId, children, isLoading, refresh, pers
       title: 'Remove person',
       isConfirmation: true,
       onClose: async isSuccess => {
-        if (!isSuccess) return
-        await removePerson(storyId, person.id)
-        await refresh()
+        try {
+          if (!isSuccess) return
+          await removePerson(storyId, person.id)
+          await refresh()
+          toast({
+            type: 'success',
+            title: 'Removed',
+            time: 3000
+          })
+        } catch (error) {
+          toast({
+            type: 'error',
+            title: error.response.data.message,
+            time: 3000,
+            description: `Error: ${error.response.data.code}`
+          })
+        }
       },
       content: (
         <>

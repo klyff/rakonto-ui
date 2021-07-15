@@ -144,12 +144,8 @@ export type StoryType = {
 export type StoryUpdateType = {
   title: string
   description: string
-  published: boolean
   coverId: string
-  collectionsToAdd: string[]
-  collectionsToRemove: string[]
-  watchersToAdd: string[]
-  watchersToRemove: string[]
+  collections: string[]
 }
 
 export type CollectionType = {
@@ -157,7 +153,6 @@ export type CollectionType = {
   title: string
   description: string
   cover: ImageType
-  watchers: WatcherType[]
   thumbnail: string
   stories: StoryType[]
 }
@@ -194,6 +189,10 @@ export type FileType = {
   mimeType: string
 }
 
+export type SubtitleType = FileType & {
+  language: LanguageEnum
+}
+
 export type LinkType = {
   id: string
   url: string
@@ -224,11 +223,6 @@ export type LinkFormType = {
 
 export type TranscriptionFormType = {
   content: string
-  storyId: string
-}
-
-export type GalleryFormType = {
-  file: File
   storyId: string
 }
 
@@ -285,4 +279,77 @@ export type LocationSearchType = {
   osmType: string
   placeId: number
   type: string
+}
+
+export enum LanguageEnum {
+  'arabic' = 'arabic',
+  'brazilianPortuguese' = 'brazilian portuguese',
+  'danish' = 'danish',
+  'dutch' = 'dutch',
+  'english' = 'english',
+  'farsi' = 'farsi',
+  'finnish' = 'finnish',
+  'french' = 'french',
+  'greek' = 'greek',
+  'hebrew' = 'hebrew',
+  'indonesian' = 'indonesian',
+  'italian' = 'italian',
+  'malay' = 'malay',
+  'norwegian' = 'norwegian',
+  'romanian' = 'romanian',
+  'spanish' = 'spanish',
+  'swedish' = 'swedish',
+  'turkish' = 'turkish',
+  'vietnamese' = 'vietnamese',
+  'albanian' = 'albanian',
+  'armenian' = 'armenian',
+  'azerbaijani' = 'azerbaijani',
+  'basque' = 'basque',
+  'belarusian' = 'belarusian',
+  'bengali' = 'bengali',
+  'bosnian' = 'bosnian',
+  'bulgarian' = 'bulgarian',
+  'burmese' = 'burmese',
+  'catalan' = 'catalan',
+  'chinese' = 'chinese',
+  'croatian' = 'croatian',
+  'czech' = 'czech',
+  'esperanto' = 'esperanto',
+  'estonian' = 'estonian',
+  'georgian' = 'georgian',
+  'german' = 'german',
+  'greenlandic' = 'greenlandic',
+  'hindi' = 'hindi',
+  'hungarian' = 'hungarian',
+  'icelandic' = 'icelandic',
+  'japanese' = 'japanese',
+  'kannada' = 'kannada',
+  'korean' = 'korean',
+  'kurdish' = 'kurdish',
+  'latvian' = 'latvian',
+  'lithuanian' = 'lithuanian',
+  'macedonian' = 'macedonian',
+  'malayalam' = 'malayalam',
+  'manipuri' = 'manipuri',
+  'mongolian' = 'mongolian',
+  'nepali' = 'nepali',
+  'pashto' = 'pashto',
+  'polish' = 'polish',
+  'portuguese' = 'portuguese',
+  'punjabi' = 'punjabi',
+  'russian' = 'russian',
+  'serbian' = 'serbian',
+  'sinhala' = 'sinhala',
+  'slovak' = 'slovak',
+  'slovenian' = 'slovenian',
+  'somali' = 'somali',
+  'sundanese' = 'sundanese',
+  'swahili' = 'swahili',
+  'tagalog' = 'tagalog',
+  'tamil' = 'tamil',
+  'telugu' = 'telugu',
+  'thai' = 'thai',
+  'ukrainian' = 'ukrainian',
+  'urdu' = 'urdu',
+  'yoruba' = 'yoruba'
 }
