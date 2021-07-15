@@ -28,7 +28,7 @@ const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview?: string
 
   return (
     <div data-vjs-player>
-      <Video preview={preview} ref={videoNode} className="video-js" width="100%" />
+      <Video preview={preview} ref={videoNode} className="video-js vjs-big-play-centered" width="100%" />
     </div>
   )
 }
