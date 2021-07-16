@@ -33,6 +33,7 @@ const StoryDetails: React.FC = () => {
   const {
     type,
     ready,
+    published,
     video,
     audio,
     thumbnail,
@@ -42,7 +43,8 @@ const StoryDetails: React.FC = () => {
     transcription,
     galleryEntries,
     timelineEntries,
-    places
+    places,
+    watchers
   } = story
 
   useEffect(() => {
@@ -146,7 +148,7 @@ const StoryDetails: React.FC = () => {
         )
       case 'share':
         return (
-          <Share storyId={storyId} refresh={refresh}>
+          <Share storyId={storyId} watchers={watchers || []} published={!!published} refresh={refresh}>
             {PreviewComponent}
           </Share>
         )

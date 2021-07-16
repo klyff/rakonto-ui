@@ -26,7 +26,8 @@ import {
   PlaceFormType,
   PlaceType,
   SubtitleType,
-  LanguageEnum
+  LanguageEnum,
+  addWatcherType
 } from '@root/types'
 
 // User api
@@ -144,19 +145,6 @@ export const getCollections =
     return response.data
   }
 
-export const getWatcher =
-  (request: AxiosInstance) =>
-  async (email: string): Promise<WatcherType> => {
-    const response = await request.get(`a/watchers/${email}`)
-    return response.data
-  }
-
-export const resendInvite =
-  (request: AxiosInstance) =>
-  async (id: string, email: string): Promise<void> => {
-    return await request.get(`a/stories/${id}/watcher/${email}/resend-invite`)
-  }
-
 export const addPersonToStory =
   (request: AxiosInstance) =>
   async (id: string, personId: string): Promise<void> => {
@@ -167,6 +155,12 @@ export const removePersonFromStory =
   (request: AxiosInstance) =>
   async (id: string, personId: string): Promise<void> => {
     return await request.post(`a/stories/${id}/remove-person`, { personId })
+  }
+
+export const publishStory =
+  (request: AxiosInstance) =>
+  async (id: string, publish: boolean): Promise<void> => {
+    return publish ? await request.post(`a/stories/${id}/publish`) : await request.post(`a/stories/${id}/draft`)
   }
 
 // Image api
@@ -384,4 +378,25 @@ export const deleteSubtitle =
   (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
     await request.delete<SubtitleType>(`a/subtitles/${id}`)
+  }
+
+// Watcher api
+
+export const addWatcher =
+  (request: AxiosInstance) =>
+  async (data: addWatcherType): Promise<WatcherType> => {
+    const response = await request.post<WatcherType>(`a/watchers`, data)
+    return response.data
+  }
+
+export const removeWatcher =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    await request.delete(`a/watchers/${id}`)
+  }
+
+export const notifyWatcher =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    await request.post(`a/watchers/${id}/notify`)
   }

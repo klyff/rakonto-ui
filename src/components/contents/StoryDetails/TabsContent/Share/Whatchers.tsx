@@ -1,8 +1,7 @@
 import React from 'react'
 import { List, Image, Dropdown } from 'semantic-ui-react'
-import { UserType, WatcherType } from '@root/types'
+import { WatcherType } from '@root/types'
 import { Actions } from './style'
-import { useFormikContext } from 'formik'
 
 interface iUserList {
   list: WatcherType[]
@@ -11,12 +10,10 @@ interface iUserList {
 }
 
 const Whatchers: React.FC<iUserList> = ({ list, onRemoveWatcher, resendInvite }) => {
-  const { initialValues } = useFormikContext<{ watchers: UserType[]; published: boolean }>()
-
   return (
     <List divided relaxed>
-      {list.map(({ email, user }) => (
-        <List.Item key={email}>
+      {list.map(({ id, email, user }) => (
+        <List.Item key={id}>
           {user?.picture?.thumbnail ? (
             <Image avatar src={user.picture.thumbnail} />
           ) : (
@@ -31,15 +28,8 @@ const Whatchers: React.FC<iUserList> = ({ list, onRemoveWatcher, resendInvite })
           <Actions>
             <Dropdown pointing="right" icon="ellipsis vertical">
               <Dropdown.Menu>
-                <Dropdown.Item text="Remove" icon="close" onClick={() => onRemoveWatcher(email)} />
-                <Dropdown.Item
-                  disabled={
-                    !(initialValues.published && initialValues.watchers.some(watcher => watcher.email === email))
-                  }
-                  text="Resend invite"
-                  icon="mail outline"
-                  onClick={() => resendInvite(email)}
-                />
+                <Dropdown.Item text="Remove" icon="close" onClick={() => onRemoveWatcher(id)} />
+                <Dropdown.Item text="Resend invite" icon="mail outline" onClick={() => resendInvite(id)} />
               </Dropdown.Menu>
             </Dropdown>
           </Actions>

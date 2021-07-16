@@ -1,94 +1,149 @@
 import React from 'react'
 import { Layout, ColumnForm, ColumnPreview } from '../style'
-import { Button, Header, Segment, SegmentGroup } from 'semantic-ui-react'
-import { Input, Select } from '@root/components/suport/FormFields'
-import { WhatchersContainer } from './style'
+import { Button, Header, Segment, SegmentGroup, Checkbox, CheckboxProps } from 'semantic-ui-react'
+import { WhatchersContainer, Box } from './style'
 import Whatchers from './Whatchers'
 import { api } from '@root/api'
-import { useSetRecoilState } from 'recoil'
-import { basicModalState } from '@root/components/modals/BasicModal'
-import { useField } from 'formik'
 import { WatcherType } from '@root/types'
+import schema from './schema'
+import { Form, Formik, FormikHelpers } from 'formik'
+import { Input } from '@root/components/suport/FormFields'
+import { toast } from 'react-semantic-toasts'
 
 interface iTranscript {
   storyId: string
+  published: boolean
   refresh: () => void
+  watchers: WatcherType[]
 }
 
-const Share: React.FC<iTranscript> = ({ children, refresh, storyId }) => {
-  const setBasicModalState = useSetRecoilState(basicModalState)
-  const [watcherShareField, watcherShareMeta] = useField('watcherShare')
-  const [watchersShareField, , watchersHelper] = useField<WatcherType[]>('watchers')
+interface iFormikValues {
+  watcher: string
+}
 
-  const onAddUser = async () => {
-    if (
-      !watcherShareField?.value ||
-      watchersShareField.value.some(whatcher => whatcher.email === watcherShareField.value)
-    )
-      return
-    const watcher = await api.getWatcher(watcherShareField.value)
-    watchersHelper.setValue([...watchersShareField.value, watcher], false)
-  }
-
-  const onRemoveWatcher = async (email: string) => {
-    watchersHelper.setValue([...watchersShareField.value.filter(item => item.email !== email)], false)
-  }
-
-  const resendInvite = async (email: string) => {
+const Share: React.FC<iTranscript> = ({ children, refresh, published, watchers, storyId }) => {
+  const handleToogle = async (e: any, { checked }: CheckboxProps) => {
     try {
-      await api.resendInvite(storyId, email)
-      setBasicModalState({
-        open: true,
-        title: 'Resend email',
-        content: <>Invite email sent again to {email}!</>
+      await api.publishStory(storyId, !!checked)
+      refresh()
+      toast({
+        type: 'success',
+        title: `Story ${published ? 'Unpublished' : 'Published'}`,
+        time: 3000
       })
-    } catch (e) {
-      console.log(e)
+    } catch (error) {
+      toast({
+        type: 'error',
+        title: error.response.data.message || 'Something wrong, try again!',
+        time: 3000,
+        description: `Error: ${error.response.data.code || 500}`
+      })
     }
   }
+
+  const submit = async ({ watcher }: iFormikValues, helpers: FormikHelpers<iFormikValues>) => {
+    try {
+      await api.addWatcher({ storyId, email: watcher })
+      helpers.resetForm()
+      refresh()
+      toast({
+        type: 'success',
+        title: 'Watcher added',
+        time: 3000
+      })
+    } catch (error) {
+      toast({
+        type: 'error',
+        title: error.response.data.message || 'Something wrong, try again!',
+        time: 3000,
+        description: `Error: ${error.response.data.code || 500}`
+      })
+    }
+  }
+
+  const onRemoveWatcher = async (id: string) => {
+    try {
+      await api.removeWatcher(id)
+      refresh()
+      toast({
+        type: 'success',
+        title: 'Watcher removed',
+        time: 3000
+      })
+    } catch (error) {
+      toast({
+        type: 'error',
+        title: error.response.data.message || 'Something wrong, try again!',
+        time: 3000,
+        description: `Error: ${error.response.data.code || 500}`
+      })
+    }
+  }
+
+  const resendInvite = async (id: string) => {
+    try {
+      await api.notifyWatcher(id)
+      refresh()
+      toast({
+        type: 'success',
+        title: 'Invite resented',
+        time: 3000
+      })
+    } catch (error) {
+      toast({
+        type: 'error',
+        title: error.response.data.message || 'Something wrong, try again!',
+        time: 3000,
+        description: `Error: ${error.response.data.code || 500}`
+      })
+    }
+  }
+
+  const initialValues: iFormikValues = {
+    watcher: ''
+  }
+
   return (
-    <Layout>
-      <ColumnForm>
-        <SegmentGroup>
-          <Segment>
-            <Header as="h4" textAlign="center">
-              Choose who will be able to view your video.
-            </Header>
-            <Input
-              name="watcherShare"
-              placeholder="type an email"
-              onKeyPress={(e: React.KeyboardEvent) => {
-                if (e.key === 'Enter') e.preventDefault()
-              }}
-            />
-            <Button
-              type="button"
-              fluid
-              primary
-              onClick={onAddUser}
-              disabled={!watcherShareField.value || !!watcherShareMeta.error}
-            >
-              Share
-            </Button>
-          </Segment>
-          <WhatchersContainer>
-            <Whatchers list={watchersShareField.value} onRemoveWatcher={onRemoveWatcher} resendInvite={resendInvite} />
-          </WhatchersContainer>
-        </SegmentGroup>
-        <Select
-          options={[
-            { key: 'published', value: true, text: 'Published' },
-            { key: 'draft', value: false, text: 'Draft' }
-          ]}
-          label="Status"
-          name="published"
-          onKeyPress={(e: React.KeyboardEvent) => {
-            if (e.key === 'Enter') e.preventDefault()
-          }}
-        />
-      </ColumnForm>
-      <ColumnPreview>{children}</ColumnPreview>
-    </Layout>
+    <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
+      {({ isSubmitting }) => (
+        <Form style={{ height: '100%' }}>
+          <Layout>
+            <ColumnForm>
+              <Checkbox
+                toggle
+                label={published ? 'Published' : 'Unpublished'}
+                onChange={handleToogle}
+                checked={published}
+              />
+              <SegmentGroup>
+                <Segment>
+                  <Header as="h4" textAlign="left">
+                    Choose who will be able to view your video.
+                  </Header>
+                  <Box>
+                    <Input
+                      fluid
+                      name="watcher"
+                      placeholder="type an email"
+                      onKeyPress={(e: React.KeyboardEvent) => {
+                        if (e.key === 'Enter') e.preventDefault()
+                      }}
+                    />
+                    <Button type="submit" fluid primary loading={isSubmitting}>
+                      Share
+                    </Button>
+                  </Box>
+                </Segment>
+                <WhatchersContainer>
+                  <Whatchers list={watchers} onRemoveWatcher={onRemoveWatcher} resendInvite={resendInvite} />
+                </WhatchersContainer>
+              </SegmentGroup>
+            </ColumnForm>
+            <ColumnPreview>{children}</ColumnPreview>
+          </Layout>
+        </Form>
+      )}
+    </Formik>
   )
 }
 

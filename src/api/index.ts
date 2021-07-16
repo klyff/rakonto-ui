@@ -18,8 +18,6 @@ import {
   getStory,
   getCollections,
   uploadImage,
-  getWatcher,
-  resendInvite,
   getPersons,
   updatePerson,
   createPerson,
@@ -45,7 +43,11 @@ import {
   deletePlace,
   searchLocation,
   uploadSubtitle,
-  deleteSubtitle
+  deleteSubtitle,
+  addWatcher,
+  removeWatcher,
+  notifyWatcher,
+  publishStory
 } from './services'
 import { history } from '../App'
 
@@ -92,11 +94,10 @@ export const api = {
   getStory: getStory(request),
   createStory: createStory(request),
   updateStory: updateStory(request),
+  publishStory: publishStory(request),
   uploadImage: uploadImage(request),
   getImage: getImage(request),
-  getWatcher: getWatcher(request),
   getCollections: getCollections(request),
-  resendInvite: resendInvite(request),
   getPersons: getPersons(request),
   updatePerson: updatePerson(request),
   createPerson: createPerson(request),
@@ -122,5 +123,8 @@ export const api = {
   deletePlace: deletePlace(request),
   searchLocation: searchLocation(request),
   uploadSubtitle: uploadSubtitle(request),
-  deleteSubtitle: deleteSubtitle(request)
+  deleteSubtitle: deleteSubtitle(request),
+  addWatcher: addWatcher(request),
+  removeWatcher: removeWatcher(request),
+  notifyWatcher: notifyWatcher(request)
 }

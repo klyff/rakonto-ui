@@ -206,7 +206,11 @@ export type TranscriptionType = {
 }
 
 export type WatcherType = {
+  id: string
   email: string
+  notifiedAt: Date
+  updatedAt: Date
+  createdAt: Date
   user: UserType
 }
 
@@ -263,6 +267,11 @@ export type PlaceFormType = {
   location: string
   latitude: string
   longitude: string
+}
+
+export type addWatcherType = {
+  storyId: string
+  email: string
 }
 
 export type LocationSearchType = {

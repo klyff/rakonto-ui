@@ -6,6 +6,12 @@ export const WhatchersContainer = styled(Segment)`
   overflow-y: auto;
 `
 
+export const Box = styled.div`
+  & > div {
+    margin-bottom: 32px;
+  }
+`
+
 export const Actions = styled.div`
   display: table-cell;
   vertical-align: middle;
