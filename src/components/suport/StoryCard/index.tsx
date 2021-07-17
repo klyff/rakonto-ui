@@ -14,6 +14,11 @@ interface iStoryCard {
 
 const StorieCard: React.FC<iStoryCard> = ({ showAutor = true, story, actions }) => {
   const { preview } = useStoryPreview({ video: story.video })
+
+  let iconType = 'file'
+  if (story.type) iconType += ` ${story.type?.toLowerCase()}`
+  iconType += ' outline'
+
   return (
     <Card fluid>
       <LazyImage
@@ -30,7 +35,7 @@ const StorieCard: React.FC<iStoryCard> = ({ showAutor = true, story, actions }) 
         <Card.Meta as={TextBasicEllipsis}>{story.title}</Card.Meta>
         <Description>{story.description}</Description>
         <Extra>
-          <Icon size="large" name={`file ${story.type?.toLowerCase()} outline` as SemanticICONS} />
+          <Icon size="large" name={iconType as SemanticICONS} />
           {showAutor ? (
             <>
               <Avatar name={'Philipe Carrazzoni'} src="https://avatars0.githubusercontent.com/u/246180?v=4" />

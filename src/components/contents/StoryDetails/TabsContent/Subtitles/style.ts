@@ -36,3 +36,11 @@ export const Header = styled.div`
   padding-top: 32px;
   padding-bottom: 16px;
 `
+
+export const Box = styled.div`
+  display: flex;
+  flex-flow: column;
+  & > .ui.selection {
+    margin-bottom: 32px;
+  }
+`

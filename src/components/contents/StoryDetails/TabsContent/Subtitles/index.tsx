@@ -1,43 +1,56 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Layout, ColumnForm, ColumnPreview } from '../style'
-import { Header } from './style'
+import { Header, Box } from './style'
 import UploadButton from '@root/components/suport/UploadButton'
 import { api } from '@root/api'
-import { FileType, LanguageEnum } from '@root/types'
-import { Divider, Header as SHeader } from 'semantic-ui-react'
-import FileList from './FilesList'
+import { LanguageEnum, SubtitleType } from '@root/types'
+import { Divider, DropdownProps, Header as SHeader, Select } from 'semantic-ui-react'
+import SubtitleList from './SubtitleList'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import { useSetRecoilState } from 'recoil'
 import { basicModalState } from '@root/components/modals/BasicModal'
 import { toast } from 'react-semantic-toasts'
 
 interface iSubtitles {
-  files: FileType[]
+  subtitles: SubtitleType[]
   storyId: string
   refresh: () => void
   isLoading: boolean
 }
 
-const Subtitles: React.FC<iSubtitles> = ({ storyId, refresh, files, isLoading, children }) => {
+const countryOptions = Object.values(LanguageEnum).map(item => ({ key: item, value: item, text: item }))
+
+const Subtitles: React.FC<iSubtitles> = ({ storyId, refresh, subtitles, isLoading, children }) => {
   const setBasicModalState = useSetRecoilState(basicModalState)
+  const [selectedLanguage, setSelectedLanguage] = useState<LanguageEnum | undefined>()
 
-  const handleUploadProgress = (value: number) => {
-    console.log(value)
-  }
-
-  const onRemove = async (value: FileType) => {
+  const onRemove = async (value: SubtitleType) => {
     setBasicModalState({
       open: true,
-      title: 'Remove file',
+      title: 'Remove subtitle',
       isConfirmation: true,
       onClose: async (isSuccess: boolean) => {
-        if (!isSuccess) return
-        await api.deleteFile(value.id)
-        refresh()
+        try {
+          if (!isSuccess) return
+          await api.deleteSubtitle(value.id)
+          refresh()
+          toast({
+            type: 'success',
+            title: `Subtitle removed`,
+            time: 3000
+          })
+        } catch (error) {
+          toast({
+            type: 'error',
+            title: error.response.data.message,
+            time: 3000,
+            description: `Error: ${error.response.data.code}`
+          })
+        }
       },
       content: (
         <>
-          Do you want remove file <b>{value.originalName}</b> from this story?
+          Do you want remove subtitle <b>{value.originalName}</b> from this story?
         </>
       )
     })
@@ -47,11 +60,17 @@ const Subtitles: React.FC<iSubtitles> = ({ storyId, refresh, files, isLoading, c
     if (!event.target.files?.length) return
     const file: File = event.target.files[0]
     try {
-      await api.uploadSubtitle(storyId, LanguageEnum.portuguese, file, ({ loaded, total }) => {
-        const progress = Math.round((loaded * 100) / total) - 1
+      await api.uploadSubtitle(storyId, selectedLanguage as LanguageEnum, file, ({ loaded, total }) => {
+        const progress = Math.round((loaded * 100) / total)
         console.log(progress < 0 ? 0 : progress)
       })
       refresh()
+      setSelectedLanguage(undefined)
+      toast({
+        type: 'success',
+        title: `Subtitle uploaded`,
+        time: 3000
+      })
     } catch (error) {
       toast({
         type: 'error',
@@ -62,17 +81,30 @@ const Subtitles: React.FC<iSubtitles> = ({ storyId, refresh, files, isLoading, c
     }
   }
 
+  const handleSelectChange = (e: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps) => {
+    setSelectedLanguage(value as LanguageEnum)
+  }
+
   return (
     <Layout>
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
-          <Header>Link files to your video for viewers to download</Header>
-          <UploadButton onSelected={handleSelected} onProgressChange={handleUploadProgress} basic primary>
-            Upload new subtitle
-          </UploadButton>
+          <Header>Add subtitles to your video. Select a language and upload a file.</Header>
+          <Box>
+            <Select
+              placeholder="Select your language"
+              options={countryOptions}
+              fluid
+              onChange={handleSelectChange}
+              value={selectedLanguage}
+            />
+            <UploadButton onSelected={handleSelected} disabled={!selectedLanguage} basic primary fluid accept={'.vtt'}>
+              Upload new subtitle
+            </UploadButton>
+          </Box>
           <Divider />
           <SHeader as="h1">List of subtitles</SHeader>
-          <FileList files={files} onRemove={onRemove} />s
+          <SubtitleList subtitles={subtitles} onRemove={onRemove} />s
         </ColumnForm>
         <ColumnPreview>{children}</ColumnPreview>
       </LoadingArea>

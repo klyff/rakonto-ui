@@ -139,6 +139,7 @@ export type StoryType = {
   galleryEntries: GalleryType[]
   timelineEntries: TimelineType[]
   places: PlaceType[]
+  subtitles?: SubtitleType[]
 }
 
 export type StoryUpdateType = {

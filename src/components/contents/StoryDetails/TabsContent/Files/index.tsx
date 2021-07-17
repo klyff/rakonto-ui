@@ -21,10 +21,6 @@ interface iFiles {
 const Files: React.FC<iFiles> = ({ storyId, refresh, files, isLoading, children }) => {
   const setBasicModalState = useSetRecoilState(basicModalState)
 
-  const handleUploadProgress = (value: number) => {
-    console.log(value)
-  }
-
   const onRemove = async (value: FileType) => {
     setBasicModalState({
       open: true,
@@ -67,7 +63,7 @@ const Files: React.FC<iFiles> = ({ storyId, refresh, files, isLoading, children 
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
           <Header>Link files to your video for viewers to download</Header>
-          <UploadButton onSelected={handleSelected} onProgressChange={handleUploadProgress} basic primary>
+          <UploadButton onSelected={handleSelected} basic primary>
             Upload new file
           </UploadButton>
           <Divider />

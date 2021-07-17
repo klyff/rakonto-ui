@@ -14,6 +14,7 @@ import Timeline from './TabsContent/Timeline'
 import Files from './TabsContent/Files'
 import Links from './TabsContent/Links'
 import Gallery from './TabsContent/Gallery'
+import Subtitles from './TabsContent/Subtitles'
 import People from './TabsContent/People'
 import Places from './TabsContent/Places'
 import Share from './TabsContent/Share'
@@ -44,7 +45,8 @@ const StoryDetails: React.FC = () => {
     galleryEntries,
     timelineEntries,
     places,
-    watchers
+    watchers,
+    subtitles
   } = story
 
   useEffect(() => {
@@ -93,7 +95,14 @@ const StoryDetails: React.FC = () => {
   }, [tab])
 
   const PreviewComponent = (
-    <Preview type={type} media={video || audio} progress={storyProgress} thumbnail={thumbnail} ready={ready} />
+    <Preview
+      type={type}
+      media={video || audio}
+      progress={storyProgress}
+      thumbnail={thumbnail}
+      ready={ready}
+      subtitles={subtitles || []}
+    />
   )
 
   const stiwchRender = () => {
@@ -124,9 +133,9 @@ const StoryDetails: React.FC = () => {
         )
       case 'subtitles':
         return (
-          <Gallery isLoading={isLoading} refresh={refresh} storyId={storyId} galleries={galleryEntries || []}>
+          <Subtitles isLoading={isLoading} refresh={refresh} storyId={storyId} subtitles={subtitles || []}>
             {PreviewComponent}
-          </Gallery>
+          </Subtitles>
         )
       case 'gallery':
         return (

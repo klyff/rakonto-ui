@@ -1,5 +1,5 @@
 import React from 'react'
-import { AudioDetails, MediaType, Resolutions, VideoDetails } from '@root/types'
+import { AudioDetails, MediaType, Resolutions, SubtitleType, VideoDetails } from '@root/types'
 import VideoJsWrapper from './VideoJs'
 import AudioJsWrapper from './AudioJs'
 import { VideoJsPlayerOptions } from 'video.js'
@@ -9,6 +9,7 @@ interface iVideoPlayer {
   cover?: string
   defaultRes?: Resolutions
   type?: MediaType
+  subtitles: SubtitleType[]
 }
 
 type PlaySource = {
@@ -37,12 +38,18 @@ const sortByRes = (a: any, b: any) => {
   return 0
 }
 
-const Player: React.FC<iVideoPlayer> = ({ media, type, defaultRes = '720p', cover }) => {
+const Player: React.FC<iVideoPlayer> = ({ subtitles, media, type, defaultRes = '720p', cover }) => {
   const options: VideoJsPlayerOptions = {
     poster: cover,
     controls: true,
     fluid: true,
-    muted: false
+    muted: false,
+    tracks: subtitles.map(subtitle => ({
+      src: subtitle.url,
+      srclang: subtitle.language,
+      language: subtitle.language,
+      label: subtitle.language
+    }))
   }
 
   if (type === 'VIDEO') {

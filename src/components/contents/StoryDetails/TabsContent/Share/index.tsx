@@ -22,7 +22,7 @@ interface iFormikValues {
 }
 
 const Share: React.FC<iTranscript> = ({ children, refresh, published, watchers, storyId }) => {
-  const handleToogle = async (e: any, { checked }: CheckboxProps) => {
+  const handleToogle = async (e: React.FormEvent<HTMLInputElement>, { checked }: CheckboxProps) => {
     try {
       await api.publishStory(storyId, !!checked)
       refresh()
