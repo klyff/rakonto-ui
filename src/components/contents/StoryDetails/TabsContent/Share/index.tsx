@@ -28,7 +28,7 @@ const Share: React.FC<iTranscript> = ({ children, refresh, published, watchers, 
       refresh()
       toast({
         type: 'success',
-        title: `Story ${published ? 'Unpublished' : 'Published'}`,
+        title: `Story ${published ? 'Published' : 'Draft'}`,
         time: 3000
       })
     } catch (error) {
@@ -109,12 +109,7 @@ const Share: React.FC<iTranscript> = ({ children, refresh, published, watchers, 
         <Form style={{ height: '100%' }}>
           <Layout>
             <ColumnForm>
-              <Checkbox
-                toggle
-                label={published ? 'Published' : 'Unpublished'}
-                onChange={handleToogle}
-                checked={published}
-              />
+              <Checkbox toggle label={published ? 'Published' : 'Draft'} onChange={handleToogle} checked={published} />
               <SegmentGroup>
                 <Segment>
                   <Header as="h4" textAlign="left">
