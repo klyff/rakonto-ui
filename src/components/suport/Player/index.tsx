@@ -45,6 +45,7 @@ const Player: React.FC<iVideoPlayer> = ({ subtitles, media, type, defaultRes = '
     fluid: true,
     muted: false,
     tracks: subtitles.map(subtitle => ({
+      // If develop mode need replace proxy port = subtitle.url.replace('8080', '3000')
       src: subtitle.url,
       srclang: subtitle.language,
       language: subtitle.language,

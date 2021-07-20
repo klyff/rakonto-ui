@@ -17,6 +17,7 @@ const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview?: string
     const playerInstance = videojs(videoNode.current, {
       ...options,
       controlBar: {
+        subtitlesButton: !!options.tracks?.length,
         children: ['playToggle', 'progressControl', 'volumePanel', 'qualitySelector', 'fullscreenToggle']
       }
     })

@@ -8,6 +8,7 @@ import { CollectionType, StoryType, StoryUpdateType, WatcherType } from '@root/t
 import { Formik, Form } from 'formik'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import { ColumnPreview, ColumnForm } from '../style'
+import { toast } from 'react-semantic-toasts'
 
 interface iInfo {
   story: Partial<StoryType>
@@ -39,7 +40,21 @@ const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children
         description: values.description,
         collections: values.collections
       }
-      await updateStory(newValues)
+      try {
+        await updateStory(newValues)
+        toast({
+          type: 'success',
+          title: 'Saved',
+          time: 3000
+        })
+      } catch (error) {
+        toast({
+          type: 'error',
+          title: error.response.data.message,
+          time: 3000,
+          description: `Error: ${error.response.data.code}`
+        })
+      }
     },
     [coverId]
   )
