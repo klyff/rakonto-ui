@@ -44,7 +44,7 @@ const StorieCard: React.FC<iStoryCard> = ({ showAutor = true, story, actions }) 
           ) : story.published ? (
             <span>Status: Published</span>
           ) : story.ready ? (
-            <span>Status: Ready</span>
+            <span>Status: Draft</span>
           ) : (
             <span>Status: Processing Video</span>
           )}

@@ -76,7 +76,7 @@ const Transcript: React.FC<iTranscript> = ({ children, refresh, transcription, s
       <ColumnForm>
         <div>Link files to your video for viewers to download or write in the field below</div>
         <div>
-          <SaveButton primary id="save" basic onClick={handleSave}>
+          <SaveButton primary id="save" onClick={handleSave}>
             Save
           </SaveButton>
         </div>

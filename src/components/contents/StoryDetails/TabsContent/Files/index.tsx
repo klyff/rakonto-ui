@@ -63,7 +63,7 @@ const Files: React.FC<iFiles> = ({ storyId, refresh, files, isLoading, children 
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
           <Header>Link files to your video for viewers to download</Header>
-          <UploadButton onSelected={handleSelected} basic primary>
+          <UploadButton onSelected={handleSelected} primary>
             Upload new file
           </UploadButton>
           <Divider />

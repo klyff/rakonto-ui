@@ -98,7 +98,7 @@ const Subtitles: React.FC<iSubtitles> = ({ storyId, refresh, subtitles, isLoadin
               onChange={handleSelectChange}
               value={selectedLanguage}
             />
-            <UploadButton onSelected={handleSelected} disabled={!selectedLanguage} basic primary fluid accept={'.vtt'}>
+            <UploadButton onSelected={handleSelected} disabled={!selectedLanguage} primary fluid accept={'.vtt'}>
               Upload new subtitle
             </UploadButton>
           </Box>
