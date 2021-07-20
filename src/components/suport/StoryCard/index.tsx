@@ -41,13 +41,9 @@ const StorieCard: React.FC<iStoryCard> = ({ showAutor = true, story, actions }) 
               <Avatar name={'Philipe Carrazzoni'} src="https://avatars0.githubusercontent.com/u/246180?v=4" />
               <span>Joseph Klimber</span>
             </>
-          ) : story.published ? (
-            <span>Status: Published</span>
-          ) : story.ready ? (
-            <span>Status: Draft</span>
-          ) : (
-            <span>Status: Processing Video</span>
-          )}
+          ) : null}
+          <span>Status: {story.published ? 'Published' : 'Draft'}</span>
+          {!story.ready ? <span>Processing Video</span> : null}
           {actions && <Actions>{actions}</Actions>}
         </Extra>
       </Card.Content>
