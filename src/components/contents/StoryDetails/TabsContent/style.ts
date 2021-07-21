@@ -4,9 +4,6 @@ export const Layout = styled.div`
   display: flex;
   overflow: auto;
   height: calc(100% - 57px);
-  & > div:last-child {
-    margin-top: 20px;
-  }
   @media only screen and (max-width: 1024px) {
     flex-direction: column;
     align-items: center;

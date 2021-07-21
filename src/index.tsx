@@ -8,11 +8,9 @@ import './index.css'
 import { RecoilRoot } from 'recoil'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
-  </React.StrictMode>,
+  <RecoilRoot>
+    <App />
+  </RecoilRoot>,
   document.getElementById('root')
 )
 

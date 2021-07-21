@@ -2,10 +2,9 @@
   "name": "rakonto-ui",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
   "dependencies": {
     "@ashwamegh/react-link-preview": "^0.2.2",
-    "@craco/craco": "^6.1.2",
+    "@craco/craco": "^6.2.0",
     "@silvermine/videojs-quality-selector": "^1.2.5",
     "@stomp/stompjs": "^6.1.0",
     "axios": "^0.21.1",
