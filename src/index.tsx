@@ -4,6 +4,7 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import './themes/semantic.css'
 import 'react-semantic-toasts/styles/react-semantic-alert.css'
+import '@draft-js-plugins/mention/lib/plugin.css'
 import './index.css'
 import { RecoilRoot } from 'recoil'
 

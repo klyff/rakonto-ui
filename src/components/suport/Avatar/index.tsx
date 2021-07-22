@@ -1,5 +1,4 @@
 import React from 'react'
-import { Image, Loader } from 'semantic-ui-react'
 import { AvatarWrapper } from './style'
 
 const getInitials = (name: string): string => {

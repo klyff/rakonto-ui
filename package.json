@@ -5,6 +5,8 @@
   "dependencies": {
     "@ashwamegh/react-link-preview": "^0.2.2",
     "@craco/craco": "^6.2.0",
+    "@draft-js-plugins/editor": "^4.1.0",
+    "@draft-js-plugins/mention": "^4.5.2",
     "@silvermine/videojs-quality-selector": "^1.2.5",
     "@stomp/stompjs": "^6.1.0",
     "axios": "^0.21.1",
@@ -92,5 +94,9 @@
       "react-app/jest"
     ]
   },
-  "browserslist": [ ">0.2%", "not dead", "not op_mini all" ]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

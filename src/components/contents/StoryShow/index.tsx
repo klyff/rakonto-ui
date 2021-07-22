@@ -9,7 +9,7 @@ import { PreviewBox, ContentArea } from './style'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import Info from './TabsContent/Info'
 
-const StoryPreview: React.FC = () => {
+const StoryShow: React.FC = () => {
   const { search, pathname } = useLocation()
   const history = useHistory()
   const parsedQs = parse(search, { ignoreQueryPrefix: true })
@@ -84,7 +84,7 @@ const StoryPreview: React.FC = () => {
       case 'share':
         return <div></div>
       default:
-        return <Info title={title as string} description={description as string} />
+        return <Info story={story} />
     }
   }
 
@@ -103,4 +103,4 @@ const StoryPreview: React.FC = () => {
   )
 }
 
-export default StoryPreview
+export default StoryShow
