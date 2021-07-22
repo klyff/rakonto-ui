@@ -11,6 +11,7 @@ import Profile from '@root/components/contents/Profile'
 import Signout from '@root/components/contents/Signout'
 import ConfirmEmail from '@root/components/contents/ConfirmEmail'
 import StoryNew from '@root/components/contents/StoryNew'
+import StoryPreview from '@root/components/contents/StoryPreview'
 import StoryDetails from '@root/components/contents/StoryDetails'
 import Stories from '@root/components/contents/Stories'
 
@@ -40,8 +41,8 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
         <Route exact path="/a/stories/:storyId/edit">
           <StoryDetails />
         </Route>
-        <Route exact path="/a/stories/:storyId">
-          <StoryDetails />
+        <Route exact path="/a/stories/:storyId/preview">
+          <StoryPreview />
         </Route>
         <Route exact path="/a/stories">
           <Stories />
