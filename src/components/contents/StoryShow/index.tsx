@@ -74,8 +74,6 @@ const StoryShow: React.FC = () => {
         return <div></div>
       case 'timeline':
         return <div></div>
-      case 'subtitles':
-        return <div></div>
       case 'gallery':
         return <div></div>
       case 'files':
