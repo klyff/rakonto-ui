@@ -6,7 +6,7 @@ import createMentionPlugin, {
   MentionData,
   MentionPluginTheme
 } from '@draft-js-plugins/mention'
-import editorStyles from './CustomMentionEditor.module.css'
+import { EditorBox } from './style'
 import mentionsStyles from './MentionsStyles.module.css'
 import Avatar from '@root/components/suport/Avatar'
 
@@ -74,8 +74,7 @@ const CustomMentionEditor: React.FC<iCustomMentionEditor> = ({ mentions }) => {
   }, [])
 
   return (
-    <div
-      className={editorStyles.editor}
+    <EditorBox
       onClick={() => {
         ref.current?.focus()
       }}
@@ -89,7 +88,7 @@ const CustomMentionEditor: React.FC<iCustomMentionEditor> = ({ mentions }) => {
         entryComponent={Entry}
         popoverContainer={({ children }) => <div>{children}</div>}
       />
-    </div>
+    </EditorBox>
   )
 }
 

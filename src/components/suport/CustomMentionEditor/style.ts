@@ -1,4 +1,6 @@
-.editor {
+import styled from 'styled-components'
+
+export const EditorBox = styled.div`
   box-sizing: border-box;
   border: 1px solid #ddd;
   cursor: text;
@@ -7,8 +9,7 @@
   margin-bottom: 2em;
   box-shadow: inset 0px 1px 8px -3px #ababab;
   background: #fefefe;
-}
-
-.editor :global(.public-DraftEditor-content) {
-  min-height: 140px;
-}
+  &:global(.public-DraftEditor-content) {
+    min-height: 140px;
+  }
+`

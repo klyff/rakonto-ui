@@ -24,7 +24,6 @@ const Menu: React.FC<iMenu> = ({ tab, onChange }) => {
             <Dropdown.Item onClick={() => onChange('subtitles')}>Subtitles</Dropdown.Item>
             <Dropdown.Item onClick={() => onChange('files')}>Files</Dropdown.Item>
             <Dropdown.Item onClick={() => onChange('links')}>Links</Dropdown.Item>
-            <Dropdown.Item onClick={() => onChange('share')}>Share</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </SMenu>
@@ -41,7 +40,6 @@ const Menu: React.FC<iMenu> = ({ tab, onChange }) => {
       <SMenu.Item name="Subtitles" active={tab === 'subtitles'} onClick={() => onChange('subtitles')} />
       <SMenu.Item name="Files" active={tab === 'files'} onClick={() => onChange('files')} />
       <SMenu.Item name="Links" active={tab === 'links'} onClick={() => onChange('links')} />
-      <SMenu.Item name="Share" active={tab === 'share'} onClick={() => onChange('share')} />
     </SMenu>
   )
 }

@@ -19,12 +19,8 @@ const CommentThread: React.FC<iCommentThread> = ({ story }): ReactElement => {
 
   return (
     <Comment.Group threaded>
-      <Header as="h3" dividing>
-        Comments
-      </Header>
-
       <Comment>
-        <Comment.Avatar as="a" src="https://react.semantic-ui.com/images/avatar/small/matt.jpg" />
+        <Comment.Avatar circular as="a" src="https://react.semantic-ui.com/images/avatar/small/matt.jpg" />
         <Comment.Content>
           <Comment.Author as="a">Matt</Comment.Author>
           <Comment.Metadata>

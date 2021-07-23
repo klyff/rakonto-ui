@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import { useApiStory } from './useApiStory'
 import Menu from './Menu'
 import { parse, stringify } from 'qs'
 import { Location } from 'history'
 import Player from '@root/components/suport/Player'
-import { PreviewBox, ContentArea } from './style'
+import { PreviewBox, ContentArea, ContentBox, VideosArea, Content } from './style'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import Info from './TabsContent/Info'
+import SuggestedVideos from './SuggestedVideos'
 
 const StoryShow: React.FC = () => {
   const { search, pathname } = useLocation()
@@ -81,8 +82,6 @@ const StoryShow: React.FC = () => {
         return <div></div>
       case 'links':
         return <div></div>
-      case 'share':
-        return <div></div>
       default:
         return <Info story={story} />
     }
@@ -97,7 +96,12 @@ const StoryShow: React.FC = () => {
           </div>
         </PreviewBox>
         <Menu tab={tab as string} onChange={handleTabChange} />
-        {stiwchRender()}
+        <ContentBox>
+          <Content>{stiwchRender()}</Content>
+          <VideosArea>
+            <SuggestedVideos />
+          </VideosArea>
+        </ContentBox>
       </ContentArea>
     </LoadingArea>
   )
