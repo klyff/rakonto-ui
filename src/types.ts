@@ -120,18 +120,19 @@ export type AudioDetails = {
 }
 
 export type StoryType = {
-  audio?: AudioDetails
+  audio: AudioDetails
   collections: CollectionType[]
-  cover?: { id?: string }
-  description?: string
-  id?: string
+  cover: ImageType
+  description: string
+  id: string
   thumbnail: string
-  ready?: boolean
+  ready: boolean
   published?: boolean
-  title?: string
-  type?: MediaType
-  video?: VideoDetails
-  watchers?: WatcherType[]
+  title: string
+  owner: UserType
+  type: MediaType
+  video: VideoDetails
+  watchers: WatcherType[]
   persons: PersonType[]
   files: FileType[]
   links: LinkType[]
@@ -139,7 +140,8 @@ export type StoryType = {
   galleryEntries: GalleryType[]
   timelineEntries: TimelineType[]
   places: PlaceType[]
-  subtitles?: SubtitleType[]
+  subtitles: SubtitleType[]
+  comments: CommentType[]
 }
 
 export type StoryUpdateType = {
@@ -273,6 +275,22 @@ export type PlaceFormType = {
 export type addWatcherType = {
   storyId: string
   email: string
+}
+
+export type CommentType = {
+  id: string
+  parentId: string
+  author: UserType
+  body: string
+  mentions: UserType[]
+  createdAt: Date
+  updatedAt: Date
+}
+
+export type CommentFormType = {
+  storyId: string
+  parentId?: string
+  body: string
 }
 
 export type LocationSearchType = {

@@ -14,13 +14,13 @@ const getInitials = (name: string): string => {
 interface iAvatar {
   name: string
   size?: 'small' | 'medium' | 'large'
-  src?: string
+  picture?: string
 }
 
-const Avatar: React.FC<iAvatar> = ({ name, size = 'medium', src }) => {
-  const hasImage = !!src
+const Avatar: React.FC<iAvatar> = ({ name, size = 'medium', picture }) => {
+  const hasImage = !!picture
   return (
-    <AvatarWrapper className="avatar" image={src} size={size} borderless={hasImage}>
+    <AvatarWrapper className="avatar" image={picture} size={size} borderless={hasImage}>
       {!hasImage && <span>{getInitials(name)}</span>}
     </AvatarWrapper>
   )

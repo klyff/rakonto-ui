@@ -9,6 +9,7 @@ import { PreviewBox, ContentArea, ContentBox, VideosArea, Content } from './styl
 import LoadingArea from '@root/components/suport/LoadingArea'
 import Info from './TabsContent/Info'
 import SuggestedVideos from './SuggestedVideos'
+import { UserType } from '@root/types'
 
 const StoryShow: React.FC = () => {
   const { search, pathname } = useLocation()
@@ -21,11 +22,13 @@ const StoryShow: React.FC = () => {
 
   const {
     type,
-    ready,
-    published,
     video,
     audio,
     thumbnail,
+    owner,
+    title,
+    description,
+    comments,
     persons,
     files,
     links,
@@ -34,9 +37,7 @@ const StoryShow: React.FC = () => {
     timelineEntries,
     places,
     watchers,
-    subtitles,
-    title,
-    description
+    subtitles
   } = story
 
   const handleTabChange = (name: string, isToReplace?: boolean) => {
@@ -81,7 +82,16 @@ const StoryShow: React.FC = () => {
       case 'links':
         return <div></div>
       default:
-        return <Info story={story} />
+        return (
+          <Info
+            storyId={storyId}
+            title={title as string}
+            description={description as string}
+            owner={owner as UserType}
+            comments={comments || []}
+            watchers={watchers || []}
+          />
+        )
     }
   }
 

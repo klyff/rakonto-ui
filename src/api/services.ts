@@ -27,7 +27,9 @@ import {
   PlaceType,
   SubtitleType,
   LanguageEnum,
-  addWatcherType
+  addWatcherType,
+  CommentType,
+  CommentFormType
 } from '@root/types'
 
 // User api
@@ -399,4 +401,32 @@ export const notifyWatcher =
   (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
     await request.post(`a/watchers/${id}/notify`)
+  }
+
+// Comments api
+export const getComment =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<CommentType> => {
+    const response = await request.get<CommentType>(`a/comments/${id}`)
+    return response.data
+  }
+
+export const createComment =
+  (request: AxiosInstance) =>
+  async (comment: CommentFormType): Promise<CommentType> => {
+    const response = await request.post<CommentType>(`a/comments`, comment)
+    return response.data
+  }
+
+export const editComment =
+  (request: AxiosInstance) =>
+  async (id: string, comment: CommentFormType): Promise<CommentType> => {
+    const response = await request.put<CommentType>(`a/comments/${id}`, comment)
+    return response.data
+  }
+
+export const deleteComment =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    return await request.delete(`a/comments/${id}`)
   }

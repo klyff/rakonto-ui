@@ -1,5 +1,5 @@
 import React from 'react'
-import { StoryType } from '@root/types'
+import { CommentType, UserType, WatcherType } from '@root/types'
 import CommentThread from '@root/components/suport/CommentThread'
 import ShowMore from '@root/components/suport/ShowMore'
 import { Header } from 'semantic-ui-react'
@@ -7,31 +7,39 @@ import { Title, Description, Author } from './style'
 import Avatar from '@root/components/suport/Avatar'
 
 interface iInfo {
-  story: Partial<StoryType>
+  description: string
+  title: string
+  owner: UserType
+  comments: CommentType[]
+  watchers: WatcherType[]
+  storyId: string
 }
 
-const Info: React.FC<iInfo> = ({ story }) => {
+const Info: React.FC<iInfo> = ({ storyId, description, title, owner, watchers, comments }) => {
+  const name = `${owner.firstName.charAt(0).toUpperCase() + owner.firstName.slice(1)} ${
+    owner.lastName.charAt(0).toUpperCase() + owner.lastName.slice(1)
+  }`
   return (
     <>
-      <Title>{story.title}</Title>
+      <Title>{title}</Title>
       <ShowMore>
-        <Description>{story.description}</Description>
+        <Description>{description}</Description>
       </ShowMore>
 
       <Header as="h3" dividing>
         About the author
       </Header>
       <Author>
-        <Avatar name={'Philipe Carrazzoni'} src="https://avatars0.githubusercontent.com/u/246180?v=4" />
-        <span>Joseph Klimber</span>
+        <Avatar name={name} picture={owner?.picture?.thumbnail} />
+        <span>{name}</span>
       </Author>
       <ShowMore>
-        <Description>{story.description}</Description>
+        <Description>{owner.about}</Description>
       </ShowMore>
       <Header as="h3" dividing>
         Comments
       </Header>
-      <CommentThread story={story} />
+      <CommentThread comments={comments} watchers={watchers} id={storyId} />
     </>
   )
 }

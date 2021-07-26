@@ -47,7 +47,11 @@ import {
   addWatcher,
   removeWatcher,
   notifyWatcher,
-  publishStory
+  publishStory,
+  deleteComment,
+  getComment,
+  createComment,
+  editComment
 } from './services'
 import { history } from '../App'
 
@@ -126,5 +130,9 @@ export const api = {
   deleteSubtitle: deleteSubtitle(request),
   addWatcher: addWatcher(request),
   removeWatcher: removeWatcher(request),
-  notifyWatcher: notifyWatcher(request)
+  notifyWatcher: notifyWatcher(request),
+  deleteComment: deleteComment(request),
+  getComment: getComment(request),
+  createComment: createComment(request),
+  editComment: editComment(request)
 }

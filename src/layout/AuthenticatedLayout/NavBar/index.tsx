@@ -46,7 +46,9 @@ const NavBar: React.FC = () => {
           item
           icon={''}
           pointing={false}
-          trigger={<Avatar src={user?.picture?.thumbnail} name={user ? `${user?.firstName} ${user?.lastName}` : ''} />}
+          trigger={
+            <Avatar picture={user?.picture?.thumbnail} name={user ? `${user?.firstName} ${user?.lastName}` : ''} />
+          }
         >
           <Dropdown.Menu>
             <Dropdown.Item icon="user" text="Profile" onClick={() => history.push('/a/profile')} />

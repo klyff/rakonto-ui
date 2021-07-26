@@ -38,7 +38,7 @@ const StorieCard: React.FC<iStoryCard> = ({ showAutor = true, story, actions }) 
           <Icon size="large" name={iconType as SemanticICONS} />
           {showAutor ? (
             <>
-              <Avatar name={'Philipe Carrazzoni'} src="https://avatars0.githubusercontent.com/u/246180?v=4" />
+              <Avatar name={'Philipe Carrazzoni'} picture="https://avatars0.githubusercontent.com/u/246180?v=4" />
               <span>Joseph Klimber</span>
             </>
           ) : null}

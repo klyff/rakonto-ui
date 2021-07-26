@@ -67,7 +67,7 @@ const UploadAvatar: React.FC<iUploadAvatar> = ({ name, defaultPicture, onChange 
 
   return (
     <>
-      <CAvatar name={name} size="large" src={picture?.thumbnail} />
+      <CAvatar name={name} size="large" picture={picture?.thumbnail} />
       <input ref={inputRef} type="file" hidden={true} onChange={handleSelected} accept={'image/png, image/jpeg'} />
       {avatarProgress !== null && (
         <AdvisorWrapper>

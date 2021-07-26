@@ -31,7 +31,7 @@ const Search: React.FC<iSearch> = ({ personList, onChange, onSelected, loading }
       loading={loading}
       resultRenderer={({ name, picture }: SearchResultProps) => (
         <SearchItem>
-          <Avatar name={name} src={picture?.thumbnail} size="small" />
+          <Avatar name={name} picture={picture?.thumbnail} size="small" />
           {name}
         </SearchItem>
       )}

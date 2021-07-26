@@ -16,7 +16,7 @@ const Peoples: React.FC<iPeoples> = ({ persons, removePerson, editPerson }) => {
       {persons.map(person => (
         <List.Item item="true" key={person.id} as={Segment}>
           <div className="ui image">
-            <Avatar name={person.name} src={person.picture?.thumbnail} />
+            <Avatar name={person.name} picture={person.picture?.thumbnail} />
           </div>
           <List.Content verticalAlign="middle">
             <List.Header>{person.name}</List.Header>
