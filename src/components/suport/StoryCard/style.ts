@@ -4,6 +4,10 @@ import PlaceholderAudio from './PlaceholderAudio.png'
 import PlaceholderVideo from './PlaceholderVideo.png'
 
 export const Card = styled(SCard)`
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 2px 6px 0 #bcbdbd, 0 0 0 2px #d4d4d5;
+  }
   & > .lazyImage > .image > img {
     object-fit: contain;
     width: 100%;

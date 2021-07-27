@@ -14,6 +14,7 @@ export const PreviewBox = styled.div`
 export const ContentBox = styled.div`
   display: flex;
   flex-flow: row;
+  min-height: 65vh;
   @media only screen and (max-width: 1024px) {
     flex-flow: column;
   }

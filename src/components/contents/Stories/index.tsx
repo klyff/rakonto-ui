@@ -37,6 +37,11 @@ const Stories: React.FC = () => {
                     <Dropdown pointing="bottom right" icon="ellipsis vertical">
                       <Dropdown.Menu>
                         <Dropdown.Item
+                          text="Preview"
+                          icon="eye"
+                          onClick={() => history.push(`/a/stories/${story.id}`)}
+                        />
+                        <Dropdown.Item
                           text="Edit"
                           icon="pencil"
                           onClick={() => history.push(`/a/stories/${story.id}/edit`)}

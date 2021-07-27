@@ -26,30 +26,14 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   return (
     <AuthenticatedLayout>
       <Switch>
-        <Route exact path="/a/home">
-          <Home />
-        </Route>
-        <Route exact path="/a/profile">
-          <Profile />
-        </Route>
-        <Route exact path="/a/stories/new">
-          <StoryNew />
-        </Route>
-        <Route exact path="/a/stories/record/video">
-          <VideoRecorder />
-        </Route>
-        <Route exact path="/a/stories/:storyId/edit">
-          <StoryDetails />
-        </Route>
-        <Route exact path="/a/stories/:storyId">
-          <StoryShow />
-        </Route>
-        <Route exact path="/a/stories">
-          <Stories />
-        </Route>
-        <Route exact path="/a/signout">
-          <Signout />
-        </Route>
+        <Route exact path="/a/home" component={Home} />
+        <Route exact path="/a/profile" component={Profile} />
+        <Route exact path="/a/stories/new" component={StoryNew} />
+        <Route exact path="/a/stories/record/video" component={VideoRecorder} />
+        <Route exact path="/a/stories/:storyId/edit" component={StoryDetails} />
+        <Route exact path="/a/stories/:storyId" component={StoryShow} />
+        <Route exact path="/a/stories" component={Stories} />
+        <Route exact path="/a/signout" component={Signout} />
         <Redirect to="/a/home" />
       </Switch>
     </AuthenticatedLayout>
@@ -63,18 +47,10 @@ const PublicRoutes: React.FC<RouteProps> = () => {
   return (
     <PublicLayout>
       <Switch>
-        <Route path="/u/signin">
-          <SigninForm />
-        </Route>
-        <Route path="/u/signup">
-          <SignupForm />
-        </Route>
-        <Route path="/u/forgot-password">
-          <ForgotPasswordForm />
-        </Route>
-        <Route path="/u/password-reset">
-          <ChangePasswordForm />
-        </Route>
+        <Route path="/u/signin" component={SigninForm} />
+        <Route path="/u/signup" component={SignupForm} />
+        <Route path="/u/forgot-password" component={ForgotPasswordForm} />
+        <Route path="/u/password-reset" component={ChangePasswordForm} />
         <Route path="/u/confirmation-email">
           <ConfirmEmail>
             <SigninForm />

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Icon, SemanticICONS } from 'semantic-ui-react'
 import LazyImage from '../LazyImage'
 import { Card, Extra, Actions, Description, TextBasicEllipsis } from './style'
@@ -10,21 +10,33 @@ interface iStoryCard {
   story: StoryType
   actions?: ReactNode
   showAutor?: boolean
+  onClick?: () => void
 }
 
-const StorieCard: React.FC<iStoryCard> = ({ showAutor = true, story, actions }) => {
+const StorieCard: React.FC<iStoryCard> = ({ onClick, showAutor = true, story, actions }) => {
   const { preview } = useStoryPreview({ video: story.video })
+  const [hover, setHover] = useState<boolean>(false)
 
   let iconType = 'file'
   if (story.type) iconType += ` ${story.type?.toLowerCase()}`
   iconType += ' outline'
 
+  const cardProps = {
+    onClick
+  }
+
   return (
-    <Card fluid>
+    <Card
+      fluid
+      as="div"
+      className="ui fluid card"
+      {...cardProps}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
       <LazyImage
         className={`${story.type?.toLowerCase()}`}
-        src={story.thumbnail}
-        preview={preview}
+        src={hover ? preview : story.thumbnail}
         wrapped
         rounded={false}
         height={200}

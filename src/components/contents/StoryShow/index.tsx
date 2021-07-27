@@ -8,6 +8,7 @@ import Player from '@root/components/suport/Player'
 import { PreviewBox, ContentArea, ContentBox, VideosArea, Content } from './style'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import Info from './TabsContent/Info'
+import Links from './TabsContent/Links'
 import SuggestedVideos from './SuggestedVideos'
 import { UserType } from '@root/types'
 
@@ -28,6 +29,7 @@ const StoryShow: React.FC = () => {
     owner,
     title,
     description,
+    collections,
     comments,
     persons,
     files,
@@ -80,11 +82,12 @@ const StoryShow: React.FC = () => {
       case 'files':
         return <div></div>
       case 'links':
-        return <div></div>
+        return <Links links={links || []} />
       default:
         return (
           <Info
             storyId={storyId}
+            subTitle={(collections && collections[0]?.title) || ''}
             title={title as string}
             description={description as string}
             owner={owner as UserType}

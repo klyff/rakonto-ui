@@ -78,7 +78,7 @@ const Comment: React.FC<iComment> = ({ comment, editComment, deleteComment, ment
 
   return (
     <CommentWrapper>
-      <CommentWrapper.Avatar as={Avatar} picture={comment.author.picture.thumbnail} name={name} />
+      <CommentWrapper.Avatar as={Avatar} picture={comment.author?.picture?.thumbnail || ''} name={name} />
       <CommentWrapper.Content>
         <CommentWrapper.Author as="a">{name}</CommentWrapper.Author>
         <CommentWrapper.Metadata>
