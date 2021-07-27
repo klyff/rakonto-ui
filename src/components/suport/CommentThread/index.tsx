@@ -15,9 +15,10 @@ const CommentThread: React.FC<iCommentThread> = ({ id, comments: initialComments
   const { createComment, deleteComment, editComment, comments } = useCommentApi(id, initialComments)
 
   const mentions = watchers
-    ?.filter(w => w.user)
+    ?.filter(w => w.user != null)
     .map(w => {
       return {
+        id: w.user.id,
         name: `${w.user.firstName} ${w.user.lastName}`,
         avatar: w.user.picture?.thumbnail
       }
