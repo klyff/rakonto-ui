@@ -13,6 +13,8 @@ import Files from './TabsContent/Files'
 import Gallery from './TabsContent/Gallery'
 import People from './TabsContent/People'
 import Timeline from './TabsContent/Timeline'
+import Transcript from './TabsContent/Transcript'
+import Places from './TabsContent/Places'
 import SuggestedVideos from './SuggestedVideos'
 import { UserType } from '@root/types'
 
@@ -88,11 +90,11 @@ const StoryShow: React.FC = () => {
   const stiwchRender = () => {
     switch (tab) {
       case 'places':
-        return <div></div>
+        return <Places places={places || []} />
       case 'people':
         return <People persons={persons || []} />
       case 'transcript':
-        return <div></div>
+        return <Transcript transcription={transcription} />
       case 'timeline':
         return <Timeline ocurrencies={timelineEntries || []} />
       case 'gallery':

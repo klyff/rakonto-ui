@@ -33,6 +33,7 @@ export const GridImages = styled.div`
   }
 `
 export const GridItem = styled.div`
+  cursor: pointer;
   width: 250px;
   height: 285px;
   padding: 8px;
