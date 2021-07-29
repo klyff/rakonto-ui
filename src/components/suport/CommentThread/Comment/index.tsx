@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
-import { format } from 'timeago.js'
+import { formatDistance, parseJSON, subDays } from 'date-fns'
 import Editor from '@draft-js-plugins/editor'
 import { MentionData } from '@draft-js-plugins/mention'
 import { EditorBox, CommentWrapper } from './style'
@@ -82,7 +82,7 @@ const Comment: React.FC<iComment> = ({ comment, editComment, deleteComment, ment
       <CommentWrapper.Content>
         <CommentWrapper.Author as="a">{name}</CommentWrapper.Author>
         <CommentWrapper.Metadata>
-          <span>{format(comment.createdAt)}</span>
+          <span>{formatDistance(parseJSON(comment.updatedAt), new Date(), { addSuffix: true })}</span>
         </CommentWrapper.Metadata>
         <CommentWrapper.Text>
           {isEditing ? (

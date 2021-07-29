@@ -29,6 +29,7 @@ export const Item = styled.div`
   min-width: 500px;
   & > div {
     padding: 8px 16px;
+    word-break: break-word;
   }
   @media only screen and (max-width: 1024px) {
     min-width: unset;

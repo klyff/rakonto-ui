@@ -61,7 +61,7 @@ const Gallery: React.FC<iGallery> = ({ children, isLoading, galleries, storyId, 
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
           <UploadButtonArea>
-            <UploadButton onSelected={handleSelected} disabled={!!progress} primary>
+            <UploadButton accept="image/*" onSelected={handleSelected} disabled={!!progress} primary>
               Upload new picture
             </UploadButton>
             <ProgressBox>{!!progress && <Progress percent={progress} progress={true} />}</ProgressBox>

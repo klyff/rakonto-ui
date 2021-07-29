@@ -2,6 +2,7 @@ import React from 'react'
 import { Actions, List, Item } from './style'
 import { Button, Segment } from 'semantic-ui-react'
 import { TimelineType } from '@root/types'
+import { format, parseJSON } from 'date-fns'
 
 interface iOcurrencies {
   ocurrencies: TimelineType[]
@@ -17,7 +18,7 @@ const Ocurrencies: React.FC<iOcurrencies> = ({ ocurrencies, removeOcurrence }) =
             <b>
               <label>At:</label>
             </b>{' '}
-            {new Date(ocurrence.at).toLocaleDateString()}
+            {format(parseJSON(ocurrence.at as unknown as string), 'PPP')}
           </div>
           <div>
             <b>
