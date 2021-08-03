@@ -32,6 +32,7 @@ const Stories: React.FC = () => {
               <StoryCard
                 showAutor={false}
                 story={story}
+                onClick={() => history.push(`/a/stories/${story.id}/edit`)}
                 actions={
                   <>
                     <Dropdown pointing="bottom right" icon="ellipsis vertical">
@@ -46,16 +47,7 @@ const Stories: React.FC = () => {
                           icon="pencil"
                           onClick={() => history.push(`/a/stories/${story.id}/edit`)}
                         />
-                        <Dropdown.Item
-                          text="Delete Forever"
-                          icon="trash"
-                          onClick={() => history.push(`/a/stories/${story.id}/edit`)}
-                        />
-                        <Dropdown.Item
-                          text="Download"
-                          icon="download"
-                          onClick={() => history.push(`/a/stories/${story.id}/edit`)}
-                        />
+                        <Dropdown.Item text="Delete Forever" icon="trash" onClick={() => alert('todo!')} />
                       </Dropdown.Menu>
                     </Dropdown>
                   </>

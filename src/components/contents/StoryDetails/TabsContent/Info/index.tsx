@@ -72,7 +72,7 @@ const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children
     <LoadingArea isLoading={isLoading}>
       <Formik initialValues={initialValues} onSubmit={submit}>
         {({ isSubmitting, handleSubmit }) => (
-          <Form style={{ height: '100%' }}>
+          <Form>
             <Layout>
               <ColumnForm>
                 <StoryDetailForm />

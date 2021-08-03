@@ -49,7 +49,6 @@ import {
   notifyWatcher,
   publishStory,
   deleteComment,
-  getComment,
   createComment,
   editComment
 } from './services'
@@ -132,7 +131,6 @@ export const api = {
   removeWatcher: removeWatcher(request),
   notifyWatcher: notifyWatcher(request),
   deleteComment: deleteComment(request),
-  getComment: getComment(request),
   createComment: createComment(request),
   editComment: editComment(request)
 }

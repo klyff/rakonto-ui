@@ -404,13 +404,6 @@ export const notifyWatcher =
   }
 
 // Comments api
-export const getComment =
-  (request: AxiosInstance) =>
-  async (id: string): Promise<CommentType> => {
-    const response = await request.get<CommentType>(`a/comments/${id}`)
-    return response.data
-  }
-
 export const createComment =
   (request: AxiosInstance) =>
   async (comment: CommentFormType): Promise<CommentType> => {

@@ -9,11 +9,7 @@ export const Layout = styled(SLayout)`
 `
 
 export const Footer = styled.div`
-  border-top: 1px solid rgba(34, 36, 38, 0.15);
   width: 100%;
-  position: absolute;
-  left: 0;
-  bottom: 0;
   padding: 10px 33px 14px;
   display: flex;
   justify-content: flex-end;
