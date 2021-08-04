@@ -5,7 +5,7 @@ const SuggestedVideos: React.FC = () => {
   return (
     <>
       <Header as="h3" dividing>
-        Relationed videos
+        Related stories
       </Header>
     </>
   )

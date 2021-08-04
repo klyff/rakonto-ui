@@ -14,16 +14,21 @@ interface iStoryCard {
 }
 
 const StorieCard: React.FC<iStoryCard> = ({ onClick, showAutor = true, story, actions }) => {
-  const { preview } = useStoryPreview({ video: story.video })
+  const { video, owner, type } = story
+  const { preview } = useStoryPreview({ video })
   const [hover, setHover] = useState<boolean>(false)
 
   let iconType = 'file'
-  if (story.type) iconType += ` ${story.type?.toLowerCase()}`
+  if (type) iconType += ` ${type?.toLowerCase()}`
   iconType += ' outline'
 
   const cardProps = {
     onClick
   }
+
+  const name = `${owner.firstName.charAt(0).toUpperCase() + owner.firstName.slice(1)} ${
+    owner.lastName.charAt(0).toUpperCase() + owner.lastName.slice(1)
+  }`
 
   return (
     <Card
@@ -39,7 +44,6 @@ const StorieCard: React.FC<iStoryCard> = ({ onClick, showAutor = true, story, ac
         src={hover ? preview : story.thumbnail}
         wrapped
         rounded={false}
-        height={200}
       />
 
       <Card.Content>
@@ -50,8 +54,8 @@ const StorieCard: React.FC<iStoryCard> = ({ onClick, showAutor = true, story, ac
           <Icon size="large" name={iconType as SemanticICONS} />
           {showAutor ? (
             <>
-              <Avatar name={'Philipe Carrazzoni'} picture="https://avatars0.githubusercontent.com/u/246180?v=4" />
-              <span>Joseph Klimber</span>
+              <Avatar name={name} picture={owner.picture?.thumbnail} />
+              <span>{name}</span>
             </>
           ) : null}
           <span>Status: {story.published ? 'Published' : 'Draft'}</span>

@@ -12,7 +12,9 @@ import { api } from '@root/api'
 const Home: React.FC<RouteComponentProps> = ({ history }) => {
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<StoryType>({
     size: 15,
-    request: api.getStories
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    request: api.search
   })
   const [sentryRef] = useInfiniteScroll({
     loading,

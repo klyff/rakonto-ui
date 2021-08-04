@@ -57,6 +57,7 @@ export const TextBasicEllipsis = styled(SCard.Meta)`
 
 export const Extra = styled.div`
   margin-top: 0.5em;
+  margin-bottom: 0.5em;
   height: 1em;
   display: flex;
   align-items: center;

@@ -423,3 +423,11 @@ export const deleteComment =
   async (id: string): Promise<void> => {
     return await request.delete(`a/comments/${id}`)
   }
+
+// Search api
+export const search =
+  (request: AxiosInstance) =>
+  async (page: number, size: number, q: string): Promise<Pageable<StoryType>> => {
+    const response = await request.get(`a/search?q=${q || ''}&page=${page}&size=${size}`)
+    return response.data
+  }

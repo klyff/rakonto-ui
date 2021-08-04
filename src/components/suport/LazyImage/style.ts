@@ -1,20 +1,18 @@
 import styled from 'styled-components'
 
-interface iLazyImageWrapper {
-  height: number
-}
-
-export const LazyImageWrapper = styled.div<iLazyImageWrapper>`
+export const LazyImageWrapper = styled.div`
   position: relative;
   & > .ui.placeholder,
   & > .ui.image {
     width: 100%;
-    height: ${props => props.height}px;
+    height: 100%;
   }
 
   & > .ui.placeholder {
     position: absolute;
+    max-width: unset;
     top: 0;
     left: 0;
+    right: 0;
   }
 `

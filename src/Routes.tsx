@@ -14,6 +14,8 @@ import StoryNew from '@root/components/contents/StoryNew'
 import StoryShow from '@root/components/contents/StoryShow'
 import StoryDetails from '@root/components/contents/StoryDetails'
 import Stories from '@root/components/contents/Stories'
+import Forbidden from '@root/components/contents/Error/Forbidden'
+import NotFound from '@root/components/contents/Error/NotFound'
 
 import { SemanticToastContainer } from 'react-semantic-toasts'
 import ChangePasswordForm from '@root/components/forms/ChangePasswordForm'
@@ -34,6 +36,8 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
         <Route exact path="/a/stories/:storyId" component={StoryShow} />
         <Route exact path="/a/stories" component={Stories} />
         <Route exact path="/a/signout" component={Signout} />
+        <Route exact path="/a/404" component={NotFound} />
+        <Route exact path="/a/403" component={Forbidden} />
         <Redirect to="/a/home" />
       </Switch>
     </AuthenticatedLayout>

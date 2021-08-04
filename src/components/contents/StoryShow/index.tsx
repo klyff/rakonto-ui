@@ -129,9 +129,11 @@ const StoryShow: React.FC = () => {
         <Menu tab={tab as string} onChange={handleTabChange} showMenu={showMenu} />
         <ContentBox>
           <Content>{stiwchRender()}</Content>
-          <VideosArea>
-            <SuggestedVideos />
-          </VideosArea>
+          {!!collections?.length && (
+            <VideosArea>
+              <SuggestedVideos />
+            </VideosArea>
+          )}
         </ContentBox>
       </ContentArea>
     </LoadingArea>

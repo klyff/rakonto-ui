@@ -50,7 +50,8 @@ import {
   publishStory,
   deleteComment,
   createComment,
-  editComment
+  editComment,
+  search
 } from './services'
 import { history } from '../App'
 
@@ -132,5 +133,6 @@ export const api = {
   notifyWatcher: notifyWatcher(request),
   deleteComment: deleteComment(request),
   createComment: createComment(request),
-  editComment: editComment(request)
+  editComment: editComment(request),
+  search: search(request)
 }

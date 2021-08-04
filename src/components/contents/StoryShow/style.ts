@@ -34,6 +34,7 @@ export const VideosArea = styled.div`
 export const Content = styled.div`
   padding: 24px 16px;
   min-width: 50%;
+  flex: 1;
 `
 
 export const ContentArea = styled(SContentArea)`
