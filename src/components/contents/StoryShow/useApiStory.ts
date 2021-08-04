@@ -20,14 +20,18 @@ export const useApiStory = (
       setStory(await api.getStory(storyId))
     } catch (error) {
       if (error.response.status === 403) {
-        history.replace('/a/403')
+        return history.replace('/a/403')
       }
+
       if (error.response.status === 404) {
-        history.replace('/a/403')
+        return history.replace('/a/404')
       }
+
       if (error.response.status === 400) {
-        history.replace('/a/403')
+        return history.replace('/a/404')
       }
+
+      throw error
     } finally {
       setIsLoading(false)
     }
