@@ -19,7 +19,7 @@ const Peoples: React.FC<iPeoples> = ({ persons }) => {
           <List.Content verticalAlign="middle">
             <List.Header>{person.name}</List.Header>
             <List.Description>
-              <a>
+              <a href={person.link} target="_blank" rel="noreferrer">
                 <b>{person.link}</b>
               </a>{' '}
             </List.Description>

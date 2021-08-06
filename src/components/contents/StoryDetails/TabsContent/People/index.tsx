@@ -83,6 +83,10 @@ const People: React.FC<iPeople> = ({ storyId, children, isLoading, refresh, pers
     <Layout>
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
+          <div>
+            Add people who are interviewed or are mentioned in the story. Users will be able to filter / search for
+            stories mentioning specific people. Include links to external websites to learn more.
+          </div>
           <AddButton primary id="save" onClick={() => addEditPerson()}>
             Add a new person
           </AddButton>

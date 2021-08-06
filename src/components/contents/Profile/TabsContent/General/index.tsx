@@ -72,14 +72,14 @@ const General: React.FC = () => {
             <>
               <Input
                 name="firstName"
-                label="Full Name"
+                label="First name"
                 onKeyPress={(e: React.KeyboardEvent) => {
                   if (e.key === 'Enter') e.preventDefault()
                 }}
               />
               <Input
                 name="lastName"
-                label="Link"
+                label="Last name"
                 onKeyPress={(e: React.KeyboardEvent) => {
                   if (e.key === 'Enter') e.preventDefault()
                 }}
