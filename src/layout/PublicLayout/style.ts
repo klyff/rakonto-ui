@@ -5,7 +5,7 @@ export const GridImage = styled(Grid.Column)`
   position: relative;
   display: flex;
   height: 100vh;
-  background-image: url('/images/sideLogin.png');
+  //background-image: url('/images/logo.svg');
   background-size: cover;
 `
 

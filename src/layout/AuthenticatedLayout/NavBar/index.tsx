@@ -6,6 +6,7 @@ import { sidebarState } from '../state'
 import { userState } from '@root/states/userState'
 import Avatar from '@root/components/suport/Avatar'
 import { Menu, Dropdown, Logo, Search } from './style'
+import SearchInput from './SearchInput'
 
 const NavBar: React.FC = () => {
   const history = useHistory()
@@ -35,7 +36,7 @@ const NavBar: React.FC = () => {
         </Link>
       </Menu.Item>
       <Search position="left" fluid>
-        <Input fluid action={{ type: 'submit', content: 'Go' }} placeholder="Search..." />
+        <SearchInput />
       </Search>
       <Menu.Menu position="right">
         <Menu.Item>

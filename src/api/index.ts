@@ -51,7 +51,8 @@ import {
   deleteComment,
   createComment,
   editComment,
-  search
+  search,
+  searchSuggestions
 } from './services'
 import { history } from '../App'
 
@@ -134,5 +135,6 @@ export const api = {
   deleteComment: deleteComment(request),
   createComment: createComment(request),
   editComment: editComment(request),
-  search: search(request)
+  search: search(request),
+  searchSuggestions: searchSuggestions(request)
 }

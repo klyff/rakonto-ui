@@ -57,10 +57,12 @@ const StorieCard: React.FC<iStoryCard> = ({ onClick, showAutor = true, story, ac
               <Avatar name={name} picture={owner.picture?.thumbnail} />
               <span>{name}</span>
             </>
-          ) : null}
-          <span>Status: {story.published ? 'Published' : 'Draft'}</span>
-          {!story.ready ? <span>Processing Video</span> : null}
-          {actions && <Actions>{actions}</Actions>}
+          ) : (
+            <>
+              <span>{`Status: ${!story.ready ? 'Processing Video' : story.published ? 'Published' : 'Draft'}`}</span>
+              {actions && <Actions>{actions}</Actions>}
+            </>
+          )}
         </Extra>
       </Card.Content>
     </Card>

@@ -427,7 +427,16 @@ export const deleteComment =
 // Search api
 export const search =
   (request: AxiosInstance) =>
-  async (page: number, size: number, q: string): Promise<Pageable<StoryType>> => {
-    const response = await request.get(`a/search?q=${q || ''}&page=${page}&size=${size}`)
+  async (page: number, size: number, q?: string): Promise<Pageable<StoryType>> => {
+    const response = await request.get<Pageable<StoryType>>(`a/search?q=${q || ''}&page=${page}&size=${size}`)
+    return response.data
+  }
+
+export const searchSuggestions =
+  (request: AxiosInstance) =>
+  async (query: string): Promise<{ suggestions: string[] }> => {
+    const response = await request.get<{ suggestions: string[] }>(
+      `a/search/suggestions?q=${query || ''}&page=${0}&size=${10}`
+    )
     return response.data
   }

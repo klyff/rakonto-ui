@@ -11,13 +11,14 @@ export const usePageableRequest = <T>({
   request
 }: {
   size: number
-  request: (page: number, size: number) => Promise<Pageable<T>>
+  request: (page: number, size: number, q?: string) => Promise<Pageable<T>>
 }): {
   loading: boolean
   items: T[]
   hasNextPage: boolean
   error: Error | undefined
-  loadMore: () => void
+  loadMore: (q?: string) => void
+  reload: (q?: string) => void
 } => {
   const [loading, setLoading] = useState(false)
   const [items, setItems] = useState<T[]>([])
@@ -25,10 +26,24 @@ export const usePageableRequest = <T>({
   const [error, setError] = useState<Error | undefined>()
   const [page, setPage] = useState<number>(0)
 
-  async function loadMore() {
+  async function reload(q?: string) {
     setLoading(true)
     try {
-      const { content, last } = await request(page, size)
+      const { content, last } = await request(0, size, q)
+      setPage(0)
+      setItems(content)
+      setHasNextPage(!last)
+    } catch (err) {
+      setError(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function loadMore(q?: string) {
+    setLoading(true)
+    try {
+      const { content, last } = await request(page, size, q)
       setPage(page + 1)
       setItems(current => [...current, ...content])
       setHasNextPage(!last)
@@ -39,5 +54,5 @@ export const usePageableRequest = <T>({
     }
   }
 
-  return { loading, items, hasNextPage, error, loadMore }
+  return { loading, items, hasNextPage, error, loadMore, reload }
 }

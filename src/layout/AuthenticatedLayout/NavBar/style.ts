@@ -11,9 +11,12 @@ export const Menu = styled(SMenu)`
 export const Search = styled(Menu.Item)`
   flex: 1 !important;
   justify-content: center;
-  & > div {
+  & > .ui.search {
     max-width: 531px;
-    min-width: 0px;
+    width: 100%;
+    & > * {
+      width: 100%;
+    }
   }
 `
 

@@ -5,13 +5,13 @@ import { GridImage, TextBox, PrimaryText, SecondaryText, FormBox, Logo } from '.
 const PublicLayout: React.FC = ({ children }) => {
   return (
     <Grid verticalAlign="middle" stackable inverted padded>
-      <GridImage width={10} only="tablet computer">
-        <TextBox>
-          <PrimaryText style={{}}>Discover your family story</PrimaryText>
-          <SecondaryText style={{}}>
-            Grow your family tree, find new relatives, and explore billions of historical records
-          </SecondaryText>
-        </TextBox>
+      <GridImage width={5} only="tablet computer">
+        {/* <TextBox> */}
+        {/*  <PrimaryText style={{}}>Discover your family story</PrimaryText> */}
+        {/*  <SecondaryText style={{}}> */}
+        {/*    Grow your family tree, find new relatives, and explore billions of historical records */}
+        {/*  </SecondaryText> */}
+        {/* </TextBox> */}
       </GridImage>
       <Grid.Column width={6}>
         <Logo>
@@ -21,6 +21,7 @@ const PublicLayout: React.FC = ({ children }) => {
           <div>{children}</div>
         </FormBox>
       </Grid.Column>
+      <GridImage width={5} only="tablet computer"></GridImage>
     </Grid>
   )
 }
