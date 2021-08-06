@@ -1,12 +1,11 @@
 import styled from 'styled-components'
 import { Grid } from 'semantic-ui-react'
-import BackGroundImage from './sideLogin.png'
 
 export const GridImage = styled(Grid.Column)`
   position: relative;
   display: flex;
   height: 100vh;
-  background-image: url(${BackGroundImage});
+  background-image: url('/images/sideLogin.png');
   background-size: cover;
 `
 
@@ -42,15 +41,19 @@ export const SecondaryText = styled.div`
   max-width: 684px;
 `
 
-export const GridLogin = styled(Grid.Column)`
-  height: 100vh;
+export const Logo = styled.div`
+  max-width: 300px;
+  display: flex;
+  margin: 64px auto;
+  justify-content: center;
+  align-items: center;
 `
 
 export const FormBox = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
   & > div {
     width: 100%;
     align-self: center;

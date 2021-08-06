@@ -1,10 +1,10 @@
 import React from 'react'
-import { Grid } from 'semantic-ui-react'
-import { GridImage, TextBox, PrimaryText, SecondaryText, GridLogin, FormBox } from './style'
+import { Grid, Image } from 'semantic-ui-react'
+import { GridImage, TextBox, PrimaryText, SecondaryText, FormBox, Logo } from './style'
 
 const PublicLayout: React.FC = ({ children }) => {
   return (
-    <Grid stackable inverted padded>
+    <Grid verticalAlign="middle" stackable inverted padded>
       <GridImage width={10} only="tablet computer">
         <TextBox>
           <PrimaryText style={{}}>Discover your family story</PrimaryText>
@@ -13,11 +13,14 @@ const PublicLayout: React.FC = ({ children }) => {
           </SecondaryText>
         </TextBox>
       </GridImage>
-      <GridLogin width={6}>
+      <Grid.Column width={6}>
+        <Logo>
+          <Image src={'/images/logo2.svg'} />
+        </Logo>
         <FormBox>
           <div>{children}</div>
         </FormBox>
-      </GridLogin>
+      </Grid.Column>
     </Grid>
   )
 }

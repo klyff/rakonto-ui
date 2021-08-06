@@ -1,11 +1,11 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { Image, Icon, Input, Button } from 'semantic-ui-react'
+import { useHistory, Link } from 'react-router-dom'
+import { Icon, Input, Button } from 'semantic-ui-react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { sidebarState } from '../state'
 import { userState } from '@root/states/userState'
 import Avatar from '@root/components/suport/Avatar'
-import { Menu, Dropdown } from './style'
+import { Menu, Dropdown, Logo, Search } from './style'
 
 const NavBar: React.FC = () => {
   const history = useHistory()
@@ -30,13 +30,14 @@ const NavBar: React.FC = () => {
         <Icon name="sidebar" />
       </Menu.Item>
       <Menu.Item>
-        <Image size="mini" src="https://react.semantic-ui.com/logo.png" />
+        <Link to="/a/home">
+          <Logo />
+        </Link>
       </Menu.Item>
-
+      <Search position="left" fluid>
+        <Input fluid action={{ type: 'submit', content: 'Go' }} placeholder="Search..." />
+      </Search>
       <Menu.Menu position="right">
-        <Menu.Item>
-          <Input action={{ type: 'submit', content: 'Go' }} placeholder="Navigate to..." />
-        </Menu.Item>
         <Menu.Item>
           <Button primary onClick={handleNewStorie}>
             New Story
