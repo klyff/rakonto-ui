@@ -18,8 +18,6 @@ export const Search = styled(SSearch)`
 `
 
 export const List = styled(SList)`
-  overflow: auto;
-  height: calc(100% - 212px);
   padding-bottom: 30px !important;
   padding-right: 8px !important;
 

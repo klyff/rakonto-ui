@@ -63,7 +63,7 @@ const AddEditPlaceFormModal: React.FC<iAddEditPlaceFormModal> = ({ place, open, 
         }, [initialValues])
         return (
           <SModal open={open} size="tiny">
-            <Header content={isEdit ? 'Edit ocurrency' : 'New ocurrency'} />
+            <Header content={isEdit ? 'Edit location' : 'New location'} />
             <SModal.Content image>
               <ModalDescription>
                 <Input

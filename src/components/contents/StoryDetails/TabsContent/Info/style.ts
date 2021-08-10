@@ -2,21 +2,17 @@ import styled from 'styled-components'
 
 import { Layout as SLayout } from '../style'
 
-export const Layout = styled(SLayout)`
+export const SaveButtonArea = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 12px;
   @media only screen and (max-width: 1024px) {
-    height: calc(100% - 188px);
+    flex-flow: row-reverse;
   }
 `
 
-export const Footer = styled.div`
-  width: 100%;
-  padding: 10px 33px 14px;
-  display: flex;
-  justify-content: flex-end;
-  background-color: white;
-  & > div.ui.buttons {
-    @media only screen and (max-width: 1024px) {
-      width: 100%;
-    }
+export const Layout = styled(SLayout)`
+  @media only screen and (max-width: 1024px) {
+    height: calc(100% - 188px);
   }
 `

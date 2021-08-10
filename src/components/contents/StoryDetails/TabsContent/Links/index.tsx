@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout, ColumnForm, ColumnPreview } from '../style'
+import { Layout, ColumnForm, ColumnPreview, Header as HeaderTitle } from '../style'
 import { AddButton } from './style'
 import { api } from '@root/api'
 import { LinkType } from '@root/types'
@@ -47,6 +47,7 @@ const Links: React.FC<iLinks> = ({ storyId, refresh, links, isLoading, children 
     <Layout>
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
+          <HeaderTitle></HeaderTitle>
           <AddButton primary id="save" onClick={() => setOpenModal(true)}>
             Add a new link
           </AddButton>

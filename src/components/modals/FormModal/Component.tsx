@@ -5,7 +5,7 @@ import { formModalState } from './state'
 import Modal from '../ModalBasicLayout'
 
 const FormModal: React.FC = () => {
-  const [{ open, content, title, type, onClose, initialValues, validationSchema, onSubmit }, setOpen] =
+  const [{ open, content, title, type, onClose, initialValues, validationSchema, onSubmit, isConfirmation }, setOpen] =
     useRecoilState(formModalState)
 
   const close = (isSuccess: boolean) => {
@@ -33,7 +33,14 @@ const FormModal: React.FC = () => {
           close(isSuccess)
         }
         return (
-          <Modal open={open} content={content} title={title} type={type} onClose={handleClose} isConfirmation={false} />
+          <Modal
+            open={open}
+            content={content}
+            title={title}
+            type={type}
+            onClose={handleClose}
+            isConfirmation={!!isConfirmation}
+          />
         )
       }}
     </Formik>

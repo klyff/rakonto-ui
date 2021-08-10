@@ -3,13 +3,11 @@ import styled from 'styled-components'
 export const Layout = styled.div`
   display: flex;
   overflow: auto;
-  height: calc(100% - 57px);
   @media only screen and (max-width: 1024px) {
     flex-direction: column;
     align-items: center;
     flex-flow: column;
     overflow-x: hidden;
-    height: calc(100% - 136px);
     & :nth-child(1) {
       order: 2;
     }
@@ -42,4 +40,7 @@ export const ColumnPreview = styled.div`
   min-width: 450px;
   max-width: 720px;
   flex: 1;
+`
+export const Header = styled.div`
+  margin-bottom: 12px;
 `

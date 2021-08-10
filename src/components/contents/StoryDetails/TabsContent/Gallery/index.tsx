@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Progress } from 'semantic-ui-react'
-import { Layout, ColumnForm, ColumnPreview } from '../style'
+import { Layout, ColumnForm, ColumnPreview, Header } from '../style'
 import { GridImages, UploadButtonArea, ProgressBox } from './style'
 import ImageViewer from '@root/components/suport/ImageViewer'
 import { GalleryType } from '@root/types'
@@ -20,7 +20,9 @@ interface iGallery {
 const Gallery: React.FC<iGallery> = ({ children, isLoading, galleries, storyId, refresh }) => {
   const [selectedImage, setSelectedImage] = useState<number | null>(0)
   const [showPreview, setShowPreview] = useState<boolean>(false)
+  const [progressFiles, setProgressFiles] = useState<Record<string, number>>({})
   const [progress, setProgress] = useState<number>(0)
+  const [totalFiles, setTotalFiles] = useState<number>(0)
 
   const handleShowPreview = (index: number) => {
     setSelectedImage(index)
@@ -32,20 +34,23 @@ const Gallery: React.FC<iGallery> = ({ children, isLoading, galleries, storyId, 
     refresh()
   }
 
-  const handleSelected = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files?.length) return
-    const file: File = event.target.files[0]
+  useEffect(() => {
+    const max = totalFiles * 100
+    const allValues = Object.values(progressFiles)
+    const current = allValues.reduce((a, b) => a + b, 0)
+    setProgress((current / max) * 100)
+  }, [progressFiles, totalFiles])
+
+  const upload = async (file: File) => {
     try {
       const image = await api.uploadImage(file, ({ loaded, total }) => {
         const progress = Math.round((loaded * 100) / total)
-        if (progress === 100) {
-          setProgress(0)
-          return
-        }
-        setProgress(progress < 0 ? 0 : progress)
+        setProgressFiles(prevValue => {
+          prevValue[file.name] = progress < 0 ? 0 : progress
+          return { ...prevValue }
+        })
       })
       await api.createGallery(storyId, image.id)
-      refresh()
     } catch (error) {
       toast({
         type: 'error',
@@ -56,13 +61,25 @@ const Gallery: React.FC<iGallery> = ({ children, isLoading, galleries, storyId, 
     }
   }
 
+  const handleSelected = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files?.length) return
+    const files = Array.from(event.target.files)
+    setTotalFiles(files.length)
+    await Promise.all(files.map(file => upload(file)))
+    refresh()
+    setProgressFiles({})
+    setTotalFiles(0)
+    setProgress(0)
+  }
+
   return (
     <Layout>
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
+          <Header>Create a photo gallery to accompany and enhance your story.</Header>
           <UploadButtonArea>
-            <UploadButton accept="image/*" onSelected={handleSelected} disabled={!!progress} primary>
-              Upload new picture
+            <UploadButton accept="image/*" onSelected={handleSelected} disabled={!!progress} primary multiple={true}>
+              Upload photos
             </UploadButton>
             <ProgressBox>{!!progress && <Progress percent={progress} progress={true} />}</ProgressBox>
           </UploadButtonArea>

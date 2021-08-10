@@ -28,7 +28,7 @@ const Share: React.FC<iTranscript> = ({ children, refresh, published, watchers, 
       refresh()
       toast({
         type: 'success',
-        title: `Story ${published ? 'Published' : 'Draft'}`,
+        title: `Story ${published ? 'Draft' : 'Published'}`,
         time: 3000
       })
     } catch (error) {

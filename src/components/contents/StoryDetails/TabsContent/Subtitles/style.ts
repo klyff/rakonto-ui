@@ -2,8 +2,6 @@ import styled from 'styled-components'
 import { List as SList } from 'semantic-ui-react'
 
 export const List = styled(SList)`
-  overflow: auto;
-  height: calc(100% - 216px);
   padding-bottom: 30px !important;
   padding-right: 8px !important;
 
@@ -30,11 +28,6 @@ export const Actions = styled.div`
       background-color: unset;
     }
   }
-`
-
-export const Header = styled.div`
-  padding-top: 32px;
-  padding-bottom: 16px;
 `
 
 export const Box = styled.div`

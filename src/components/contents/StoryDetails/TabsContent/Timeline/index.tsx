@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import LoadingArea from '@root/components/suport/LoadingArea'
-import { ColumnForm, ColumnPreview, Layout } from '@root/components/contents/StoryDetails/TabsContent/style'
+import { ColumnForm, ColumnPreview, Header, Layout } from '../style'
 import { TimelineType } from '@root/types'
 import { useTimelineApi } from './useTimelineApi'
 import AddEditTimelineFormModal from '@root/components/modals/AddEditTimelineFormModal'
 import Ocurrencies from './Ocurrencies'
-import { AddButton, OcurrenciesArea } from './style'
+import { AddButton } from './style'
 import { useSetRecoilState } from 'recoil'
 import { basicModalState } from '@root/components/modals/BasicModal'
 
@@ -47,12 +47,13 @@ const Timeline: React.FC<iTimeline> = ({ isLoading, refresh, storyId, ocurrencie
     <Layout>
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
+          <Header>
+            Add important events mentioned in the story, and enable people to view these events on a timeline
+          </Header>
           <AddButton primary onClick={() => addEditTimeline()}>
-            Add new ocurrence
+            Add new event
           </AddButton>
-          <OcurrenciesArea>
-            <Ocurrencies ocurrencies={ocurrencies} removeOcurrence={HandleRemove} />
-          </OcurrenciesArea>
+          <Ocurrencies ocurrencies={ocurrencies} removeOcurrence={HandleRemove} />
         </ColumnForm>
         <ColumnPreview>{children}</ColumnPreview>
         <AddEditTimelineFormModal

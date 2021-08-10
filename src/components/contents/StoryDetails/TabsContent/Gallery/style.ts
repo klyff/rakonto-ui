@@ -4,6 +4,7 @@ import { Dropdown } from 'semantic-ui-react'
 export const UploadButtonArea = styled.div`
   display: flex;
   justify-content: flex-start;
+  margin-bottom: 12px;
   @media only screen and (max-width: 1024px) {
     flex-flow: row-reverse;
   }
@@ -17,8 +18,6 @@ export const ProgressBox = styled.div`
 export const GridImages = styled.div`
   display: flex;
   flex-flow: wrap;
-  overflow: auto;
-  height: calc(100% - 60px);
   padding-bottom: 30px !important;
   padding-right: 8px !important;
 

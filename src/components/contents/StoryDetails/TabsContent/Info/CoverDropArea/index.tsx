@@ -61,6 +61,9 @@ const CoverDropArea: React.FC<iCoverDropArea> = ({ onIdChange, cover }) => {
         </DropAreaWrapper>
       </Grid.Row>
       <Grid.Row>
+        <div>Add an image that displays when people see your story.</div>
+      </Grid.Row>
+      <Grid.Row>
         <Button type="button" primary basic onClick={open}>
           Change Cover
         </Button>

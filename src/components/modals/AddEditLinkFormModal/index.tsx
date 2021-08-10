@@ -5,6 +5,7 @@ import { ModalDescription } from '../style'
 import { Input } from '@root/components/suport/FormFields'
 import schema from './schema'
 import { useLinkApi } from './useLinkApi'
+import { FormikHelpers } from 'formik/dist/types'
 
 interface iAddEditPersonFormModal {
   open: boolean
@@ -19,9 +20,10 @@ interface iformikValues {
 const AddEditLinkFormModal: React.FC<iAddEditPersonFormModal> = ({ open, storyId, onClose }) => {
   const { createLink } = useLinkApi()
 
-  const submit = async (values: iformikValues) => {
+  const submit = async (values: iformikValues, helpers: FormikHelpers<iformikValues>) => {
     await createLink({ url: values.url, storyId: storyId })
     onClose(true)
+    helpers.resetForm()
   }
 
   return (

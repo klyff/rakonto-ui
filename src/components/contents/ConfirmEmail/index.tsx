@@ -57,6 +57,7 @@ const ConfirmEmail: React.FC = ({ children }) => {
             type: 'warning',
             initialValues: { email: '' },
             validationSchema: schema,
+            isConfirmation: true,
             onSubmit: handleSubmit,
             content: (
               <>

@@ -8,8 +8,6 @@ export const AddButton = styled(SButton)`
 `
 
 export const List = styled(SList)`
-  overflow: auto;
-  height: calc(100% - 216px);
   padding-bottom: 30px !important;
   padding-right: 8px !important;
 

@@ -3,7 +3,6 @@ import { Button as SButton } from 'semantic-ui-react'
 
 export const SaveButton = styled(SButton)`
   &.ui.button {
-    margin-top: 12px;
     margin-bottom: 12px;
   }
 `

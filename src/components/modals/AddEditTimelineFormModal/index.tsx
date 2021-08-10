@@ -55,7 +55,7 @@ const AddEditTimelineFormModal: React.FC<iAddEditTimelineFormModal> = ({ timelin
         }, [initialValues])
         return (
           <SModal open={open} size="tiny">
-            <Header content={isEdit ? 'Edit ocurrency' : 'New ocurrency'} />
+            <Header content={isEdit ? 'Edit event' : 'New event'} />
             <SModal.Content image>
               <ModalDescription>
                 <Input

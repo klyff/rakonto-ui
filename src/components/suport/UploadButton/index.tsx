@@ -4,8 +4,9 @@ import { Button, ButtonProps } from 'semantic-ui-react'
 interface iUploadButton extends ButtonProps {
   onSelected: (event: React.ChangeEvent<HTMLInputElement>) => void
   accept?: string | undefined
+  multiple?: boolean
 }
-const UploadButton: React.FC<iUploadButton> = ({ api, accept, onSelected, children, ...rest }) => {
+const UploadButton: React.FC<iUploadButton> = ({ api, multiple = false, accept, onSelected, children, ...rest }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleFileSelectClick = () => {
@@ -14,7 +15,7 @@ const UploadButton: React.FC<iUploadButton> = ({ api, accept, onSelected, childr
 
   return (
     <>
-      <input ref={inputRef} type="file" multiple={false} hidden={true} onChange={onSelected} accept={accept} />
+      <input ref={inputRef} type="file" multiple={multiple} hidden={true} onChange={onSelected} accept={accept} />
       <Button onClick={handleFileSelectClick} {...rest}>
         {children && children}
       </Button>

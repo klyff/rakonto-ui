@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { EditorState, convertToRaw, ContentState } from 'draft-js'
-import { Layout, ColumnForm, ColumnPreview } from '../style'
+import { Layout, ColumnForm, ColumnPreview, Header } from '../style'
 import { SaveButton, EditorWrapper } from './style'
 import { api } from '@root/api'
 import { TranscriptionType } from '@root/types'
@@ -74,7 +74,10 @@ const Transcript: React.FC<iTranscript> = ({ children, refresh, transcription, s
   return (
     <Layout>
       <ColumnForm>
-        <div>Link files to your video for viewers to download or write in the field below</div>
+        <Header>
+          A transcript can help people find specific information in your story. Copy and paste, or type your transcript
+          text here. Remember to save your work!
+        </Header>
         <div>
           <SaveButton primary id="save" onClick={handleSave}>
             Save

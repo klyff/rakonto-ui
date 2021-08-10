@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import LoadingArea from '@root/components/suport/LoadingArea'
-import { ColumnForm, ColumnPreview, Layout } from '@root/components/contents/StoryDetails/TabsContent/style'
+import { ColumnForm, ColumnPreview, Layout, Header } from '../style'
 import { PlaceType } from '@root/types'
 import { usePlacesApi } from './usePlacesApi'
 import AddEditPlaceFormModal from '@root/components/modals/AddEditPlaceFormModal'
 import PlacesList from './PlacesList'
-import { AddButton, OcurrenciesArea } from './style'
+import { AddButton } from './style'
 import { useSetRecoilState } from 'recoil'
 import { basicModalState } from '@root/components/modals/BasicModal'
 
@@ -47,12 +47,14 @@ const Places: React.FC<iTimeline> = ({ isLoading, refresh, storyId, places, chil
     <Layout>
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
+          <Header>
+            Add locations where elements of the story took place. User will be able to see maps with the locations you
+            enter
+          </Header>
           <AddButton primary onClick={() => addEditPlace()}>
-            Add new place
+            Add new location
           </AddButton>
-          <OcurrenciesArea>
-            <PlacesList places={places} removeOcurrence={HandleRemove} />
-          </OcurrenciesArea>
+          <PlacesList places={places} removeOcurrence={HandleRemove} />
         </ColumnForm>
         <ColumnPreview>{children}</ColumnPreview>
         <AddEditPlaceFormModal

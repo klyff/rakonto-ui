@@ -7,13 +7,7 @@ export const AddButton = styled(SButton)`
   }
 `
 
-export const OcurrenciesArea = styled.div`
-  height: calc(100vh - 281px);
-`
-
 export const List = styled(SList)`
-  overflow: auto;
-  height: calc(100% - 16px);
   padding-bottom: 30px !important;
   padding-right: 8px !important;
 

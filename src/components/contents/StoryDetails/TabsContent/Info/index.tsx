@@ -1,8 +1,8 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Button } from 'semantic-ui-react'
 import StoryDetailForm from './StoryDetailForm'
 import { useHistory } from 'react-router-dom'
-import { Footer, Layout } from './style'
+import { Layout, SaveButtonArea } from './style'
 import CoverDropArea from './CoverDropArea'
 import { CollectionType, StoryType, StoryUpdateType, WatcherType } from '@root/types'
 import { Formik, Form } from 'formik'
@@ -71,10 +71,23 @@ const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children
   return (
     <LoadingArea isLoading={isLoading}>
       <Formik initialValues={initialValues} onSubmit={submit}>
-        {({ isSubmitting, handleSubmit }) => (
+        {({ handleSubmit }) => (
           <Form>
             <Layout>
               <ColumnForm>
+                <SaveButtonArea>
+                  <Button
+                    id="publish"
+                    type="button"
+                    primary={true}
+                    onClick={() => {
+                      handleSubmit()
+                      history.push('/a/stories')
+                    }}
+                  >
+                    Save
+                  </Button>
+                </SaveButtonArea>
                 <StoryDetailForm />
               </ColumnForm>
               <ColumnPreview>
@@ -82,22 +95,6 @@ const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children
                 <CoverDropArea onIdChange={setCoverId} cover={cover} />
               </ColumnPreview>
             </Layout>
-            <Footer>
-              <Button type="submit" primary id="save" loading={isSubmitting}>
-                Save
-              </Button>
-              <Button
-                id="publish"
-                type="button"
-                positive
-                onClick={() => {
-                  handleSubmit()
-                  history.push('/a/stories')
-                }}
-              >
-                Done
-              </Button>
-            </Footer>
           </Form>
         )}
       </Formik>

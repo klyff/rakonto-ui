@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Layout, ColumnForm, ColumnPreview } from '../style'
-import { Header, Box } from './style'
+import { Layout, ColumnForm, ColumnPreview, Header } from '../style'
+import { Box } from './style'
 import UploadButton from '@root/components/suport/UploadButton'
 import { api } from '@root/api'
 import { LanguageEnum, SubtitleType } from '@root/types'
@@ -89,7 +89,10 @@ const Subtitles: React.FC<iSubtitles> = ({ storyId, refresh, subtitles, isLoadin
     <Layout>
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
-          <Header>Add subtitles to your video. Select a language and upload a file.</Header>
+          <Header>
+            Add subtitles to your video. Select a language and upload a file. Upload files for different languages and
+            help users understand content in any supported language.
+          </Header>
           <Box>
             <Select
               placeholder="Select your language"
@@ -104,7 +107,7 @@ const Subtitles: React.FC<iSubtitles> = ({ storyId, refresh, subtitles, isLoadin
           </Box>
           <Divider />
           <SHeader as="h1">List of subtitles</SHeader>
-          <SubtitleList subtitles={subtitles} onRemove={onRemove} />s
+          <SubtitleList subtitles={subtitles} onRemove={onRemove} />
         </ColumnForm>
         <ColumnPreview>{children}</ColumnPreview>
       </LoadingArea>

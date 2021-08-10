@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout, ColumnForm, ColumnPreview } from '../style'
+import { Layout, ColumnForm, ColumnPreview, Header as HeaderTitle } from '../style'
 import { AddButton } from './style'
 import { PersonType } from '@root/types'
 import { Divider, Header } from 'semantic-ui-react'
@@ -83,10 +83,10 @@ const People: React.FC<iPeople> = ({ storyId, children, isLoading, refresh, pers
     <Layout>
       <LoadingArea isLoading={isLoading}>
         <ColumnForm>
-          <div>
+          <HeaderTitle>
             Add people who are interviewed or are mentioned in the story. Users will be able to filter / search for
             stories mentioning specific people. Include links to external websites to learn more.
-          </div>
+          </HeaderTitle>
           <AddButton primary id="save" onClick={() => addEditPerson()}>
             Add a new person
           </AddButton>
