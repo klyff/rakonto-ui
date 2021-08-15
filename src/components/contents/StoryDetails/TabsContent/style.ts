@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 export const Layout = styled.div`
   display: flex;
-  overflow: auto;
   @media only screen and (max-width: 1024px) {
     flex-direction: column;
     align-items: center;

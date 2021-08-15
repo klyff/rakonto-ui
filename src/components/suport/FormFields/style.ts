@@ -19,7 +19,7 @@ export const ErrorMessage = styled.div`
 `
 
 const FieldWrapper = styled.div`
-  margin-bottom: 32px;
+  margin-bottom: 18px;
   position: relative;
 `
 

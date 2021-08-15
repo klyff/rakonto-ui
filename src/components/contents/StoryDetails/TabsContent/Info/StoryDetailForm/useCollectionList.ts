@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { api } from '@root/api'
 import { DropdownItemProps } from 'semantic-ui-react'
+import { CollectionType } from '@root/types'
 
 export const useCollectionList = (): {
   collectionList: DropdownItemProps[]
   isLoading: boolean
+  setCollectionList: Dispatch<SetStateAction<DropdownItemProps[]>>
 } => {
   const [collectionList, setCollectionList] = useState<DropdownItemProps[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -27,5 +29,5 @@ export const useCollectionList = (): {
     fetch()
   }, [])
 
-  return { collectionList, isLoading }
+  return { collectionList, isLoading, setCollectionList }
 }

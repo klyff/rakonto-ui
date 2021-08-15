@@ -29,7 +29,8 @@ import {
   LanguageEnum,
   addWatcherType,
   CommentType,
-  CommentFormType
+  CommentFormType,
+  CollectionFormType
 } from '@root/types'
 
 // User api
@@ -137,13 +138,6 @@ export const updateStory =
   (request: AxiosInstance) =>
   async (id: string, data: Partial<StoryUpdateType>): Promise<StoryType> => {
     const response = await request.put(`a/stories/${id}`, data)
-    return response.data
-  }
-
-export const getCollections =
-  (request: AxiosInstance) =>
-  async (page: number, size: number): Promise<Pageable<CollectionType>> => {
-    const response = await request.get(`a/collections?page=${page}&size=${size}`)
     return response.data
   }
 
@@ -438,5 +432,21 @@ export const searchSuggestions =
     const response = await request.get<{ suggestions: string[] }>(
       `a/search/suggestions?q=${query || ''}&page=${0}&size=${10}`
     )
+    return response.data
+  }
+
+// Collection api
+
+export const getCollections =
+  (request: AxiosInstance) =>
+  async (page: number, size: number): Promise<Pageable<CollectionType>> => {
+    const response = await request.get(`a/collections?page=${page}&size=${size}`)
+    return response.data
+  }
+
+export const createCollection =
+  (request: AxiosInstance) =>
+  async (data: CollectionFormType): Promise<CollectionType> => {
+    const response = await request.post(`a/collections`, data)
     return response.data
   }

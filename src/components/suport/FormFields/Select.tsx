@@ -1,13 +1,13 @@
 import { useField } from 'formik'
 import { Icon } from 'semantic-ui-react'
 import { ErrorMessage, SelectWrapper } from './style'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Select as _Select } from 'formik-semantic-ui-react'
 import { SelectProps } from 'formik-semantic-ui-react/dist/Select'
 
 interface iTextArea extends SelectProps {
   errorMessage?: string
-  label?: string
+  label?: string | ReactNode
 }
 
 export const Error: React.FC = ({ children }) => {

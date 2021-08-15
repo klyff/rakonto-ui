@@ -6,7 +6,7 @@ interface iUseCoverApi {
   coverInfo?: Partial<ImageType>
   uploadProgress: number
   isUploadingCover: boolean
-  uploadCover: (file: File) => void
+  upload: (file: File) => void
   getCoverInfo: (id: string) => void
   removeCover: () => void
 }
@@ -16,7 +16,7 @@ export const useCoverApi = ({ cover }: { cover?: Partial<ImageType> }): iUseCove
   const [uploadProgress, setUploadProgress] = useState<number>(0)
   const [coverInfo, setCoverInfo] = useState<Partial<ImageType> | undefined>(cover)
 
-  const uploadCover = async (file: File) => {
+  const upload = async (file: File) => {
     setIsUploadingCover(true)
     const result = await api.uploadImage(file, ({ loaded, total }) => {
       const progress = Math.round((loaded * 100) / total) - 1
@@ -39,5 +39,5 @@ export const useCoverApi = ({ cover }: { cover?: Partial<ImageType> }): iUseCove
     setCoverInfo(undefined)
   }, [coverInfo])
 
-  return { coverInfo, uploadProgress, isUploadingCover, uploadCover, getCoverInfo, removeCover }
+  return { coverInfo, uploadProgress, isUploadingCover, upload, getCoverInfo, removeCover }
 }

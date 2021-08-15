@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { Button } from 'semantic-ui-react'
 import StoryDetailForm from './StoryDetailForm'
-import { useHistory } from 'react-router-dom'
 import { Layout, SaveButtonArea } from './style'
-import CoverDropArea from './CoverDropArea'
-import { CollectionType, StoryType, StoryUpdateType, WatcherType } from '@root/types'
+import CoverDropArea from '@root/components/suport/CoverDropArea'
+import { StoryType, StoryUpdateType, WatcherType } from '@root/types'
 import { Formik, Form } from 'formik'
 import LoadingArea from '@root/components/suport/LoadingArea'
 import { ColumnPreview, ColumnForm } from '../style'
@@ -18,7 +17,7 @@ interface iInfo {
 
 interface iformikValues {
   title: string
-  collections: string[]
+  collections: string
   watchers: WatcherType[]
   description: string
   watcherShare: string
@@ -26,8 +25,6 @@ interface iformikValues {
 }
 
 const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children }) => {
-  const history = useHistory()
-
   const { title = '', published = false, collections = [], watchers = [], description = '', cover = { id: '' } } = story
 
   const [coverId, setCoverId] = useState<string | undefined>()
@@ -38,7 +35,7 @@ const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children
         coverId: coverId,
         title: values.title,
         description: values.description,
-        collections: values.collections
+        collections: [values.collections]
       }
       try {
         await updateStory(newValues)
@@ -61,7 +58,7 @@ const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children
 
   const initialValues: iformikValues = {
     title: title || '',
-    collections: collections.map((collection: CollectionType) => collection.id) || [],
+    collections: collections[0]?.id || '',
     watchers: watchers || [],
     description: description || '',
     watcherShare: '',
@@ -82,7 +79,6 @@ const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children
                     primary={true}
                     onClick={() => {
                       handleSubmit()
-                      history.push('/a/stories')
                     }}
                   >
                     Save
@@ -92,7 +88,12 @@ const StoryDetails: React.FC<iInfo> = ({ isLoading, story, updateStory, children
               </ColumnForm>
               <ColumnPreview>
                 {children}
-                <CoverDropArea onIdChange={setCoverId} cover={cover} />
+                <CoverDropArea
+                  onIdChange={setCoverId}
+                  cover={cover}
+                  ButtonLabel="Change cover"
+                  message="Add an image that displays when people see your story."
+                />
               </ColumnPreview>
             </Layout>
           </Form>

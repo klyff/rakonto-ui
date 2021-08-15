@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input, TextArea, Select } from '@root/components/suport/FormFields'
+import AddCollectionFormModal from '@root/components/modals/AddCollectionFormModal'
 import { useCollectionList } from './useCollectionList'
+import { Button } from 'semantic-ui-react'
+import { CollectionArea } from './style'
+import { CollectionType } from '@root/types'
 
 const StoryDetailForm: React.FC = () => {
-  const { collectionList, isLoading } = useCollectionList()
+  const { collectionList, isLoading, setCollectionList } = useCollectionList()
+  const [openModal, setOpenModal] = useState<boolean>(false)
+
+  const handleClose = (collection?: CollectionType) => {
+    if (collection) {
+      setCollectionList([{ key: collection.id, value: collection.id, text: collection.title }, ...collectionList])
+    }
+    setOpenModal(false)
+  }
 
   return (
     <>
@@ -24,17 +36,24 @@ const StoryDetailForm: React.FC = () => {
           if (e.key === 'Enter') e.preventDefault()
         }}
       />
-      <Select
-        loading={isLoading}
-        options={collectionList}
-        label="Collections"
-        multiple
-        name="collections"
-        placeholder="Select"
-        onKeyPress={(e: React.KeyboardEvent) => {
-          if (e.key === 'Enter') e.preventDefault()
-        }}
-      />
+      <CollectionArea>
+        <Select
+          loading={isLoading}
+          options={collectionList}
+          label="Collection"
+          name="collections"
+          placeholder="Select"
+          onKeyPress={(e: React.KeyboardEvent) => {
+            if (e.key === 'Enter') e.preventDefault()
+          }}
+        />
+        <div>
+          <Button id="publish" type="button" primary={true} onClick={() => setOpenModal(true)}>
+            New collection
+          </Button>
+        </div>
+      </CollectionArea>
+      <AddCollectionFormModal open={openModal} onClose={handleClose} />
     </>
   )
 }

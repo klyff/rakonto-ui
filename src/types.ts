@@ -160,6 +160,12 @@ export type CollectionType = {
   stories: StoryType[]
 }
 
+export type CollectionFormType = {
+  title: string
+  description?: string
+  coverId?: string
+}
+
 export type ImageType = {
   id: string
   processedAt: Date

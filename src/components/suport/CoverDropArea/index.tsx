@@ -10,11 +10,20 @@ import { ImageType } from '@root/types'
 interface iCoverDropArea {
   onIdChange: (coverId: string | undefined) => void
   progress?: number
+  message?: string
+  ButtonLabel?: string
+  noClick?: boolean
   cover?: Partial<ImageType>
 }
 
-const CoverDropArea: React.FC<iCoverDropArea> = ({ onIdChange, cover }) => {
-  const { coverInfo, uploadProgress, isUploadingCover, uploadCover, getCoverInfo, removeCover } = useCoverApi({ cover })
+const CoverDropArea: React.FC<iCoverDropArea> = ({
+  onIdChange,
+  message,
+  noClick = true,
+  ButtonLabel = 'Upload',
+  cover
+}) => {
+  const { coverInfo, uploadProgress, isUploadingCover, upload, getCoverInfo, removeCover } = useCoverApi({ cover })
   const { coverProgress, isProcessingCover, startProcess } = useCoverStatus(coverInfo?.id, getCoverInfo)
 
   useEffect(() => {
@@ -22,19 +31,19 @@ const CoverDropArea: React.FC<iCoverDropArea> = ({ onIdChange, cover }) => {
   }, [coverInfo])
 
   const handleDrop = async (acceptedFiles: File[]) => {
-    await uploadCover(acceptedFiles[0])
+    await upload(acceptedFiles[0])
     startProcess()
   }
 
   const { open, getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     accept: ['image/*'],
-    noClick: true,
+    noClick: noClick,
     noKeyboard: true,
     onDrop: handleDrop
   })
 
   return (
-    <Grid container style={{ margin: 0 }}>
+    <Grid style={{ margin: 0 }}>
       <Grid.Row>
         <DropAreaWrapper
           {...getRootProps()}
@@ -60,12 +69,14 @@ const CoverDropArea: React.FC<iCoverDropArea> = ({ onIdChange, cover }) => {
           )}
         </DropAreaWrapper>
       </Grid.Row>
-      <Grid.Row>
-        <div>Add an image that displays when people see your story.</div>
-      </Grid.Row>
+      {message && (
+        <Grid.Row>
+          <div>{message}</div>
+        </Grid.Row>
+      )}
       <Grid.Row>
         <Button type="button" primary basic onClick={open}>
-          Change Cover
+          {ButtonLabel}
         </Button>
         <ButtonRemove type="button" disabled={!coverInfo?.thumbnail} color="black" basic onClick={removeCover}>
           Remove
