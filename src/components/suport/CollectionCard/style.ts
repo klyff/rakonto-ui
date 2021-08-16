@@ -1,6 +1,5 @@
 import styled from 'styled-components'
-import { Card as SCard, Button as SButton } from 'semantic-ui-react'
-import PlaceholderAudio from './PlaceholderAudio.png'
+import { Button as SButton, Card as SCard } from 'semantic-ui-react'
 import PlaceholderVideo from './PlaceholderVideo.png'
 
 export const Card = styled(SCard)`
@@ -33,12 +32,8 @@ export const Card = styled(SCard)`
     bottom: 0;
   }
 
-  & > .lazyImage > .ui.image.video > img::after {
+  & > .lazyImage > .ui.image > img::after {
     background-image: url(${PlaceholderVideo});
-  }
-
-  & > .lazyImage > .ui.image.audio > img::after {
-    background-image: url(${PlaceholderAudio});
   }
 `
 
@@ -55,8 +50,8 @@ export const TextBasicEllipsis = styled(SCard.Meta)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  min-height: 1.358em;
 `
+
 export const Extra = styled.div`
   margin-top: 0.5em;
   margin-bottom: 0.5em;

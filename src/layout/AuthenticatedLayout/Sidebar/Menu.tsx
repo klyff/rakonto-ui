@@ -21,7 +21,7 @@ const Menu: React.FC = () => {
         <Icon name="play" />
         Stories
       </SMenu.Item>
-      <SMenu.Item className="menu-item" as={Link} to="/a/collection" active={matchRouter('/a/collection')}>
+      <SMenu.Item className="menu-item" as={Link} to="/a/collections" active={matchRouter('/a/collections')}>
         <Icon name="book" />
         Collections
       </SMenu.Item>

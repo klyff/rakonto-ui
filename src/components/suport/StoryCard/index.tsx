@@ -48,7 +48,7 @@ const StorieCard: React.FC<iStoryCard> = ({ onClick, showAutor = true, story, ac
 
       <Card.Content>
         <Card.Header as={TextBasicEllipsis}>{story.title}</Card.Header>
-        <Card.Meta as={TextBasicEllipsis}>{story.title}</Card.Meta>
+        <Card.Meta as={TextBasicEllipsis}>{story.collections[0]?.title}</Card.Meta>
         <Description>{story.description}</Description>
         <Extra>
           <Icon size="large" name={iconType as SemanticICONS} />
