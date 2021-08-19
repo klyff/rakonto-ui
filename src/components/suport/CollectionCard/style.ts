@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Button as SButton, Card as SCard } from 'semantic-ui-react'
-import PlaceholderVideo from './PlaceholderVideo.png'
+import { Card as SCard } from 'semantic-ui-react'
+import PlaceholderCollection from './PlaceholderCollection.png'
 
 export const Card = styled(SCard)`
   cursor: pointer;
@@ -33,7 +33,7 @@ export const Card = styled(SCard)`
   }
 
   & > .lazyImage > .ui.image > img::after {
-    background-image: url(${PlaceholderVideo});
+    background-image: url(${PlaceholderCollection});
   }
 `
 

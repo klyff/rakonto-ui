@@ -1,16 +1,19 @@
-import React from 'react'
-import { Header, Grid } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Header, Grid, Button } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
 import CollectionCard from '@root/components/suport/CollectionCard'
 import useInfiniteScroll from '@root/hooks/useInfiniteScroll'
 import { usePageableRequest } from '@root/hooks/usePageableRequest'
 import { ContentArea } from '../style'
+import { TitleArea } from './style'
 import { CollectionType } from '@root/types'
 import { api } from '@root/api'
+import AddCollectionFormModal from '@root/components/modals/AddCollectionFormModal'
 
 const Collections: React.FC = () => {
   const history = useHistory()
-  const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<CollectionType>({
+  const [openModal, setOpenModal] = useState<boolean>(false)
+  const { loading, items, hasNextPage, error, loadMore, setItems } = usePageableRequest<CollectionType>({
     size: 15,
     request: api.getCollections
   })
@@ -22,9 +25,19 @@ const Collections: React.FC = () => {
     rootMargin: '0px 0px 400px 0px'
   })
 
+  const handleClose = (collection?: CollectionType) => {
+    if (collection) {
+      setItems([collection, ...items])
+    }
+    setOpenModal(false)
+  }
+
   return (
     <ContentArea>
-      <Header as="h1">Collections</Header>
+      <TitleArea>
+        <Header as="h1">Collections</Header>
+        <Button icon="add" circular primary onClick={() => setOpenModal(true)} />
+      </TitleArea>
       <Grid>
         {items.map(collection => {
           return (
@@ -38,6 +51,7 @@ const Collections: React.FC = () => {
         })}
         {hasNextPage && <div ref={sentryRef}>loading...</div>}
       </Grid>
+      <AddCollectionFormModal open={openModal} onClose={handleClose} />
     </ContentArea>
   )
 }

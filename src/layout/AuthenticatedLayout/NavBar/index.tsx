@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory, Link } from 'react-router-dom'
-import { Icon, Input, Button } from 'semantic-ui-react'
+import { Icon, Button } from 'semantic-ui-react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { sidebarState } from '../state'
 import { userState } from '@root/states/userState'

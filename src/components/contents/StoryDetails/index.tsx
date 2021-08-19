@@ -28,7 +28,7 @@ const StoryDetails: React.FC = () => {
   const parsedQs = parse(search, { ignoreQueryPrefix: true })
   const { tab } = parsedQs
 
-  const { storyId } = useParams<{ storyId: string; tab: string }>()
+  const { storyId } = useParams<{ storyId: string }>()
   const { story, isLoading, setStory, updateStory, refresh } = useApiStory(storyId)
 
   const {

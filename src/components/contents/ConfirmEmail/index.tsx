@@ -44,8 +44,13 @@ const ConfirmEmail: React.FC = ({ children }) => {
         localStorage.setItem('token', JSON.stringify(token))
         setBasicModalState({
           open: true,
-          title: 'Welcome!',
-          content: <>You are about to enter a platform to create and watch videos. enjoy it!</>
+          title: 'Welcome to Rakonto!',
+          content: (
+            <>
+              Thank you for joining the world&apos;s first platform specifically designed to create, view and share your
+              most important stories. Enjoy!
+            </>
+          )
         })
         history.push('/a/home')
       } catch (error) {

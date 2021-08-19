@@ -15,6 +15,7 @@ import StoryShow from '@root/components/contents/StoryShow'
 import StoryDetails from '@root/components/contents/StoryDetails'
 import Stories from '@root/components/contents/Stories'
 import Collections from '@root/components/contents/Collections'
+import CollectionsDetails from '@root/components/contents/CollectionsDetails'
 import Forbidden from '@root/components/contents/Error/Forbidden'
 import NotFound from '@root/components/contents/Error/NotFound'
 
@@ -37,6 +38,7 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
         <Route exact path="/a/stories/:storyId" component={StoryShow} />
         <Route exact path="/a/stories" component={Stories} />
         <Route exact path="/a/collections" component={Collections} />
+        <Route exact path="/a/collections/:collectionId/edit" component={CollectionsDetails} />
         <Route exact path="/a/signout" component={Signout} />
         <Route exact path="/a/404" component={NotFound} />
         <Route exact path="/a/403" component={Forbidden} />

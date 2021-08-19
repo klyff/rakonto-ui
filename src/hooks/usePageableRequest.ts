@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { Pageable } from '@root/types'
 
 export interface Item {
@@ -19,6 +19,7 @@ export const usePageableRequest = <T>({
   error: Error | undefined
   loadMore: (q?: string) => void
   reload: (q?: string) => void
+  setItems: Dispatch<SetStateAction<T[]>>
 } => {
   const [loading, setLoading] = useState(false)
   const [items, setItems] = useState<T[]>([])
@@ -54,5 +55,5 @@ export const usePageableRequest = <T>({
     }
   }
 
-  return { loading, items, hasNextPage, error, loadMore, reload }
+  return { loading, items, hasNextPage, error, loadMore, reload, setItems }
 }

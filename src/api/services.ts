@@ -444,6 +444,20 @@ export const getCollections =
     return response.data
   }
 
+export const getCollection =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<CollectionType> => {
+    const response = await request.get(`a/collections/${id}`)
+    return response.data
+  }
+
+export const updateCollection =
+  (request: AxiosInstance) =>
+  async (id: string, data: CollectionFormType): Promise<CollectionType> => {
+    const response = await request.put(`a/collections/${id}`, data)
+    return response.data
+  }
+
 export const createCollection =
   (request: AxiosInstance) =>
   async (data: CollectionFormType): Promise<CollectionType> => {

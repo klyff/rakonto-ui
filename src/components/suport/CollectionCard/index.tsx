@@ -1,8 +1,7 @@
 import React, { ReactNode } from 'react'
 import LazyImage from '../LazyImage'
-import { Card, Description, Extra, TextBasicEllipsis, Actions } from './style'
+import { Card, Extra, TextBasicEllipsis, Actions } from './style'
 import { CollectionType } from '@root/types'
-import { Icon, SemanticICONS } from 'semantic-ui-react'
 
 interface iStoryCard {
   collection: CollectionType
@@ -11,7 +10,7 @@ interface iStoryCard {
 }
 
 const StorieCard: React.FC<iStoryCard> = ({ onClick, collection, actions }) => {
-  const { title, thumbnail, description } = collection
+  const { title, thumbnail, description, stories } = collection
 
   const cardProps = {
     onClick
@@ -24,7 +23,7 @@ const StorieCard: React.FC<iStoryCard> = ({ onClick, collection, actions }) => {
         <Card.Header as={TextBasicEllipsis}>{title}</Card.Header>
         <Extra>
           <>
-            <span>{`Stories: ${'0'}`}</span>
+            <span>{`Stories: ${stories.length}`}</span>
             {actions && <Actions>{actions}</Actions>}
           </>
         </Extra>
