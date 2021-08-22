@@ -6,7 +6,7 @@ import DropArea from './DropArea'
 import { useRecoilValue } from 'recoil'
 import { useCreateStory } from '@root/hooks/useCreateStory'
 import { Link } from 'react-router-dom'
-import { ContentArea } from '../style'
+import { ContentArea, Layout } from '../style'
 
 const Index: React.FC = () => {
   const { isMobile } = useRecoilValue(mediaQueryState)
@@ -18,25 +18,27 @@ const Index: React.FC = () => {
 
   return (
     <ContentArea>
-      <Link to={'/a/stories'}>
-        <Icon name="arrow left" />
-        Back
-      </Link>
-      <Grid centered stackable>
-        <Grid.Column width={10}>
-          {!isMobile ? (
-            <DropAreaBox>
-              <DropArea isUploading={isUploading} progress={progress} handleDrop={handleDrop} />
-            </DropAreaBox>
-          ) : (
-            <>
-              <SelectFileButton primary basic fluid size="big" onClick={open}>
-                Select file
-              </SelectFileButton>
-            </>
-          )}
-        </Grid.Column>
-      </Grid>
+      <Layout>
+        <Link to={'/a/stories'}>
+          <Icon name="arrow left" />
+          Back
+        </Link>
+        <Grid centered stackable>
+          <Grid.Column width={10}>
+            {!isMobile ? (
+              <DropAreaBox>
+                <DropArea isUploading={isUploading} progress={progress} handleDrop={handleDrop} />
+              </DropAreaBox>
+            ) : (
+              <>
+                <SelectFileButton primary basic fluid size="big" onClick={open}>
+                  Select file
+                </SelectFileButton>
+              </>
+            )}
+          </Grid.Column>
+        </Grid>
+      </Layout>
     </ContentArea>
   )
 }

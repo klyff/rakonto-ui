@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Header, Icon } from 'semantic-ui-react'
-import { ContentArea } from '../style'
+import { ContentArea, Layout } from '../style'
 import { ContentBox } from './style'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 import Menu from './Menu'
@@ -51,13 +51,15 @@ const Profile: React.FC = () => {
 
   return (
     <ContentArea>
-      <Link to={'/a/stories'}>
-        <Icon name="arrow left" />
-        Back
-      </Link>
-      <Header as="h1">Profile</Header>
-      <Menu tab={tab as string} onChange={handleTabChange} />
-      <ContentBox>{stiwchRender()}</ContentBox>
+      <Layout>
+        <Link to={'/a/stories'}>
+          <Icon name="arrow left" />
+          Back
+        </Link>
+        <Header as="h1">Profile</Header>
+        <Menu tab={tab as string} onChange={handleTabChange} />
+        <ContentBox>{stiwchRender()}</ContentBox>
+      </Layout>
     </ContentArea>
   )
 }

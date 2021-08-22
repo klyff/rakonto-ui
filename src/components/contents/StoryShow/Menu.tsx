@@ -1,7 +1,8 @@
 import React from 'react'
-import { Menu as SMenu, Dropdown } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react'
 import { useRecoilValue } from 'recoil'
 import { mediaQueryState } from '@root/states/mediaQueryState'
+import { Menu as SMenu } from './style'
 
 interface iMenu {
   tab: string

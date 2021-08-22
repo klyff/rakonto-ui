@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Header, Icon } from 'semantic-ui-react'
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import { useApiStory } from './useApiStory'
-import { ContentArea } from '../style'
+import { ContentArea, Layout } from '../style'
 import Menu from './Menu'
 import { parse, stringify } from 'qs'
 import { Location } from 'history'
@@ -172,13 +172,15 @@ const StoryDetails: React.FC = () => {
 
   return (
     <ContentArea>
-      <Link to={'/a/stories'}>
-        <Icon name="arrow left" />
-        Back
-      </Link>
-      <Header as="h1">Story</Header>
-      <Menu tab={tab as string} onChange={handleTabChange} />
-      {stiwchRender()}
+      <Layout>
+        <Link to={'/a/stories'}>
+          <Icon name="arrow left" />
+          Back
+        </Link>
+        <Header as="h1">Story</Header>
+        <Menu tab={tab as string} onChange={handleTabChange} />
+        {stiwchRender()}
+      </Layout>
     </ContentArea>
   )
 }

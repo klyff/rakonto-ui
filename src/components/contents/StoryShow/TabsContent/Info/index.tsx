@@ -17,8 +17,8 @@ interface iInfo {
 }
 
 const Info: React.FC<iInfo> = ({ storyId, description, title, subTitle, owner, watchers, comments }) => {
-  const name = `${owner.firstName.charAt(0).toUpperCase() + owner.firstName.slice(1)} ${
-    owner.lastName.charAt(0).toUpperCase() + owner.lastName.slice(1)
+  const name = `${owner.firstName?.charAt(0).toUpperCase() + owner.firstName?.slice(1)} ${
+    owner.lastName?.charAt(0).toUpperCase() + owner.lastName?.slice(1)
   }`
   return (
     <>

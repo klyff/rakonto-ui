@@ -1,4 +1,4 @@
-import { selector } from 'recoil'
+import { selector, atom } from 'recoil'
 import matchMedia from 'matchmediaquery'
 
 export interface MediaQueryState {
@@ -6,10 +6,10 @@ export interface MediaQueryState {
   isTablet: boolean
 }
 
-export const mediaQueryState = selector<MediaQueryState>({
+export const mediaQueryState = atom<MediaQueryState>({
   key: 'mediaQueryState',
-  get: () => ({
+  default: {
     isMobile: matchMedia('(max-width: 767px)').matches,
     isTablet: matchMedia('(max-width: 1024px)').matches
-  })
+  }
 })

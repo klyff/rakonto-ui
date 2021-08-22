@@ -15,8 +15,8 @@ import People from './TabsContent/People'
 import Timeline from './TabsContent/Timeline'
 import Transcript from './TabsContent/Transcript'
 import Places from './TabsContent/Places'
-import SuggestedVideos from './SuggestedVideos'
-import { UserType } from '@root/types'
+import RelatedVideos from './RelatedVideos'
+import { StoryType, UserType } from '@root/types'
 
 const StoryShow: React.FC = () => {
   const { search, pathname } = useLocation()
@@ -131,7 +131,7 @@ const StoryShow: React.FC = () => {
           <Content>{stiwchRender()}</Content>
           {!!collections?.length && (
             <VideosArea>
-              <SuggestedVideos />
+              <RelatedVideos stories={[story as StoryType]} />
             </VideosArea>
           )}
         </ContentBox>

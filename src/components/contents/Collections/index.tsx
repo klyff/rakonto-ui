@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import CollectionCard from '@root/components/suport/CollectionCard'
 import useInfiniteScroll from '@root/hooks/useInfiniteScroll'
 import { usePageableRequest } from '@root/hooks/usePageableRequest'
-import { ContentArea } from '../style'
+import { ContentArea, Layout } from '../style'
 import { TitleArea } from './style'
 import { CollectionType } from '@root/types'
 import { api } from '@root/api'
@@ -34,24 +34,26 @@ const Collections: React.FC = () => {
 
   return (
     <ContentArea>
-      <TitleArea>
-        <Header as="h1">Collections</Header>
-        <Button icon="add" circular primary onClick={() => setOpenModal(true)} />
-      </TitleArea>
-      <Grid>
-        {items.map(collection => {
-          return (
-            <Grid.Column key={collection.id} tablet={8} mobile={16} widescreen={4} computer={8} largeScreen={4}>
-              <CollectionCard
-                collection={collection}
-                onClick={() => history.push(`/a/collections/${collection.id}/edit`)}
-              />
-            </Grid.Column>
-          )
-        })}
-        {hasNextPage && <div ref={sentryRef}>loading...</div>}
-      </Grid>
-      <AddCollectionFormModal open={openModal} onClose={handleClose} />
+      <Layout>
+        <TitleArea>
+          <Header as="h1">Collections</Header>
+          <Button icon="add" circular primary onClick={() => setOpenModal(true)} />
+        </TitleArea>
+        <Grid>
+          {items.map(collection => {
+            return (
+              <Grid.Column key={collection.id} tablet={8} mobile={16} widescreen={4} computer={8} largeScreen={4}>
+                <CollectionCard
+                  collection={collection}
+                  onClick={() => history.push(`/a/collections/${collection.id}/edit`)}
+                />
+              </Grid.Column>
+            )
+          })}
+          {hasNextPage && <div ref={sentryRef}>loading...</div>}
+        </Grid>
+        <AddCollectionFormModal open={openModal} onClose={handleClose} />
+      </Layout>
     </ContentArea>
   )
 }

@@ -5,14 +5,17 @@ import { useCollectionList } from './useCollectionList'
 import { Button } from 'semantic-ui-react'
 import { CollectionArea } from './style'
 import { CollectionType } from '@root/types'
+import { useFormikContext } from 'formik'
 
 const StoryDetailForm: React.FC = () => {
   const { collectionList, isLoading, setCollectionList } = useCollectionList()
   const [openModal, setOpenModal] = useState<boolean>(false)
+  const { setFieldValue } = useFormikContext()
 
   const handleClose = (collection?: CollectionType) => {
     if (collection) {
       setCollectionList([{ key: collection.id, value: collection.id, text: collection.title }, ...collectionList])
+      setFieldValue('collections', collection.id)
     }
     setOpenModal(false)
   }
