@@ -39,7 +39,7 @@ export const useApiStory = (
 
   useEffect(() => {
     getStory()
-  }, [])
+  }, [storyId])
 
   return { story, isLoading, getStory }
 }

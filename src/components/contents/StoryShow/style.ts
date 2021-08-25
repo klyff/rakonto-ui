@@ -53,13 +53,21 @@ export const StoryItem = styled(Item)`
   &.item {
     border: 1px solid #e0e1e2 !important;
     max-height: 200px;
-    min-width: 600px;
+    min-width: 700px;
   }
   &.item > .content {
     padding: 16px 0px 16px 14px !important;
     background-color: white !important;
     & > .description {
+      max-width: fit-content;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      overflow: hidden;
+      margin-right: 24px;
       height: 100px;
+    }
+    & > .description {
     }
     & > .meta {
       display: flex;

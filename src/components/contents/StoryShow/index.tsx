@@ -16,7 +16,7 @@ import Timeline from './TabsContent/Timeline'
 import Transcript from './TabsContent/Transcript'
 import Places from './TabsContent/Places'
 import RelatedVideos from './RelatedVideos'
-import { StoryType, UserType } from '@root/types'
+import { UserType } from '@root/types'
 
 const StoryShow: React.FC = () => {
   const { search, pathname } = useLocation()

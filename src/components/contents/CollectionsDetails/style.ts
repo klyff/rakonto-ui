@@ -58,9 +58,18 @@ export const StoryItem = styled(Item)`
     border: 1px solid #e0e1e2 !important;
     height: 200px;
     min-width: 600px;
+    max-width: 800px;
   }
   &.item > .content {
     padding: 16px 0px 16px 14px !important;
+    & > .description {
+      max-width: fit-content;
+      -webkit-line-clamp: 7;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      overflow: hidden;
+      margin-right: 24px;
+    }
   }
   &.item > .lazyImage {
     height: 200px;
