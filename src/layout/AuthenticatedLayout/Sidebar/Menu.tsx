@@ -25,6 +25,26 @@ const Menu: React.FC = () => {
         <Icon name="book" />
         Collections
       </SMenu.Item>
+      <SMenu.Item className="menu-item" as={Link} to="/a/people" active={matchRouter('/a/people')}>
+        <Icon name="group" />
+        People
+      </SMenu.Item>
+      <SMenu.Item className="menu-item" as={Link} to="/a/places" active={matchRouter('/a/places')}>
+        <Icon name="map" />
+        Places
+      </SMenu.Item>
+      <SMenu.Item className="menu-item" as={Link} to="/a/photos" active={matchRouter('/a/photos')}>
+        <Icon name="camera" />
+        Photos
+      </SMenu.Item>
+      <SMenu.Item className="menu-item" as={Link} to="/a/files" active={matchRouter('/a/files')}>
+        <Icon name="file" />
+        Files
+      </SMenu.Item>
+      <SMenu.Item className="menu-item" as={Link} to="/a/timelines" active={matchRouter('/a/timelines')}>
+        <Icon name="calendar" />
+        Timeline
+      </SMenu.Item>
     </>
   )
 }

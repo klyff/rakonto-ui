@@ -30,7 +30,8 @@ import {
   addWatcherType,
   CommentType,
   CommentFormType,
-  CollectionFormType
+  CollectionFormType,
+  GalleryType
 } from '@root/types'
 
 // User api
@@ -195,6 +196,13 @@ export const uploadFile =
     return response.data
   }
 
+export const getFiles =
+  (request: AxiosInstance) =>
+  async (page: number, size: number): Promise<Pageable<FileType>> => {
+    const response = await request.get<Pageable<FileType>>(`a/files?page=${page}&size=${size}`)
+    return response.data
+  }
+
 export const getFile =
   (request: AxiosInstance) =>
   async (id: string): Promise<FileType> => {
@@ -211,8 +219,8 @@ export const deleteFile =
 // Person api
 export const getPersons =
   (request: AxiosInstance) =>
-  async (page: number, size: number, name?: string): Promise<Pageable<PersonType>> => {
-    const response = await request.get(`a/persons?page=${page}&size=${size}${name ? `&name=${name}` : ''}`)
+  async (page: number, size: number, q?: string): Promise<Pageable<PersonType>> => {
+    const response = await request.get(`a/persons?page=${page}&size=${size}${q ? `&name=${q}` : ''}`)
     return response.data
   }
 
@@ -284,15 +292,22 @@ export const deleteTranscriptions =
 // Gallery api
 export const getGallery =
   (request: AxiosInstance) =>
-  async (id: string): Promise<FileType> => {
+  async (page: number, size: number): Promise<Pageable<GalleryType>> => {
+    const response = await request.get(`a/gallery-entries?page=${page}&size=${size}`)
+    return response.data
+  }
+
+export const getGalleryItem =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<GalleryType> => {
     const response = await request.get(`a/gallery-entries/${id}`)
     return response.data
   }
 
 export const createGallery =
   (request: AxiosInstance) =>
-  async (storyId: string, imageId: string): Promise<FileType> => {
-    const response = await request.post<FileType>(`a/gallery-entries`, {
+  async (storyId: string, imageId: string): Promise<GalleryType> => {
+    const response = await request.post<GalleryType>(`a/gallery-entries`, {
       storyId,
       imageId
     })
@@ -306,6 +321,13 @@ export const deleteGallery =
   }
 
 // Timeline api
+
+export const getTimelines =
+  (request: AxiosInstance) =>
+  async (page: number, size: number): Promise<Pageable<TimelineType>> => {
+    const response = await request.get<Pageable<TimelineType>>(`a/timeline-entries?page=${page}&size=${size}`)
+    return response.data
+  }
 
 export const getTimeline =
   (request: AxiosInstance) =>
@@ -329,6 +351,14 @@ export const deleteTimeline =
   (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
     await request.delete(`a/timeline-entries/${id}`)
+  }
+
+// Places api
+export const getPlaces =
+  (request: AxiosInstance) =>
+  async (page: number, size: number): Promise<Pageable<PlaceType>> => {
+    const response = await request.get(`a/places?page=${page}&size=${size}`)
+    return response.data
   }
 
 export const createPlace =
