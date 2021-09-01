@@ -35,12 +35,18 @@ const Recorder: React.FC = () => {
         setFinished(true)
       }
     })
+
+    player.on('finishConvert', function () {
+      // the convertedData object contains the recorded data that
+      // can be downloaded by the user, stored on server etc.
+      console.log('finished converting: ', player.convertedData)
+    })
   }
 
   const handleSend = async () => {
     if (!recorderRef.current) return
     const data = recorderRef.current.recordedData
-    await createStory(new File([data], data.name))
+    await createStory(data)
   }
 
   return (

@@ -392,6 +392,7 @@ export enum LanguageEnum {
 
 export interface iPlayer extends VideoJsPlayer {
   recordedData: any
+  convertedData: any
   deviceErrorCode: any
   record: any
 }
