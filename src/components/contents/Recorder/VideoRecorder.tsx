@@ -40,7 +40,6 @@ const VideoRecorder: React.FC<iRecorder> = ({ onReady, getDevices = true }) => {
       const videoElement = videoRef.current
       if (!videoElement) return
       const videoRecorderInstance = videojs(videoElement, options, () => {
-        console.log('video')
         const versionInfo = `Using video.js: ${videojs.VERSION} with videojs-record: ${videojs.getPluginVersion(
           'record'
         )} and recordrtc: ${RecordRTC.version}`
