@@ -20,7 +20,12 @@ const options = {
   plugins: {
     record: {
       audio: true,
-      video: true,
+      video: {
+        width: { min: 854, ideal: 1280, max: 1920 },
+        height: { min: 480, ideal: 720, max: 1080 }
+      },
+      frameWidth: 1080,
+      frameHeight: 720,
       maxLength: 10800
     }
   }
