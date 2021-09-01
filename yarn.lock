@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@ashwamegh/react-link-preview@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@ashwamegh/react-link-preview/-/react-link-preview-0.2.2.tgz#95c324d3acbc52801784f1973f02d3aa5170d201"
-  integrity sha512-LF2KL8ZPkn4o4OTDQT8rxWdIzXnLScZzobr0ho3Bo9RkftVWHLhnxxIiUE3PmroQD9r2AAxI7x5oCJAeMOcCAw==
-
 "@babel/code-frame@7.10.4":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.10.4.tgz#168da1a36e90da68ae8d49c0f1b48c7c6249213a"
@@ -1956,6 +1951,11 @@
   dependencies:
     date-fns "*"
 
+"@types/debounce@*":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/debounce/-/debounce-1.2.0.tgz#9ee99259f41018c640b3929e1bb32c3dcecdb192"
+  integrity sha512-bWG5wapaWgbss9E238T0R6bfo5Fh3OkeoSt245CM7JJwVwpw6MEBCbIxLq5z8KzsE3uJhzcIuQkyiZmzV3M/Dw==
+
 "@types/draft-js@*":
   version "0.11.4"
   resolved "https://registry.yarnpkg.com/@types/draft-js/-/draft-js-0.11.4.tgz#96637c1d29dff1dcd6394d9ea0192867354691a1"
@@ -2205,6 +2205,11 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
+"@types/recordrtc@^5.6.6":
+  version "5.6.6"
+  resolved "https://registry.yarnpkg.com/@types/recordrtc/-/recordrtc-5.6.6.tgz#0a74a20ec8ecb7e66c5447e96bb44472748ca2e1"
+  integrity sha512-lO/0EL9Mp0HBiwmzwnYIPRKCdLkzimAjaKG5M0pPwuXi++corDU9nzIBP2Hgn7+8OTZWGpy9pHdTaJn8SUiMGw==
+
 "@types/resolve@0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-0.0.8.tgz#f26074d238e02659e323ce1a13d041eee280e194"
@@ -2264,6 +2269,13 @@
   version "7.3.24"
   resolved "https://registry.yarnpkg.com/@types/video.js/-/video.js-7.3.24.tgz#f39740297e4e03e230013cb165452b492d0696c7"
   integrity sha512-j9uJ7NgJEvuMQSz5EE2YfyCRgdfspm87TLSnpjC9cZ0z/drbTjNWSYyr3dZrV+WGWkrnXmvK5QWt+prubEOzCw==
+
+"@types/wavesurfer.js@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@types/wavesurfer.js/-/wavesurfer.js-5.2.0.tgz#b1ed9928ba7759ad1ff1bd8566b61303a77ae33b"
+  integrity sha512-K9wnw6D9yDRdazRbYdQnWZ1W6z+1eHiinW2vFO/UWKX86TuOwAbNmmt+S79jbzKizA24ufI9NuqJcav6cKE4XA==
+  dependencies:
+    "@types/debounce" "*"
 
 "@types/webpack-sources@*":
   version "2.1.1"
@@ -9976,13 +9988,6 @@ react-prop-toggle@^1.0.2:
   resolved "https://registry.yarnpkg.com/react-prop-toggle/-/react-prop-toggle-1.0.2.tgz#8b0b7e74653606b1427cfcf6c4eaa9198330568e"
   integrity sha512-JmerjAXs7qJ959+d0Ygt7Cb2+4fG+n3I2VXO6JO0AcAY1vkRN/JpZKAN67CMXY889xEJcfylmMPhzvf6nWO68Q==
 
-react-record-webcam@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/react-record-webcam/-/react-record-webcam-0.0.14.tgz#9d8cb4b0f6c11673a5a10417fffcbb6366d0267b"
-  integrity sha512-SUowthW0Ig3KV9qowaTcC9gmq+paALY72Xp8KG2RMJ2igQ4Cblyvt6C2U2AL8J8Sbjlmj8mG7RcKSzZ1EhFAMA==
-  dependencies:
-    recordrtc "5.6.2"
-
 react-refresh@^0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
@@ -10215,7 +10220,7 @@ recoil@^0.2.0:
   dependencies:
     hamt_plus "1.0.2"
 
-recordrtc@5.6.2:
+recordrtc@^5.6.2:
   version "5.6.2"
   resolved "https://registry.yarnpkg.com/recordrtc/-/recordrtc-5.6.2.tgz#48fc214b35084973ccce82c6251198b5742bc327"
   integrity sha512-1QNKKNtl7+KcwD1lyOgP3ZlbiJ1d0HtXnypUy7yq49xEERxk31PHvE9RCciDrulPCY7WJ+oz0R9hpNxgsIurGQ==
@@ -10671,6 +10676,11 @@ schema-utils@^3.0.0:
     "@types/json-schema" "^7.0.7"
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
+
+sdp@^3.0.2:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/sdp/-/sdp-3.0.3.tgz#669958d54663ea9f4a46cc66518c9d980c52c61e"
+  integrity sha512-8EkfckS+XZQaPLyChu4ey7PghrdcraCVNpJe2Gfdi2ON1ylQ7OasuKX+b37R9slnRChwIAiQgt+oj8xXGD8x+A==
 
 select-hose@^2.0.0:
   version "2.0.0"
@@ -12114,6 +12124,11 @@ watchpack@^1.7.4:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
 
+wavesurfer.js@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-5.2.0.tgz#efae107b5b561e9bfe3fffc50e6158136a17643e"
+  integrity sha512-SkPlTXfvKy+ZnEA7f7g7jn6iQg5/8mAvWpVV5vRbIS/FF9TB2ak9J7VayQfzfshOLW/CqccTiN6DDR/fZA902g==
+
 wbuf@^1.1.0, wbuf@^1.7.3:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/wbuf/-/wbuf-1.7.3.tgz#c1d8d149316d3ea852848895cb6a0bfe887b87df"
@@ -12247,6 +12262,13 @@ webpack@4.44.2:
     terser-webpack-plugin "^1.4.3"
     watchpack "^1.7.4"
     webpack-sources "^1.4.1"
+
+webrtc-adapter@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-8.1.0.tgz#89429d837eb43c7a2885a0eb66390af6c552bba6"
+  integrity sha512-I+y/LWBiGYPVhIb8Ww7nyoNWhrCYENeGoRvZuyytLn/h+ahDBgItvuIfMdzT+xhOnjLIMVkOykttGJPv1dr6kA==
+  dependencies:
+    sdp "^3.0.2"
 
 websocket-driver@>=0.5.1, websocket-driver@^0.7.4:
   version "0.7.4"

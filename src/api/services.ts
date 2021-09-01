@@ -124,6 +124,12 @@ export const getStory =
     return response.data
   }
 
+export const deleteStory =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    await request.delete<StoryType>(`a/stories/${id}`)
+  }
+
 export const createStory =
   (request: AxiosInstance) =>
   async (file: File, progressCallback: (progress: { total: number; loaded: number }) => void): Promise<StoryType> => {

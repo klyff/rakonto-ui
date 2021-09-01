@@ -26,7 +26,7 @@ import NotFound from '@root/components/contents/Error/NotFound'
 
 import { SemanticToastContainer } from 'react-semantic-toasts'
 import ChangePasswordForm from '@root/components/forms/ChangePasswordForm'
-import VideoRecorder from '@root/components/contents/VideoRecorder'
+import Recorder from '@root/components/contents/Recorder'
 
 const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   const tokenItem = localStorage.getItem('token')
@@ -38,7 +38,7 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
         <Route exact path="/a/home" component={Home} />
         <Route exact path="/a/profile" component={Profile} />
         <Route exact path="/a/stories/new" component={StoryNew} />
-        <Route exact path="/a/stories/record/video" component={VideoRecorder} />
+        <Route exact path="/a/stories/record/:type" component={Recorder} />
         <Route exact path="/a/stories/:storyId/edit" component={StoryDetails} />
         <Route exact path="/a/stories/:storyId" component={StoryShow} />
         <Route exact path="/a/stories" component={Stories} />

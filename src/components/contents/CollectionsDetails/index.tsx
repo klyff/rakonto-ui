@@ -62,7 +62,7 @@ const CollectionsDetails: React.FC = () => {
             </Formik>
           </FormArea>
           <StoriesArea>
-            <Header as="h1">Collection videos</Header>
+            <Header as="h1">Stories</Header>
             <StoryItem.Group>
               {collection?.stories.map(item => (
                 <StoryItem key={item.id}>

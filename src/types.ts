@@ -1,3 +1,5 @@
+import { VideoJsPlayer } from 'video.js'
+
 export type Pageable<T> = {
   totalPages: number
   totalElements: number
@@ -386,4 +388,10 @@ export enum LanguageEnum {
   'ukrainian' = 'ukrainian',
   'urdu' = 'urdu',
   'yoruba' = 'yoruba'
+}
+
+export interface iPlayer extends VideoJsPlayer {
+  recordedData: any
+  deviceErrorCode: any
+  record: any
 }

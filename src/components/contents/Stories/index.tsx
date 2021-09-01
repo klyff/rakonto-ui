@@ -7,10 +7,14 @@ import { usePageableRequest } from '@root/hooks/usePageableRequest'
 import { ContentArea, Layout } from '../style'
 import { StoryType } from '@root/types'
 import { api } from '@root/api'
+import { toast } from 'react-semantic-toasts'
+import { useSetRecoilState } from 'recoil'
+import { basicModalState } from '@root/components/modals/BasicModal'
 
 const Stories: React.FC = () => {
   const history = useHistory()
-  const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<StoryType>({
+  const setBasicModalState = useSetRecoilState(basicModalState)
+  const { loading, items, hasNextPage, error, loadMore, reload } = usePageableRequest<StoryType>({
     size: 15,
     request: api.getStories
   })
@@ -21,6 +25,29 @@ const Stories: React.FC = () => {
     disabled: !!error,
     rootMargin: '0px 0px 400px 0px'
   })
+
+  const handleDelete = async (id: string) => {
+    setBasicModalState({
+      open: true,
+      title: 'Delete story',
+      isConfirmation: true,
+      onClose: async (isSuccess: boolean) => {
+        if (!isSuccess) return
+        try {
+          await api.deleteStory(id)
+          reload()
+        } catch (error) {
+          toast({
+            type: 'error',
+            title: error.response.data.message,
+            time: 3000,
+            description: `Error: ${error.response.data.code}`
+          })
+        }
+      },
+      content: <>Are ypu sure delete this story?</>
+    })
+  }
 
   return (
     <ContentArea>
@@ -48,7 +75,7 @@ const Stories: React.FC = () => {
                             icon="pencil"
                             onClick={() => history.push(`/a/stories/${story.id}/edit`)}
                           />
-                          <Dropdown.Item text="Delete Forever" icon="trash" onClick={() => alert('todo!')} />
+                          <Dropdown.Item text="Delete Forever" icon="trash" onClick={() => handleDelete(story.id)} />
                         </Dropdown.Menu>
                       </Dropdown>
                     </>
