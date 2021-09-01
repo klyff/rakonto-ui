@@ -134,7 +134,7 @@ export const createStory =
   (request: AxiosInstance) =>
   async (file: File, progressCallback: (progress: { total: number; loaded: number }) => void): Promise<StoryType> => {
     const data = new FormData()
-    data.append('file', file)
+    data.append('file', file, file.name)
     const response = await request.post(`a/stories`, data, {
       onUploadProgress: e => progressCallback({ total: e.total, loaded: e.loaded })
     })
