@@ -42,13 +42,13 @@ const Index: React.FC = () => {
             <Grid.Column width={5}>
               <HugeButton disabled={isUploading} onClick={() => history.push('/a/stories/record/video')}>
                 <Icon name="video" size="big" />
-                <h3>Create your video</h3>
+                <h3>Record your video</h3>
               </HugeButton>
             </Grid.Column>
             <Grid.Column width={5}>
               <HugeButton disabled={isUploading} onClick={() => history.push('/a/stories/record/audio')}>
                 <Icon name="microphone" size="big" />
-                <h3>Create your video</h3>
+                <h3>Record your audio</h3>
               </HugeButton>
             </Grid.Column>
           </Grid.Row>
