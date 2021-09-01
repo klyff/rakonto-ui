@@ -26,7 +26,8 @@ const options = {
       },
       frameWidth: 1080,
       frameHeight: 720,
-      maxLength: 10800
+      maxLength: 10800,
+      videoMimeType: 'video/webm'
     }
   }
 }

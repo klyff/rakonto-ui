@@ -54,7 +54,8 @@ const options = {
     record: {
       audio: true,
       video: false,
-      maxLength: 10800
+      maxLength: 10800,
+      audioMimeType: 'audio/webm'
     }
   }
 }
