@@ -4,8 +4,9 @@ import VideoRecorder from './VideoRecorder'
 import AudioRecorder from './AudioRecorder'
 import { iPlayer } from '@root/types'
 import { useCreateStory } from '@root/hooks/useCreateStory'
+import LoadingArea from '@root/components/suport/LoadingArea'
 import { Button, Icon } from 'semantic-ui-react'
-import { Box } from './style'
+import { Box, Wrapper } from './style'
 
 const Recorder: React.FC = () => {
   const recorderRef = useRef<iPlayer>(null)
@@ -44,16 +45,19 @@ const Recorder: React.FC = () => {
   }
 
   return (
-    <Box>
-      {type === 'video' && <VideoRecorder onReady={handleVideoRecorderReady} />}
-      {type === 'audio' && <AudioRecorder onReady={handleVideoRecorderReady} />}
-      {recorderRef && finished && (
-        <Button primary size="huge" onClick={handleSend}>
-          <Icon name="upload" />
-          {'Send'}
-        </Button>
-      )}
-    </Box>
+    <Wrapper>
+      <Box>
+        {type === 'video' && <VideoRecorder onReady={handleVideoRecorderReady} />}
+        {type === 'audio' && <AudioRecorder onReady={handleVideoRecorderReady} />}
+        <LoadingArea isLoading={isUploading} progress={progress} message={'sending...'} />
+        {recorderRef && finished && (
+          <Button primary size="huge" onClick={handleSend}>
+            <Icon name="upload" />
+            {'Send'}
+          </Button>
+        )}
+      </Box>
+    </Wrapper>
   )
 }
 

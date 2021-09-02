@@ -14,9 +14,8 @@ register(videojs)
 const options = {
   controls: true,
   bigPlayButton: false,
-  width: 1080,
-  height: 720,
-  fluid: false,
+  fluid: true,
+  aspectRatio: '16:9',
   plugins: {
     record: {
       audio: true,
