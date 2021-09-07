@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Header, Grid, Button } from 'semantic-ui-react'
+import { Header, Grid, Button, Dropdown } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
 import CollectionCard from '@root/components/suport/CollectionCard'
 import useInfiniteScroll from '@root/hooks/useInfiniteScroll'
@@ -9,11 +9,15 @@ import { TitleArea } from './style'
 import { CollectionType } from '@root/types'
 import { api } from '@root/api'
 import AddCollectionFormModal from '@root/components/modals/AddCollectionFormModal'
+import { toast } from 'react-semantic-toasts'
+import { useSetRecoilState } from 'recoil'
+import { basicModalState } from '@root/components/modals/BasicModal'
 
 const Collections: React.FC = () => {
   const history = useHistory()
+  const setBasicModalState = useSetRecoilState(basicModalState)
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const { loading, items, hasNextPage, error, loadMore, setItems } = usePageableRequest<CollectionType>({
+  const { loading, items, hasNextPage, error, loadMore, setItems, reload } = usePageableRequest<CollectionType>({
     size: 15,
     request: api.getCollections
   })
@@ -32,6 +36,38 @@ const Collections: React.FC = () => {
     setOpenModal(false)
   }
 
+  const handleDelete = async (id: string) => {
+    setBasicModalState({
+      open: true,
+      title: 'Delete collection',
+      isConfirmation: true,
+      onClose: async (isSuccess: boolean) => {
+        if (!isSuccess) return
+        try {
+          await api.deleteCollection(id)
+          reload()
+        } catch (error) {
+          if (error.response.status === 500) {
+            toast({
+              type: 'warning',
+              title: 'Delete collection',
+              time: 3000,
+              description: `This collection can't be deleted. You need to remove stories from this collection and after try delete it.`
+            })
+            return
+          }
+          toast({
+            type: 'error',
+            title: error.response.data.message,
+            time: 3000,
+            description: `Error: ${error.response.data.code}`
+          })
+        }
+      },
+      content: <>Are you sure delete this collection?</>
+    })
+  }
+
   return (
     <ContentArea>
       <Layout>
@@ -46,6 +82,31 @@ const Collections: React.FC = () => {
                 <CollectionCard
                   collection={collection}
                   onClick={() => history.push(`/a/collections/${collection.id}/edit`)}
+                  actions={
+                    <>
+                      <Dropdown pointing="bottom right" icon="ellipsis vertical">
+                        <Dropdown.Menu>
+                          {!!collection.stories.length && (
+                            <Dropdown.Item
+                              text="Preview"
+                              icon="eye"
+                              onClick={() => history.push(`/a/stories/${collection.stories[0].id}`)}
+                            />
+                          )}
+                          <Dropdown.Item
+                            text="Edit"
+                            icon="pencil"
+                            onClick={() => history.push(`/a/collections/${collection.id}/edit`)}
+                          />
+                          <Dropdown.Item
+                            text="Delete Forever"
+                            icon="trash"
+                            onClick={() => handleDelete(collection.id)}
+                          />
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </>
+                  }
                 />
               </Grid.Column>
             )

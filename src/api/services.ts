@@ -500,3 +500,9 @@ export const createCollection =
     const response = await request.post(`a/collections`, data)
     return response.data
   }
+
+export const deleteCollection =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<void> => {
+    await request.delete(`a/collections/${id}`)
+  }

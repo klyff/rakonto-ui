@@ -45,7 +45,7 @@ const Stories: React.FC = () => {
           })
         }
       },
-      content: <>Are ypu sure delete this story?</>
+      content: <>Are you sure delete this story?</>
     })
   }
 
