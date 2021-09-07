@@ -12,7 +12,6 @@ import AddCollectionFormModal from '@root/components/modals/AddCollectionFormMod
 import { toast } from 'react-semantic-toasts'
 import { useSetRecoilState } from 'recoil'
 import { basicModalState } from '@root/components/modals/BasicModal'
-import { AxiosError } from 'axios'
 
 const Collections: React.FC = () => {
   const history = useHistory()
@@ -48,10 +47,7 @@ const Collections: React.FC = () => {
           await api.deleteCollection(id)
           reload()
         } catch (error) {
-          const errorAxios = error as AxiosError
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          if (errorAxios.response.status === 500) {
+          if (error.response.status === 500) {
             toast({
               type: 'warning',
               title: 'Delete collection',
@@ -60,16 +56,11 @@ const Collections: React.FC = () => {
             })
             return
           }
-
           toast({
             type: 'error',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            title: errorAxios.response.data.message,
+            title: error.response.data.message,
             time: 3000,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            description: `Error: ${errorAxios.response.data.code}`
+            description: `Error: ${error.response.data.code}`
           })
         }
       },
