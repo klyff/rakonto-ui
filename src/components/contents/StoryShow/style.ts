@@ -75,8 +75,15 @@ export const StoryItem = styled(Item)`
     }
   }
   &.item > .lazyImage {
-    max-height: 200px;
-    max-width: 352px;
+    background-color: #000000;
+    height: 200px;
+    width: 352px;
+    & > .ui.image img {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: inherit;
+      height: inherit;
+    }
   }
 
   @media only screen and (max-width: 1024px) {
