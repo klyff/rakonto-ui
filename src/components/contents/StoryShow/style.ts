@@ -52,7 +52,7 @@ export const ContentArea = styled(SContentArea)`
 export const StoryItem = styled(Item)`
   &.item {
     border: 1px solid #e0e1e2 !important;
-    max-height: 200px;
+    height: 200px;
     min-width: 700px;
   }
   &.item > .content {
@@ -76,7 +76,7 @@ export const StoryItem = styled(Item)`
   }
   &.item > .lazyImage {
     background-color: #000000;
-    height: 200px;
+    height: 199px;
     width: 352px;
     & > .ui.image img {
       margin-left: auto;
