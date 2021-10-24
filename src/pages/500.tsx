@@ -25,14 +25,11 @@ const NotFound: React.FC = () => {
         <ErrorOutlineIcon sx={{ fontSize: '10em' }} />
       </Box>
       <Typography gutterBottom variant="h2" align="center">
-        Sorry!
+        Oops, something went wrong.
       </Typography>
       <Typography gutterBottom align="center" variant="h5">
-        THE PAGE YOU WERE LOOKING FOR DOES NOT EXIST
+        Try to refresh this page or fell free to contact us if the problem persists.
       </Typography>
-      <Link sx={{ textAlign: 'center', fontSize: '1.5em' }} href="/a/my-library">
-        Go to home
-      </Link>
     </Box>
   )
 }
