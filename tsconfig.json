@@ -1,5 +1,4 @@
 {
-  "extends": "./tsconfig.extend.json",
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -23,9 +22,5 @@
   },
   "include": [
     "src"
-  ],
-  "exclude": [
-    "src/**/*.js",
-    "src/**/*.jsx"
   ]
 }

@@ -1,18 +1,26 @@
-#root {
-  height: 100vh;
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #1D2120;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.line-clamp {
   overflow: hidden;
-}
-
-.ui.vertical.menu .menu-item > i.icon {
-  width: 1.18em;
-  float: none;
-  margin: 0em 1em 0em 0em;
-}
-
-.side-menu {
-  padding: 12px 0 24px 0;
-}
-
-.side-menu .divider {
-  margin: 12px 0;
+  text-overflow: Ellipsis;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
 }
