@@ -45,7 +45,6 @@ const Component = () => {
       snackActions.open('Something was wrong! please try again.')
     }
   }
-  console.log(process.env.REACT_APP_FB_APP_ID)
   return (
     <FacebookLogin
       appId={process.env.REACT_APP_FB_APP_ID || ''}
