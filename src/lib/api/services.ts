@@ -157,7 +157,12 @@ export const createStory =
   ): Promise<StoryType> => {
     const formdata = new FormData()
     formdata.append('file', file, file.name)
-    formdata.append('file', file, file.name)
+    formdata.append(
+      'story',
+      new Blob([JSON.stringify(data)], {
+        type: 'application/json'
+      })
+    )
     const response = await request.post(`a/stories`, formdata, {
       onUploadProgress: e => progressCallback({ total: e.total, loaded: e.loaded })
     })

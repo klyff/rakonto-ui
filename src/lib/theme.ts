@@ -7,7 +7,14 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          backgroundColor: 'white'
+          backgroundColor: grey['800']
+        }
+      }
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          backgroundImage: 'unset'
         }
       }
     },
@@ -47,5 +54,7 @@ const theme = createTheme({
     fontFamily: 'Lato, sans-serif'
   }
 })
+
+console.log(theme)
 
 export default theme
