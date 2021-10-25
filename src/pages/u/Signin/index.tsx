@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { Form, Formik } from 'formik'
 import schema from './schema'
@@ -10,7 +10,7 @@ import Link from '@mui/material/Link'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import { SigninFormType } from '../../../lib/types'
-import { api } from '../../../lib/api'
+import { ApiContext } from '../../../lib/api'
 import { SimpleDialogContext } from '../../../components/SimpleDialog'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import FacebookButton from './FacebookButton'
@@ -19,6 +19,7 @@ import Cookies from 'js-cookie'
 import { parse } from 'qs'
 
 const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
+  const { api } = useContext(ApiContext)
   // @ts-ignore
   const { returnUrl } = parse(location.search)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
@@ -26,7 +27,7 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
 
   const handleResend = async (email: string) => {
     try {
-      await api.requestConfirmEmail(email)
+      await api().requestConfirmEmail(email)
       dialogActions.close()
     } catch (error) {
       dialogActions.open(
@@ -43,7 +44,7 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
 
   const handleSubmit = async ({ email, password }: SigninFormType) => {
     try {
-      const userInfo = await api.signin({ email, password })
+      const userInfo = await api().signin({ email, password })
       Cookies.set('token', userInfo.token)
       Cookies.set('user', JSON.stringify(userInfo.user))
       if (returnUrl) {

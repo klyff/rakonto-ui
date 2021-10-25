@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Grid from '@mui/material/Grid'
 import { CollectionType } from '../../../lib/types'
 import useInfiniteScroll from '../../../components/hooks/useInfiniteScrool'
@@ -7,12 +7,13 @@ import Card from '../../../components/Card'
 import CollectionCard from '../../../components/CollectionCard'
 import Typography from '@mui/material/Typography'
 import { RouteComponentProps } from 'react-router-dom'
-import { api } from '../../../lib/api'
+import { ApiContext } from '../../../lib/api'
 
 const Collections: React.FC<RouteComponentProps> = () => {
+  const { api } = useContext(ApiContext)
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<CollectionType>({
     size: 15,
-    request: api.getCollections
+    request: api().getCollections
   })
 
   const [sentryRef] = useInfiniteScroll({

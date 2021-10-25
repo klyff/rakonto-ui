@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
-const Forbidden: React.FC = () => {
+const Forbidden: React.FC<{ onCallback: () => void }> = ({ onCallback }) => {
   return (
     <Box
       sx={{

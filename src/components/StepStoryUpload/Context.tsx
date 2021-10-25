@@ -19,7 +19,7 @@ export const StepStoryUploadContext = createContext<{
 
 export const StepStoryUploadProvider: React.FC = ({ children }) => {
   const [stepStoryUpload, setStepStoryUpload] = useState<iStepStoryUpload>({
-    isOpen: true
+    isOpen: false
   })
 
   const open = () => {

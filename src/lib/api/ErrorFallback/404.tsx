@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
-const NotFound: React.FC = () => {
+const NotFound: React.FC<{ onCallback: () => void }> = ({ onCallback }) => {
   return (
     <Box
       sx={{
@@ -25,11 +25,14 @@ const NotFound: React.FC = () => {
         <ErrorOutlineIcon sx={{ fontSize: '10em' }} />
       </Box>
       <Typography gutterBottom variant="h2" align="center">
-        Oops, something went wrong.
+        Sorry!
       </Typography>
       <Typography gutterBottom align="center" variant="h5">
-        Try to refresh this page or fell free to contact us if the problem persists.
+        THE PAGE YOU WERE LOOKING FOR DOES NOT EXIST
       </Typography>
+      <Link sx={{ textAlign: 'center', fontSize: '1.5em' }} href="/a/my-library">
+        Go to home
+      </Link>
     </Box>
   )
 }

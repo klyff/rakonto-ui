@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { CollectionType } from '../../../../lib/types'
 import useInfiniteScroll from '../../../../components/hooks/useInfiniteScrool'
 import { usePageableRequest } from '../../../../components/hooks/usePageableRequest'
@@ -6,13 +6,14 @@ import Grid from '@mui/material/Grid'
 import Card from '../../../../components/Card'
 import CollectionCard from '../../../../components/CollectionCard'
 import { useHistory } from 'react-router-dom'
-import { api } from '../../../../lib/api'
+import { ApiContext } from '../../../../lib/api'
 
 const CollectionsSlider: React.FC = () => {
+  const { api } = useContext(ApiContext)
   const history = useHistory()
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<CollectionType>({
     size: 15,
-    request: api.getCollections
+    request: api().getCollections
   })
 
   // @ts-ignore

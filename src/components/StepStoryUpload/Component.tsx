@@ -14,12 +14,13 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import schema from './schema'
 import Droparea from './Droparea'
-import { api } from '../../lib/api'
+import { ApiContext } from '../../lib/api'
 import { CircularProgress } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 
 const StepStoryUpload = () => {
+  const { api } = useContext(ApiContext)
   const { store, actions } = useContext(StepStoryUploadContext)
   const [progress, setProgress] = useState<number>(0)
   const [sending, setSending] = useState<boolean>(false)
@@ -36,7 +37,7 @@ const StepStoryUpload = () => {
   const onSubmit = async (values: FormikValues) => {
     try {
       setSending(true)
-      await api.createStory(
+      await api().createStory(
         values.file,
         {
           title: values.title,

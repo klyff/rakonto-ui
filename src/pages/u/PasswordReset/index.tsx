@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import { Formik, Form } from 'formik'
 import schema from './schema'
-import { api } from '../../../lib/api'
+import { ApiContext } from '../../../lib/api'
 import { SimpleDialogContext } from '../../../components/SimpleDialog'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Divider from '@mui/material/Divider'
@@ -14,13 +14,14 @@ import { RouteComponentProps } from 'react-router-dom'
 import { parse } from 'qs'
 
 const PasswordReset: React.FC<RouteComponentProps> = ({ location, history }) => {
+  const { api } = useContext(ApiContext)
   const { token } = parse(location?.search as string)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
   const handleSubmit = async ({ password, confirmation, token }: PasswordResetForm) => {
     try {
-      await api.passwordReset({ password, confirmation, token })
+      await api().passwordReset({ password, confirmation, token })
       dialogActions.open('Password changed', <>Your password has been reseted.</>)
       history.push('/u/signin')
     } catch (error) {

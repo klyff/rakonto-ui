@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useContext } from 'react'
 import { styled } from '@mui/material/styles'
 import Button, { ButtonProps } from '@mui/material/Button'
 import GoogleIcon from '@mui/icons-material/Google'
@@ -6,7 +6,7 @@ import { alpha, darken } from '@mui/system'
 import GoogleLogin from 'react-google-login'
 import Cookies from 'js-cookie'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
-import { api } from '../../../lib/api'
+import { ApiContext } from '../../../lib/api'
 import { useHistory } from 'react-router-dom'
 import { parse } from 'qs'
 
@@ -28,6 +28,7 @@ GoogleButton.defaultProps = {
 }
 
 const Component = () => {
+  const { api } = useContext(ApiContext)
   const history = useHistory()
   // @ts-ignore
   const { returnUrl } = parse(location.search)
@@ -35,7 +36,7 @@ const Component = () => {
 
   const callback = async (resp: any) => {
     try {
-      const userInfo = await api.signinGoogle({ token: resp.tokenId })
+      const userInfo = await api().signinGoogle({ token: resp.tokenId })
       Cookies.set('token', userInfo.token)
       Cookies.set('user', JSON.stringify(userInfo.user))
       if (returnUrl) {
