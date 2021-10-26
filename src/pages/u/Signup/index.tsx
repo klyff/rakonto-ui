@@ -1,37 +1,34 @@
+import React, { useContext } from 'react'
 import { Form, Formik } from 'formik'
 import schema from './schema'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
-import React, { useContext } from 'react'
 import { SingupFormType } from '../../../lib/types'
 import { SimpleDialogContext } from '../../../components/SimpleDialog'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Divider from '@mui/material/Divider'
-import { api } from '../../../lib/api'
+import { ApiContext } from '../../../lib/api'
 import { RouteComponentProps } from 'react-router-dom'
 
 const Signup: React.FC<RouteComponentProps> = ({ history }) => {
+  const { api } = useContext(ApiContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
   const handleSubmit = async ({ email, firstName, lastName, password, confirmation }: SingupFormType) => {
     try {
-      await api.singup({ email, firstName, lastName, password, confirmation })
+      await api().singup({ email, firstName, lastName, password, confirmation })
       history.push('/u/signin')
       dialogActions.open('Confirm email', 'We sent an email to you to confirm your account. Please check this.', {
         cancelText: 'Close'
       })
     } catch (error) {
       // @ts-ignore
-      let { data } = error
-      if (data) {
-        data = JSON.parse(data)
-        if (data.code === '1001') {
-          snackActions.open('Email is already taken.')
-          return
-        }
-        snackActions.open(data.message)
+      const { data } = error
+      if (data.code === '1001') {
+        snackActions.open('Email is already taken.')
+        return
       }
       snackActions.open('Something was wrong! please try again.')
     }

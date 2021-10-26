@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Grid from '@mui/material/Grid'
-import { api } from '../../../lib/api'
+import { ApiContext } from '../../../lib/api'
 import { StoryType } from '../../../lib/types'
 import useInfiniteScroll from '../../../components/hooks/useInfiniteScrool'
 import { usePageableRequest } from '../../../components/hooks/usePageableRequest'
@@ -10,9 +10,10 @@ import CollectionCard from '../../../components/CollectionCard'
 import { RouteComponentProps } from 'react-router-dom'
 
 const Search: React.FC<RouteComponentProps> = () => {
+  const { api } = useContext(ApiContext)
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<StoryType>({
     size: 15,
-    request: api.getStories
+    request: api().getStories
   })
 
   const [sentryRef] = useInfiniteScroll({

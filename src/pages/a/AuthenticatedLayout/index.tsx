@@ -1,13 +1,16 @@
 import React from 'react'
 import Header from './Header'
 import { StepStoryUploadProvider } from '../../../components/StepStoryUpload'
+import { GreetingsDialogProvider } from '../../../components/GreetingsDialog'
 
 const AuthenticatedLayout: React.FC = ({ children }) => {
   return (
     <>
       <StepStoryUploadProvider>
-        <Header />
-        {children}
+        <GreetingsDialogProvider>
+          <Header />
+          {children}
+        </GreetingsDialogProvider>
       </StepStoryUploadProvider>
     </>
   )

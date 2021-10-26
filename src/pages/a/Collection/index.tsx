@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import {
   CollectionType,
   FileType,
@@ -20,13 +20,14 @@ import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import Tab from '@mui/material/Tab'
 import { Redirect, RouteComponentProps } from 'react-router-dom'
-import { api } from '../../../lib/api'
-import CircularProgress from '@mui/material/CircularProgress'
+import { ApiContext } from '../../../lib/api'
 import { parse } from 'qs'
 import MetaTags from 'react-meta-tags'
+import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 
-const Collection: React.FC<RouteComponentProps<{ id: string }>> = ({ match, location }) => {
-  const { id } = match.params
+const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ match, history, location }) => {
+  const { api } = useContext(ApiContext)
+  const { collectionId } = match.params
   const { autoplay, storyId } = parse(location?.search as string)
   const [collection, setCollection] = useState<CollectionType | null>(null)
   const [story, setStory] = useState<StoryType | null>(null)
@@ -50,8 +51,8 @@ const Collection: React.FC<RouteComponentProps<{ id: string }>> = ({ match, loca
   useEffect(() => {
     setIsLoading(true)
     const fetch = async () => {
-      const result = await api.getCollection(id)
-      setStory(result.stories.find(story => story.id === storyId) || result.stories[0])
+      const result = await api().getCollection(collectionId)
+
       const accumulator = result?.stories?.reduce<{
         persons: PersonType[]
         files: FileType[]
@@ -75,6 +76,7 @@ const Collection: React.FC<RouteComponentProps<{ id: string }>> = ({ match, loca
           timelineEntries: []
         }
       )
+      setStory(result.stories.find(story => story.id === storyId) || result.stories[0])
       setAccumulator(accumulator)
       setCollection(result)
       setIsLoading(false)
@@ -83,11 +85,11 @@ const Collection: React.FC<RouteComponentProps<{ id: string }>> = ({ match, loca
   }, [])
 
   if (isLoading) {
-    return <CircularProgress />
+    return <CircularLoadingCentred />
   }
 
   if (!collection || !story) {
-    return <Redirect to={'a/403'} />
+    return <Redirect to={'/a/404'} />
   }
 
   const { thumbnail, title, description, stories } = collection
@@ -162,10 +164,10 @@ const Collection: React.FC<RouteComponentProps<{ id: string }>> = ({ match, loca
             <Tab label="Links" value="links" onClick={() => onTabClick('links')} />
           </Box>
           <TabPanel sx={{ height: '100%' }} value="stories">
-            <Stories collectionId={id} selectedStory={story.id} playing={play} stories={stories} />
+            <Stories collectionId={collectionId} selectedStory={story.id} playing={play} stories={stories} />
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="about">
-            <About title={title} collectionId={id} description={description} />
+            <About title={title} collectionId={collectionId} description={description} />
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="peoples">
             <Peoples persons={accumulator.persons} />

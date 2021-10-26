@@ -1,5 +1,9 @@
 // import { VideoJsPlayer } from 'video.js'
 
+export type apiOptions = {
+  errorBoundary: boolean
+}
+
 export type Pageable<T> = {
   totalPages: number
   totalElements: number

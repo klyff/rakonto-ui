@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import StoriesSlider from './StoriesSlider'
 import CollectionsTile from './CollectionsSlider'
 import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 import Search from './Search'
 import { RouteComponentProps } from 'react-router-dom'
+import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
 
 const MyLibrary: React.FC<RouteComponentProps> = () => {
+  const { actions: newStoryActions } = useContext(StepStoryUploadContext)
   return (
     <Grid
       container
@@ -19,7 +23,17 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
         <Typography variant="h6">My Libary</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Search />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <Search />
+          <Button variant="outlined" onClick={() => newStoryActions.open()}>
+            New story
+          </Button>
+        </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h5" sx={{ fontWeight: 700 }} gutterBottom>

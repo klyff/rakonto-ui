@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Grid from '@mui/material/Grid'
 import { StoryType } from '../../../lib/types'
 import useInfiniteScroll from '../../../components/hooks/useInfiniteScrool'
@@ -6,13 +6,14 @@ import { usePageableRequest } from '../../../components/hooks/usePageableRequest
 import Card from '../../../components/Card'
 import StoryCard from '../../../components/StoryCard'
 import Typography from '@mui/material/Typography'
-import { api } from '../../../lib/api'
+import { ApiContext } from '../../../lib/api'
 import { RouteComponentProps } from 'react-router-dom'
 
 const Stories: React.FC<RouteComponentProps> = () => {
+  const { api } = useContext(ApiContext)
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<StoryType>({
     size: 15,
-    request: api.getStories
+    request: api().getStories
   })
 
   const [sentryRef] = useInfiniteScroll({

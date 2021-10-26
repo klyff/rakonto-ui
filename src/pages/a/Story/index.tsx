@@ -1,34 +1,37 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { StoryType } from '../../../lib/types'
 import Player from '../../../components/Player'
 import Box from '@mui/material/Box'
 import TabsArea from './TabsArea'
 import About from './About'
-import { api } from '../../../lib/api'
+import { ApiContext } from '../../../lib/api'
 import MetaTags from 'react-meta-tags'
 import { Redirect, RouteComponentProps } from 'react-router-dom'
-import CircularProgress from '@mui/material/CircularProgress'
+import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 
-const Story: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
-  const { id } = match.params
-  const [story, setStory] = useState<StoryType | null>(null)
+const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) => {
+  const { api } = useContext(ApiContext)
+  const { storyId } = match.params
+  const [story, setStory] = useState<StoryType | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
     setIsLoading(true)
+
     const fetch = async () => {
-      setStory(await api.getStory(id))
+      const result = await api({ errorBoundary: true }).getStory(storyId)
+      setStory(result)
       setIsLoading(false)
     }
     fetch()
   }, [])
 
   if (isLoading) {
-    return <CircularProgress />
+    return <CircularLoadingCentred />
   }
 
   if (!story) {
-    return <Redirect to={'a/403'} />
+    return <Redirect to={'/a/my-library'} />
   }
 
   const { type, video, audio, thumbnail, subtitles, owner, title, description, collections, comments, watchers } = story
@@ -36,11 +39,11 @@ const Story: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   return (
     <>
       <MetaTags>
-        <title>Rakonto - {story.title}</title>
-        <meta property="description" content={story.description || ''} />
-        <meta property="creator" content={story.owner.firstName || ''} />
+        <title>Rakonto - {title}</title>
+        <meta property="description" content={description || ''} />
+        <meta property="creator" content={owner.firstName || ''} />
         <meta property="publisher" content={'Rakonto'} />
-        <meta property="og:image" content={story.thumbnail} />
+        <meta property="og:image" content={thumbnail} />
       </MetaTags>
       <Box
         sx={{

@@ -1,11 +1,11 @@
-import * as React from 'react'
+import React, { useContext } from 'react'
 import { styled } from '@mui/material/styles'
 import Button, { ButtonProps } from '@mui/material/Button'
 import { blue } from '@mui/material/colors'
 import FacebookIcon from '@mui/icons-material/Facebook'
 // @ts-ignore
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
-import { api } from '../../../lib/api'
+import { ApiContext } from '../../../lib/api'
 import Cookies from 'js-cookie'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import { useHistory } from 'react-router-dom'
@@ -26,6 +26,7 @@ FacebookButton.defaultProps = {
 }
 
 const Component = () => {
+  const { api } = useContext(ApiContext)
   const history = useHistory()
   // @ts-ignore
   const { returnUrl } = parse(location.search)
@@ -33,7 +34,7 @@ const Component = () => {
 
   const callback = async (resp: any) => {
     try {
-      const userInfo = await api.signinFacebook({ token: resp.accessToken })
+      const userInfo = await api().signinFacebook({ token: resp.accessToken })
       Cookies.set('token', userInfo.token)
       Cookies.set('user', JSON.stringify(userInfo.user))
       if (returnUrl) {

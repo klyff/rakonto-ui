@@ -9,7 +9,7 @@ const CollectionCard: React.FC<{ collection: CollectionType }> = ({ collection }
   return (
     <Box
       key={collection.id}
-      onClick={() => history.push(`/a/collections/${collection.id}?storyId=${collection.stories[0].id}`)}
+      onClick={() => history.push(`/a/collections/${collection.id}?storyId=${collection.stories[0]?.id || ''}`)}
       sx={{
         cursor: 'pointer',
         marginBottom: 2

@@ -4,29 +4,25 @@ import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import { Formik, Form } from 'formik'
 import schema from './schema'
-import { api } from '../../../lib/api'
+import { ApiContext } from '../../../lib/api'
 import { SimpleDialogContext } from '../../../components/SimpleDialog'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Divider from '@mui/material/Divider'
 import { RouteComponentProps } from 'react-router-dom'
 
 const ForgotPassword: React.FC<RouteComponentProps> = ({ history }) => {
+  const { api } = useContext(ApiContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
   const handleSubmit = async ({ email }: { email: string }) => {
     try {
-      await api.requestPasswordReset(email)
+      await api().requestPasswordReset(email)
       dialogActions.open('Forgot Password', 'We sent you an email with a link to reset your password.')
       history.push('/u/signin')
     } catch (error) {
       // @ts-ignore
-      let { data } = error
-      if (data) {
-        data = JSON.parse(data)
-        snackActions.open(data.message)
-        return
-      }
+      const { data } = error
       snackActions.open('Something was wrong! please try again.')
     }
   }
