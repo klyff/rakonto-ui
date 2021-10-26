@@ -218,6 +218,10 @@ request.interceptors.response.use(
       window.location.reload()
       return Promise.reject(e)
     }
+
+    e.status = e.response.status
+    e.data = e.response.data
+
     return Promise.reject(e)
   }
 )

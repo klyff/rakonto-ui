@@ -22,12 +22,7 @@ const ForgotPassword: React.FC<RouteComponentProps> = ({ history }) => {
       history.push('/u/signin')
     } catch (error) {
       // @ts-ignore
-      let { data } = error
-      if (data) {
-        data = JSON.parse(data)
-        snackActions.open(data.message)
-        return
-      }
+      const { data } = error
       snackActions.open('Something was wrong! please try again.')
     }
   }

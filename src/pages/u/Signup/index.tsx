@@ -24,16 +24,11 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
         cancelText: 'Close'
       })
     } catch (error) {
-      console.log(error)
       // @ts-ignore
-      let { data } = error
-      if (data) {
-        data = JSON.parse(data)
-        if (data.code === '1001') {
-          snackActions.open('Email is already taken.')
-          return
-        }
-        snackActions.open(data.message)
+      const { data } = error
+      if (data.code === '1001') {
+        snackActions.open('Email is already taken.')
+        return
       }
       snackActions.open('Something was wrong! please try again.')
     }

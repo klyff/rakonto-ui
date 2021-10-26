@@ -54,28 +54,24 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
       await history.push('/a/my-library')
     } catch (error) {
       // @ts-ignore
-      let { data } = error
-      if (data) {
-        data = JSON.parse(data)
-        if (data.code === '1004') {
-          snackActions.open('Email or password are incorrect. Please try again')
-          return
-        }
-        if (data.code === '1005') {
-          dialogActions.open(
-            'Verify Email',
-            <>
-              Please verify your email by clicking the link in the message we sent you.
-              <br />
-              <br />
-              <Button color={'primary'} variant="contained" fullWidth onClick={() => handleResend(email)}>
-                Resend email
-              </Button>
-            </>
-          )
-          return
-        }
-        snackActions.open(data.message)
+      const { data } = error
+      if (data.code === '1004') {
+        snackActions.open('Email or password are incorrect. Please try again')
+        return
+      }
+      if (data.code === '1005') {
+        dialogActions.open(
+          'Verify Email',
+          <>
+            Please verify your email by clicking the link in the message we sent you.
+            <br />
+            <br />
+            <Button color={'primary'} variant="contained" fullWidth onClick={() => handleResend(email)}>
+              Resend email
+            </Button>
+          </>
+        )
+        return
       }
       snackActions.open('Something was wrong! please try again.')
     }

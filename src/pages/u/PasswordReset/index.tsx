@@ -26,23 +26,19 @@ const PasswordReset: React.FC<RouteComponentProps> = ({ location, history }) => 
       history.push('/u/signin')
     } catch (error) {
       // @ts-ignore
-      let { data } = error
-      if (data) {
-        data = JSON.parse(data)
-        if (data.code === '1003') {
-          dialogActions.open('Password change', <>This link to change the password has expired. Please try again!</>)
-          history.push('/u/signin')
-          return
-        }
-
-        if (data.code === '1002') {
-          dialogActions.open('Password change', <>This link not exists.</>)
-          history.push('/u/signin')
-          return
-        }
-        snackActions.open(data.message)
+      const { data } = error
+      if (data.code === '1003') {
+        dialogActions.open('Password change', <>This link to change the password has expired. Please try again!</>)
+        history.push('/u/signin')
         return
       }
+
+      if (data.code === '1002') {
+        dialogActions.open('Password change', <>This link not exists.</>)
+        history.push('/u/signin')
+        return
+      }
+
       snackActions.open('Something was wrong! please try again.')
     }
   }

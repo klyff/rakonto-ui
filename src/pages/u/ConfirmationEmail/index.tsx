@@ -35,44 +35,33 @@ const ConfirmationEmail: React.FC<RouteComponentProps> = ({ location, history })
         const userInfo = await api().confirmEmail(confirmationToken as string)
         Cookies.set('token', userInfo.token)
         Cookies.set('user', JSON.stringify(userInfo.user))
-        dialogActions.open(
-          'Welcome to Rakonto!',
-          <>
-            Thank you for joining the world&apos;s first platform specifically designed to create, view and share your
-            most important stories. Enjoy!
-          </>
-        )
         history.push('/a/my-library')
       } catch (error) {
         // @ts-ignore
-        let { data } = error
-        if (data) {
-          data = JSON.parse(data)
-          if (data.code === '1003') {
-            formDialogActions.open(
-              'Expired link',
-              'This link has expired. Please enter your email address to resend another link to you to confirm your account.',
-              [{ name: 'email', placeholder: 'Email address', label: 'Email address' }],
-              { email: '' },
-              schema,
-              handleSubmit,
-              { okText: 'Submit', cancelText: 'Close' }
-            )
-          }
-          if (data.code === '1002') {
-            // TODO TypeError
-            dialogActions.open(
-              'Confirm email',
-              <>
-                This token not found. if you have registered, please try to login to request another confirmation email.
-              </>,
-              { cancelText: 'Ok' }
-            )
-            history.push('/u/signin')
-          }
-          snackActions.open(data.message)
-          return
+        const { data } = error
+        if (data.code === '1003') {
+          formDialogActions.open(
+            'Expired link',
+            'This link has expired. Please enter your email address to resend another link to you to confirm your account.',
+            [{ name: 'email', placeholder: 'Email address', label: 'Email address' }],
+            { email: '' },
+            schema,
+            handleSubmit,
+            { okText: 'Submit', cancelText: 'Close' }
+          )
         }
+        if (data.code === '1002') {
+          // TODO TypeError
+          dialogActions.open(
+            'Confirm email',
+            <>
+              This token not found. if you have registered, please try to login to request another confirmation email.
+            </>,
+            { cancelText: 'Ok' }
+          )
+          history.push('/u/signin')
+        }
+
         snackActions.open('Something was wrong! please try again.')
       }
     }
