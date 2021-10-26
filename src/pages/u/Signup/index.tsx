@@ -23,7 +23,6 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
         cancelText: 'Close'
       })
     } catch (error) {
-      console.log(error)
       // @ts-ignore
       let { data } = error
       if (data) {

@@ -120,7 +120,6 @@ const Collection: React.FC<RouteComponentProps<{ id: string }>> = ({ match, loca
         <Box sx={{ width: '100%', height: '100%' }}>
           {play ? (
             <Player
-              handleEnd={() => console.log('end')}
               subtitles={story?.subtitles || []}
               type={story?.type}
               media={story?.video || story?.audio}

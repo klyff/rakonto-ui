@@ -52,11 +52,9 @@ export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type,
             promise
               .then(function () {
                 // Autoplay started!
-                console.log('Autoplay started!')
               })
               .catch(function () {
                 // Autoplay was prevented.
-                console.log('Autoplay was prevented!')
               })
           }
         }

@@ -373,7 +373,6 @@ export const getTimeline =
 export const createTimeline =
   (request: AxiosInstance) =>
   async (data: TimelineFormType): Promise<TimelineType> => {
-    console.log(data)
     const response = await request.post<TimelineType>(`a/timeline-entries`, {
       ...data,
       at: new Date(data.at).toJSON()

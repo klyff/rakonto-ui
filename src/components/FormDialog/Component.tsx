@@ -13,7 +13,6 @@ import TextField from '@mui/material/TextField'
 const FormDialog: React.FC = () => {
   const { store, actions } = useContext(FormDialogContext)
   const submit = (values: FormikValues) => {
-    console.log('submited')
     store.submit(values)
     actions.close()
   }
