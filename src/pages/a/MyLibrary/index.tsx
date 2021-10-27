@@ -20,7 +20,7 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
       spacing={4}
     >
       <Grid item xs={12}>
-        <Typography variant="h6">My Libary</Typography>
+        <Typography variant="h6">My Library</Typography>
       </Grid>
       <Grid item xs={12}>
         <Box
