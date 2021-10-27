@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import { FormikValues } from 'formik'
 import schema from './schema'
 import { ApiContext } from '../../../lib/api'
@@ -68,8 +69,9 @@ const ConfirmationEmail: React.FC<RouteComponentProps> = ({ location, history })
   }, [confirmationToken])
 
   return (
-    <Box width="100%" height="100vh" display="flex" justifyContent="center" alignItems="center">
+    <Box width="100%" height="40vh" display="flex" justifyContent="center" alignItems="center">
       <CircularProgress />
+      <Typography>Validating...</Typography>
     </Box>
   )
 }

@@ -9,7 +9,6 @@ const ErrorFallback: React.FC<{ status: number | null; onCallback: () => void }>
   status,
   children
 }) => {
-  console.log(status)
   if (!status) return children
   switch (status) {
     case 403:
