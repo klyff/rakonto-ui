@@ -15,7 +15,7 @@ import { parse } from 'qs'
 
 const PasswordReset: React.FC<RouteComponentProps> = ({ location, history }) => {
   const { api } = useContext(ApiContext)
-  const { token } = parse(location?.search as string)
+  const { token } = parse(location?.search as string, { ignoreQueryPrefix: true })
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 

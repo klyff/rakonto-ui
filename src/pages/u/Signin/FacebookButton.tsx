@@ -29,7 +29,7 @@ const Component = () => {
   const { api } = useContext(ApiContext)
   const history = useHistory()
   // @ts-ignore
-  const { returnUrl } = parse(location.search)
+  const { returnUrl } = parse(location.search, { ignoreQueryPrefix: true })
   const { actions: snackActions } = React.useContext(SimpleSnackbarContext)
 
   const callback = async (resp: any) => {

@@ -48,6 +48,7 @@ const StepStoryUpload = () => {
           setProgress(progress)
         }
       )
+      actions.close()
     } catch (e) {
       console.error(e)
     }

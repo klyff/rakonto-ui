@@ -13,11 +13,10 @@ import { parse } from 'qs'
 
 const ConfirmationEmail: React.FC<RouteComponentProps> = ({ location, history }) => {
   const { api } = useContext(ApiContext)
-  const { token: confirmationToken } = parse(location?.search as string)
+  const { token: confirmationToken } = parse(location?.search as string, { ignoreQueryPrefix: true })
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: formDialogActions } = useContext(FormDialogContext)
-
   const handleSubmit = async ({ email }: FormikValues) => {
     try {
       await api().requestConfirmEmail(email)

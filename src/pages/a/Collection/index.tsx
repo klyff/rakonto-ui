@@ -28,7 +28,7 @@ import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ match, history, location }) => {
   const { api } = useContext(ApiContext)
   const { collectionId } = match.params
-  const { autoplay, storyId } = parse(location?.search as string)
+  const { autoplay, storyId } = parse(location?.search as string, { ignoreQueryPrefix: true })
   const [collection, setCollection] = useState<CollectionType | null>(null)
   const [story, setStory] = useState<StoryType | null>(null)
   const [accumulator, setAccumulator] = useState<{

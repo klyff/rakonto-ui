@@ -21,7 +21,7 @@ import { parse } from 'qs'
 const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
   const { api } = useContext(ApiContext)
   // @ts-ignore
-  const { returnUrl } = parse(location.search)
+  const { returnUrl } = parse(location.search, { ignoreQueryPrefix: true })
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
