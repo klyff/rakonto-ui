@@ -5,4 +5,8 @@ module.exports = function(app) {
     target: 'http://localhost:8080',
     ws: true
   }))
+
+  app.use('/uploads', createProxyMiddleware('/uploads', {
+    target: 'http://localhost:8080'
+  }))
 }
