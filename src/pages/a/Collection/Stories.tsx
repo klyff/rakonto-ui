@@ -26,7 +26,17 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
           onMouseLeave={() => setHover(false)}
           sx={{ position: 'relative', width: 327, height: 200 }}
         >
-          <img src={story.thumbnail} alt={story.title} />
+          <Box
+            component="img"
+            sx={{
+              position: 'absolute',
+              backgroundColor: 'action.selected',
+              height: '100%',
+              width: '100%'
+            }}
+            src={story.thumbnail}
+            alt={story.title}
+          />
           {isSelected && (
             <>
               <Box
@@ -34,7 +44,8 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
                   position: 'absolute',
                   backgroundColor: 'action.selected',
                   height: '100%',
-                  width: '100%'
+                  width: '100%',
+                  top: 0
                 }}
               />
               <Box
