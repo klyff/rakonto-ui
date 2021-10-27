@@ -69,7 +69,7 @@ const ConfirmationEmail: React.FC<RouteComponentProps> = ({ location, history })
   }, [confirmationToken])
 
   return (
-    <Box width="100%" height="40vh" display="flex" justifyContent="center" alignItems="center">
+    <Box width="100%" height="40vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
       <CircularProgress />
       <Typography>Validating...</Typography>
     </Box>
