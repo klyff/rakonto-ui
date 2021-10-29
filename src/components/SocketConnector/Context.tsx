@@ -1,19 +1,19 @@
 import React, { useState, createContext, useEffect } from 'react'
-import { iMediaQueueProcessor } from './index'
+import { iSocketConnector } from './index'
 import { Client } from '@stomp/stompjs'
 import SockeJS from 'sockjs-client'
 import Cookies from 'js-cookie'
 
 // @ts-ignore
-export const MediaQueueProcessorContext = createContext<{
-  store: Partial<iMediaQueueProcessor>
+export const SocketConnectorContext = createContext<{
+  store: Partial<iSocketConnector>
 }>({
   store: {}
 })
 
-export const MediaQueueProcessorProvider: React.FC = ({ children }) => {
+export const SocketConnectorProvider: React.FC = ({ children }) => {
   const [client] = useState<Client>(new Client())
-  const [status, setStatus] = useState<iMediaQueueProcessor>({})
+  const [status, setStatus] = useState<iSocketConnector>({})
 
   const token = Cookies.get('token')
 
@@ -45,12 +45,12 @@ export const MediaQueueProcessorProvider: React.FC = ({ children }) => {
   }, [])
 
   return (
-    <MediaQueueProcessorContext.Provider
+    <SocketConnectorContext.Provider
       value={{
         store: status
       }}
     >
       {children}
-    </MediaQueueProcessorContext.Provider>
+    </SocketConnectorContext.Provider>
   )
 }
