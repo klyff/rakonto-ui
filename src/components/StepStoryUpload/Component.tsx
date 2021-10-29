@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
@@ -17,6 +17,7 @@ import Droparea from './Droparea'
 import { ApiContext } from '../../lib/api'
 import { CircularProgress } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
+import Recorder from './Recorder'
 import CloseIcon from '@mui/icons-material/Close'
 
 const StepStoryUpload = () => {
@@ -25,6 +26,7 @@ const StepStoryUpload = () => {
   const [progress, setProgress] = useState<number>(0)
   const [sending, setSending] = useState<boolean>(false)
   const [activeStep, setActiveStep] = useState(0)
+  const [uploadType, setUploadType] = useState<'FILE' | 'RECORDER' | undefined>()
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1)
@@ -54,13 +56,28 @@ const StepStoryUpload = () => {
     }
   }
 
-  const initialValues = { title: '', description: '', file: null }
+  const initialValues: { title: string; description: string; file: File | null } = {
+    title: '',
+    description: '',
+    file: null
+  }
 
-  const { isSubmitting, setFieldValue, values, handleBlur, handleChange, touched, errors, handleSubmit } = useFormik({
-    initialValues,
-    validationSchema: schema,
-    onSubmit
-  })
+  const { isSubmitting, setFieldValue, values, handleBlur, handleChange, touched, errors, handleSubmit, handleReset } =
+    useFormik({
+      initialValues,
+      validationSchema: schema,
+      onSubmit
+    })
+
+  useEffect(() => {
+    if (store.isOpen) {
+      setSending(false)
+      setActiveStep(0)
+      setProgress(0)
+      setUploadType(undefined)
+      handleReset(initialValues)
+    }
+  }, [store.isOpen])
 
   const steps = [
     { label: 'Story title', error: touched.title && Boolean(errors.title) },
@@ -163,44 +180,53 @@ const StepStoryUpload = () => {
                   justifyContent: 'center'
                 }}
               >
-                {sending && (
+                {sending ? (
                   <Box
                     sx={{
-                      width: 422,
+                      width: '100%',
                       height: 422,
-                      border: '1px solid #7b7b7c',
-                      borderRadius: '20px',
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center'
                     }}
                   >
-                    <CircularProgress variant="determinate" value={progress} />
+                    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                      <CircularProgress variant="determinate" value={progress} />
+                      <Box
+                        sx={{
+                          top: 0,
+                          left: 0,
+                          bottom: 0,
+                          right: 0,
+                          position: 'absolute',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        <Typography variant="caption" component="div" color="text.secondary">
+                          {`${Math.round(progress)}%`}
+                        </Typography>
+                      </Box>
+                    </Box>
                   </Box>
-                )}
-                {!sending && (
+                ) : (
                   <>
-                    <Droparea
-                      onDrop={acceptedFiles => {
-                        const file = acceptedFiles[0]
-                        setFieldValue(
-                          'file',
-                          file
-                          // Object.assign(file, {
-                          //   preview: URL.createObjectURL(file)
-                          // })
-                        )
-                      }}
-                    />
-                    <Box sx={{ padding: '0 16px' }} />
-                    <Box
-                      sx={{
-                        width: 422,
-                        height: 422,
-                        border: '1px solid #7b7b7c',
-                        borderRadius: '20px'
-                      }}
-                    />
+                    {(uploadType === 'FILE' || !uploadType) && (
+                      <Droparea
+                        file={values.file}
+                        onDrop={acceptedFiles => {
+                          const file = acceptedFiles[0]
+                          setFieldValue('file', file)
+                          setUploadType('FILE')
+                        }}
+                        onRemove={() => {
+                          setFieldValue('file', null)
+                          setUploadType(undefined)
+                        }}
+                      />
+                    )}
+                    {uploadType === 'RECORDER' || (!uploadType && <Recorder />)}
                   </>
                 )}
               </Box>

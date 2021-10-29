@@ -22,7 +22,7 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   if (!token) return <Redirect to="/u/signin" />
   return (
     <AuthenticatedLayout>
-      <Suspense fallback={CircularLoadingCentred}>
+      <Suspense fallback={<CircularLoadingCentred />}>
         <Switch>
           <Route exact path="/a/my-library" component={MyLibrary} />
           <Route exact path="/a/stories/:storyId" component={Story} />

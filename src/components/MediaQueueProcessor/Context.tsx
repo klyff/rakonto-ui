@@ -1,26 +1,24 @@
 import React, { useState, createContext, useEffect } from 'react'
-import { iMediaStatus } from './index'
+import { iMediaQueueProcessor } from './index'
 import { Client } from '@stomp/stompjs'
 import SockeJS from 'sockjs-client'
+import Cookies from 'js-cookie'
 
 // @ts-ignore
-export const MediaStatusContext = createContext<{
-  store: Partial<iMediaStatus>
+export const MediaQueueProcessorContext = createContext<{
+  store: Partial<iMediaQueueProcessor>
 }>({
   store: {}
 })
 
-export const MediaStatusProvider: React.FC = ({ children }) => {
+export const MediaQueueProcessorProvider: React.FC = ({ children }) => {
   const [client] = useState<Client>(new Client())
-  const [status, setStatus] = useState<iMediaStatus>({})
+  const [status, setStatus] = useState<iMediaQueueProcessor>({})
 
-  const getToken = () => {
-    const tokenItem = localStorage.getItem('token')
-    return tokenItem ? JSON.parse(tokenItem) : null
-  }
+  const token = Cookies.get('token')
 
   client.configure({
-    webSocketFactory: () => new SockeJS(`/api/ws?jwt=${getToken()}`),
+    webSocketFactory: () => new SockeJS(`/api/ws?jwt=${token}`),
     onConnect: () => {
       client.subscribe('/user/queue/media-progress', (message: { body: string }) => {
         const { total, current, id, payload, finished } = JSON.parse(message.body)
@@ -47,12 +45,12 @@ export const MediaStatusProvider: React.FC = ({ children }) => {
   }, [])
 
   return (
-    <MediaStatusContext.Provider
+    <MediaQueueProcessorContext.Provider
       value={{
         store: status
       }}
     >
       {children}
-    </MediaStatusContext.Provider>
+    </MediaQueueProcessorContext.Provider>
   )
 }

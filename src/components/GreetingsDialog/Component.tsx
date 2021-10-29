@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -9,12 +9,12 @@ import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { StepStoryUploadContext } from '../StepStoryUpload'
 
-const GreetingsDialog = () => {
+const GreetingsDialog: React.FC = () => {
   const { store, actions } = useContext(GreetingsDialogContext)
   const { actions: stepStoryUploadActions } = useContext(StepStoryUploadContext)
   // @ts-ignore
   const hidden = useMediaQuery(theme => theme.breakpoints.up('md'))
-  console.log(hidden)
+
   return (
     <Modal
       disableEnforceFocus
