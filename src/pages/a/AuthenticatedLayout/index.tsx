@@ -7,12 +7,14 @@ import { MediaQueueProcessorProvider } from '../../../components/MediaQueueProce
 const AuthenticatedLayout: React.FC = ({ children }) => {
   return (
     <>
-      <StepStoryUploadProvider>
-        <GreetingsDialogProvider>
-          <Header />
-          {children}
-        </GreetingsDialogProvider>
-      </StepStoryUploadProvider>
+      <MediaQueueProcessorProvider>
+        <StepStoryUploadProvider>
+          <GreetingsDialogProvider>
+            <Header />
+            {children}
+          </GreetingsDialogProvider>
+        </StepStoryUploadProvider>
+      </MediaQueueProcessorProvider>
     </>
   )
 }
