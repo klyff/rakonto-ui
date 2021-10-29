@@ -14,14 +14,13 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import schema from './schema'
 import Droparea from './Droparea'
-import { ApiContext } from '../../lib/api'
-import { CircularProgress } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import Recorder from './Recorder'
 import CloseIcon from '@mui/icons-material/Close'
+import { QueueProcessorContext } from '../QueueProcessor'
 
 const StepStoryUpload = () => {
-  const { api } = useContext(ApiContext)
+  const { actions: queueActions } = useContext(QueueProcessorContext)
   const { store, actions } = useContext(StepStoryUploadContext)
   const [progress, setProgress] = useState<number>(0)
   const [sending, setSending] = useState<boolean>(false)
@@ -38,18 +37,13 @@ const StepStoryUpload = () => {
 
   const onSubmit = async (values: FormikValues) => {
     try {
-      setSending(true)
-      await api().createStory(
-        values.file,
-        {
-          title: values.title,
-          description: values.description
-        },
-        event => {
-          const progress = Math.round((event.loaded * 100) / event.total)
-          setProgress(progress)
-        }
-      )
+      queueActions.addProcessor({
+        id: Date.now().toString(),
+        type: 'UPLOAD',
+        title: values.title,
+        description: values.description,
+        file: values.file
+      })
       actions.close()
     } catch (e) {
       console.error(e)
@@ -180,55 +174,23 @@ const StepStoryUpload = () => {
                   justifyContent: 'center'
                 }}
               >
-                {sending ? (
-                  <Box
-                    sx={{
-                      width: '100%',
-                      height: 422,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                      <CircularProgress variant="determinate" value={progress} />
-                      <Box
-                        sx={{
-                          top: 0,
-                          left: 0,
-                          bottom: 0,
-                          right: 0,
-                          position: 'absolute',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}
-                      >
-                        <Typography variant="caption" component="div" color="text.secondary">
-                          {`${Math.round(progress)}%`}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                ) : (
-                  <>
-                    {(uploadType === 'FILE' || !uploadType) && (
-                      <Droparea
-                        file={values.file}
-                        onDrop={acceptedFiles => {
-                          const file = acceptedFiles[0]
-                          setFieldValue('file', file)
-                          setUploadType('FILE')
-                        }}
-                        onRemove={() => {
-                          setFieldValue('file', null)
-                          setUploadType(undefined)
-                        }}
-                      />
-                    )}
-                    {uploadType === 'RECORDER' || (!uploadType && <Recorder />)}
-                  </>
-                )}
+                <>
+                  {(uploadType === 'FILE' || !uploadType) && (
+                    <Droparea
+                      file={values.file}
+                      onDrop={acceptedFiles => {
+                        const file = acceptedFiles[0]
+                        setFieldValue('file', file)
+                        setUploadType('FILE')
+                      }}
+                      onRemove={() => {
+                        setFieldValue('file', null)
+                        setUploadType(undefined)
+                      }}
+                    />
+                  )}
+                  {uploadType === 'RECORDER' || (!uploadType && <Recorder />)}
+                </>
               </Box>
             </Box>
           )}
