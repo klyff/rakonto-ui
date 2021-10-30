@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import Theme from './Theme'
 
@@ -37,7 +37,7 @@ export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type,
   const videoRef = React.useRef(null)
   const playerRef = React.useRef<VideoJsPlayer | null>(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     // make sure Video.js player is only initialized once
     if (!playerRef.current) {
       const videoElement = videoRef.current
@@ -61,15 +61,13 @@ export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type,
         handleEnd && player.on('ended', handleEnd)
       }))
     } else {
-      // you can update player here [update player through props]
-      // const player = playerRef.current;
-      // player.autoplay(options.autoplay);
-      // player.src(options.sources);
+      const player = playerRef.current
+      player.options(options)
     }
   }, [options])
 
   // Dispose the Video.js player when the functional component unmounts
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (playerRef.current) {
         playerRef.current.dispose()

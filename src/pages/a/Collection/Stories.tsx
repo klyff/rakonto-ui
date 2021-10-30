@@ -79,7 +79,9 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
                 transform: 'translate(-50%, -50%)',
                 padding: '20px 16px'
               }}
-              onClick={() => history.push(`/a/collections/${collectionId}?storyId=${story.id}`)}
+              onClick={() => {
+                history.push(`/a/collections/${collectionId}?storyId=${story.id}`)
+              }}
             >
               <PlayArrowIcon />
             </Button>

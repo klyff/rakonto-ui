@@ -84,6 +84,11 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
     fetch()
   }, [])
 
+  useEffect(() => {
+    if (!collection) return
+    setStory(collection.stories.find(story => story.id === storyId) || collection.stories[0])
+  }, [collection, storyId])
+
   if (isLoading) {
     return <CircularLoadingCentred />
   }
