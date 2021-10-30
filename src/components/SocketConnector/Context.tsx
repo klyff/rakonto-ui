@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 
 // @ts-ignore
 export const SocketConnectorContext = createContext<{
-  store: Partial<iSocketConnector>
+  store: iSocketConnector
 }>({
   store: {}
 })
@@ -14,28 +14,35 @@ export const SocketConnectorContext = createContext<{
 export const SocketConnectorProvider: React.FC = ({ children }) => {
   const [client] = useState<Client>(new Client())
   const [status, setStatus] = useState<iSocketConnector>({})
+  const [conneted, setConnected] = useState<boolean>(false)
 
   const token = Cookies.get('token')
 
   client.configure({
     webSocketFactory: () => new SockeJS(`/api/ws?jwt=${token}`),
     onConnect: () => {
-      client.subscribe('/user/queue/media-progress', (message: { body: string }) => {
-        const { total, current, id, payload, finished } = JSON.parse(message.body)
-        const progress = Math.round((current / total) * 100)
-        setStatus(value => {
-          return {
-            ...value,
-            [id]: {
-              progress,
-              payload,
-              finished
-            }
-          }
-        })
-      })
+      setConnected(true)
     }
   })
+
+  useEffect(() => {
+    if (!conneted) return
+    client.subscribe('/user/queue/media-progress', (message: { body: string }) => {
+      const { total, current, id, payload, finished, title } = JSON.parse(message.body)
+      const progress = Math.round((current / total) * 100)
+      setStatus(value => {
+        return {
+          ...value,
+          [id]: {
+            progress,
+            payload,
+            finished,
+            title
+          }
+        }
+      })
+    })
+  }, [conneted, setStatus, status])
 
   useEffect(() => {
     client.activate()

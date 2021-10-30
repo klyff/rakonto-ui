@@ -37,7 +37,7 @@ const StepStoryUpload = () => {
 
   const onSubmit = async (values: FormikValues) => {
     try {
-      queueActions.addProcessor({
+      await queueActions.addProcessor({
         id: Date.now().toString(),
         type: 'UPLOAD',
         title: values.title,

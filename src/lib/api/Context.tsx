@@ -211,16 +211,17 @@ request.interceptors.response.use(
     return response
   },
   e => {
-    if (e.response.status === 401) {
-      localStorage.removeItem('token')
+    if (e?.response?.status === 401) {
+      Cookies.remove('token')
+      Cookies.remove('user')
       if (history.location.pathname === '/u/signin') return Promise.reject(e)
       history.push('/u/signin')
       window.location.reload()
       return Promise.reject(e)
     }
 
-    e.status = e.response.status
-    e.data = e.response.data
+    e.status = e?.response?.status || 500
+    e.data = e?.response?.data || 'server error'
 
     return Promise.reject(e)
   }

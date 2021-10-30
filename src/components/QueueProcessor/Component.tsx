@@ -1,87 +1,52 @@
 import * as React from 'react'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import { QueueProcessorContext } from './Context'
-import { useContext, useEffect, useState } from 'react'
-import Draggable from 'react-draggable'
+import { useContext } from 'react'
+import Popover from '@mui/material/Popover'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 import Typography from '@mui/material/Typography'
-
-const PaperComponent: React.FC = props => {
-  return (
-    <Draggable handle="#draggable-qeuedialog" cancel={'[class*="MuiDialogContent-root"]'}>
-      <Paper {...props} />
-    </Draggable>
-  )
-}
+import { ListItemSecondaryAction } from '@mui/material'
 
 const QueueStage: React.FC = () => {
-  const { store, actions } = useContext(QueueProcessorContext)
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [list, setList] = useState(() =>
-    Object.keys(store).map(key => ({
-      id: key,
-      ...store[key]
-    }))
-  )
+  const { store: list, anchor, actions } = useContext(QueueProcessorContext)
 
-  useEffect(() => {
-    setList(
-      Object.keys(store).map(key => ({
-        id: key,
-        ...store[key]
-      }))
-    )
-  }, [store])
+  const open = Boolean(anchor)
+  const id = open ? 'simple-popover' : undefined
 
-  useEffect(() => {
-    if (list.length) {
-      setIsOpen(true)
-    }
-  }, [list])
-
-  const close = () => {
-    setIsOpen(false)
-  }
   return (
-    <Dialog
-      fullWidth
-      maxWidth="xs"
-      open={isOpen}
-      hideBackdrop
-      disablePortal
-      onClose={close}
-      PaperComponent={PaperComponent}
-    >
-      <DialogTitle id="draggable-qeuedialog" style={{ cursor: 'move' }}>
-        Queue
-      </DialogTitle>
-      <DialogContent>
-        <List dense>
-          {list.map(item => {
-            console.log(item)
-            return (
-              <ListItem key={item.id}>
-                <ListItemText primary={item.title} secondary={item.type} />
-                <ListItemIcon>
-                  <Box
-                    sx={{
-                      width: '100%',
-                      height: 422,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}
-                  >
+    <>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchor}
+        onClose={actions.close}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left'
+        }}
+      >
+        <Paper
+          sx={{
+            padding: 4,
+            width: 500
+          }}
+        >
+          <Typography id="draggable-qeue-dialog" style={{ cursor: 'move' }}>
+            Queue
+          </Typography>
+          <List dense>
+            {list.map(item => {
+              return (
+                <ListItem key={item.id}>
+                  <ListItemAvatar>
                     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
                       <CircularProgress variant="determinate" value={item.progress || 0} />
                       <Box
@@ -101,17 +66,22 @@ const QueueStage: React.FC = () => {
                         </Typography>
                       </Box>
                     </Box>
-                  </Box>
-                </ListItemIcon>
-              </ListItem>
-            )
-          })}
-        </List>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={close}>{'Close'}</Button>
-      </DialogActions>
-    </Dialog>
+                  </ListItemAvatar>
+                  <ListItemText primary={item.title} secondary={item.type} />
+                  {item.type === 'FINISHED' && (
+                    <ListItemSecondaryAction>
+                      <IconButton edge="end" onClick={() => actions.remove(item.id as string)} aria-label="delete">
+                        <CloseIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  )}
+                </ListItem>
+              )
+            })}
+          </List>
+        </Paper>
+      </Popover>
+    </>
   )
 }
 

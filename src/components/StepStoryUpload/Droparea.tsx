@@ -1,6 +1,7 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
+import UploadFileIcon from '@mui/icons-material/UploadFile'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Dropzone, { DropEvent, FileRejection } from 'react-dropzone'
@@ -12,7 +13,6 @@ interface iDroparea {
 }
 
 const Droparea: React.FC<iDroparea> = ({ onDrop, file, onRemove }) => {
-  const preview = file ? URL.createObjectURL(file) : ''
   return (
     <>
       {file && (
@@ -23,14 +23,39 @@ const Droparea: React.FC<iDroparea> = ({ onDrop, file, onRemove }) => {
           }}
         >
           <Box
-            component="img"
-            src={preview}
-            alt={file.name}
+            component="div"
             sx={{
-              maxHeight: 422
+              height: 422,
+              display: 'flex',
+              flexFlow: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
             }}
-          />
-          <Button onClick={onRemove}>Remove</Button>
+          >
+            <Box
+              sx={{
+                width: 72,
+                height: 72,
+                borderRadius: 50,
+                backgroundColor: 'primary.main',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: 2
+              }}
+            >
+              <UploadFileIcon
+                sx={{
+                  fontSize: 52,
+                  color: 'common.black'
+                }}
+              />
+            </Box>
+            <Typography fontWeight="700" align="center" variant="h5" gutterBottom>
+              {file.name}
+            </Typography>
+            <Button onClick={onRemove}>Remove</Button>
+          </Box>
         </Box>
       )}
       {!file && (

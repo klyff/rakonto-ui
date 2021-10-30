@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -18,7 +18,10 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import FolderSpecialIcon from '@mui/icons-material/FolderSpecial'
 import HomeIcon from '@mui/icons-material/Home'
 import MovieIcon from '@mui/icons-material/Movie'
+import SettingsIcon from '@mui/icons-material/Settings'
 import useUser from '../../../../components/hooks/useUser'
+import { QueueProcessorContext } from '../../../../components/QueueProcessor'
+import { GreetingsDialogContext } from '../../../../components/GreetingsDialog'
 
 export default function PrimarySearchAppBar() {
   const user = useUser()
@@ -26,6 +29,8 @@ export default function PrimarySearchAppBar() {
   const location = useLocation()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null)
+  const { actions: queueActions, isProcessing: isQueueProcessing } = useContext(QueueProcessorContext)
+  const { actions: greetingsActions } = useContext(GreetingsDialogContext)
 
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
@@ -68,6 +73,7 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <MenuItem onClick={greetingsActions.open}>Take a tour</MenuItem>
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
@@ -135,6 +141,19 @@ export default function PrimarySearchAppBar() {
             })}
           </Box>
           <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ marginRight: 3 }}>
+            <IconButton onClick={event => queueActions.open(event.currentTarget)} aria-label="delete">
+              <SettingsIcon
+                sx={{
+                  animationPlayState: isQueueProcessing ? 'running' : 'paused',
+                  animationName: 'spin',
+                  animationDuration: '2000ms',
+                  animationIterationCount: 'infinite',
+                  animationTimingFunction: 'linear'
+                }}
+              />
+            </IconButton>
+          </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Avatar
               sx={{
