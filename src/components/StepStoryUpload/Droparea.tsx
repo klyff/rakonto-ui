@@ -59,7 +59,7 @@ const Droparea: React.FC<iDroparea> = ({ onDrop, file, onRemove }) => {
         </Box>
       )}
       {!file && (
-        <Dropzone multiple={false} noClick noKeyboard accept={'video/*'} onDrop={onDrop}>
+        <Dropzone multiple={false} noClick noKeyboard accept={'video/*, audio/*'} onDrop={onDrop}>
           {({ getRootProps, getInputProps, open }) => (
             <Box
               sx={{

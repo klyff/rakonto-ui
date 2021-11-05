@@ -48,23 +48,28 @@ const QueueStage: React.FC = () => {
                 <ListItem key={item.id}>
                   <ListItemAvatar>
                     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                      <CircularProgress variant="determinate" value={item.progress || 0} />
-                      <Box
-                        sx={{
-                          top: 0,
-                          left: 0,
-                          bottom: 0,
-                          right: 0,
-                          position: 'absolute',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}
-                      >
-                        <Typography variant="caption" component="div" color="text.secondary">
-                          {`${Math.round(item.progress || 0)}%`}
-                        </Typography>
-                      </Box>
+                      <CircularProgress
+                        variant={!item.finished && item.progress === undefined ? 'indeterminate' : 'determinate'}
+                        value={item.progress || 0}
+                      />
+                      {!item.finished && item.progress !== undefined && (
+                        <Box
+                          sx={{
+                            top: 0,
+                            left: 0,
+                            bottom: 0,
+                            right: 0,
+                            position: 'absolute',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <Typography variant="caption" component="div" color="text.secondary">
+                            {`${Math.round(item.progress || 0)}%`}
+                          </Typography>
+                        </Box>
+                      )}
                     </Box>
                   </ListItemAvatar>
                   <ListItemText primary={item.title} secondary={item.type} />

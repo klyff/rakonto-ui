@@ -80,7 +80,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
               return {
                 ...item,
                 id: story.id,
-                progress: 0,
+                progress: undefined,
                 type: 'START FOR PROCESSING'
               }
             }
@@ -130,11 +130,11 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
   useEffect(() => {
     Object.values(processorList).forEach(object => {
       const processingItem: QueueItem = {
-        id: object.payload.id,
-        title: object.payload.title,
-        finished: object.finished,
-        progress: object.progress,
-        type: object.finished ? 'FINISHED' : 'PROCESSING'
+        id: object.id,
+        title: object.title,
+        finished: object.ready,
+        progress: undefined,
+        type: object.ready ? 'FINISHED' : 'PROCESSING'
       }
       if (!store.some(item => item.id === processingItem.id)) {
         setStore([...store, processingItem])
@@ -164,6 +164,22 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
       window.onbeforeunload = null
     }
   }, [store])
+
+  useEffect(() => {
+    const init = async () => {
+      const stories = await api().getProcessingStories()
+      setStore(
+        stories.map<QueueItem>(item => ({
+          id: item.id,
+          title: item.title,
+          progress: undefined,
+          type: 'PROCESSING',
+          finished: false
+        }))
+      )
+    }
+    init()
+  }, [])
 
   return (
     <QueueProcessorContext.Provider

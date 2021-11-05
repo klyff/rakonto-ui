@@ -120,17 +120,16 @@ export type Thumbnail = {
 
 export type VideoDetails = {
   id: string
-  processedAt?: Date
-  alternatives: Partial<Record<Resolutions, Media[]>>
-  gifs: Partial<Record<Resolutions, Gif[]>>
-  thumbnails: Partial<Record<Resolutions, Thumbnail[]>>
-  thumbnail: string
+  url?: string
+  gifUrl?: string
+  thumbnailUrl?: string
 }
 
 export type AudioDetails = {
   id: string
-  processedAt: Date
-  alternatives: Media[]
+  url?: string
+  gifUrl?: string
+  thumbnailUrl?: string
 }
 
 export type StoryType = {
@@ -139,7 +138,7 @@ export type StoryType = {
   cover: ImageType
   description: string
   id: string
-  thumbnail: string
+  thumbnailUrl: string
   ready: boolean
   published?: boolean
   title: string

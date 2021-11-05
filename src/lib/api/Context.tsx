@@ -22,6 +22,7 @@ import {
   updateStory,
   getImage,
   getStories,
+  getProcessingStories,
   getStory,
   getCollections,
   getCollection,
@@ -175,6 +176,7 @@ export const ApiContext = createContext<{
     ) => Promise<SubtitleType>
     updateTranscriptions: (id: string, data: TranscriptionFormType) => Promise<TranscriptionType>
     getStories: (page: number, size: number) => Promise<Pageable<StoryType>>
+    getProcessingStories: () => Promise<StoryType[]>
     deleteFile: (id: string) => Promise<void>
     uploadFile: (
       storyId: string,
@@ -254,6 +256,7 @@ export const ApiProvider: React.FC = ({ children }) => {
       confirmEmail: confirmEmail(request, handleError(opts)),
       requestConfirmEmail: requestConfirmEmail(request, handleError(opts)),
       getStories: getStories(request, handleError(opts)),
+      getProcessingStories: getProcessingStories(request, handleError(opts)),
       deleteStory: deleteStory(request, handleError(opts)),
       getStory: getStory(request, handleError(opts)),
       createStory: createStory(request, handleError(opts)),

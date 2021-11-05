@@ -34,7 +34,7 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
               height: '100%',
               width: '100%'
             }}
-            src={story.thumbnail}
+            src={story.thumbnailUrl}
             alt={story.title}
           />
           {isSelected && (

@@ -150,6 +150,14 @@ export const getStories =
       .catch(errorHandler)
   }
 
+export const getProcessingStories =
+  (request: AxiosInstance, errorHandler: (error: unknown) => void) => async (): Promise<StoryType[]> => {
+    return await request
+      .get(`a/stories/processing`)
+      .then(res => res.data)
+      .catch(errorHandler)
+  }
+
 export const getStory =
   (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
   async (id: string): Promise<StoryType> => {

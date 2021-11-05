@@ -29,17 +29,11 @@ export const SocketConnectorProvider: React.FC = ({ children }) => {
     if (!conneted) return
     client.subscribe('/user/queue/media-progress', (message: { body: string }) => {
       const { type, payload: data } = JSON.parse(message.body)
-      const { total, current, id, payload, finished, title } = data
-      const progress = Math.round((current / total) * 100)
+      const { id } = data
       setStatus(value => {
         return {
           ...value,
-          [id]: {
-            progress,
-            payload,
-            finished,
-            title
-          }
+          [id]: { ...data, type }
         }
       })
     })

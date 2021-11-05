@@ -34,7 +34,8 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
     return <Redirect to={'/a/my-library'} />
   }
 
-  const { type, video, audio, thumbnail, subtitles, owner, title, description, collections, comments, watchers } = story
+  const { type, video, audio, thumbnailUrl, subtitles, owner, title, description, collections, comments, watchers } =
+    story
 
   return (
     <>
@@ -43,7 +44,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
         <meta property="description" content={description || ''} />
         <meta property="creator" content={owner.firstName || ''} />
         <meta property="publisher" content={'Rakonto'} />
-        <meta property="og:image" content={thumbnail} />
+        <meta property="og:image" content={thumbnailUrl} />
       </MetaTags>
       <Box
         sx={{
@@ -54,7 +55,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
         }}
       >
         <Box sx={{ width: '100%', height: '100%', margin: `8px 0` }}>
-          <Player subtitles={subtitles || []} type={type} media={video || audio} cover={thumbnail} />
+          <Player subtitles={subtitles || []} type={type} media={video || audio} cover={thumbnailUrl} />
         </Box>
         <Box
           sx={{

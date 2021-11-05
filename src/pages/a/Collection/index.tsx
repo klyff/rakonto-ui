@@ -130,7 +130,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               subtitles={story?.subtitles || []}
               type={story?.type}
               media={story?.video || story?.audio}
-              cover={story?.thumbnail}
+              cover={story?.thumbnailUrl}
               autoplay={!!autoplay}
             />
           ) : (
