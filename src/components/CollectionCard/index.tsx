@@ -21,7 +21,7 @@ const CollectionCard: React.FC<{ collection: CollectionType }> = ({ collection }
         title={collection.title}
         subTitle={`${collection.stories.length} stories`}
         owner={collection.owner}
-        thumbnail={collection.thumbnail}
+        thumbnail={collection.thumbnailUrl}
       />
     </Box>
   )

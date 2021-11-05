@@ -175,7 +175,7 @@ export type CollectionType = {
   description: string
   cover: ImageType
   owner: UserType
-  thumbnail: string
+  thumbnailUrl: string
   stories: StoryType[]
 }
 

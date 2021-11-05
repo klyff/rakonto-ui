@@ -15,32 +15,6 @@ interface iVideoPlayer {
   handleEnd?: () => void
 }
 
-type PlaySource = {
-  id: string
-  bitrate?: number
-  duration?: number
-  format?: string
-  height?: number
-  src: string
-  size?: number
-  width?: number
-  label?: Resolutions
-  selected: boolean
-  type: 'video/mp4' | 'audio/mp3'
-}
-
-const sortByRes = (a: any, b: any) => {
-  const aNumber = parseInt(a.replace('p', ''))
-  const bNumber = parseInt(b.replace('p', ''))
-  if (aNumber > bNumber) {
-    return -1
-  }
-  if (bNumber > aNumber) {
-    return 1
-  }
-  return 0
-}
-
 const Player: React.FC<iVideoPlayer> = ({
   autoplay,
   handleEnd,

@@ -97,7 +97,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
     return <Redirect to={'/a/404'} />
   }
 
-  const { thumbnail, title, description, stories } = collection
+  const { thumbnailUrl, title, description, stories, owner } = collection
 
   const handlePlay = () => {
     setPlay(true)
@@ -110,11 +110,11 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
   return (
     <>
       <MetaTags>
-        <title>Rakonto - {collection.title}</title>
-        <meta property="description" content={collection.description || ''} />
-        <meta property="creator" content={collection.owner.firstName || ''} />
+        <title>Rakonto - {title}</title>
+        <meta property="description" content={description || ''} />
+        <meta property="creator" content={owner.firstName || ''} />
         <meta property="publisher" content={'Rakonto'} />
-        <meta property="og:image" content={collection.thumbnail} />
+        <meta property="og:image" content={thumbnailUrl} />
       </MetaTags>
       <Box
         sx={{
@@ -136,7 +136,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
           ) : (
             <Cover
               author={collection.owner}
-              src={thumbnail}
+              src={thumbnailUrl}
               title={title}
               description={description}
               onClick={handlePlay}
