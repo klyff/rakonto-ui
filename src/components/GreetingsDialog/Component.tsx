@@ -71,7 +71,7 @@ const GreetingsDialog: React.FC = () => {
               gutterBottom
               variant="h5"
             >
-              all your memories in one place!
+              the place to record and share life&#39;s most important stories!
             </Typography>
             <Box
               sx={{
@@ -98,7 +98,7 @@ const GreetingsDialog: React.FC = () => {
                 Create my first story
               </Button>
               <Button size="large" color={'secondary'} fullWidth onClick={() => actions.close()}>
-                Ignore it
+                Remind me later
               </Button>
             </Box>
           </Grid>
