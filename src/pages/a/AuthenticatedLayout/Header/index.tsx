@@ -18,9 +18,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import FolderSpecialIcon from '@mui/icons-material/FolderSpecial'
 import HomeIcon from '@mui/icons-material/Home'
 import MovieIcon from '@mui/icons-material/Movie'
-import SettingsIcon from '@mui/icons-material/Settings'
 import useUser from '../../../../components/hooks/useUser'
-import { QueueProcessorContext } from '../../../../components/QueueProcessor'
 import { GreetingsDialogContext } from '../../../../components/GreetingsDialog'
 
 export default function PrimarySearchAppBar() {
@@ -29,7 +27,6 @@ export default function PrimarySearchAppBar() {
   const location = useLocation()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null)
-  const { actions: queueActions, isProcessing: isQueueProcessing } = useContext(QueueProcessorContext)
   const { actions: greetingsActions } = useContext(GreetingsDialogContext)
 
   const isMenuOpen = Boolean(anchorEl)
@@ -111,7 +108,7 @@ export default function PrimarySearchAppBar() {
     { name: 'my-library', href: '/a/my-library', icon: <HomeIcon />, text: 'My Library' },
     { name: 'stories', href: '/a/stories', icon: <MovieIcon />, text: 'Stories' },
     { name: 'collections', href: '/a/collections', icon: <FolderSpecialIcon />, text: 'Collections' },
-    { name: 'peoplee', href: '/a/peoplee', icon: <PeopleAltIcon />, text: 'People' },
+    { name: 'peoples', href: '/a/peoples', icon: <PeopleAltIcon />, text: 'People' },
     { name: 'places', href: '/a/places', icon: <RoomIcon />, text: 'Places' },
     { name: 'photos', href: '/a/photos', icon: <PhotoCameraIcon />, text: 'Photos' },
     { name: 'files', href: '/a/files', icon: <InsertDriveFileIcon />, text: 'Files' },
@@ -141,19 +138,6 @@ export default function PrimarySearchAppBar() {
             })}
           </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ marginRight: 3 }}>
-            <IconButton onClick={event => queueActions.open(event.currentTarget)} aria-label="delete">
-              <SettingsIcon
-                sx={{
-                  animationPlayState: isQueueProcessing ? 'running' : 'paused',
-                  animationName: 'spin',
-                  animationDuration: '2000ms',
-                  animationIterationCount: 'infinite',
-                  animationTimingFunction: 'linear'
-                }}
-              />
-            </IconButton>
-          </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Avatar
               sx={{

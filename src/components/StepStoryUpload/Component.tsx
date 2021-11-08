@@ -39,7 +39,8 @@ const StepStoryUpload = () => {
     try {
       await queueActions.addProcessor({
         id: Date.now().toString(),
-        type: 'UPLOAD',
+        step: 'UPLOAD',
+        type: 'FILE',
         title: values.title,
         description: values.description,
         file: values.file

@@ -13,28 +13,26 @@ export const QueueProcessorContext = createContext<{
     remove: (id: string) => void
   }
   store: Partial<QueueItem>[]
-  anchor: HTMLElement | null
   isProcessing: boolean
 }>({
   // @ts-ignore
   actions: {},
   store: [],
-  anchor: null,
   isProcessing: false
 })
 
 export const QueueProcessorProvider: React.FC = ({ children }) => {
   const [store, setStore] = useState<Partial<QueueItem>[]>([])
+  const [show, setShow] = useState<boolean>(false)
   const { api } = useContext(ApiContext)
   const { store: processorList } = useContext(SocketConnectorContext)
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
 
   const open = (target: HTMLElement) => {
-    setAnchorEl(target)
+    setShow(true)
   }
 
   const close = () => {
-    setAnchorEl(null)
+    setShow(false)
   }
 
   const remove = useCallback(
@@ -64,7 +62,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
                   return {
                     ...item,
                     progress,
-                    type: progress < 100 ? 'UPLOADING' : 'UPLOADED'
+                    step: progress < 100 ? 'UPLOADING' : 'UPLOADED'
                   }
                 }
                 return {
@@ -81,7 +79,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
                 ...item,
                 id: story.id,
                 progress: undefined,
-                type: 'START FOR PROCESSING'
+                step: 'START FOR PROCESSING'
               }
             }
             return {
@@ -96,7 +94,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
               return {
                 ...item,
                 progress: 0,
-                type: 'ERROR',
+                step: 'ERROR',
                 finished: true
               }
             }
@@ -114,7 +112,8 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
     async (item: Partial<QueueItem> & NonNullable<{ id: string }>) => {
       // @ts-ignore
       setStore([...store, item])
-      if (item.type === 'UPLOAD') {
+      setShow(true)
+      if (item.step === 'UPLOAD') {
         upload({
           id: item.id,
           file: item.file as File,
@@ -134,7 +133,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
         title: object.title,
         finished: object.ready,
         progress: undefined,
-        type: object.ready ? 'FINISHED' : 'PROCESSING'
+        step: object.ready ? 'FINISHED' : 'PROCESSING'
       }
       if (!store.some(item => item.id === processingItem.id)) {
         setStore([...store, processingItem])
@@ -157,7 +156,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
   }, [processorList])
 
   useEffect(() => {
-    const isUploading = store.some(item => item.type === 'UPLOADING' || item.type === 'UPLOADED')
+    const isUploading = store.some(item => item.step === 'UPLOADING' || item.step === 'UPLOADED')
     if (isUploading) {
       window.onbeforeunload = () => 'Are you sure you want to leave?'
     } else {
@@ -173,7 +172,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
           id: item.id,
           title: item.title,
           progress: undefined,
-          type: 'PROCESSING',
+          step: 'PROCESSING',
           finished: false
         }))
       )
@@ -186,11 +185,10 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
       value={{
         actions: { addProcessor, open, close, remove },
         store,
-        anchor: anchorEl,
         isProcessing: store.some(item => !item.finished)
       }}
     >
-      <Component />
+      {show && <Component />}
       {children}
     </QueueProcessorContext.Provider>
   )
