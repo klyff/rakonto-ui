@@ -167,6 +167,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
   useEffect(() => {
     const init = async () => {
       const stories = await api().getProcessingStories()
+      if (stories.length) setShow(true)
       setStore(
         stories.map<QueueItem>(item => ({
           id: item.id,

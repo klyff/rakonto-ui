@@ -25,7 +25,8 @@ const QueueStage: React.FC = () => {
   const [closeDisabled, setCloseDisabled] = useState<boolean>(false)
 
   useEffect(() => {
-    setCloseDisabled(!list.some(item => item.step !== 'FINISHED'))
+    const isAllFinished = list.some(item => item.step !== 'FINISHED')
+    setCloseDisabled(isAllFinished)
   }, [list])
 
   return (

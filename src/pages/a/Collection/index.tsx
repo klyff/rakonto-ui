@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import {
+  CollectionFormType,
   CollectionType,
   FileType,
   GalleryType,
@@ -24,9 +25,13 @@ import { ApiContext } from '../../../lib/api'
 import { parse } from 'qs'
 import MetaTags from 'react-meta-tags'
 import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
+import useUser from '../../../components/hooks/useUser'
+import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 
 const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ match, history, location }) => {
   const { api } = useContext(ApiContext)
+  const { actions: snackActions } = useContext(SimpleSnackbarContext)
+  const user = useUser()
   const { collectionId } = match.params
   const { autoplay, storyId } = parse(location?.search as string, { ignoreQueryPrefix: true })
   const [collection, setCollection] = useState<CollectionType | null>(null)
@@ -47,39 +52,62 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [play, setPlay] = useState<boolean>(!!autoplay)
   const [tab, setTab] = useState<string>('')
+  const [isOwner, setIsOwner] = useState<boolean>(false)
+
+  const computeCollection = (collection: CollectionType) => {
+    const accumulator = collection?.stories?.reduce<{
+      persons: PersonType[]
+      files: FileType[]
+      links: LinkType[]
+      galleryEntries: GalleryType[]
+      timelineEntries: TimelineType[]
+    }>(
+      (acc, story) => {
+        acc.timelineEntries.push(...story.timelineEntries)
+        acc.files.push(...story.files)
+        acc.links.push(...story.links)
+        acc.galleryEntries.push(...story.galleryEntries)
+        acc.persons.push(...story.persons)
+        return acc
+      },
+      {
+        persons: [],
+        files: [],
+        links: [],
+        galleryEntries: [],
+        timelineEntries: []
+      }
+    )
+    setStory(collection.stories.find(story => story.id === storyId) || collection.stories[0])
+    setAccumulator(accumulator)
+    setCollection(collection)
+    setIsLoading(false)
+    if (collection.owner.id === user?.id) {
+      setIsOwner(true)
+    }
+  }
+
+  const updateCollection = async (formData: CollectionFormType) => {
+    try {
+      const result = await api().updateCollection(collectionId, formData)
+      computeCollection(result)
+    } catch (error) {
+      // @ts-ignore
+      const { data } = error
+      if (data.code === '1018') {
+        snackActions.open('This collection cannot be edited!')
+        throw error
+      }
+      snackActions.open('Something was wrong! please try again.')
+      throw error
+    }
+  }
 
   useEffect(() => {
     setIsLoading(true)
     const fetch = async () => {
       const result = await api().getCollection(collectionId)
-
-      const accumulator = result?.stories?.reduce<{
-        persons: PersonType[]
-        files: FileType[]
-        links: LinkType[]
-        galleryEntries: GalleryType[]
-        timelineEntries: TimelineType[]
-      }>(
-        (acc, story) => {
-          acc.timelineEntries.push(...story.timelineEntries)
-          acc.files.push(...story.files)
-          acc.links.push(...story.links)
-          acc.galleryEntries.push(...story.galleryEntries)
-          acc.persons.push(...story.persons)
-          return acc
-        },
-        {
-          persons: [],
-          files: [],
-          links: [],
-          galleryEntries: [],
-          timelineEntries: []
-        }
-      )
-      setStory(result.stories.find(story => story.id === storyId) || result.stories[0])
-      setAccumulator(accumulator)
-      setCollection(result)
-      setIsLoading(false)
+      computeCollection(result)
     }
     fetch()
   }, [])
@@ -172,7 +200,13 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
             <Stories collectionId={collectionId} selectedStory={story.id} playing={play} stories={stories} />
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="about">
-            <About title={title} collectionId={collectionId} description={description} />
+            <About
+              update={updateCollection}
+              canEdit={isOwner}
+              title={title}
+              collectionId={collectionId}
+              description={description}
+            />
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="peoples">
             <Peoples persons={accumulator.persons} />

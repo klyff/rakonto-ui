@@ -50,23 +50,22 @@ const Player: React.FC<iVideoPlayer> = ({
     ]
     return (
       <Box maxHeight={720} height={720}>
-        <VideoJsWrapper handleEnd={handleEnd} preview={gifUrl} options={options} />
+        <VideoJsWrapper key={id} handleEnd={handleEnd} preview={gifUrl} options={options} />
       </Box>
     )
   }
 
   if (type === 'AUDIO') {
     const { id, gifUrl, url, thumbnailUrl } = media as AudioDetails
-
     options.sources = [
       {
         src: url as string,
-        type: 'video/mp3'
+        type: 'audio/mp3'
       }
     ]
     return (
-      <Box maxWidth={1280} maxHeight={720} margin={'0 auto'}>
-        <AudioJsWrapper handleEnd={handleEnd} id={media?.id || ''} options={options} />
+      <Box maxHeight={720} height={720}>
+        <AudioJsWrapper key={id} handleEnd={handleEnd} id={media?.id || ''} options={options} />
       </Box>
     )
   }

@@ -59,8 +59,7 @@ const Cover: React.FC<iCover> = ({ src, onClick, title, description, author }) =
             variant="h5"
             gutterBottom
           >
-            {description ||
-              'Gil, who became one of the greatest scientists of the 19th century, began his career as a chemist. He wrote a manual of practical chemistry that reveals his mastery of the technical'}
+            {description}
           </Typography>
           <Box
             sx={{

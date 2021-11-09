@@ -38,6 +38,7 @@ export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type,
   const playerRef = React.useRef<VideoJsPlayer | null>(null)
 
   useEffect(() => {
+    console.log(options)
     // make sure Video.js player is only initialized once
     if (!playerRef.current) {
       const videoElement = videoRef.current
@@ -61,8 +62,8 @@ export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type,
         handleEnd && player.on('ended', handleEnd)
       }))
     } else {
-      const player = playerRef.current
-      player.options(options)
+      // const player = playerRef.current
+      // player.options(options)
     }
   }, [options])
 
