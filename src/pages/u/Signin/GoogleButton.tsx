@@ -34,7 +34,7 @@ const Component = () => {
   const { returnUrl } = parse(location.search, { ignoreQueryPrefix: true })
   const { actions: snackActions } = React.useContext(SimpleSnackbarContext)
 
-  const callback = async (resp: any) => {
+  const ok = async (resp: any) => {
     try {
       const userInfo = await api().signinGoogle({ token: resp.tokenId })
       Cookies.set('token', userInfo.token)
@@ -49,11 +49,18 @@ const Component = () => {
     }
   }
 
+  const clean = async () => {
+    Cookies.remove('user')
+    Cookies.remove('token')
+  }
+
   return (
     <GoogleLogin
       render={renderProps => <GoogleButton onClick={renderProps.onClick} />}
       clientId={process.env.REACT_APP_GG_APP_ID || ''}
-      onSuccess={callback}
+      onSuccess={ok}
+      onFailure={clean}
+      onRequest={clean}
       cookiePolicy={'single_host_origin'}
     />
   )
