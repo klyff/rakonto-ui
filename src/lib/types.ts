@@ -154,7 +154,6 @@ export type StoryType = {
   timelineEntries: TimelineType[]
   places: PlaceType[]
   subtitles: SubtitleType[]
-  comments: CommentType[]
 }
 
 export type StoryCreateType = {
@@ -163,10 +162,10 @@ export type StoryCreateType = {
 }
 
 export type StoryUpdateType = {
-  title: string
-  description: string
-  coverId: string
-  collections: string[]
+  title?: string
+  description?: string
+  coverId?: string
+  collections?: string[]
 }
 
 export type CollectionType = {
@@ -180,7 +179,7 @@ export type CollectionType = {
 }
 
 export type CollectionFormType = {
-  title: string
+  title?: string
   description?: string
   coverId?: string
 }

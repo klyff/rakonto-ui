@@ -2,25 +2,25 @@ import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
-import Comments from '../../../components/Comments'
+import Comments from '../Comments'
 import IconButton from '@mui/material/IconButton'
 import CreateIcon from '@mui/icons-material/Create'
 import { useFormik } from 'formik'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { aboutSchema } from './schemas'
-import { CollectionFormType } from '../../../lib/types'
+import schema from './schema'
+import { CollectionFormType, StoryUpdateType } from '../../lib/types'
 
 interface iAbout {
   title: string
-  collectionId: string
+  id: string
   description: string
   canEdit: boolean
-  update: (formData: CollectionFormType) => void
+  update: ((formData: StoryUpdateType) => void) | ((formData: CollectionFormType) => void)
 }
 
-const About: React.FC<iAbout> = ({ update, title, collectionId, description, canEdit }) => {
+const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, children }) => {
   const [editMode, setEditMode] = useState<boolean>(false)
   const [hover, setHover] = useState<boolean>(false)
 
@@ -35,7 +35,7 @@ const About: React.FC<iAbout> = ({ update, title, collectionId, description, can
 
   const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit } = useFormik({
     initialValues,
-    validationSchema: aboutSchema,
+    validationSchema: schema,
     onSubmit
   })
 
@@ -134,7 +134,7 @@ const About: React.FC<iAbout> = ({ update, title, collectionId, description, can
           paddingLeft: 1
         }}
       >
-        <Comments type={'collection'} id={collectionId} watchers={[]} />
+        {children}
       </Box>
     </Box>
   )

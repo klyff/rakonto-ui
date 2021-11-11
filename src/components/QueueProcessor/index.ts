@@ -6,7 +6,7 @@ export type QueueItem = {
   description?: string
   file?: File
   type?: MediaType | 'FILE'
-  step: 'PROCESSING' | 'UPLOAD' | 'UPLOADING' | 'START FOR PROCESSING' | 'FINISHED' | 'ERROR' | 'UPLOADED'
+  step: 'PROCESSING' | 'UPLOAD' | 'UPLOADING' | 'START THE CONVERSION PROCESS' | 'FINISHED' | 'ERROR' | 'UPLOADED'
   progress?: number
   finished?: boolean
 }

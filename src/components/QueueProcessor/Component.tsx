@@ -50,7 +50,7 @@ const QueueStage: React.FC = () => {
           alignItems: 'center'
         }}
       >
-        <Typography>{isQueued} stories in uploading or processing queue </Typography>
+        <Typography>{isQueued} Story(ies) uploading and processing </Typography>
         <Box
           sx={{
             flex: '1'

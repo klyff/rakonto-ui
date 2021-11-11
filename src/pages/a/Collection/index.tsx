@@ -7,12 +7,13 @@ import {
   LinkType,
   PersonType,
   StoryType,
-  TimelineType
+  TimelineType,
+  WatcherType
 } from '../../../lib/types'
 import Player from '../../../components/Player'
 import Cover from '../../../components/Cover'
 import Box from '@mui/material/Box'
-import About from './About'
+import About from '../../../components/About'
 import TabPanel from '@mui/lab/TabPanel'
 import Peoples from './Peoples'
 import Timelines from './Timelines'
@@ -27,6 +28,7 @@ import MetaTags from 'react-meta-tags'
 import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
+import Comments from '../../../components/Comments'
 
 const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ match, history, location }) => {
   const { api } = useContext(ApiContext)
@@ -42,25 +44,28 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
     links: LinkType[]
     galleryEntries: GalleryType[]
     timelineEntries: TimelineType[]
+    watchers: WatcherType[]
   }>({
     persons: [],
     files: [],
     links: [],
     galleryEntries: [],
-    timelineEntries: []
+    timelineEntries: [],
+    watchers: []
   })
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [play, setPlay] = useState<boolean>(!!autoplay)
   const [tab, setTab] = useState<string>('')
   const [isOwner, setIsOwner] = useState<boolean>(false)
 
-  const computeCollection = (collection: CollectionType) => {
-    const accumulator = collection?.stories?.reduce<{
+  const computeCollection = (value: CollectionType) => {
+    const acc = value?.stories?.reduce<{
       persons: PersonType[]
       files: FileType[]
       links: LinkType[]
       galleryEntries: GalleryType[]
       timelineEntries: TimelineType[]
+      watchers: WatcherType[]
     }>(
       (acc, story) => {
         acc.timelineEntries.push(...story.timelineEntries)
@@ -68,6 +73,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
         acc.links.push(...story.links)
         acc.galleryEntries.push(...story.galleryEntries)
         acc.persons.push(...story.persons)
+        acc.watchers.push(...story.watchers)
         return acc
       },
       {
@@ -75,14 +81,15 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
         files: [],
         links: [],
         galleryEntries: [],
-        timelineEntries: []
+        timelineEntries: [],
+        watchers: []
       }
     )
-    setStory(collection.stories.find(story => story.id === storyId) || collection.stories[0])
-    setAccumulator(accumulator)
-    setCollection(collection)
+    setStory(value.stories.find(story => story.id === storyId) || value.stories[0])
+    setAccumulator(acc)
+    setCollection(value)
     setIsLoading(false)
-    if (collection.owner.id === user?.id) {
+    if (value.owner.id === user?.id) {
       setIsOwner(true)
     }
   }
@@ -168,6 +175,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               title={title}
               description={description}
               onClick={handlePlay}
+              buttonLabel="View first video"
             />
           )}
         </Box>
@@ -204,9 +212,11 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               update={updateCollection}
               canEdit={isOwner}
               title={title}
-              collectionId={collectionId}
+              id={collectionId}
               description={description}
-            />
+            >
+              <Comments type={'collection'} id={collectionId} watchers={accumulator.watchers} />
+            </About>
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="peoples">
             <Peoples persons={accumulator.persons} />

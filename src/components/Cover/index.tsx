@@ -9,12 +9,13 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 interface iCover {
   src: string
   title: string
+  buttonLabel: string
   description: string
   author?: UserType
   onClick: () => void
 }
 
-const Cover: React.FC<iCover> = ({ src, onClick, title, description, author }) => {
+const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description, author }) => {
   const fullName = `${author?.firstName} ${author?.lastName}`
   return (
     <Box
@@ -69,7 +70,7 @@ const Cover: React.FC<iCover> = ({ src, onClick, title, description, author }) =
             <AuthorAvatar prefix={'By'} fullName={fullName} thumbnail={author?.picture?.thumbnail} />
           </Box>
           <Button onClick={onClick} startIcon={<PlayArrowIcon />} variant="contained">
-            View first video
+            {buttonLabel}
           </Button>
         </Box>
       </Box>

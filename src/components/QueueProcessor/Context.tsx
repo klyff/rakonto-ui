@@ -79,7 +79,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
                 ...item,
                 id: story.id,
                 progress: undefined,
-                step: 'START FOR PROCESSING'
+                step: 'START THE CONVERSION PROCESS'
               }
             }
             return {
