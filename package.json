@@ -10,7 +10,7 @@
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.1",
     "@mui/lab": "^5.0.0-alpha.49",
-    "@mui/material": "^5.0.0",
+    "@mui/material": "^5.0.6",
     "@silvermine/videojs-quality-selector": "^1.2.5",
     "@stomp/stompjs": "^6.1.2",
     "axios": "^0.21.4",

@@ -46,9 +46,9 @@ export type UserType = {
 export type UserFormType = {
   firstName: string
   lastName: string
-  pictureId: string | null
   about: string
-  location: string
+  pictureId?: string | null
+  location?: string
 }
 
 export type AuthType = {

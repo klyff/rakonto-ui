@@ -71,7 +71,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={greetingsActions.open}>Take a tour</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={() => history.push('/a/profile')}>Profile</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   )
@@ -93,9 +93,6 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem href="/a/my-library">
-        <MailIcon>My Libary</MailIcon>
-      </MenuItem>
       <MenuItem href="/a/my-library">
         <MailIcon>My Libary</MailIcon>
       </MenuItem>
