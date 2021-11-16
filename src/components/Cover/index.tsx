@@ -67,7 +67,7 @@ const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description
               paddingBottom: 3
             }}
           >
-            <AuthorAvatar prefix={'By'} fullName={fullName} thumbnail={author?.picture?.thumbnail} />
+            <AuthorAvatar prefix={'By'} fullName={fullName} thumbnail={author?.picture?.url} />
           </Box>
           <Button onClick={onClick} startIcon={<PlayArrowIcon />} variant="contained">
             {buttonLabel}

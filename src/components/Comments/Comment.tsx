@@ -85,7 +85,7 @@ const Comment: React.FC<iComments> = ({ comment, type, editComment, deleteCommen
     <>
       <ListItem key={comment.id} alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt={fullname} src={author?.picture?.thumbnail}>
+          <Avatar alt={fullname} src={author?.picture?.url}>
             {initials(fullname)}
           </Avatar>
         </ListItemAvatar>

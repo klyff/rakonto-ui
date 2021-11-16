@@ -44,9 +44,9 @@ export type UserType = {
 }
 
 export type UserFormType = {
-  firstName: string
-  lastName: string
-  about: string
+  firstName?: string
+  lastName?: string
+  about?: string
   pictureId?: string | null
   location?: string
 }
@@ -187,16 +187,8 @@ export type CollectionFormType = {
 export type ImageType = {
   id: string
   processedAt: Date
-  thumbnail: string
+  url: string
   originalName: string
-  thumbnails: Record<
-    string,
-    {
-      id: string
-      url: string
-      resolution: string
-    }
-  >[]
 }
 
 export type GalleryType = {

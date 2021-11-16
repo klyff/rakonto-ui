@@ -4,7 +4,6 @@ import { ApiContext } from '../../../lib/api'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import useUser from '../../../components/hooks/useUser'
 import { UserFormType } from '../../../lib/types'
-import { FormikHelpers } from 'formik/dist/types'
 import { useFormik } from 'formik'
 import { updateUserSchema } from './schemas'
 import Typography from '@mui/material/Typography'
@@ -13,13 +12,16 @@ import Button from '@mui/material/Button'
 import Cookies from 'js-cookie'
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
 import CreateIcon from '@mui/icons-material/Create'
+import CloseIcon from '@mui/icons-material/Close'
+import { useDropzone, DropEvent, FileRejection } from 'react-dropzone'
 
 const Info: React.FC = () => {
   const { api } = useContext(ApiContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
+  const [progress, setProgress] = useState<number>(0)
   const user = useUser()
 
-  const onSubmit = async (data: UserFormType) => {
+  const updateProfile = async (data: UserFormType) => {
     try {
       const me = await api().updateMe(data)
       snackActions.open('User info updated!')
@@ -35,6 +37,10 @@ const Info: React.FC = () => {
     }
   }
 
+  const onSubmit = async (data: UserFormType) => {
+    updateProfile(data)
+  }
+
   const initialValues: UserFormType = {
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
@@ -46,6 +52,22 @@ const Info: React.FC = () => {
     validationSchema: updateUserSchema,
     onSubmit
   })
+
+  const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
+    async acceptedFiles => {
+      const selectedFile = acceptedFiles[0]
+      const image = await api().uploadImage(selectedFile, event => {
+        setProgress(Math.round((event.loaded * 100) / event.total))
+      })
+      setProgress(0)
+      updateProfile({ firstName: user?.firstName, lastName: user?.lastName, pictureId: image.id })
+    }
+
+  const onRemove = async () => {
+    await updateProfile({ firstName: user?.firstName, lastName: user?.lastName, pictureId: null })
+  }
+
+  const { getRootProps, getInputProps, open } = useDropzone({ onDrop, noClick: true })
 
   return (
     <Box component="form" sx={{ width: '100%', height: '100%', bgcolor: 'background.paper', padding: 2 }}>
@@ -60,6 +82,7 @@ const Info: React.FC = () => {
           }}
         >
           <Box
+            {...getRootProps()}
             sx={{
               height: '120px',
               width: '120px',
@@ -67,19 +90,29 @@ const Info: React.FC = () => {
               border: '1px solid',
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'center'
+              alignItems: 'center',
+              backgroundImage: user?.picture?.url ? `url(${user.picture.url})` : 'none',
+              backgroundSize: 'contain'
             }}
           >
-            <CameraAltIcon sx={{ fontSize: 40 }} />
+            <input {...getInputProps()} />
+            {!user?.picture?.url && <CameraAltIcon sx={{ fontSize: 40 }} />}
           </Box>
           <Box
             sx={{
               paddingLeft: 2
             }}
           >
-            <Button startIcon={<CreateIcon />} variant="outlined">
-              Edit
-            </Button>
+            <div>
+              <Button onClick={open} startIcon={<CreateIcon />} variant="outlined">
+                Edit
+              </Button>
+              {user?.picture?.url && (
+                <Button onClick={onRemove} color="secondary" startIcon={<CloseIcon />}>
+                  Remove
+                </Button>
+              )}
+            </div>
             <Typography sx={{ paddingTop: 1 }} variant="h6">
               JPG or PNG. Max size of 5 MB.
             </Typography>

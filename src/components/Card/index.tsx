@@ -102,7 +102,7 @@ const Card: React.FC<iCard> = ({ preview, title = '', loading, owner, type, thum
         >
           {loading && <Skeleton animation="wave" variant="rectangular" width={24} height={24} />}
 
-          <AuthorAvatar prefix={prefix} fullName={fullName} loading={loading} thumbnail={owner?.picture?.thumbnail} />
+          <AuthorAvatar prefix={prefix} fullName={fullName} loading={loading} thumbnail={owner?.picture?.url} />
         </Box>
       </Box>
     </Box>

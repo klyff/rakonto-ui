@@ -25,7 +25,7 @@ const Comments: React.FC<iComments> = ({ id, watchers, type }) => {
       return {
         id: w.user.id,
         name: `${w.user.firstName} ${w.user.lastName}`,
-        avatar: w.user.picture?.thumbnail
+        avatar: w.user.picture?.url
       }
     })
 

@@ -146,7 +146,7 @@ export default function PrimarySearchAppBar() {
               }}
               onClick={handleProfileMenuOpen}
               alt={user?.fullName}
-              src={user?.picture?.thumbnail}
+              src={user?.picture?.url}
             >
               {user?.initials}
             </Avatar>
