@@ -9,10 +9,10 @@ const Signout: React.FC<RouteProps> = () => {
 
   useEffect(() => {
     const doLogout = async () => {
-      await api().singout()
       Cookies.remove('user')
       Cookies.remove('token')
       history.push('/u/signin')
+      api().singout()
     }
     doLogout()
   }, [])
