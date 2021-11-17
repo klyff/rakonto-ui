@@ -96,7 +96,7 @@ const Comment: React.FC<iComments> = ({ comment, type, editComment, deleteCommen
                 {fullname}
               </Typography>{' '}
               <Typography component="div" variant="caption">
-                {formatDistance(parseJSON(comment.updatedAt), new Date(), { addSuffix: true })}
+                {formatDistance(parseJSON(comment.createdAt), new Date(), { addSuffix: true })}
               </Typography>
             </>
           }
