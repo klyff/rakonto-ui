@@ -18,6 +18,8 @@ const CardImage: React.FC<iCardImage> = ({ type, thumbnail, preview }) => {
   useEffect(() => {
     if (!error && preview) {
       setImage(hover ? preview : thumbnail)
+    } else {
+      setImage(thumbnail)
     }
   }, [hover, error])
 

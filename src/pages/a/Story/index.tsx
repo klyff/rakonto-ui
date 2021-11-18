@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { StoryType, StoryUpdateType } from '../../../lib/types'
+import { ImageType, StoryType, StoryUpdateType } from '../../../lib/types'
 import Player from '../../../components/Player'
 import Box from '@mui/material/Box'
 import About from '../../../components/About'
@@ -90,6 +90,15 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
     setTab(tab)
   }
 
+  const updateCover = async (image: ImageType) => {
+    await updateStory({
+      title,
+      description,
+      coverId: image.id,
+      collections: collections.map(collection => collection.id)
+    })
+  }
+
   return (
     <>
       <MetaTags>
@@ -118,6 +127,8 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
               description={description}
               onClick={handlePlay}
               buttonLabel="View video"
+              canEdit={isOwner}
+              onChange={updateCover}
             />
           )}
         </Box>

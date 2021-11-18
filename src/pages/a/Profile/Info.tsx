@@ -67,7 +67,7 @@ const Info: React.FC = () => {
     await updateProfile({ firstName: user?.firstName, lastName: user?.lastName, pictureId: null })
   }
 
-  const { getRootProps, getInputProps, open } = useDropzone({ onDrop, noClick: true })
+  const { getRootProps, getInputProps, open } = useDropzone({ onDrop, noClick: true, accept: 'image/png, image/jpeg' })
 
   return (
     <Box component="form" sx={{ width: '100%', height: '100%', bgcolor: 'background.paper', padding: 2 }}>

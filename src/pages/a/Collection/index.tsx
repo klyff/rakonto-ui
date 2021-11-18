@@ -4,6 +4,7 @@ import {
   CollectionType,
   FileType,
   GalleryType,
+  ImageType,
   LinkType,
   PersonType,
   StoryType,
@@ -142,6 +143,10 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
     setTab(tab)
   }
 
+  const updateCover = (image: ImageType) => {
+    updateCollection({ description, title, coverId: image.id })
+  }
+
   return (
     <>
       <MetaTags>
@@ -176,6 +181,8 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               description={description}
               onClick={handlePlay}
               buttonLabel="View first video"
+              canEdit={isOwner}
+              onChange={updateCover}
             />
           )}
         </Box>
