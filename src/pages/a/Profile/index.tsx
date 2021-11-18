@@ -76,7 +76,8 @@ const Profile: React.FC<RouteComponentProps> = () => {
         </Box>
         <Box
           sx={{
-            flex: '1'
+            flex: '1',
+            minHeight: '730px'
           }}
         >
           {tab === 'info' && <Info />}
