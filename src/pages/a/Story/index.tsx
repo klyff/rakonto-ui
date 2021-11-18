@@ -33,17 +33,17 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
     setStory(value)
   }
 
+  const fetch = async () => {
+    const result = await api({ errorBoundary: true }).getStory(storyId)
+    computeStory(result)
+    setIsLoading(false)
+    if (result.owner.id === user?.id) {
+      setIsOwner(true)
+    }
+  }
+
   useEffect(() => {
     setIsLoading(true)
-
-    const fetch = async () => {
-      const result = await api({ errorBoundary: true }).getStory(storyId)
-      computeStory(result)
-      setIsLoading(false)
-      if (result.owner.id === user?.id) {
-        setIsOwner(true)
-      }
-    }
     fetch()
   }, [])
 
@@ -55,7 +55,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
       // @ts-ignore
       const { data } = error
       if (data.code === '1018') {
-        snackActions.open('This collection cannot be edited!')
+        snackActions.open('This story cannot be edited!')
         throw error
       }
       snackActions.open('Something was wrong! please try again.')
@@ -91,12 +91,19 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
   }
 
   const updateCover = async (image: ImageType) => {
-    await updateStory({
-      title,
-      description,
-      coverId: image.id,
-      collections: collections.map(collection => collection.id)
-    })
+    try {
+      await api().updateStoryCover(storyId, image.id)
+      fetch()
+    } catch (error) {
+      // @ts-ignore
+      const { data } = error
+      if (data.code === '1018') {
+        snackActions.open('This story cannot be edited!')
+        throw error
+      }
+      snackActions.open('Something was wrong! please try again.')
+      throw error
+    }
   }
 
   return (

@@ -56,6 +56,15 @@ export const updateMe =
       .catch(errorHandler)
   }
 
+export const updateMeCover =
+  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  async (pictureId: string | null): Promise<UserType> => {
+    return await request
+      .post(`a/profile/change-picture`, { pictureId })
+      .then(res => res.data)
+      .catch(errorHandler)
+  }
+
 export const signin =
   (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
   async (data: SigninFormType): Promise<AuthType> => {
@@ -201,6 +210,15 @@ export const updateStory =
   async (id: string, data: Partial<StoryUpdateType>): Promise<StoryType> => {
     return await request
       .put(`a/stories/${id}`, data)
+      .then(res => res.data)
+      .catch(errorHandler)
+  }
+
+export const updateStoryCover =
+  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  async (id: string, coverId: string): Promise<StoryType> => {
+    return await request
+      .post(`a/stories/${id}/change-cover`, { coverId })
       .then(res => res.data)
       .catch(errorHandler)
   }
@@ -637,6 +655,15 @@ export const updateCollection =
   async (id: string, data: CollectionFormType): Promise<CollectionType> => {
     return await request
       .put(`a/collections/${id}`, data)
+      .then(res => res.data)
+      .catch(errorHandler)
+  }
+
+export const updateCollectionCover =
+  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  async (id: string, coverId: string): Promise<CollectionType> => {
+    return await request
+      .post(`a/collections/${id}/change-cover`, { coverId })
       .then(res => res.data)
       .catch(errorHandler)
   }

@@ -60,11 +60,17 @@ const Info: React.FC = () => {
         setProgress(Math.round((event.loaded * 100) / event.total))
       })
       setProgress(0)
-      updateProfile({ firstName: user?.firstName, lastName: user?.lastName, pictureId: image.id })
+      await api().updateMeCover(image.id)
+      const userInfo = await api().getMe()
+      Cookies.set('user', JSON.stringify(userInfo))
+      snackActions.open('User picture updated!')
     }
 
   const onRemove = async () => {
-    await updateProfile({ firstName: user?.firstName, lastName: user?.lastName, pictureId: null })
+    await api().updateMeCover(null)
+    const userInfo = await api().getMe()
+    Cookies.set('user', JSON.stringify(userInfo))
+    snackActions.open('User picture removed!')
   }
 
   const { getRootProps, getInputProps, open } = useDropzone({ onDrop, noClick: true, accept: 'image/png, image/jpeg' })

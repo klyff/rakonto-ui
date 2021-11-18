@@ -111,12 +111,13 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
     }
   }
 
+  const fetch = async () => {
+    const result = await api().getCollection(collectionId)
+    computeCollection(result)
+  }
+
   useEffect(() => {
     setIsLoading(true)
-    const fetch = async () => {
-      const result = await api().getCollection(collectionId)
-      computeCollection(result)
-    }
     fetch()
   }, [])
 
@@ -143,8 +144,20 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
     setTab(tab)
   }
 
-  const updateCover = (image: ImageType) => {
-    updateCollection({ description, title, coverId: image.id })
+  const updateCover = async (image: ImageType) => {
+    try {
+      await api().updateCollectionCover(collectionId, image.id)
+      fetch()
+    } catch (error) {
+      // @ts-ignore
+      const { data } = error
+      if (data.code === '1018') {
+        snackActions.open('This collection cannot be edited!')
+        throw error
+      }
+      snackActions.open('Something was wrong! please try again.')
+      throw error
+    }
   }
 
   return (

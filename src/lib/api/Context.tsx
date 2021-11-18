@@ -10,6 +10,7 @@ import {
   requestPasswordReset,
   getMe,
   updateMe,
+  updateMeCover,
   passwordReset,
   passwordChange,
   signinGoogle,
@@ -20,6 +21,7 @@ import {
   createStory,
   deleteStory,
   updateStory,
+  updateStoryCover,
   getImage,
   getStories,
   getProcessingStories,
@@ -27,6 +29,7 @@ import {
   getCollections,
   getCollection,
   updateCollection,
+  updateCollectionCover,
   createCollection,
   deleteCollection,
   uploadImage,
@@ -116,6 +119,7 @@ export const ApiContext = createContext<{
   api: (opts?: apiOptions) => {
     addWatcher: (data: addWatcherType) => Promise<WatcherType>
     updateStory: (id: string, data: Partial<StoryUpdateType>) => Promise<StoryType>
+    updateStoryCover: (id: string, coverId: string) => Promise<StoryType>
     getGallery: (page: number, size: number) => Promise<Pageable<GalleryType>>
     createGallery: (storyId: string, imageId: string) => Promise<GalleryType>
     singout: () => Promise<void>
@@ -123,6 +127,7 @@ export const ApiContext = createContext<{
     getFile: (id: string) => Promise<FileType>
     createLink: (data: LinkFormType) => Promise<LinkType>
     updateMe: (data: UserFormType) => Promise<UserType>
+    updateMeCover: (pictureId: string | null) => Promise<UserType>
     deleteTranscriptions: (id: string) => Promise<void>
     editComment: (id: string, comment: CommentFormType) => Promise<CommentType>
     signin: (data: SigninFormType) => Promise<AuthType>
@@ -192,6 +197,7 @@ export const ApiContext = createContext<{
     getLink: (id: string) => Promise<LinkType>
     deleteStory: (id: string) => Promise<void>
     updateCollection: (id: string, data: CollectionFormType) => Promise<CollectionType>
+    updateCollectionCover: (id: string, coverId: string) => Promise<CollectionType>
     getTranscriptions: (id: string) => Promise<TranscriptionType>
     getGalleryItem: (id: string) => Promise<GalleryType>
     updatePerson: (id: string, data: PersonFormType) => Promise<PersonType>
@@ -248,6 +254,7 @@ export const ApiProvider: React.FC = ({ children }) => {
       requestPasswordReset: requestPasswordReset(request, handleError(opts)),
       getMe: getMe(request, handleError(opts)),
       updateMe: updateMe(request, handleError(opts)),
+      updateMeCover: updateMeCover(request, handleError(opts)),
       passwordReset: passwordReset(request, handleError(opts)),
       passwordChange: passwordChange(request, handleError(opts)),
       signin: signin(request, handleError(opts)),
@@ -261,12 +268,14 @@ export const ApiProvider: React.FC = ({ children }) => {
       getStory: getStory(request, handleError(opts)),
       createStory: createStory(request, handleError(opts)),
       updateStory: updateStory(request, handleError(opts)),
+      updateStoryCover: updateStoryCover(request, handleError(opts)),
       publishStory: publishStory(request, handleError(opts)),
       uploadImage: uploadImage(request, handleError(opts)),
       getImage: getImage(request, handleError(opts)),
       getCollections: getCollections(request, handleError(opts)),
       getCollection: getCollection(request, handleError(opts)),
       updateCollection: updateCollection(request, handleError(opts)),
+      updateCollectionCover: updateCollectionCover(request, handleError(opts)),
       createCollection: createCollection(request, handleError(opts)),
       deleteCollection: deleteCollection(request, handleError(opts)),
       getPersons: getPersons(request, handleError(opts)),
