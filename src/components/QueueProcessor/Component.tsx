@@ -21,12 +21,13 @@ import Collapse from '@mui/material/Collapse'
 const QueueStage: React.FC = () => {
   const { store: list, actions } = useContext(QueueProcessorContext)
   const [open, setOpen] = useState<boolean>(false)
-  const [isQueued] = useState<number>(list.filter(item => item.step !== 'FINISHED').length)
+  const [isQueued, setQueued] = useState<number>(0)
   const [closeDisabled, setCloseDisabled] = useState<boolean>(false)
 
   useEffect(() => {
     const isAllFinished = list.some(item => item.step !== 'FINISHED')
     setCloseDisabled(isAllFinished)
+    setQueued(list.filter(item => item.step !== 'FINISHED').length)
   }, [list])
 
   return (

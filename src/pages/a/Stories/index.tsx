@@ -8,8 +8,12 @@ import StoryCard from '../../../components/StoryCard'
 import Typography from '@mui/material/Typography'
 import { ApiContext } from '../../../lib/api'
 import { RouteComponentProps } from 'react-router-dom'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
 
 const Stories: React.FC<RouteComponentProps> = () => {
+  const { actions: newStoryActions } = useContext(StepStoryUploadContext)
   const { api } = useContext(ApiContext)
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<StoryType>({
     size: 15,
@@ -34,6 +38,19 @@ const Stories: React.FC<RouteComponentProps> = () => {
     >
       <Grid item xs={12}>
         <Typography variant="h6">Stories</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <Box sx={{ flex: '1' }} />
+          <Button variant="outlined" onClick={() => newStoryActions.open()}>
+            New story
+          </Button>
+        </Box>
       </Grid>
       <Grid item xs={12}>
         <Grid container>

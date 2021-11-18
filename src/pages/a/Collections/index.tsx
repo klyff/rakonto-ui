@@ -8,6 +8,8 @@ import CollectionCard from '../../../components/CollectionCard'
 import Typography from '@mui/material/Typography'
 import { RouteComponentProps } from 'react-router-dom'
 import { ApiContext } from '../../../lib/api'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 
 const Collections: React.FC<RouteComponentProps> = () => {
   const { api } = useContext(ApiContext)
@@ -34,6 +36,19 @@ const Collections: React.FC<RouteComponentProps> = () => {
     >
       <Grid item xs={12}>
         <Typography variant="h6">Collections</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <Box sx={{ flex: '1' }} />
+          <Button variant="outlined" onClick={() => alert('open collection modal')}>
+            New collection
+          </Button>
+        </Box>
       </Grid>
       <Grid item xs={12}>
         <Grid container>
