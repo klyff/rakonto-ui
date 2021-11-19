@@ -93,7 +93,7 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem href="/a/my-library">
+      <MenuItem onClick={() => history.push('/a/my-library')}>
         <MailIcon>My Libary</MailIcon>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
@@ -116,7 +116,9 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <img width={135} height={40} src={'/images/logo-withe.svg'} alt="rakonto" />
+          <a href="/">
+            <img width={135} height={40} src={'/images/logo-withe.svg'} alt="rakonto" />
+          </a>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, paddingLeft: 8 }}>
             {menuOptions.map(({ href, text, icon, name }, index) => {
               const isSelected = location.pathname.startsWith(href)
@@ -125,7 +127,7 @@ export default function PrimarySearchAppBar() {
                   key={index}
                   color={isSelected ? 'primary' : 'inherit'}
                   variant={isSelected ? 'contained' : undefined}
-                  href={href}
+                  onClick={() => history.push(href)}
                   startIcon={icon}
                   size="large"
                 >

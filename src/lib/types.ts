@@ -186,8 +186,8 @@ export type CollectionFormType = {
 
 export type ImageType = {
   id: string
-  processedAt: Date
   url: string
+  thumbnailUrl: string
   originalName: string
 }
 
@@ -301,7 +301,6 @@ export type CommentType = {
   author: UserType
   body: string
   mentions: UserType[]
-  createdAt: Date
   updatedAt: Date
 }
 
