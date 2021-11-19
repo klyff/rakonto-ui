@@ -54,7 +54,8 @@ const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description
         width: '100%',
         height: 720,
         backgroundImage: `url(${src})`,
-        backgroundSize: 'cover',
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
       }}
     >
