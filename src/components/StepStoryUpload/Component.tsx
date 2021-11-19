@@ -167,7 +167,7 @@ const StepStoryUpload = () => {
           {activeStep === 2 && (
             <Box sx={{ width: '100%' }}>
               <Typography align="center" variant="body2" fontWeight="400" marginBottom={3} gutterBottom>
-                Now the time has come! You can record a video or audio. If you have recorded content, upload it.
+                You`re all set! You can now upload or record your story (audio or video).
               </Typography>
               <Box
                 sx={{

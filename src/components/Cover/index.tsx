@@ -64,7 +64,7 @@ const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description
           position: 'absolute',
           width: '100%',
           height: '100%',
-          backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.75) 45%, transparent 100%);`
+          backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.90) 35%, transparent 100%);`
         }}
       >
         <input {...getInputProps()} />
