@@ -16,7 +16,7 @@ import Cover from '../../../components/Cover'
 import Box from '@mui/material/Box'
 import About from '../../../components/About'
 import TabPanel from '@mui/lab/TabPanel'
-import Peoples from './Peoples'
+import People from './People'
 import Timelines from './Timelines'
 import Stories from './Stories'
 import TabContext from '@mui/lab/TabContext'
@@ -217,7 +217,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
           >
             <Tab label="Stories" value="stories" onClick={() => onTabClick('stories')} />
             <Tab label="About" value="about" onClick={() => onTabClick('about')} />
-            <Tab label="Peoples" value="peoples" onClick={() => onTabClick('peoples')} />
+            <Tab label="People" value="people" onClick={() => onTabClick('people')} />
             <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
             <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
             <Tab label="Photos" value="photos" onClick={() => onTabClick('photos')} />
@@ -238,8 +238,8 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               <Comments type={'collection'} id={collectionId} watchers={accumulator.watchers} />
             </About>
           </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="peoples">
-            <Peoples persons={accumulator.persons} />
+          <TabPanel sx={{ height: '100%' }} value="people">
+            <People persons={accumulator.persons} />
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="timelines">
             <Timelines timelines={accumulator.timelineEntries} />

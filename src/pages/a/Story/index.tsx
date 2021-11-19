@@ -12,7 +12,7 @@ import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import Tab from '@mui/material/Tab'
 import TabPanel from '@mui/lab/TabPanel'
-import Peoples from '../Collection/Peoples'
+import People from '../Collection/People'
 import Timelines from '../Collection/Timelines'
 import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
@@ -156,7 +156,9 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
             }}
           >
             <Tab label="About" value="about" onClick={() => onTabClick('about')} />
-            <Tab label="Peoples" value="peoples" onClick={() => onTabClick('peoples')} />
+            <Tab label="People" value="people" onClick={() => onTabClick('people')} />
+            <Tab label="Transcript" value="transcript" onClick={() => onTabClick('transcript')} />
+            <Tab label="Subtitles" value="subtitles" onClick={() => onTabClick('subtitles')} />
             <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
             <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
             <Tab label="Photos" value="photos" onClick={() => onTabClick('photos')} />
@@ -168,14 +170,20 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
               <Comments type={'story'} id={storyId} watchers={watchers} />
             </About>
           </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="peoples">
-            <Peoples persons={persons} />
+          <TabPanel sx={{ height: '100%' }} value="people">
+            <People persons={persons} />
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="timelines">
             <Timelines timelines={timelineEntries} />
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="places">
             places
+          </TabPanel>
+          <TabPanel sx={{ height: '100%' }} value="transcript">
+            transcript
+          </TabPanel>
+          <TabPanel sx={{ height: '100%' }} value="subtitles">
+            Subtitles
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="photos">
             photos

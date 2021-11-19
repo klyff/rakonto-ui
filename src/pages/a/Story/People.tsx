@@ -1,12 +1,12 @@
 import React from 'react'
 import { PersonType } from '../../../lib/types'
 
-interface iPeoples {
+interface iPeople {
   persons: PersonType[]
 }
 
-const Peoples: React.FC<iPeoples> = ({ persons }) => {
+const People: React.FC<iPeople> = ({ persons }) => {
   return <></>
 }
 
-export default Peoples
+export default People
