@@ -7,15 +7,14 @@ import Card from '../../../components/Card'
 import CollectionCard from '../../../components/CollectionCard'
 import Typography from '@mui/material/Typography'
 import { RouteComponentProps } from 'react-router-dom'
-import { ApiContext } from '../../../lib/api'
+import api from '../../../lib/api'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
 const Collections: React.FC<RouteComponentProps> = () => {
-  const { api } = useContext(ApiContext)
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<CollectionType>({
     size: 15,
-    request: api().getCollections
+    request: api.getCollections
   })
 
   const [sentryRef] = useInfiniteScroll({

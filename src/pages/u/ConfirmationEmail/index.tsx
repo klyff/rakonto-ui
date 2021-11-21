@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { FormikValues } from 'formik'
 import schema from './schema'
-import { ApiContext } from '../../../lib/api'
+import api from '../../../lib/api'
 import { SimpleDialogContext } from '../../../components/SimpleDialog'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import { FormDialogContext } from '../../../components/FormDialog'
@@ -13,14 +13,13 @@ import { RouteComponentProps } from 'react-router-dom'
 import { parse } from 'qs'
 
 const ConfirmationEmail: React.FC<RouteComponentProps> = ({ location, history }) => {
-  const { api } = useContext(ApiContext)
   const { token: confirmationToken } = parse(location?.search as string, { ignoreQueryPrefix: true })
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: formDialogActions } = useContext(FormDialogContext)
   const handleSubmit = async ({ email }: FormikValues) => {
     try {
-      await api().requestConfirmEmail(email)
+      await api.requestConfirmEmail(email)
       dialogActions.open('Confirm email', <>We sent an email to you to confirm your account. Please check this.</>)
       history.push('/u/signin')
     } catch (error) {
@@ -32,7 +31,7 @@ const ConfirmationEmail: React.FC<RouteComponentProps> = ({ location, history })
     if (!confirmationToken) return
     const confirm = async () => {
       try {
-        const userInfo = await api().confirmEmail(confirmationToken as string)
+        const userInfo = await api.confirmEmail(confirmationToken as string)
         Cookies.set('token', userInfo.token)
         Cookies.set('user', JSON.stringify(userInfo.user))
         history.push('/a/my-library')

@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { QueueItem } from './index'
 import Component from './Component'
-import { ApiContext } from '../../lib/api'
+import api from '../../lib/api'
 import { SocketConnectorContext } from '../SocketConnector'
 
 // @ts-ignore
@@ -24,7 +24,7 @@ export const QueueProcessorContext = createContext<{
 export const QueueProcessorProvider: React.FC = ({ children }) => {
   const [store, setStore] = useState<Partial<QueueItem>[]>([])
   const [show, setShow] = useState<boolean>(false)
-  const { api } = useContext(ApiContext)
+
   const { store: processorList } = useContext(SocketConnectorContext)
 
   const open = (target: HTMLElement) => {
@@ -47,7 +47,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
       upload: Partial<QueueItem> & NonNullable<{ id: string; file: File; title: string; description: string }>
     ) => {
       try {
-        const story = await api().createStory(
+        const story = await api.createStory(
           upload.file,
           {
             title: upload.title,
@@ -166,7 +166,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     const init = async () => {
-      const stories = await api().getProcessingStories()
+      const stories = await api.getProcessingStories()
       if (stories.length) setShow(true)
       setStore(
         stories.map<QueueItem>(item => ({

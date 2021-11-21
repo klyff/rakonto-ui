@@ -5,7 +5,7 @@ import { blue } from '@mui/material/colors'
 import FacebookIcon from '@mui/icons-material/Facebook'
 // @ts-ignore
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
-import { ApiContext } from '../../../lib/api'
+import api from '../../../lib/api'
 import Cookies from 'js-cookie'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import { useHistory } from 'react-router-dom'
@@ -26,7 +26,6 @@ FacebookButton.defaultProps = {
 }
 
 const Component = () => {
-  const { api } = useContext(ApiContext)
   const history = useHistory()
   // @ts-ignore
   const { returnUrl } = parse(location.search, { ignoreQueryPrefix: true })
@@ -34,7 +33,7 @@ const Component = () => {
 
   const callback = async (resp: any) => {
     try {
-      const userInfo = await api().signinFacebook({ token: resp.accessToken })
+      const userInfo = await api.signinFacebook({ token: resp.accessToken })
       Cookies.set('token', userInfo.token)
       Cookies.set('user', JSON.stringify(userInfo.user))
       if (returnUrl) {

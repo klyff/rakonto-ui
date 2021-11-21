@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import Box from '@mui/material/Box'
-import { ApiContext } from '../../../lib/api'
+import api from '../../../lib/api'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import useUser from '../../../components/hooks/useUser'
 import { UserFormType } from '../../../lib/types'
@@ -16,14 +16,13 @@ import CloseIcon from '@mui/icons-material/Close'
 import { useDropzone, DropEvent, FileRejection } from 'react-dropzone'
 
 const Info: React.FC = () => {
-  const { api } = useContext(ApiContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [progress, setProgress] = useState<number>(0)
   const user = useUser()
 
   const updateProfile = async (data: UserFormType) => {
     try {
-      const me = await api().updateMe(data)
+      const me = await api.updateMe(data)
       snackActions.open('User info updated!')
       Cookies.set('user', JSON.stringify(me))
     } catch (error) {
@@ -56,19 +55,19 @@ const Info: React.FC = () => {
   const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
       const selectedFile = acceptedFiles[0]
-      const image = await api().uploadImage(selectedFile, event => {
+      const image = await api.uploadImage(selectedFile, event => {
         setProgress(Math.round((event.loaded * 100) / event.total))
       })
       setProgress(0)
-      await api().updateMeCover(image.id)
-      const userInfo = await api().getMe()
+      await api.updateMeCover(image.id)
+      const userInfo = await api.getMe()
       Cookies.set('user', JSON.stringify(userInfo))
       snackActions.open('User picture updated!')
     }
 
   const onRemove = async () => {
-    await api().updateMeCover(null)
-    const userInfo = await api().getMe()
+    await api.updateMeCover(null)
+    const userInfo = await api.getMe()
     Cookies.set('user', JSON.stringify(userInfo))
     snackActions.open('User picture removed!')
   }

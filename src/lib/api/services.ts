@@ -39,151 +39,107 @@ import {
 } from '../types'
 
 // User api
-export const getMe =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) => async (): Promise<UserType> => {
-    return await request
-      .get('a/me')
-      .then(res => res.data)
-      .catch(errorHandler)
-  }
+export const getMe = (request: AxiosInstance) => async (): Promise<UserType> => {
+  return await request.get('a/me').then(res => res.data)
+}
 
 export const updateMe =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: UserFormType): Promise<UserType> => {
-    return await request
-      .put(`a/profile`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.put(`a/profile`, data).then(res => res.data)
   }
 
 export const updateMeCover =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (pictureId: string | null): Promise<UserType> => {
-    return await request
-      .post(`a/profile/change-picture`, { pictureId })
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/profile/change-picture`, { pictureId }).then(res => res.data)
   }
 
 export const signin =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: SigninFormType): Promise<AuthType> => {
-    return await request
-      .post('u/auth/signin', data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post('u/auth/signin', data).then(res => res.data)
   }
 
 export const singup =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: SingupFormType): Promise<AuthType> => {
-    return await request
-      .post('u/auth/signup', data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post('u/auth/signup', data).then(res => res.data)
   }
 
 export const signinGoogle =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: SigninFormGoogle): Promise<AuthType> => {
-    return await request
-      .post('u/auth/google', data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post('u/auth/google', data).then(res => res.data)
   }
 
 export const signinFacebook =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: SigninFormFacebook): Promise<AuthType> => {
-    return await request
-      .post('u/auth/facebook', data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post('u/auth/facebook', data).then(res => res.data)
   }
 
-export const singout = (request: AxiosInstance, errorHandler: (error: unknown) => void) => async (): Promise<void> => {
-  await request
-    .post('a/auth/signout')
-    .then(res => res.data)
-    .catch(errorHandler)
+export const singout = (request: AxiosInstance) => async (): Promise<void> => {
+  await request.post('a/auth/signout').then(res => res.data)
 }
 
 export const confirmEmail =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (token: string): Promise<AuthType> => {
-    return await request
-      .post(`u/confirmation-email/${token}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`u/confirmation-email/${token}`).then(res => res.data)
   }
 
 export const requestConfirmEmail =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (email: string): Promise<void> => {
-    await request.post(`u/confirmation-email`, { email }).catch(errorHandler)
+    await request.post(`u/confirmation-email`, { email })
   }
 
 export const passwordReset =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: PasswordResetForm): Promise<AuthType> => {
     const { token, ...rest } = data
-    return await request
-      .post(`u/password-reset/${token}`, rest)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`u/password-reset/${token}`, rest).then(res => res.data)
   }
 
 export const passwordChange =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: PasswordChangeForm): Promise<AuthType> => {
-    return await request
-      .put(`a/password`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.put(`a/password`, data).then(res => res.data)
   }
 
 export const requestPasswordReset =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (email: string): Promise<void> => {
-    await request.post(`u/password-reset`, { email }).catch(errorHandler)
+    await request.post(`u/password-reset`, { email })
   }
 
 // Story api
 
 export const getStories =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (page: number, size: number): Promise<Pageable<StoryType>> => {
-    return await request
-      .get(`a/stories?page=${page}&size=${size}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/stories?page=${page}&size=${size}`).then(res => res.data)
   }
 
-export const getProcessingStories =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) => async (): Promise<StoryType[]> => {
-    return await request
-      .get(`a/stories/processing`)
-      .then(res => res.data)
-      .catch(errorHandler)
-  }
+export const getProcessingStories = (request: AxiosInstance) => async (): Promise<StoryType[]> => {
+  return await request.get(`a/stories/processing`).then(res => res.data)
+}
 
 export const getStory =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<StoryType> => {
-    return await request
-      .get(`a/stories/${id}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/stories/${id}`).then(res => res.data)
   }
 
 export const deleteStory =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request.delete(`a/stories/${id}`).catch(errorHandler)
+    await request.delete(`a/stories/${id}`)
   }
 
 export const createStory =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (
     file: File,
     data: StoryCreateType,
@@ -202,62 +158,43 @@ export const createStory =
         onUploadProgress: e => progressCallback({ total: e.total, loaded: e.loaded })
       })
       .then(res => res.data)
-      .catch(errorHandler)
   }
 
 export const updateStory =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string, data: Partial<StoryUpdateType>): Promise<StoryType> => {
-    return await request
-      .put(`a/stories/${id}`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.put(`a/stories/${id}`, data).then(res => res.data)
   }
 
 export const updateStoryCover =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string, coverId: string): Promise<StoryType> => {
-    return await request
-      .post(`a/stories/${id}/change-cover`, { coverId })
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/stories/${id}/change-cover`, { coverId }).then(res => res.data)
   }
 
 export const addPersonToStory =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string, personId: string): Promise<void> => {
-    return await request
-      .post(`a/stories/${id}/add-person`, { personId })
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/stories/${id}/add-person`, { personId }).then(res => res.data)
   }
 
 export const removePersonFromStory =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string, personId: string): Promise<void> => {
-    return await request
-      .post(`a/stories/${id}/remove-person`, { personId })
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/stories/${id}/remove-person`, { personId }).then(res => res.data)
   }
 
 export const publishStory =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string, publish: boolean): Promise<void> => {
     return publish
-      ? await request
-          .post(`a/stories/${id}/publish`)
-          .then(res => res.data)
-          .catch(errorHandler)
-      : await request
-          .post(`a/stories/${id}/draft`)
-          .then(res => res.data)
-          .catch(errorHandler)
+      ? await request.post(`a/stories/${id}/publish`).then(res => res.data)
+      : await request.post(`a/stories/${id}/draft`).then(res => res.data)
   }
 
 // Image api
 export const uploadImage =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (file: File, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<ImageType> => {
     const data = new FormData()
     data.append('file', file)
@@ -266,21 +203,17 @@ export const uploadImage =
         onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
       })
       .then(res => res.data)
-      .catch(errorHandler)
   }
 
 export const getImage =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<ImageType> => {
-    return await request
-      .get(`a/images/${id}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/images/${id}`).then(res => res.data)
   }
 
 // File api
 export const uploadFile =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (
     storyId: string,
     file: File,
@@ -294,141 +227,104 @@ export const uploadFile =
         onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
       })
       .then(res => res.data)
-      .catch(errorHandler)
   }
 
 export const getFiles =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (page: number, size: number): Promise<Pageable<FileType>> => {
-    return await request
-      .get(`a/files?page=${page}&size=${size}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/files?page=${page}&size=${size}`).then(res => res.data)
   }
 
 export const getFile =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<FileType> => {
-    return await request
-      .get(`a/files/${id}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/files/${id}`).then(res => res.data)
   }
 
 export const deleteFile =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request.delete(`a/files/${id}`).catch(errorHandler)
+    await request.delete(`a/files/${id}`)
   }
 
 // Person api
 export const getPersons =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (page: number, size: number, q?: string): Promise<Pageable<PersonType>> => {
-    return await request
-      .get(`a/persons?page=${page}&size=${size}${q ? `&name=${q}` : ''}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/persons?page=${page}&size=${size}${q ? `&name=${q}` : ''}`).then(res => res.data)
   }
 
 export const createPerson =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: PersonFormType): Promise<PersonType> => {
-    return await request
-      .post(`a/persons`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/persons`, data).then(res => res.data)
   }
 
 export const updatePerson =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string, data: PersonFormType): Promise<PersonType> => {
-    return await request
-      .put(`a/persons/${id}`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.put(`a/persons/${id}`, data).then(res => res.data)
   }
 
 // Link api
 export const getLink =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<LinkType> => {
-    return await request
-      .get(`a/links/${id}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/links/${id}`).then(res => res.data)
   }
 
 export const createLink =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: LinkFormType): Promise<LinkType> => {
-    return await request
-      .post(`a/links`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/links`, data).then(res => res.data)
   }
 
 export const deleteLink =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request.delete(`a/links/${id}`).catch(errorHandler)
+    await request.delete(`a/links/${id}`)
   }
 
 // Transcipt api
 export const getTranscriptions =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<TranscriptionType> => {
-    return await request
-      .get(`a/transcriptions/${id}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/transcriptions/${id}`).then(res => res.data)
   }
 
 export const updateTranscriptions =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string, data: TranscriptionFormType): Promise<TranscriptionType> => {
-    return await request
-      .put(`a/transcriptions/${id}`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.put(`a/transcriptions/${id}`, data).then(res => res.data)
   }
 
 export const createTranscriptions =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: TranscriptionFormType): Promise<TranscriptionType> => {
-    return await request
-      .post(`a/transcriptions`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/transcriptions`, data).then(res => res.data)
   }
 
 export const deleteTranscriptions =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request.delete(`a/transcriptions/${id}`).catch(errorHandler)
+    await request.delete(`a/transcriptions/${id}`)
   }
 
 // Gallery api
 export const getGallery =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (page: number, size: number): Promise<Pageable<GalleryType>> => {
-    return await request
-      .get(`a/gallery-entries?page=${page}&size=${size}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/gallery-entries?page=${page}&size=${size}`).then(res => res.data)
   }
 
 export const getGalleryItem =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<GalleryType> => {
-    return await request
-      .get(`a/gallery-entries/${id}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/gallery-entries/${id}`).then(res => res.data)
   }
 
 export const createGallery =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (storyId: string, imageId: string): Promise<GalleryType> => {
     return await request
       .post(`a/gallery-entries`, {
@@ -436,37 +332,30 @@ export const createGallery =
         imageId
       })
       .then(res => res.data)
-      .catch(errorHandler)
   }
 
 export const deleteGallery =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request.delete(`a/gallery-entries/${id}`).catch(errorHandler)
+    await request.delete(`a/gallery-entries/${id}`)
   }
 
 // Timeline api
 
 export const getTimelines =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (page: number, size: number): Promise<Pageable<TimelineType>> => {
-    return await request
-      .get(`a/timeline-entries?page=${page}&size=${size}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/timeline-entries?page=${page}&size=${size}`).then(res => res.data)
   }
 
 export const getTimeline =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<TimelineType> => {
-    return await request
-      .get(`a/timeline-entries/${id}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/timeline-entries/${id}`).then(res => res.data)
   }
 
 export const createTimeline =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: TimelineFormType): Promise<TimelineType> => {
     return await request
       .post(`a/timeline-entries`, {
@@ -474,55 +363,42 @@ export const createTimeline =
         at: new Date(data.at).toJSON()
       })
       .then(res => res.data)
-      .catch(errorHandler)
   }
 
 export const deleteTimeline =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request
-      .delete(`a/timeline-entries/${id}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    await request.delete(`a/timeline-entries/${id}`).then(res => res.data)
   }
 
 // Places api
 export const getPlaces =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (page: number, size: number): Promise<Pageable<PlaceType>> => {
-    return await request
-      .get(`a/places?page=${page}&size=${size}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/places?page=${page}&size=${size}`).then(res => res.data)
   }
 
 export const createPlace =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: PlaceFormType): Promise<PlaceType> => {
-    return await request
-      .post(`a/places`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/places`, data).then(res => res.data)
   }
 
 export const deletePlace =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request.delete(`a/places/${id}`).catch(errorHandler)
+    await request.delete(`a/places/${id}`)
   }
 
 export const searchLocation =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (address: string): Promise<LocationSearchType[]> => {
-    return await request
-      .get(`a/geomap/search?format=json&q=${address}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/geomap/search?format=json&q=${address}`).then(res => res.data)
   }
 
 // Subtitile api
 export const uploadSubtitle =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (
     storyId: string,
     language: LanguageEnum,
@@ -538,147 +414,107 @@ export const uploadSubtitle =
         onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
       })
       .then(res => res.data)
-      .catch(errorHandler)
   }
 
 export const deleteSubtitle =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request
-      .delete(`a/subtitles/${id}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    await request.delete(`a/subtitles/${id}`).then(res => res.data)
   }
 
 // Watcher api
 
 export const addWatcher =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: addWatcherType): Promise<WatcherType> => {
-    return await request
-      .post(`a/watchers`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/watchers`, data).then(res => res.data)
   }
 
 export const removeWatcher =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request.delete(`a/watchers/${id}`).catch(errorHandler)
+    await request.delete(`a/watchers/${id}`)
   }
 
 export const notifyWatcher =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request
-      .post(`a/watchers/${id}/notify`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    await request.post(`a/watchers/${id}/notify`).then(res => res.data)
   }
 
 // Search api
 export const search =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (page: number, size: number, q?: string): Promise<Pageable<StoryType>> => {
-    return await request
-      .get(`a/search?q=${q || ''}&page=${page}&size=${size}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/search?q=${q || ''}&page=${page}&size=${size}`).then(res => res.data)
   }
 
 export const searchSuggestions =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (query: string): Promise<{ suggestions: string[] }> => {
-    return await request
-      .get(`a/search/suggestions?q=${query || ''}&page=${0}&size=${10}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/search/suggestions?q=${query || ''}&page=${0}&size=${10}`).then(res => res.data)
   }
 
 // Comments api
 
 export const getComments =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (commentId: string, type: CommentTypes): Promise<Pageable<CommentType>> => {
-    return await request
-      .get(`a/comments?commentableId=${commentId}&commentableType=${type}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/comments?commentableId=${commentId}&commentableType=${type}`).then(res => res.data)
   }
 
 export const createComment =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (comment: CommentFormType): Promise<CommentType> => {
-    return await request
-      .post(`a/comments`, comment)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/comments`, comment).then(res => res.data)
   }
 
 export const editComment =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string, comment: CommentFormType): Promise<CommentType> => {
-    return await request
-      .put(`a/comments/${id}`, comment)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.put(`a/comments/${id}`, comment).then(res => res.data)
   }
 
 export const deleteComment =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request.delete(`a/comments/${id}`).catch(errorHandler)
+    await request.delete(`a/comments/${id}`)
   }
 
 // Collection api
 
 export const getCollections =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (page: number, size: number): Promise<Pageable<CollectionType>> => {
-    return await request
-      .get(`a/collections?page=${page}&size=${size}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/collections?page=${page}&size=${size}`).then(res => res.data)
   }
 
 export const getCollection =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<CollectionType> => {
-    return await request
-      .get(`a/collections/${id}`)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.get(`a/collections/${id}`).then(res => res.data)
   }
 
 export const updateCollection =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string, data: CollectionFormType): Promise<CollectionType> => {
-    return await request
-      .put(`a/collections/${id}`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.put(`a/collections/${id}`, data).then(res => res.data)
   }
 
 export const updateCollectionCover =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string, coverId: string): Promise<CollectionType> => {
-    return await request
-      .post(`a/collections/${id}/change-cover`, { coverId })
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/collections/${id}/change-cover`, { coverId }).then(res => res.data)
   }
 
 export const createCollection =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (data: CollectionFormType): Promise<CollectionType> => {
-    return await request
-      .post(`a/collections`, data)
-      .then(res => res.data)
-      .catch(errorHandler)
+    return await request.post(`a/collections`, data).then(res => res.data)
   }
 
 export const deleteCollection =
-  (request: AxiosInstance, errorHandler: (error: unknown) => void) =>
+  (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
-    await request.delete(`a/collections/${id}`).catch(errorHandler)
+    await request.delete(`a/collections/${id}`)
   }

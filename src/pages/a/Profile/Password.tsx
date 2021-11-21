@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { ApiContext } from '../../../lib/api'
+import api from '../../../lib/api'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import { PasswordChangeForm } from '../../../lib/types'
 import { useFormik } from 'formik'
@@ -15,7 +15,6 @@ import IconButton from '@mui/material/IconButton'
 import { FormikHelpers } from 'formik/dist/types'
 
 const Password: React.FC = () => {
-  const { api } = useContext(ApiContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [showPassword, setShowPassword] = useState<{ password: boolean; newPassword: boolean; confirmation: boolean }>({
     password: false,
@@ -32,7 +31,7 @@ const Password: React.FC = () => {
 
   const onSubmit = async (data: PasswordChangeForm, helpers: FormikHelpers<PasswordChangeForm>) => {
     try {
-      await api().passwordChange(data)
+      await api.passwordChange(data)
       snackActions.open('Password updated!')
       helpers.resetForm()
     } catch (error) {

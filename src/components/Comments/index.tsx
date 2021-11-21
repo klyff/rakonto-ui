@@ -31,7 +31,6 @@ const Comments: React.FC<iComments> = ({ id, watchers, type }) => {
 
   return (
     <Box
-      component={Paper}
       sx={{
         width: '100%',
         padding: 3,

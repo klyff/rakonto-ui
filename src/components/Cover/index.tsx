@@ -5,10 +5,6 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import AuthorAvatar from '../AuthorAvatar'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
-import IconButton from '@mui/material/IconButton'
-import CreateIcon from '@mui/icons-material/Create'
-import { ApiContext } from '../../lib/api'
-import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 
 interface iCover {
   src: string
@@ -17,38 +13,13 @@ interface iCover {
   description: string
   author?: UserType
   onClick: () => void
-  onChange?: (image: ImageType) => void
-  canEdit: boolean
 }
 
-const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description, author, canEdit, onChange }) => {
-  const { api } = useContext(ApiContext)
-  const [hover, setHover] = useState<boolean>(false)
-  const [progress, setProgress] = useState<number>(0)
-
-  const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
-    async acceptedFiles => {
-      const selectedFile = acceptedFiles[0]
-      const image = await api().uploadImage(selectedFile, event => {
-        setProgress(Math.round((event.loaded * 100) / event.total))
-      })
-      setProgress(0)
-      onChange && onChange(image)
-    }
-
-  const { getRootProps, getInputProps, open } = useDropzone({
-    onDrop,
-    noClick: true,
-    noDrag: true,
-    accept: 'image/png, image/jpeg'
-  })
-
+const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description, author }) => {
   const fullName = `${author?.firstName} ${author?.lastName}`
 
   return (
     <Box
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
       sx={{
         position: 'relative',
         width: '100%',
@@ -60,7 +31,6 @@ const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description
       }}
     >
       <Box
-        {...getRootProps()}
         sx={{
           position: 'absolute',
           width: '100%',
@@ -68,20 +38,6 @@ const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description
           backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.90) 35%, transparent 100%);`
         }}
       >
-        <input {...getInputProps()} />
-        {hover && (
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 32,
-              right: 32
-            }}
-          >
-            <IconButton onClick={open}>
-              <CreateIcon />
-            </IconButton>
-          </Box>
-        )}
         <Box
           sx={{
             width: '100%',

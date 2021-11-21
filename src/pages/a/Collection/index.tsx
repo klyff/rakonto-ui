@@ -23,7 +23,7 @@ import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import Tab from '@mui/material/Tab'
 import { Redirect, RouteComponentProps } from 'react-router-dom'
-import { ApiContext } from '../../../lib/api'
+import api from '../../../lib/api'
 import { parse } from 'qs'
 import MetaTags from 'react-meta-tags'
 import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
@@ -32,7 +32,6 @@ import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
 
 const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ match, history, location }) => {
-  const { api } = useContext(ApiContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const user = useUser()
   const { collectionId } = match.params
@@ -97,7 +96,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
 
   const updateCollection = async (formData: CollectionFormType) => {
     try {
-      const result = await api().updateCollection(collectionId, formData)
+      const result = await api.updateCollection(collectionId, formData)
       computeCollection(result)
     } catch (error) {
       // @ts-ignore
@@ -112,7 +111,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
   }
 
   const fetch = async () => {
-    const result = await api().getCollection(collectionId)
+    const result = await api.getCollection(collectionId)
     computeCollection(result)
   }
 
@@ -146,7 +145,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
 
   const updateCover = async (image: ImageType) => {
     try {
-      await api().updateCollectionCover(collectionId, image.id)
+      await api.updateCollectionCover(collectionId, image.id)
       fetch()
     } catch (error) {
       // @ts-ignore
@@ -194,8 +193,6 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               description={description}
               onClick={handlePlay}
               buttonLabel="View first video"
-              canEdit={isOwner}
-              onChange={updateCover}
             />
           )}
         </Box>
@@ -234,6 +231,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               title={title}
               id={collectionId}
               description={description}
+              onChange={updateCover}
             >
               <Comments type={'collection'} id={collectionId} watchers={accumulator.watchers} />
             </About>

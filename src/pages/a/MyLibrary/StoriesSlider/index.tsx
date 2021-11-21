@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Grid from '@mui/material/Grid'
-import { ApiContext } from '../../../../lib/api'
+import api from '../../../../lib/api'
 import { StoryType } from '../../../../lib/types'
 import useInfiniteScroll from '../../../../components/hooks/useInfiniteScrool'
 import { usePageableRequest } from '../../../../components/hooks/usePageableRequest'
@@ -9,11 +9,10 @@ import StoryCard from '../../../../components/StoryCard'
 import { useHistory } from 'react-router-dom'
 
 const StoriesSliderTile: React.FC = () => {
-  const { api } = useContext(ApiContext)
   const history = useHistory()
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<StoryType>({
     size: 15,
-    request: api().getStories
+    request: api.getStories
   })
 
   // @ts-ignore

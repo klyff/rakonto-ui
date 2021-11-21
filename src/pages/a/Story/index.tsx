@@ -3,7 +3,7 @@ import { ImageType, StoryType, StoryUpdateType } from '../../../lib/types'
 import Player from '../../../components/Player'
 import Box from '@mui/material/Box'
 import About from '../../../components/About'
-import { ApiContext } from '../../../lib/api'
+import api from '../../../lib/api'
 import MetaTags from 'react-meta-tags'
 import { RouteComponentProps } from 'react-router-dom'
 import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
@@ -19,7 +19,6 @@ import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
 
 const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) => {
-  const { api } = useContext(ApiContext)
   const user = useUser()
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { storyId } = match.params
@@ -34,7 +33,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
   }
 
   const fetch = async () => {
-    const result = await api({ errorBoundary: true }).getStory(storyId)
+    const result = await api.getStory(storyId)
     computeStory(result)
     setIsLoading(false)
     if (result.owner.id === user?.id) {
@@ -49,7 +48,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
 
   const updateStory = async (formData: StoryUpdateType) => {
     try {
-      const result = await api().updateStory(storyId, formData)
+      const result = await api.updateStory(storyId, formData)
       computeStory(result)
     } catch (error) {
       // @ts-ignore
@@ -92,7 +91,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
 
   const updateCover = async (image: ImageType) => {
     try {
-      await api().updateStoryCover(storyId, image.id)
+      await api.updateStoryCover(storyId, image.id)
       fetch()
     } catch (error) {
       // @ts-ignore
@@ -134,8 +133,6 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
               description={description}
               onClick={handlePlay}
               buttonLabel="View video"
-              canEdit={isOwner}
-              onChange={updateCover}
             />
           )}
         </Box>
@@ -166,7 +163,14 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
             <Tab label="Links" value="links" onClick={() => onTabClick('links')} />
           </Box>
           <TabPanel sx={{ height: '100%' }} value="about">
-            <About update={updateStory} canEdit={isOwner} title={title} id={storyId} description={description}>
+            <About
+              update={updateStory}
+              canEdit={isOwner}
+              title={title}
+              id={storyId}
+              description={description}
+              onChange={updateCover}
+            >
               <Comments type={'story'} id={storyId} watchers={watchers} />
             </About>
           </TabPanel>

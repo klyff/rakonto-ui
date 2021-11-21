@@ -8,17 +8,16 @@ import { SingupFormType } from '../../../lib/types'
 import { SimpleDialogContext } from '../../../components/SimpleDialog'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Divider from '@mui/material/Divider'
-import { ApiContext } from '../../../lib/api'
+import api from '../../../lib/api'
 import { RouteComponentProps } from 'react-router-dom'
 
 const Signup: React.FC<RouteComponentProps> = ({ history }) => {
-  const { api } = useContext(ApiContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
   const handleSubmit = async ({ email, firstName, lastName, password, confirmation }: SingupFormType) => {
     try {
-      await api().singup({ email, firstName, lastName, password, confirmation })
+      await api.singup({ email, firstName, lastName, password, confirmation })
       history.push('/u/signin')
       dialogActions.open('Confirm email', 'We sent an email to you to confirm your account. Please check this.', {
         cancelText: 'Close'

@@ -6,7 +6,7 @@ import { usePageableRequest } from '../../../components/hooks/usePageableRequest
 import Card from '../../../components/Card'
 import StoryCard from '../../../components/StoryCard'
 import Typography from '@mui/material/Typography'
-import { ApiContext } from '../../../lib/api'
+import api from '../../../lib/api'
 import { RouteComponentProps } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -14,10 +14,10 @@ import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
 
 const Stories: React.FC<RouteComponentProps> = () => {
   const { actions: newStoryActions } = useContext(StepStoryUploadContext)
-  const { api } = useContext(ApiContext)
+
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<StoryType>({
     size: 15,
-    request: api().getStories
+    request: api.getStories
   })
 
   const [sentryRef] = useInfiniteScroll({
