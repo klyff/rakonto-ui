@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from 'react'
 import api from '../../lib/api'
-import { CommentFormType, CommentType, CommentTypes } from '../../lib/types'
+import { CommentFormType, CommentType, AssetTypes } from '../../lib/types'
 
 export const useCommentApi = (
   commentId: string,
-  type: CommentTypes
+  type: AssetTypes
 ): {
   comments: CommentType[]
   isLoading: boolean

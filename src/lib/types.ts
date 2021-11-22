@@ -289,11 +289,14 @@ export type PlaceFormType = {
 }
 
 export type addWatcherType = {
-  storyId: string
+  id: string
   email: string
 }
 
-export type CommentTypes = 'collection' | 'story'
+export enum AssetTypes {
+  'collection' = 'collection',
+  'story' = 'story'
+}
 
 export type CommentType = {
   id: string

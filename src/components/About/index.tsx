@@ -13,11 +13,12 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import LoadingButton from '@mui/lab/LoadingButton'
-import schema from './schema'
-import { CollectionFormType, ImageType, StoryUpdateType } from '../../lib/types'
+import { editTitleDescriptionSchema } from './schemas'
+import { AssetTypes, CollectionFormType, ImageType, StoryUpdateType } from '../../lib/types'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 import api from '../../lib/api'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
+import Share from './Share'
 
 interface iAbout {
   title: string
@@ -26,12 +27,14 @@ interface iAbout {
   canEdit: boolean
   update: ((formData: StoryUpdateType) => void) | ((formData: CollectionFormType) => void)
   onChange?: (image: ImageType) => void
+  type: AssetTypes
 }
 
-const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, children, onChange }) => {
+const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, children, onChange, type }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [editMode, setEditMode] = useState<boolean>(false)
   const [progress, setProgress] = useState<number>(0)
+  const [showShare, setShowShare] = useState<boolean>(false)
   const initialValues = { title: title, description: description }
 
   const onSubmit = async (values: { title: string; description: string }) => {
@@ -43,7 +46,7 @@ const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, chil
 
   const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit } = useFormik({
     initialValues,
-    validationSchema: schema,
+    validationSchema: editTitleDescriptionSchema,
     onSubmit
   })
 
@@ -85,32 +88,35 @@ const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, chil
       }}
     >
       {canEdit && (
-        <Box
-          sx={{
-            width: '100%',
-            padding: '0 24px'
-          }}
-          component={Paper}
-        >
-          <Stack direction="row" {...getRootProps()}>
-            <input {...getInputProps()} />
-            <LoadingButton
-              loadingPosition="start"
-              loading={!!progress}
-              onClick={openUpload}
-              color="secondary"
-              startIcon={<ImageIcon />}
-            >
-              Thumbnail
-            </LoadingButton>
-            <Button color="secondary" startIcon={<ShareIcon />}>
-              Share
-            </Button>
-            <Button color="secondary" startIcon={<DeleteIcon />}>
-              Delete
-            </Button>
-          </Stack>
-        </Box>
+        <>
+          {showShare && <Share id={id} type={type} published={true} onCloseClick={() => setShowShare(false)} />}
+          <Box
+            sx={{
+              width: '100%',
+              padding: '0 24px'
+            }}
+            component={Paper}
+          >
+            <Stack direction="row" {...getRootProps()}>
+              <input {...getInputProps()} />
+              <LoadingButton
+                loadingPosition="start"
+                loading={!!progress}
+                onClick={openUpload}
+                color="secondary"
+                startIcon={<ImageIcon />}
+              >
+                Thumbnail
+              </LoadingButton>
+              <Button color="secondary" onClick={() => setShowShare(true)} startIcon={<ShareIcon />}>
+                Share
+              </Button>
+              <Button color="secondary" startIcon={<DeleteIcon />}>
+                Delete
+              </Button>
+            </Stack>
+          </Box>
+        </>
       )}
       <Box
         component={Paper}

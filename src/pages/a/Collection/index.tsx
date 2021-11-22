@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
+  AssetTypes,
   CollectionFormType,
   CollectionType,
   FileType,
@@ -232,8 +233,9 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               id={collectionId}
               description={description}
               onChange={updateCover}
+              type={AssetTypes.collection}
             >
-              <Comments type={'collection'} id={collectionId} watchers={accumulator.watchers} />
+              <Comments type={AssetTypes.collection} id={collectionId} watchers={accumulator.watchers} />
             </About>
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="people">

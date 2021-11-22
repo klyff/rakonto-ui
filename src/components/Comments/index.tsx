@@ -1,5 +1,5 @@
 import React from 'react'
-import { WatcherType } from '../../lib/types'
+import { AssetTypes, WatcherType } from '../../lib/types'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
@@ -12,7 +12,7 @@ import { LinearProgress } from '@mui/material'
 
 interface iComments {
   id: string
-  type: 'collection' | 'story'
+  type: AssetTypes
   watchers: WatcherType[]
 }
 

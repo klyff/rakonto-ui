@@ -1,41 +1,41 @@
 import { AxiosInstance } from 'axios'
 import {
-  StoryType,
-  StoryUpdateType,
-  ImageType,
-  SingupFormType,
-  PasswordResetForm,
-  SigninFormType,
-  UserType,
+  addWatcherType,
+  AssetTypes,
   AuthType,
+  CollectionFormType,
   CollectionType,
-  Pageable,
-  WatcherType,
-  PersonType,
-  PersonFormType,
-  PasswordChangeForm,
-  UserFormType,
+  CommentFormType,
+  CommentType,
   FileType,
-  LinkType,
+  GalleryType,
+  ImageType,
+  LanguageEnum,
   LinkFormType,
-  TranscriptionType,
-  TranscriptionFormType,
-  TimelineType,
-  TimelineFormType,
+  LinkType,
   LocationSearchType,
+  Pageable,
+  PasswordChangeForm,
+  PasswordResetForm,
+  PersonFormType,
+  PersonType,
   PlaceFormType,
   PlaceType,
-  SubtitleType,
-  LanguageEnum,
-  addWatcherType,
-  CommentType,
-  CommentFormType,
-  CollectionFormType,
-  GalleryType,
   SigninFormFacebook,
   SigninFormGoogle,
-  CommentTypes,
-  StoryCreateType
+  SigninFormType,
+  SingupFormType,
+  StoryCreateType,
+  StoryType,
+  StoryUpdateType,
+  SubtitleType,
+  TimelineFormType,
+  TimelineType,
+  TranscriptionFormType,
+  TranscriptionType,
+  UserFormType,
+  UserType,
+  WatcherType
 } from '../types'
 
 // User api
@@ -424,22 +424,40 @@ export const deleteSubtitle =
 
 // Watcher api
 
+export const getWatchers =
+  (request: AxiosInstance) =>
+  async (id: string, type: AssetTypes): Promise<WatcherType[]> => {
+    if (type === AssetTypes.collection) {
+      return await request.get(`a/collection-watchers/${id}`).then(res => res.data)
+    }
+    return await request.get(`a/story-watchers/${id}`).then(res => res.data)
+  }
+
 export const addWatcher =
   (request: AxiosInstance) =>
-  async (data: addWatcherType): Promise<WatcherType> => {
-    return await request.post(`a/watchers`, data).then(res => res.data)
+  async ({ id, email }: addWatcherType, type: AssetTypes): Promise<WatcherType> => {
+    if (type === AssetTypes.collection) {
+      return await request.post(`a/collection-watchers`, { email, collectionId: id }).then(res => res.data)
+    }
+    return await request.post(`a/story-watchers`, { email, storyId: id }).then(res => res.data)
   }
 
 export const removeWatcher =
   (request: AxiosInstance) =>
-  async (id: string): Promise<void> => {
-    await request.delete(`a/watchers/${id}`)
+  async (id: string, type: AssetTypes): Promise<void> => {
+    if (type === AssetTypes.collection) {
+      return await request.delete(`a/collection-watchers/${id}`).then(res => res.data)
+    }
+    return await request.delete(`a/story-watchers/${id}`).then(res => res.data)
   }
 
 export const notifyWatcher =
   (request: AxiosInstance) =>
-  async (id: string): Promise<void> => {
-    await request.post(`a/watchers/${id}/notify`).then(res => res.data)
+  async (id: string, type: AssetTypes): Promise<void> => {
+    if (type === AssetTypes.collection) {
+      return await request.delete(`a/collection-watchers/${id}/notify`).then(res => res.data)
+    }
+    return await request.delete(`a/story-watchers/${id}/notify`).then(res => res.data)
   }
 
 // Search api
@@ -459,7 +477,7 @@ export const searchSuggestions =
 
 export const getComments =
   (request: AxiosInstance) =>
-  async (commentId: string, type: CommentTypes): Promise<Pageable<CommentType>> => {
+  async (commentId: string, type: AssetTypes): Promise<Pageable<CommentType>> => {
     return await request.get(`a/comments?commentableId=${commentId}&commentableType=${type}`).then(res => res.data)
   }
 

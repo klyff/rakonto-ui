@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { ImageType, StoryType, StoryUpdateType } from '../../../lib/types'
+import React, { useContext, useEffect, useState } from 'react'
+import { AssetTypes, ImageType, StoryType, StoryUpdateType } from '../../../lib/types'
 import Player from '../../../components/Player'
 import Box from '@mui/material/Box'
 import About from '../../../components/About'
@@ -170,8 +170,9 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
               id={storyId}
               description={description}
               onChange={updateCover}
+              type={AssetTypes.story}
             >
-              <Comments type={'story'} id={storyId} watchers={watchers} />
+              <Comments type={AssetTypes.story} id={storyId} watchers={watchers} />
             </About>
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="people">
