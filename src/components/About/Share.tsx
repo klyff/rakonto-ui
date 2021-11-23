@@ -24,6 +24,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import FolderIcon from '@mui/icons-material/Folder'
 import Avatar from '@mui/material/Avatar'
 import LoadingButton from '@mui/lab/LoadingButton'
+import WatcherActionMenu from './WatcherActionMenu'
 
 interface iShare {
   id?: string
@@ -32,17 +33,24 @@ interface iShare {
   onCloseClick: () => void
 }
 
-const Share: React.FC<iShare> = ({ id, type, published, onCloseClick }) => {
+const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [watchers, setWatchers] = useState<WatcherType[]>([])
+  const [published, setPublished] = useState<boolean>(false)
 
-  const fetch = async () => {
+  const fetchWatchers = async () => {
     if (!id || !type) return
     setWatchers(await api.getWatchers(id, type))
   }
 
+  const fetchIsPublished = async () => {
+    if (!id || !type) return
+    setPublished(await api.isPublished(id, type))
+  }
+
   useEffect(() => {
-    fetch()
+    fetchWatchers()
+    fetchIsPublished()
   }, [id, type])
 
   const copyToClipboard = () => {
@@ -54,12 +62,50 @@ const Share: React.FC<iShare> = ({ id, type, published, onCloseClick }) => {
     try {
       if (!id || !type) return
       await api.addWatcher({ email, id }, type)
-      fetch()
-    } catch (error) {}
+      snackActions.open(`${email} added to watch this ${type}`)
+      fetchWatchers()
+    } catch (error) {
+      snackActions.open(`Problem to add ${email} to watch this ${type}`)
+    }
   }
 
-  const { isSubmitting, setFieldValue, values, handleBlur, handleChange, touched, errors, handleSubmit, resetForm } =
-    useFormik({ initialValues: { email: '' }, validationSchema: shareSchema, onSubmit })
+  const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit, resetForm } = useFormik({
+    initialValues: { email: '' },
+    validationSchema: shareSchema,
+    onSubmit
+  })
+
+  const handlePublished = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (!id || !type) return
+      await api.publish(id, event.target.checked, type)
+    } catch (error) {
+      snackActions.open(`Problem to make this ${type} ${event.target.checked ? 'private' : 'public'}`)
+    }
+  }
+
+  const removeWatcher = async (watcherId: string) => {
+    const watcher = watchers.find(w => watcherId === w.id) as WatcherType
+    try {
+      if (!type) return
+      await api.removeWatcher(watcherId, type)
+      fetchWatchers()
+      snackActions.open(`${watcher.email} added to watch this ${type}`)
+    } catch (error) {
+      snackActions.open(`Problem to remove ${watcher.email} from this ${type}`)
+    }
+  }
+
+  const notifyWatcher = async (watcherId: string) => {
+    const watcher = watchers.find(w => watcherId === w.id) as WatcherType
+    try {
+      if (!type) return
+      await api.notifyWatcher(watcherId, type)
+      snackActions.open(`${watcher.email} notified to watch this ${type}`)
+    } catch (error) {
+      snackActions.open(`Problem to notify ${watcher.email}`)
+    }
+  }
 
   return (
     <Drawer anchor="right" open>
@@ -110,8 +156,8 @@ const Share: React.FC<iShare> = ({ id, type, published, onCloseClick }) => {
           <Typography>Choose who will be able to view your {type}</Typography>
           <FormGroup>
             <FormControlLabel
-              control={<Switch checked={published} onChange={handleChange} defaultChecked />}
-              label="Public"
+              control={<Switch checked={published} onChange={handlePublished} defaultChecked />}
+              label={published ? 'Public for everyone see it' : 'Private'}
             />
           </FormGroup>
         </Box>
@@ -141,7 +187,6 @@ const Share: React.FC<iShare> = ({ id, type, published, onCloseClick }) => {
               loading={isSubmitting}
               onClick={() => {
                 handleSubmit()
-                resetForm()
               }}
               fullWidth
               variant="contained"
@@ -155,9 +200,7 @@ const Share: React.FC<iShare> = ({ id, type, published, onCloseClick }) => {
                 <ListItem
                   key={watcher.id}
                   secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
+                    <WatcherActionMenu id={watcher.id} deleteWatcher={removeWatcher} notifyWatcher={notifyWatcher} />
                   }
                 >
                   <ListItemAvatar>
@@ -165,7 +208,7 @@ const Share: React.FC<iShare> = ({ id, type, published, onCloseClick }) => {
                       <FolderIcon />
                     </Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary="Single-line item" />
+                  <ListItemText primary={watcher.email} />
                 </ListItem>
               ))}
             </List>

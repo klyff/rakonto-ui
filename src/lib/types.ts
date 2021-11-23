@@ -140,7 +140,7 @@ export type StoryType = {
   id: string
   thumbnailUrl: string
   ready: boolean
-  published?: boolean
+  publicAcl: boolean
   title: string
   owner: UserType
   type: MediaType
@@ -176,6 +176,7 @@ export type CollectionType = {
   owner: UserType
   thumbnailUrl: string
   stories: StoryType[]
+  publicAcl: boolean
 }
 
 export type CollectionFormType = {

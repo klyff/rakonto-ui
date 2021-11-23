@@ -184,14 +184,6 @@ export const removePersonFromStory =
     return await request.post(`a/stories/${id}/remove-person`, { personId }).then(res => res.data)
   }
 
-export const publishStory =
-  (request: AxiosInstance) =>
-  async (id: string, publish: boolean): Promise<void> => {
-    return publish
-      ? await request.post(`a/stories/${id}/publish`).then(res => res.data)
-      : await request.post(`a/stories/${id}/draft`).then(res => res.data)
-  }
-
 // Image api
 export const uploadImage =
   (request: AxiosInstance) =>
@@ -535,4 +527,28 @@ export const deleteCollection =
   (request: AxiosInstance) =>
   async (id: string): Promise<void> => {
     await request.delete(`a/collections/${id}`)
+  }
+
+// Publish api
+
+export const isPublished =
+  (request: AxiosInstance) =>
+  async (id: string, type: AssetTypes): Promise<boolean> => {
+    if (type === AssetTypes.collection) {
+      return await getCollection(request)(id).then(res => res.publicAcl)
+    }
+    return await getStory(request)(id).then(res => res.publicAcl)
+  }
+
+export const publish =
+  (request: AxiosInstance) =>
+  async (id: string, publish: boolean, type: AssetTypes): Promise<void> => {
+    if (type === AssetTypes.collection) {
+      return publish
+        ? await request.post(`a/collections/${id}/make-public`).then(res => res.data)
+        : await request.post(`a/collections/${id}/make-private`).then(res => res.data)
+    }
+    return publish
+      ? await request.post(`a/story/${id}/make-public`).then(res => res.data)
+      : await request.post(`a/story/${id}/make-private`).then(res => res.data)
   }

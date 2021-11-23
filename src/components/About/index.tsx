@@ -89,7 +89,7 @@ const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, chil
     >
       {canEdit && (
         <>
-          {showShare && <Share id={id} type={type} published={true} onCloseClick={() => setShowShare(false)} />}
+          {showShare && <Share id={id} type={type} onCloseClick={() => setShowShare(false)} />}
           <Box
             sx={{
               width: '100%',
