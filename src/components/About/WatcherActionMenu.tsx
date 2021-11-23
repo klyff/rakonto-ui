@@ -53,8 +53,8 @@ const WatcherActionMenu: React.FC<iWatcherActionMenu> = ({ id, notifyWatcher, de
           'aria-labelledby': 'basic-button'
         }}
       >
-        <MenuItem onClick={handleClose}>Invite again</MenuItem>
-        <MenuItem onClick={handleClose}>delete</MenuItem>
+        <MenuItem onClick={handleNotify}>Invite again</MenuItem>
+        <MenuItem onClick={handleDelete}>delete</MenuItem>
       </Menu>
     </div>
   )

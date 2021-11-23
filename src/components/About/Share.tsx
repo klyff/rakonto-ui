@@ -18,11 +18,7 @@ import { shareSchema } from './schemas'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
-import ListItemAvatar from '@mui/material/ListItemAvatar'
 import ListItemText from '@mui/material/ListItemText'
-import DeleteIcon from '@mui/icons-material/Delete'
-import FolderIcon from '@mui/icons-material/Folder'
-import Avatar from '@mui/material/Avatar'
 import LoadingButton from '@mui/lab/LoadingButton'
 import WatcherActionMenu from './WatcherActionMenu'
 
@@ -40,7 +36,8 @@ const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
 
   const fetchWatchers = async () => {
     if (!id || !type) return
-    setWatchers(await api.getWatchers(id, type))
+    const watchers = await api.getWatchers(id, type)
+    setWatchers(watchers.content)
   }
 
   const fetchIsPublished = async () => {
@@ -79,6 +76,7 @@ const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
     try {
       if (!id || !type) return
       await api.publish(id, event.target.checked, type)
+      fetchIsPublished()
     } catch (error) {
       snackActions.open(`Problem to make this ${type} ${event.target.checked ? 'private' : 'public'}`)
     }
@@ -90,7 +88,7 @@ const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
       if (!type) return
       await api.removeWatcher(watcherId, type)
       fetchWatchers()
-      snackActions.open(`${watcher.email} added to watch this ${type}`)
+      snackActions.open(`${watcher.email} removed to watch this ${type}`)
     } catch (error) {
       snackActions.open(`Problem to remove ${watcher.email} from this ${type}`)
     }
@@ -203,11 +201,6 @@ const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
                     <WatcherActionMenu id={watcher.id} deleteWatcher={removeWatcher} notifyWatcher={notifyWatcher} />
                   }
                 >
-                  <ListItemAvatar>
-                    <Avatar>
-                      <FolderIcon />
-                    </Avatar>
-                  </ListItemAvatar>
                   <ListItemText primary={watcher.email} />
                 </ListItem>
               ))}

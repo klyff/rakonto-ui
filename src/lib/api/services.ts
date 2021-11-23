@@ -418,11 +418,11 @@ export const deleteSubtitle =
 
 export const getWatchers =
   (request: AxiosInstance) =>
-  async (id: string, type: AssetTypes): Promise<WatcherType[]> => {
+  async (id: string, type: AssetTypes): Promise<Pageable<WatcherType>> => {
     if (type === AssetTypes.collection) {
-      return await request.get(`a/collection-watchers/${id}`).then(res => res.data)
+      return await request.get(`a/collection-watchers?collectionId=${id}`).then(res => res.data)
     }
-    return await request.get(`a/story-watchers/${id}`).then(res => res.data)
+    return await request.get(`a/story-watchers?storyId=${id}`).then(res => res.data)
   }
 
 export const addWatcher =
@@ -447,9 +447,9 @@ export const notifyWatcher =
   (request: AxiosInstance) =>
   async (id: string, type: AssetTypes): Promise<void> => {
     if (type === AssetTypes.collection) {
-      return await request.delete(`a/collection-watchers/${id}/notify`).then(res => res.data)
+      return await request.post(`a/collection-watchers/${id}/notify`).then(res => res.data)
     }
-    return await request.delete(`a/story-watchers/${id}/notify`).then(res => res.data)
+    return await request.post(`a/story-watchers/${id}/notify`).then(res => res.data)
   }
 
 // Search api
@@ -549,6 +549,6 @@ export const publish =
         : await request.post(`a/collections/${id}/make-private`).then(res => res.data)
     }
     return publish
-      ? await request.post(`a/story/${id}/make-public`).then(res => res.data)
-      : await request.post(`a/story/${id}/make-private`).then(res => res.data)
+      ? await request.post(`a/stories/${id}/make-public`).then(res => res.data)
+      : await request.post(`a/stories/${id}/make-private`).then(res => res.data)
   }
