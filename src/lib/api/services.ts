@@ -35,7 +35,8 @@ import {
   TranscriptionType,
   UserFormType,
   UserType,
-  WatcherType
+  WatcherType,
+  SearchResultType
 } from '../types'
 
 // User api
@@ -455,7 +456,7 @@ export const notifyWatcher =
 // Search api
 export const search =
   (request: AxiosInstance) =>
-  async (page: number, size: number, q?: string): Promise<Pageable<StoryType>> => {
+  async (page: number, size: number, q?: string): Promise<Pageable<SearchResultType>> => {
     return await request.get(`a/search?q=${q || ''}&page=${page}&size=${size}`).then(res => res.data)
   }
 

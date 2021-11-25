@@ -33,6 +33,13 @@ export type Pageable<T> = {
   empty: boolean
 }
 
+export type SearchResultKindType = 'COLLECTION' | 'STORY_AUDIO' | 'STORY_VIDEO'
+
+export type SearchResultType = {
+  kind: SearchResultKindType
+  entity: CollectionType | StoryType
+}
+
 export type UserType = {
   id: string
   email: string

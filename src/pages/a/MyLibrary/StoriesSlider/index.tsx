@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import Grid from '@mui/material/Grid'
 import api from '../../../../lib/api'
-import { StoryType } from '../../../../lib/types'
+import { SearchResultType, StoryType } from '../../../../lib/types'
 import useInfiniteScroll from '../../../../components/hooks/useInfiniteScrool'
 import { usePageableRequest } from '../../../../components/hooks/usePageableRequest'
 import Card from '../../../../components/Card'
@@ -10,9 +10,9 @@ import { useHistory } from 'react-router-dom'
 
 const StoriesSliderTile: React.FC = () => {
   const history = useHistory()
-  const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<StoryType>({
+  const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
     size: 15,
-    request: api.getStories
+    request: api.search
   })
 
   // @ts-ignore
@@ -39,9 +39,12 @@ const StoriesSliderTile: React.FC = () => {
       }}
       container
     >
-      {items.map(story => (
-        <StoryCard key={story.id} story={story} />
-      ))}
+      {items
+        .filter(item => item.kind === 'STORY_AUDIO' || item.kind === 'STORY_VIDEO')
+        .map(item => item.entity as StoryType)
+        .map(story => (
+          <StoryCard key={story.id} story={story} />
+        ))}
       {hasNextPage && (
         <Grid>
           <Card loading={true} title={''} subTitle={''} thumbnail={''} preview={''} />
