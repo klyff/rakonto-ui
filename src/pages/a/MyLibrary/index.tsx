@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Search from './Search'
+import Suggestion from '../../../components/Suggestion'
 import { RouteComponentProps } from 'react-router-dom'
 import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
 
@@ -29,7 +29,7 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
             justifyContent: 'space-between'
           }}
         >
-          <Search />
+          <Suggestion />
           <Button variant="outlined" onClick={() => newStoryActions.open()}>
             New story
           </Button>

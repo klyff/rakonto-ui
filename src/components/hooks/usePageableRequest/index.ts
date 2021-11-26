@@ -1,6 +1,8 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Pageable } from '../../../lib/types'
-import { stringify } from 'qs'
+import { parse, stringify } from 'qs'
+import { useLocation } from 'react-router-dom'
+import { timingSafeEqual } from 'crypto'
 
 export interface Item {
   key: number
@@ -18,8 +20,8 @@ export const usePageableRequest = <T>({
   items: T[]
   hasNextPage: boolean
   error: Error | undefined
-  loadMore: (q?: string) => void
-  reload: (q?: string) => void
+  loadMore: () => void
+  reload: () => void
   setItems: Dispatch<SetStateAction<T[]>>
 } => {
   const [loading, setLoading] = useState(false)
@@ -27,12 +29,13 @@ export const usePageableRequest = <T>({
   const [hasNextPage, setHasNextPage] = useState<boolean>(true)
   const [error, setError] = useState<Error | undefined>()
   const [page, setPage] = useState<number>(0)
+  const location = useLocation()
+  const { q } = parse(location?.search as string, { ignoreQueryPrefix: true })
 
-  async function reload(q?: string) {
+  async function reload() {
     setLoading(true)
     try {
-      const query = stringify({ page: 0, size, q }, { addQueryPrefix: true })
-      const { content, last } = await request(0, size, q)
+      const { content, last } = await request(0, size, q as string)
       setPage(0)
       setItems(content)
       setHasNextPage(!last)
@@ -44,11 +47,14 @@ export const usePageableRequest = <T>({
     }
   }
 
-  async function loadMore(q?: string) {
+  useEffect(() => {
+    reload()
+  }, [q])
+
+  async function loadMore() {
     setLoading(true)
     try {
-      const query = stringify({ page, size, q }, { addQueryPrefix: true })
-      const { content, last } = await request(page, size, q)
+      const { content, last } = await request(page, size, q as string)
       setPage(page + 1)
       setItems(current => [...current, ...content])
       setHasNextPage(!last)
