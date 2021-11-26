@@ -139,11 +139,6 @@ export type AudioDetails = {
   thumbnailUrl?: string
 }
 
-export type SearchResultType = {
-  kind: 'COLLECTION' | 'STORY_VIDEO' | 'STORY_AUDIO'
-  entity: StoryType | CollectionType
-}
-
 export type StoryType = {
   audio: AudioDetails
   collections: CollectionType[]

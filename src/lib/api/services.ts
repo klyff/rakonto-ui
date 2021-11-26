@@ -36,8 +36,7 @@ import {
   TranscriptionType,
   UserFormType,
   UserType,
-  WatcherType,
-  SearchResultType
+  WatcherType
 } from '../types'
 
 // User api
