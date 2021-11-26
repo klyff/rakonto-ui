@@ -15,7 +15,7 @@ import {
 import Player from '../../../components/Player'
 import Cover from '../../../components/Cover'
 import Box from '@mui/material/Box'
-import About from '../../../components/About'
+import About from './About'
 import TabPanel from '@mui/lab/TabPanel'
 import People from './People'
 import Timelines from './Timelines'
@@ -31,6 +31,7 @@ import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
+import Paper from '@mui/material/Paper'
 
 const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ match, history, location }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
@@ -199,7 +200,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
         </Box>
         <Box
           component={TabContext}
-          value={(tab as string) || 'stories'}
+          value={(tab as string) || 'about'}
           sx={{
             width: '100%',
             height: '100%'
@@ -213,18 +214,15 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               boxShadow: 6
             }}
           >
-            <Tab label="Stories" value="stories" onClick={() => onTabClick('stories')} />
             <Tab label="About" value="about" onClick={() => onTabClick('about')} />
+            <Tab label="Comments" value="comments" onClick={() => onTabClick('comments')} />
             <Tab label="People" value="people" onClick={() => onTabClick('people')} />
-            <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
             <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
+            <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
             <Tab label="Photos" value="photos" onClick={() => onTabClick('photos')} />
             <Tab label="Files" value="files" onClick={() => onTabClick('files')} />
             <Tab label="Links" value="links" onClick={() => onTabClick('links')} />
           </Box>
-          <TabPanel sx={{ height: '100%' }} value="stories">
-            <Stories collectionId={collectionId} selectedStory={story.id} playing={play} stories={stories} />
-          </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="about">
             <About
               update={updateCollection}
@@ -233,10 +231,14 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               id={collectionId}
               description={description}
               onChange={updateCover}
-              type={AssetTypes.collection}
             >
-              <Comments type={AssetTypes.collection} id={collectionId} watchers={accumulator.watchers} />
+              <Stories collectionId={collectionId} selectedStory={story.id} playing={play} stories={stories} />
             </About>
+          </TabPanel>
+          <TabPanel sx={{ height: '100%' }} value="comments">
+            <Box component={Paper}>
+              <Comments type={AssetTypes.collection} id={collectionId} watchers={accumulator.watchers} />
+            </Box>
           </TabPanel>
           <TabPanel sx={{ height: '100%' }} value="people">
             <People persons={accumulator.persons} />

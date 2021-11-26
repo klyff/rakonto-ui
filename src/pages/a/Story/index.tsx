@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AssetTypes, ImageType, StoryType, StoryUpdateType } from '../../../lib/types'
 import Player from '../../../components/Player'
 import Box from '@mui/material/Box'
-import About from '../../../components/About'
+import About from './About'
 import api from '../../../lib/api'
 import MetaTags from 'react-meta-tags'
 import { RouteComponentProps } from 'react-router-dom'
@@ -154,10 +154,10 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
           >
             <Tab label="About" value="about" onClick={() => onTabClick('about')} />
             <Tab label="People" value="people" onClick={() => onTabClick('people')} />
+            <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
             <Tab label="Transcript" value="transcript" onClick={() => onTabClick('transcript')} />
             <Tab label="Subtitles" value="subtitles" onClick={() => onTabClick('subtitles')} />
             <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
-            <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
             <Tab label="Photos" value="photos" onClick={() => onTabClick('photos')} />
             <Tab label="Files" value="files" onClick={() => onTabClick('files')} />
             <Tab label="Links" value="links" onClick={() => onTabClick('links')} />
@@ -170,7 +170,6 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
               id={storyId}
               description={description}
               onChange={updateCover}
-              type={AssetTypes.story}
             >
               <Comments type={AssetTypes.story} id={storyId} watchers={watchers} />
             </About>

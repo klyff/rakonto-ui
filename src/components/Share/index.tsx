@@ -14,13 +14,13 @@ import Switch from '@mui/material/Switch'
 import Button from '@mui/material/Button'
 import { Drawer, TextField } from '@mui/material'
 import { useFormik } from 'formik'
-import { shareSchema } from './schemas'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import LoadingButton from '@mui/lab/LoadingButton'
 import WatcherActionMenu from './WatcherActionMenu'
+import schema from './schema'
 
 interface iShare {
   id?: string
@@ -68,7 +68,7 @@ const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
 
   const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit, resetForm } = useFormik({
     initialValues: { email: '' },
-    validationSchema: shareSchema,
+    validationSchema: schema,
     onSubmit
   })
 

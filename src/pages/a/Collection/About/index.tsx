@@ -13,12 +13,12 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import LoadingButton from '@mui/lab/LoadingButton'
-import { editTitleDescriptionSchema } from './schemas'
-import { AssetTypes, CollectionFormType, ImageType, StoryUpdateType } from '../../lib/types'
+import schema from './schema'
+import { AssetTypes, CollectionFormType, ImageType, StoryUpdateType } from '../../../../lib/types'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
-import api from '../../lib/api'
-import { SimpleSnackbarContext } from '../SimpleSnackbar'
-import Share from './Share'
+import api from '../../../../lib/api'
+import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
+import Share from '../../../../components/Share'
 
 interface iAbout {
   title: string
@@ -27,10 +27,9 @@ interface iAbout {
   canEdit: boolean
   update: ((formData: StoryUpdateType) => void) | ((formData: CollectionFormType) => void)
   onChange?: (image: ImageType) => void
-  type: AssetTypes
 }
 
-const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, children, onChange, type }) => {
+const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, children, onChange }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [editMode, setEditMode] = useState<boolean>(false)
   const [progress, setProgress] = useState<number>(0)
@@ -46,7 +45,7 @@ const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, chil
 
   const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit } = useFormik({
     initialValues,
-    validationSchema: editTitleDescriptionSchema,
+    validationSchema: schema,
     onSubmit
   })
 
@@ -89,7 +88,7 @@ const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, chil
     >
       {canEdit && (
         <>
-          {showShare && <Share id={id} type={type} onCloseClick={() => setShowShare(false)} />}
+          {showShare && <Share id={id} type={AssetTypes.collection} onCloseClick={() => setShowShare(false)} />}
           <Box
             sx={{
               width: '100%',
