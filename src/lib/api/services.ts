@@ -479,9 +479,7 @@ export const search =
 export const searchStories =
   (request: AxiosInstance) =>
   async (page: number, size: number, q?: string): Promise<Pageable<SearchResultType>> => {
-    return await request
-      .get(`a/search?q=${q || ''}&page=${page}&size=${size}&t=STORY_VIDEO&t=STORY_AUDIO`)
-      .then(res => res.data)
+    return await request.get(`a/search?q=${q || ''}&page=${page}&size=${size}&t=STORY`).then(res => res.data)
   }
 
 export const searchCollections =

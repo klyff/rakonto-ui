@@ -1,6 +1,8 @@
 import React, { useState, createContext, ReactNode, useEffect } from 'react'
 import { iSimpleDialog } from './index'
 import Component from './Component'
+import FocusLock, { AutoFocusInside } from 'react-focus-lock'
+import { RemoveScroll } from 'react-remove-scroll'
 
 // @ts-ignore
 export const SimpleDialogContext = createContext<{
@@ -68,7 +70,9 @@ export const SimpleDialogProvider: React.FC = ({ children }) => {
       }}
     >
       {isOpen && <Component store={dialog} />}
-      {children}
+      <RemoveScroll>
+        <FocusLock>{children}</FocusLock>
+      </RemoveScroll>
     </SimpleDialogContext.Provider>
   )
 }

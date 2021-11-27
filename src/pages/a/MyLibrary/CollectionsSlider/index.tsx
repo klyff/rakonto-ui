@@ -40,7 +40,6 @@ const CollectionsSlider: React.FC = () => {
       container
     >
       {items
-        .filter(item => item.kind === 'COLLECTION')
         .map(item => item.entity as CollectionType)
         .map(collection => (
           <CollectionCard key={collection.id} collection={collection} />

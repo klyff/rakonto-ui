@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Grid from '@mui/material/Grid'
-import { StoryType } from '../../../lib/types'
+import { SearchResultType, StoryType } from '../../../lib/types'
 import useInfiniteScroll from '../../../components/hooks/useInfiniteScrool'
 import { usePageableRequest } from '../../../components/hooks/usePageableRequest'
 import Card from '../../../components/Card'
@@ -15,9 +15,9 @@ import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
 const Stories: React.FC<RouteComponentProps> = () => {
   const { actions: newStoryActions } = useContext(StepStoryUploadContext)
 
-  const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<StoryType>({
+  const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
     size: 15,
-    request: api.getStories
+    request: api.searchStories
   })
 
   const [sentryRef] = useInfiniteScroll({
@@ -54,9 +54,11 @@ const Stories: React.FC<RouteComponentProps> = () => {
       </Grid>
       <Grid item xs={12}>
         <Grid container>
-          {items.map(item => (
-            <StoryCard key={item.id} story={item} />
-          ))}
+          {items
+            .map(item => item.entity as StoryType)
+            .map(item => (
+              <StoryCard key={item.id} story={item} />
+            ))}
           {hasNextPage && (
             <Grid item xs>
               <Card loading={true} title={''} subTitle={''} thumbnail={''} preview={''} />

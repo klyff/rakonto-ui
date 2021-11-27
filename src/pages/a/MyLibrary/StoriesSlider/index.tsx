@@ -40,7 +40,6 @@ const StoriesSliderTile: React.FC = () => {
       container
     >
       {items
-        .filter(item => item.kind === 'STORY_AUDIO' || item.kind === 'STORY_VIDEO')
         .map(item => item.entity as StoryType)
         .map(story => (
           <StoryCard key={story.id} story={story} />
