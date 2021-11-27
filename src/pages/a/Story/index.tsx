@@ -78,6 +78,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
     persons,
     timelineEntries,
     collections,
+    published,
     watchers
   } = story as StoryType
 
@@ -170,6 +171,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
               id={storyId}
               description={description}
               onChange={updateCover}
+              loadPublished={published}
             >
               <Comments type={AssetTypes.story} id={storyId} watchers={watchers} />
             </About>

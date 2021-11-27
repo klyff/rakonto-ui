@@ -148,6 +148,7 @@ export type StoryType = {
   thumbnailUrl: string
   ready: boolean
   publicAcl: boolean
+  published: boolean
   title: string
   owner: UserType
   type: MediaType

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
@@ -6,7 +6,9 @@ import Paper from '@mui/material/Paper'
 import IconButton from '@mui/material/IconButton'
 import CreateIcon from '@mui/icons-material/Create'
 import DeleteIcon from '@mui/icons-material/Delete'
-import ShareIcon from '@mui/icons-material/Share'
+import FormGroup from '@mui/material/FormGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Switch from '@mui/material/Switch'
 import ImageIcon from '@mui/icons-material/Image'
 import { useFormik } from 'formik'
 import Grid from '@mui/material/Grid'
@@ -18,6 +20,7 @@ import { CollectionFormType, ImageType, StoryUpdateType } from '../../../../lib/
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 import api from '../../../../lib/api'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
+import { isStoryPublished, updateStoryStatus } from '../../../../lib/api/services'
 
 interface iAbout {
   title: string
@@ -26,12 +29,14 @@ interface iAbout {
   canEdit: boolean
   update: ((formData: StoryUpdateType) => void) | ((formData: CollectionFormType) => void)
   onChange?: (image: ImageType) => void
+  loadPublished?: boolean
 }
 
-const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, children, onChange }) => {
+const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, children, onChange, loadPublished }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [editMode, setEditMode] = useState<boolean>(false)
   const [progress, setProgress] = useState<number>(0)
+  const [published, setPublished] = useState<boolean>(loadPublished || false)
   const initialValues = { title: title, description: description }
 
   const onSubmit = async (values: { title: string; description: string }) => {
@@ -40,6 +45,23 @@ const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, chil
       setEditMode(false)
     } catch (error) {}
   }
+
+  const fetchIsPublished = async () => {
+    setPublished(await api.isStoryPublished(id))
+  }
+
+  const handlePublished = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      await api.updateStoryStatus(id, event.target.checked)
+      fetchIsPublished()
+    } catch (error) {
+      snackActions.open(`Problem to make this ${event.target.checked ? 'draft' : 'published'}`)
+    }
+  }
+
+  useEffect(() => {
+    fetchIsPublished()
+  }, [id])
 
   const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit } = useFormik({
     initialValues,
@@ -94,6 +116,15 @@ const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, chil
             component={Paper}
           >
             <Stack direction="row" {...getRootProps()}>
+              <FormGroup>
+                <FormControlLabel
+                  control={<Switch checked={published} onChange={handlePublished} defaultChecked />}
+                  label={published ? 'Published' : 'Draft'}
+                />
+              </FormGroup>
+              <Button color="secondary" startIcon={<DeleteIcon />}>
+                Delete
+              </Button>
               <input {...getInputProps()} />
               <LoadingButton
                 loadingPosition="start"

@@ -164,7 +164,23 @@ export const createStory =
 export const updateStory =
   (request: AxiosInstance) =>
   async (id: string, data: Partial<StoryUpdateType>): Promise<StoryType> => {
-    return await request.put(`a/stories/${id}`, data).then(res => res.data)
+    return await request.put(`a/stories/${id}/publish`, data).then(res => res.data)
+  }
+
+export const updateStoryStatus =
+  (request: AxiosInstance) =>
+  async (id: string, publish: boolean): Promise<StoryType> => {
+    if (publish) {
+      return await request.post(`a/stories/${id}/publish`).then(res => res.data)
+    }
+    return await request.post(`a/stories/${id}/draft`).then(res => res.data)
+  }
+
+export const isStoryPublished =
+  (request: AxiosInstance) =>
+  async (id: string): Promise<boolean> => {
+    const story = await getStory(request)(id)
+    return story.published
   }
 
 export const updateStoryCover =

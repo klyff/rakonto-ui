@@ -70,7 +70,9 @@ import {
   updateTranscriptions,
   uploadFile,
   uploadImage,
-  uploadSubtitle
+  uploadSubtitle,
+  updateStoryStatus,
+  isStoryPublished
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -127,6 +129,8 @@ export default {
   getStory: getStory(request),
   createStory: createStory(request),
   updateStory: updateStory(request),
+  updateStoryStatus: updateStoryStatus(request),
+  isStoryPublished: isStoryPublished(request),
   updateStoryCover: updateStoryCover(request),
   publish: publish(request),
   isPublished: isPublished(request),
