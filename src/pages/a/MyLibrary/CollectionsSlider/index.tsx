@@ -12,7 +12,7 @@ const CollectionsSlider: React.FC = () => {
   const history = useHistory()
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
     size: 15,
-    request: api.search
+    request: api.searchCollections
   })
 
   // @ts-ignore

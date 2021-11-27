@@ -1,4 +1,4 @@
-import React, { useState, createContext, ReactNode } from 'react'
+import React, { useState, createContext, ReactNode, useEffect } from 'react'
 import { iSimpleDialog } from './index'
 import Component from './Component'
 
@@ -8,27 +8,18 @@ export const SimpleDialogContext = createContext<{
     open: (
       title: string,
       content: string | ReactNode,
-      buttonsInfo?: { okText?: string; showOk?: boolean; cancelText?: string }
+      buttonsInfo?: { okText?: string; showOk?: boolean; cancelText?: string },
+      callback?: (success: boolean) => void
     ) => void
     close: () => void
   }
-  store: Partial<iSimpleDialog>
 }>({
   // @ts-ignore
-  actions: {},
-  store: {
-    isOpen: false,
-    content: '',
-    title: '',
-    cancelText: 'Close',
-    okText: 'Ok',
-    showOk: false
-  }
+  actions: {}
 })
 
 export const SimpleDialogProvider: React.FC = ({ children }) => {
   const [dialog, setDialog] = useState<iSimpleDialog>({
-    isOpen: false,
     content: '',
     title: '',
     cancelText: 'Close',
@@ -36,23 +27,30 @@ export const SimpleDialogProvider: React.FC = ({ children }) => {
     showOk: false
   })
 
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
   const open = (
     title: string,
     content: string | ReactNode,
-    buttonsInfo?: { okText?: string; showOk?: boolean; cancelText?: string }
+    buttonsInfo?: { okText?: string; showOk?: boolean; cancelText?: string },
+    callback?: (success: boolean) => void
   ) => {
     setDialog({
       ...dialog,
-      isOpen: true,
       title,
       content,
-      ...buttonsInfo
+      ...buttonsInfo,
+      callback
     })
+    setIsOpen(true)
   }
 
   const close = () => {
+    setIsOpen(false)
+  }
+
+  const handleClear = () => {
     setDialog({
-      isOpen: false,
       title: '',
       content: '',
       cancelText: 'Close',
@@ -66,11 +64,10 @@ export const SimpleDialogProvider: React.FC = ({ children }) => {
         actions: {
           close,
           open
-        },
-        store: dialog
+        }
       }}
     >
-      <Component />
+      {isOpen && <Component store={dialog} />}
       {children}
     </SimpleDialogContext.Provider>
   )

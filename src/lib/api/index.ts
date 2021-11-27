@@ -51,6 +51,8 @@ import {
   requestConfirmEmail,
   requestPasswordReset,
   search,
+  searchStories,
+  searchCollections,
   searchLocation,
   searchSuggestions,
   signin,
@@ -174,6 +176,8 @@ export default {
   createComment: createComment(request),
   editComment: editComment(request),
   search: search(request),
+  searchStories: searchStories(request),
+  searchCollections: searchCollections(request),
   searchSuggestions: searchSuggestions(request),
   getComments: getComments(request)
 }

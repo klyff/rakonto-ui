@@ -18,7 +18,8 @@ import { AssetTypes, CollectionFormType, ImageType, StoryUpdateType } from '../.
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 import api from '../../../../lib/api'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
-import Share from '../../../../components/Share'
+import { SimpleDialogContext } from '../../../../components/SimpleDialog'
+import Share from './Share'
 
 interface iAbout {
   title: string
@@ -31,6 +32,7 @@ interface iAbout {
 
 const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, children, onChange }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
+  const { actions: dialogActions } = useContext(SimpleDialogContext)
   const [editMode, setEditMode] = useState<boolean>(false)
   const [progress, setProgress] = useState<number>(0)
   const [showShare, setShowShare] = useState<boolean>(false)
@@ -75,6 +77,36 @@ const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, chil
     accept: 'image/png, image/jpeg'
   })
 
+  const handleDelete = () => {
+    dialogActions.open(
+      'Delete forever',
+      <>
+        <Typography fontWeight="700">Definitely delete this story?</Typography>
+        <Typography>This action cannot be undone after that.</Typography>
+      </>,
+      {
+        okText: 'Yes, delete',
+        showOk: true,
+        cancelText: 'No, keep as is'
+      },
+      async value => {
+        if (value) {
+          try {
+            await api.deleteCollection(id)
+          } catch (error) {
+            // @ts-ignore
+            const { data } = error
+            if (data.code) {
+              snackActions.open(data.message)
+              return
+            }
+            snackActions.open('Something was wrong! please try again.')
+          }
+        }
+      }
+    )
+  }
+
   return (
     <Box
       sx={{
@@ -110,7 +142,7 @@ const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, chil
               <Button color="secondary" onClick={() => setShowShare(true)} startIcon={<ShareIcon />}>
                 Share
               </Button>
-              <Button color="secondary" startIcon={<DeleteIcon />}>
+              <Button color="secondary" onClick={handleDelete} startIcon={<DeleteIcon />}>
                 Delete
               </Button>
             </Stack>
