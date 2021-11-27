@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import { StoryType } from '../../../lib/types'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
 
 interface iStory {
   story: StoryType
@@ -109,6 +111,17 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
         >
           {story.description}
         </Typography>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          marginRight: 3
+        }}
+      >
+        <IconButton component={Link} to={`/a/stories/${story.id}`}>
+          <ArrowForwardIcon />
+        </IconButton>
       </Box>
     </Box>
   )
