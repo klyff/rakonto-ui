@@ -32,7 +32,9 @@ const EditorWithMentions: React.FC<iMention> = React.forwardRef<Editor, iMention
       setOpen(_open)
     }, [])
     const onSearchChange = useCallback(({ value }: { value: string }) => {
-      setSuggestions(defaultSuggestionsFilter(value, mentions || []))
+      if (value.trim().length > 3) {
+        setSuggestions(defaultSuggestionsFilter(value, mentions || []))
+      }
     }, [])
 
     const mentionComponent = (
