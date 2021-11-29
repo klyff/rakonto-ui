@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { StoryType } from '../../../lib/types'
 import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -21,7 +20,7 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
   const [hover, setHover] = useState<boolean>(false)
 
   return (
-    <Box component={Paper} sx={{ display: 'flex', marginBottom: 3, maxHeight: 200 }} key={story.id}>
+    <Box sx={{ display: 'flex', maxHeight: 200 }} key={story.id}>
       <Box sx={{ position: 'relative' }}>
         <Box
           onMouseEnter={() => setHover(true)}

@@ -6,15 +6,15 @@ import Typography from '@mui/material/Typography'
 import CloseIcon from '@mui/icons-material/Close'
 import LinkIcon from '@mui/icons-material/Link'
 import IconButton from '@mui/material/IconButton'
-import { AssetTypes, WatcherType } from '../../../../../lib/types'
-import api from '../../../../../lib/api'
+import { AssetTypes, WatcherType } from '../../lib/types'
+import api from '../../lib/api'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 import Button from '@mui/material/Button'
 import { Drawer, TextField } from '@mui/material'
 import { useFormik } from 'formik'
-import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
+import { SimpleSnackbarContext } from '../SimpleSnackbar'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
@@ -154,7 +154,7 @@ const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
           <Typography>Choose who will be able to view your {type}</Typography>
           <FormGroup>
             <FormControlLabel
-              control={<Switch checked={published} onChange={handlePublished} defaultChecked />}
+              control={<Switch checked={published} onChange={handlePublished} />}
               label={published ? 'Public for everyone see it' : 'Private'}
             />
           </FormGroup>

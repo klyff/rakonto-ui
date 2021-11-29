@@ -17,8 +17,9 @@ import Timelines from '../Collection/Timelines'
 import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
+import EditBar from './EditBar'
 
-const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) => {
+const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, history }) => {
   const user = useUser()
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { storyId } = match.params
@@ -33,11 +34,15 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
   }
 
   const fetch = async () => {
-    const result = await api.getStory(storyId)
-    computeStory(result)
-    setIsLoading(false)
-    if (result.owner.id === user?.id) {
-      setIsOwner(true)
+    try {
+      const result = await api.getStory(storyId)
+      computeStory(result)
+      setIsLoading(false)
+      if (result.owner.id === user?.id) {
+        setIsOwner(true)
+      }
+    } catch (error) {
+      history.push('/a/my-library')
     }
   }
 
@@ -163,43 +168,49 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match }) =>
             <Tab label="Files" value="files" onClick={() => onTabClick('files')} />
             <Tab label="Links" value="links" onClick={() => onTabClick('links')} />
           </Box>
-          <TabPanel sx={{ height: '100%' }} value="about">
-            <About
-              update={updateStory}
-              canEdit={isOwner}
-              title={title}
+          <Box
+            sx={{
+              width: '100%',
+              padding: 3
+            }}
+          >
+            <EditBar
               id={storyId}
-              description={description}
+              canEdit={isOwner}
               onChange={updateCover}
               loadPublished={published}
-            >
-              <Comments type={AssetTypes.story} id={storyId} watchers={watchers} />
-            </About>
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="people">
-            <People persons={persons} />
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="timelines">
-            <Timelines timelines={timelineEntries} />
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="places">
-            places
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="transcript">
-            transcript
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="subtitles">
-            Subtitles
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="photos">
-            photos
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="files">
-            files
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="links">
-            links
-          </TabPanel>
+              collection={collections[0]}
+            />
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="about">
+              <About update={updateStory} canEdit={isOwner} title={title} id={storyId} description={description}>
+                <Comments type={AssetTypes.story} id={storyId} watchers={watchers} />
+              </About>
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="people">
+              <People persons={persons} />
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="timelines">
+              <Timelines timelines={timelineEntries} />
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="places">
+              places
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="transcript">
+              transcript
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="subtitles">
+              Subtitles
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
+              photos
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="files">
+              files
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="links">
+              links
+            </TabPanel>
+          </Box>
         </Box>
       </Box>
     </>

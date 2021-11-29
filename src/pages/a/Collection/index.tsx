@@ -32,6 +32,7 @@ import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
 import Paper from '@mui/material/Paper'
+import EditBar from './EditBar'
 
 const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ match, history, location }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
@@ -223,41 +224,48 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
             <Tab label="Files" value="files" onClick={() => onTabClick('files')} />
             <Tab label="Links" value="links" onClick={() => onTabClick('links')} />
           </Box>
-          <TabPanel sx={{ height: '100%' }} value="about">
-            <About
-              update={updateCollection}
-              canEdit={isOwner}
-              title={title}
-              id={collectionId}
-              description={description}
-              onChange={updateCover}
-            >
-              <Stories collectionId={collectionId} selectedStory={story.id} playing={play} stories={stories} />
-            </About>
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="comments">
-            <Box component={Paper}>
-              <Comments type={AssetTypes.collection} id={collectionId} watchers={accumulator.watchers} />
-            </Box>
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="people">
-            <People persons={accumulator.persons} />
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="timelines">
-            <Timelines timelines={accumulator.timelineEntries} />
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="places">
-            places
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="photos">
-            photos
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="files">
-            files
-          </TabPanel>
-          <TabPanel sx={{ height: '100%' }} value="links">
-            links
-          </TabPanel>
+          <Box
+            sx={{
+              width: '100%',
+              padding: 3
+            }}
+          >
+            <EditBar id={collectionId} onChange={updateCover} canEdit={isOwner} />
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="about">
+              <About
+                update={updateCollection}
+                canEdit={isOwner}
+                title={title}
+                id={collectionId}
+                description={description}
+              >
+                <Stories collectionId={collectionId} selectedStory={story.id} playing={play} stories={stories} />
+              </About>
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="comments">
+              <Box component={Paper} sx={{ marginTop: 3 }}>
+                <Comments type={AssetTypes.collection} id={collectionId} watchers={accumulator.watchers} />
+              </Box>
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="people">
+              <People persons={accumulator.persons} />
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="timelines">
+              <Timelines timelines={accumulator.timelineEntries} />
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="places">
+              places
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
+              photos
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="files">
+              files
+            </TabPanel>
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="links">
+              links
+            </TabPanel>
+          </Box>
         </Box>
       </Box>
     </>
