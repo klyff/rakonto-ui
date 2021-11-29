@@ -126,6 +126,7 @@ const StepStoryUpload = () => {
                 What is your story called?
               </Typography>
               <TextField
+                autoFocus
                 key={'title'}
                 name={'title'}
                 fullWidth
@@ -149,6 +150,7 @@ const StepStoryUpload = () => {
                 What is this story about (in just one or a few sentences)?
               </Typography>
               <TextField
+                autoFocus
                 key={'description'}
                 name={'description'}
                 fullWidth

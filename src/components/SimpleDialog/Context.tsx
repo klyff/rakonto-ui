@@ -1,6 +1,7 @@
 import React, { useState, createContext, ReactNode, useEffect } from 'react'
 import { iSimpleDialog } from './index'
 import Component from './Component'
+import { RemoveScroll } from 'react-remove-scroll'
 
 // @ts-ignore
 export const SimpleDialogContext = createContext<{

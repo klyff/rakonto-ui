@@ -125,6 +125,7 @@ const Info: React.FC = () => {
         </Box>
 
         <TextField
+          autoFocus
           name="firstName"
           fullWidth
           placeholder="First name"

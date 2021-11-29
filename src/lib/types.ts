@@ -33,7 +33,7 @@ export type Pageable<T> = {
   empty: boolean
 }
 
-export type SearchResultKindType = 'COLLECTION' | 'STORY_AUDIO' | 'STORY_VIDEO'
+export type SearchResultKindType = 'COLLECTION' | 'STORY'
 
 export type SearchResultType = {
   kind: SearchResultKindType

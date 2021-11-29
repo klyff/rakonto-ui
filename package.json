@@ -30,6 +30,7 @@
     "react-google-login": "^5.2.2",
     "react-intersection-observer-hook": "^2.0.3",
     "react-meta-tags": "^1.0.1",
+    "react-remove-scroll": "^2.4.3",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "react-truncate": "^2.4.0",

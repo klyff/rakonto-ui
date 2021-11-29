@@ -28,6 +28,7 @@ const QueueStage: React.FC = () => {
     const isAllFinished = list.some(item => item.step !== 'FINISHED')
     setCloseDisabled(isAllFinished)
     setQueued(list.filter(item => item.step !== 'FINISHED').length)
+    if (list.length === 0) actions.close()
   }, [list])
 
   return (
@@ -62,7 +63,7 @@ const QueueStage: React.FC = () => {
             setOpen(!open)
           }}
         >
-          {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          {open ? <ExpandMoreIcon /> : <ExpandLessIcon />}
         </IconButton>
         <IconButton disabled={closeDisabled} onClick={actions.close}>
           <CloseIcon />

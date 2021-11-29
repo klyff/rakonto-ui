@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Grid from '@mui/material/Grid'
-import { CollectionType } from '../../../lib/types'
+import { CollectionType, SearchResultType } from '../../../lib/types'
 import useInfiniteScroll from '../../../components/hooks/useInfiniteScrool'
 import { usePageableRequest } from '../../../components/hooks/usePageableRequest'
 import Card from '../../../components/Card'
@@ -12,9 +12,9 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
 const Collections: React.FC<RouteComponentProps> = () => {
-  const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<CollectionType>({
+  const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
     size: 15,
-    request: api.getCollections
+    request: api.searchCollections
   })
 
   const [sentryRef] = useInfiniteScroll({
@@ -51,9 +51,11 @@ const Collections: React.FC<RouteComponentProps> = () => {
       </Grid>
       <Grid item xs={12}>
         <Grid container>
-          {items.map(item => (
-            <CollectionCard key={item.id} collection={item} />
-          ))}
+          {items
+            .map(item => item.entity as CollectionType)
+            .map(item => (
+              <CollectionCard key={item.id} collection={item} />
+            ))}
           {hasNextPage && (
             <Grid item xs>
               <Card loading={true} title={''} subTitle={''} thumbnail={''} preview={''} />
