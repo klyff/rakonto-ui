@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import { StepStoryUploadProvider } from '../../../components/StepStoryUpload'
 import { GreetingsDialogProvider } from '../../../components/GreetingsDialog'
 import { QueueProcessorProvider } from '../../../components/QueueProcessor'
+import { CreateCollectionProvider } from '../../../components/CreateCollection'
 import { SocketConnectorProvider } from '../../../components/SocketConnector'
 import api from '../../../lib/api'
 
@@ -19,12 +20,14 @@ const AuthenticatedLayout: React.FC = ({ children }) => {
     <>
       <SocketConnectorProvider>
         <QueueProcessorProvider>
-          <StepStoryUploadProvider>
-            <GreetingsDialogProvider>
-              <Header />
-              {children}
-            </GreetingsDialogProvider>
-          </StepStoryUploadProvider>
+          <CreateCollectionProvider>
+            <StepStoryUploadProvider>
+              <GreetingsDialogProvider>
+                <Header />
+                {children}
+              </GreetingsDialogProvider>
+            </StepStoryUploadProvider>
+          </CreateCollectionProvider>
         </QueueProcessorProvider>
       </SocketConnectorProvider>
     </>

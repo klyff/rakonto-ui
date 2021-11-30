@@ -123,16 +123,11 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
     fetch()
   }, [])
 
-  useEffect(() => {
-    if (!collection) return
-    setStory(collection.stories.find(story => story.id === storyId) || collection.stories[0])
-  }, [collection, storyId])
-
   if (isLoading) {
     return <CircularLoadingCentred />
   }
 
-  if (!collection || !story) {
+  if (!collection) {
     return <Redirect to={'/a/404'} />
   }
 
@@ -179,7 +174,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
           flexFlow: 'column'
         }}
       >
-        <Box sx={{ width: '100%', height: '100%' }}>
+        <Box sx={{ width: '100%', height: '100%', maxHeight: '720px' }}>
           {play ? (
             <Player
               subtitles={story?.subtitles || []}
@@ -195,6 +190,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               title={title}
               description={description}
               onClick={handlePlay}
+              hidePlayButton={!story?.id}
               buttonLabel="View first video"
             />
           )}
@@ -239,7 +235,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
                 id={collectionId}
                 description={description}
               >
-                <Stories collectionId={collectionId} selectedStory={story.id} playing={play} stories={stories} />
+                <Stories collectionId={collectionId} selectedStory={story?.id} playing={play} stories={stories} />
               </About>
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="comments">

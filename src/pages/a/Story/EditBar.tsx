@@ -114,34 +114,35 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, onChange, loadPu
       }
     )
   }
-
-  if (!canEdit) return null
   return (
-    <>
+    <Box
+      sx={{
+        width: '100%',
+        display: 'flex',
+        padding: '0 24px',
+        height: 65
+      }}
+      component={Paper}
+    >
       <Box
+        component={Link}
+        to={`/a/collections/${collection?.id}?storyId=${id}`}
         sx={{
-          width: '100%',
+          flex: 1,
           display: 'flex',
-          padding: '0 24px'
+          alignItems: 'center'
         }}
-        component={Paper}
       >
-        <Box
-          component={Link}
-          to={`/a/collections/${collection?.id}?storyId=${id}`}
-          sx={{
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          <ArrowBackIcon />
-          <Typography sx={{ paddingLeft: 1 }}>{collection?.title}</Typography>
-        </Box>
+        <ArrowBackIcon />
+        <Typography sx={{ paddingLeft: 1 }}>{collection?.title}</Typography>
+      </Box>
+      {canEdit && (
         <Stack direction="row" {...getRootProps()}>
           <Box
             sx={{
-              width: '134px'
+              width: '134px',
+              display: 'flex',
+              alignItems: 'center'
             }}
           >
             <FormGroup>
@@ -168,8 +169,8 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, onChange, loadPu
             Delete
           </Button>
         </Stack>
-      </Box>
-    </>
+      )}
+    </Box>
   )
 }
 

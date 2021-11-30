@@ -11,11 +11,12 @@ interface iCover {
   title: string
   buttonLabel: string
   description: string
+  hidePlayButton?: boolean
   author?: UserType
   onClick: () => void
 }
 
-const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description, author }) => {
+const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description, author, hidePlayButton }) => {
   const fullName = `${author?.firstName} ${author?.lastName}`
 
   return (
@@ -71,9 +72,11 @@ const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description
           >
             <AuthorAvatar prefix={'By'} fullName={fullName} thumbnail={author?.picture?.url} />
           </Box>
-          <Button onClick={onClick} startIcon={<PlayArrowIcon />} variant="contained">
-            {buttonLabel}
-          </Button>
+          {!hidePlayButton && (
+            <Button onClick={onClick} startIcon={<PlayArrowIcon />} variant="contained">
+              {buttonLabel}
+            </Button>
+          )}
         </Box>
       </Box>
     </Box>

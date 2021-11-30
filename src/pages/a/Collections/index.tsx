@@ -10,8 +10,10 @@ import { RouteComponentProps } from 'react-router-dom'
 import api from '../../../lib/api'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import { CreateCollectionContext } from '../../../components/CreateCollection'
 
 const Collections: React.FC<RouteComponentProps> = () => {
+  const { actions: createCollectionActions } = useContext(CreateCollectionContext)
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
     size: 15,
     request: api.searchCollections
@@ -44,7 +46,7 @@ const Collections: React.FC<RouteComponentProps> = () => {
           }}
         >
           <Box sx={{ flex: '1' }} />
-          <Button variant="outlined" onClick={() => alert('open collection modal')}>
+          <Button variant="outlined" onClick={() => createCollectionActions.open()}>
             New collection
           </Button>
         </Box>

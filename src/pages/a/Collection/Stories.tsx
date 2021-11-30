@@ -130,10 +130,11 @@ interface iStories {
   collectionId: string
   stories: StoryType[]
   playing: boolean
-  selectedStory: string
+  selectedStory: string | undefined
 }
 
 const Stories: React.FC<iStories> = ({ selectedStory, collectionId, stories, playing }) => {
+  if (!selectedStory) return null
   return (
     <Box sx={{ display: 'flex', flexFlow: 'column', height: '100%' }}>
       {stories.map(story => (
