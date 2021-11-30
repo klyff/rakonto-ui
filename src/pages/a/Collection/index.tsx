@@ -15,7 +15,7 @@ import {
 import Player from '../../../components/Player'
 import Cover from '../../../components/Cover'
 import Box from '@mui/material/Box'
-import About from './About'
+import Content from './Content'
 import TabPanel from '@mui/lab/TabPanel'
 import People from './People'
 import Timelines from './Timelines'
@@ -197,7 +197,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
         </Box>
         <Box
           component={TabContext}
-          value={(tab as string) || 'about'}
+          value={(tab as string) || 'content'}
           sx={{
             width: '100%',
             height: '100%'
@@ -211,7 +211,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               boxShadow: 6
             }}
           >
-            <Tab label="About" value="about" onClick={() => onTabClick('about')} />
+            <Tab label="Content" value="content" onClick={() => onTabClick('content')} />
             <Tab label="Comments" value="comments" onClick={() => onTabClick('comments')} />
             <Tab label="People" value="people" onClick={() => onTabClick('people')} />
             <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
@@ -227,8 +227,8 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
             }}
           >
             <EditBar id={collectionId} onChange={updateCover} canEdit={isOwner} />
-            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="about">
-              <About
+            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="content">
+              <Content
                 update={updateCollection}
                 canEdit={isOwner}
                 title={title}
@@ -236,7 +236,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
                 description={description}
               >
                 <Stories collectionId={collectionId} selectedStory={story?.id} playing={play} stories={stories} />
-              </About>
+              </Content>
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="comments">
               <Box component={Paper} sx={{ marginTop: 3 }}>

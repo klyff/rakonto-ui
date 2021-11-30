@@ -85,43 +85,38 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange }) => {
     )
   }
 
+  if (!canEdit) return null
   return (
-    <>
-      {canEdit && (
-        <>
-          {showShare && <Share id={id} type={AssetTypes.collection} onCloseClick={() => setShowShare(false)} />}
-          <Box
-            sx={{
-              width: '100%',
-              padding: '0 24px',
-              height: 65,
-              display: 'flex',
-              alignItems: 'center'
-            }}
-            component={Paper}
-          >
-            <Stack direction="row" {...getRootProps()}>
-              <input {...getInputProps()} />
-              <LoadingButton
-                loadingPosition="start"
-                loading={!!progress}
-                onClick={openUpload}
-                color="secondary"
-                startIcon={<ImageIcon />}
-              >
-                Thumbnail
-              </LoadingButton>
-              <Button color="secondary" onClick={() => setShowShare(true)} startIcon={<ShareIcon />}>
-                Share
-              </Button>
-              <Button color="secondary" onClick={handleDelete} startIcon={<DeleteIcon />}>
-                Delete
-              </Button>
-            </Stack>
-          </Box>
-        </>
-      )}
-    </>
+    <Box
+      sx={{
+        width: '100%',
+        padding: '0 24px',
+        height: 65,
+        display: 'flex',
+        alignItems: 'center'
+      }}
+      component={Paper}
+    >
+      {showShare && <Share id={id} type={AssetTypes.collection} onCloseClick={() => setShowShare(false)} />}
+      <Stack direction="row" {...getRootProps()}>
+        <input {...getInputProps()} />
+        <LoadingButton
+          loadingPosition="start"
+          loading={!!progress}
+          onClick={openUpload}
+          color="secondary"
+          startIcon={<ImageIcon />}
+        >
+          Thumbnail
+        </LoadingButton>
+        <Button color="secondary" onClick={() => setShowShare(true)} startIcon={<ShareIcon />}>
+          Share
+        </Button>
+        <Button color="secondary" onClick={handleDelete} startIcon={<DeleteIcon />}>
+          Delete
+        </Button>
+      </Stack>
+    </Box>
   )
 }
 

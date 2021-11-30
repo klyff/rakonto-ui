@@ -118,9 +118,10 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, onChange, loadPu
     <Box
       sx={{
         width: '100%',
-        display: 'flex',
         padding: '0 24px',
-        height: 65
+        height: 65,
+        display: 'flex',
+        alignItems: 'center'
       }}
       component={Paper}
     >

@@ -11,7 +11,7 @@ import Button from '@mui/material/Button'
 import schema from './schema'
 import { CollectionFormType, ImageType, StoryUpdateType } from '../../../../lib/types'
 
-interface iAbout {
+interface iContent {
   title: string
   id: string
   description: string
@@ -20,7 +20,7 @@ interface iAbout {
   onChange?: (image: ImageType) => void
 }
 
-const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, children }) => {
+const Content: React.FC<iContent> = ({ update, title, id, description, canEdit, children }) => {
   const [editMode, setEditMode] = useState<boolean>(false)
   const initialValues = { title: title, description: description }
 
@@ -133,4 +133,4 @@ const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, chil
   )
 }
 
-export default About
+export default Content
