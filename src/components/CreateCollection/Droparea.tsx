@@ -62,7 +62,7 @@ const Droparea: React.FC<iDroparea> = ({ onDrop }) => {
                 />
               </Box>
               <Typography fontWeight="700" align="center" variant="h5" gutterBottom>
-                Drag and drop a image cover file here
+                Upload thumbnail
               </Typography>
               <Typography fontWeight="700" align="center" variant="h6" gutterBottom>
                 or

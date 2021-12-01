@@ -12,12 +12,12 @@ import TextField from '@mui/material/TextField'
 import schema from './schema'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 import api from '../../lib/api'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
 import Droparea from './Droparea'
 import { ImageType } from '../../lib/types'
-import Cover from '../Cover'
 import { CircularProgress } from '@mui/material'
 
 const CreateCollection = () => {
@@ -100,6 +100,7 @@ const CreateCollection = () => {
             key={'title'}
             name={'title'}
             fullWidth
+            label={'Collection title'}
             margin="dense"
             placeholder="Type your own Collection title"
             onBlur={handleBlur}
@@ -114,6 +115,7 @@ const CreateCollection = () => {
             fullWidth
             multiline
             rows={4}
+            label={'About'}
             placeholder="Type a description here..."
             margin="dense"
             value={values.description}
@@ -143,16 +145,26 @@ const CreateCollection = () => {
                 }}
               >
                 <Box
+                  onClick={() => setFieldValue('cover', null)}
                   sx={{
                     position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)'
+                    top: '5%',
+                    right: '0',
+                    width: 40,
+                    height: 40,
+                    borderRadius: 50,
+                    backgroundColor: 'primary.main',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    cursor: 'pointer'
                   }}
                 >
-                  <Button variant="contained" onClick={() => setFieldValue('cover', null)}>
-                    Remove
-                  </Button>
+                  <DeleteIcon
+                    sx={{
+                      color: 'common.black'
+                    }}
+                  />
                 </Box>
               </Box>
             )}
