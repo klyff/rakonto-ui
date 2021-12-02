@@ -88,7 +88,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
         watchers: []
       }
     )
-    setStory(value.stories.find(story => story.id === storyId) || value.stories[0])
+
     setAccumulator(acc)
     setCollection(value)
     setIsLoading(false)
@@ -122,6 +122,11 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
     setIsLoading(true)
     fetch()
   }, [])
+
+  useEffect(() => {
+    if (!collection?.id || !storyId) return
+    setStory(collection.stories.find(story => story.id === storyId) || collection.stories[0])
+  }, [storyId, collection])
 
   if (isLoading) {
     return <CircularLoadingCentred />

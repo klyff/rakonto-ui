@@ -20,7 +20,7 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
   const [hover, setHover] = useState<boolean>(false)
 
   return (
-    <Box sx={{ display: 'flex', maxHeight: 200 }} key={story.id}>
+    <Box sx={{ display: 'flex', maxHeight: 200, marginBottom: 1 }} key={story.id}>
       <Box sx={{ position: 'relative' }}>
         <Box
           onMouseEnter={() => setHover(true)}
@@ -32,6 +32,7 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
             sx={{
               position: 'absolute',
               backgroundColor: 'action.selected',
+              objectFit: 'cover',
               height: '100%',
               width: '100%'
             }}

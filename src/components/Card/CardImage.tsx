@@ -56,7 +56,8 @@ const CardImage: React.FC<iCardImage> = ({ type, thumbnail, preview }) => {
         sx={{
           width: '100%',
           height: '100%',
-          objectFit: 'contain',
+          objectFit: 'cover',
+          objectPosition: 'center',
           borderTopLeftRadius: 8,
           borderTopRightRadius: 8
         }}
