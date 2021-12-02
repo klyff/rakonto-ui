@@ -13,21 +13,22 @@ import UploadIcon from '@mui/icons-material/Upload'
 import LoadingButton from '@mui/lab/LoadingButton'
 import ImageIcon from '@mui/icons-material/Image'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { CollectionType, ImageType } from '../../../lib/types'
+import { CollectionType, ImageType } from '../../../../lib/types'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
-import api from '../../../lib/api'
-import { SimpleDialogContext } from '../../../components/SimpleDialog'
-import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
+import api from '../../../../lib/api'
+import { SimpleDialogContext } from '../../../../components/SimpleDialog'
+import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
+import CollectionMove from './CollectionMove'
 
 interface iEditBar {
   collection: CollectionType
   canEdit: boolean
   id: string
-  onChange?: (image: ImageType) => void
+  reload: () => void
   loadPublished?: boolean
 }
 
-const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, onChange, loadPublished }) => {
+const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPublished }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const history = useHistory()
@@ -58,6 +59,22 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, onChange, loadPu
     fetchIsPublished()
   }, [id])
 
+  const updateCover = async (image: ImageType) => {
+    try {
+      await api.updateStoryCover(id, image.id)
+      reload()
+    } catch (error) {
+      // @ts-ignore
+      const { data } = error
+      if (data.code === '1018') {
+        snackActions.open('This story cannot be edited!')
+        throw error
+      }
+      snackActions.open('Something was wrong! please try again.')
+      throw error
+    }
+  }
+
   const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
       try {
@@ -66,7 +83,7 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, onChange, loadPu
           setProgress(Math.round((event.loaded * 100) / event.total))
         })
         setProgress(0)
-        onChange && onChange(image)
+        updateCover(image)
       } catch (error) {
         snackActions.open('Something was wrong! please try again.')
         setProgress(0)
@@ -138,7 +155,7 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, onChange, loadPu
         <Typography sx={{ paddingLeft: 1 }}>{collection?.title}</Typography>
       </Box>
       {canEdit && (
-        <Stack direction="row" {...getRootProps()}>
+        <Stack direction="row">
           <Box
             sx={{
               width: '134px',
@@ -153,19 +170,23 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, onChange, loadPu
               />
             </FormGroup>
           </Box>
+          <CollectionMove storyId={id} reload={reload} />
           <Button color="secondary" startIcon={<UploadIcon />}>
             Replace video/ audio
           </Button>
-          <input {...getInputProps()} />
-          <LoadingButton
-            loadingPosition="start"
-            loading={!!progress}
-            onClick={openUpload}
-            color="secondary"
-            startIcon={<ImageIcon />}
-          >
-            Thumbnail
-          </LoadingButton>
+          <Box {...getRootProps()}>
+            <input {...getInputProps()} />
+            <LoadingButton
+              loadingPosition="start"
+              loading={!!progress}
+              onClick={openUpload}
+              color="secondary"
+              startIcon={<ImageIcon />}
+            >
+              Thumbnail
+            </LoadingButton>
+          </Box>
+
           <Button color="secondary" onClick={handleDelete} startIcon={<DeleteIcon />}>
             Delete
           </Button>
