@@ -95,22 +95,6 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
     setTab(tab)
   }
 
-  const updateCover = async (image: ImageType) => {
-    try {
-      await api.updateStoryCover(storyId, image.id)
-      fetch()
-    } catch (error) {
-      // @ts-ignore
-      const { data } = error
-      if (data.code === '1018') {
-        snackActions.open('This story cannot be edited!')
-        throw error
-      }
-      snackActions.open('Something was wrong! please try again.')
-      throw error
-    }
-  }
-
   return (
     <>
       <MetaTags>
@@ -177,7 +161,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             <EditBar
               id={storyId}
               canEdit={isOwner}
-              onChange={updateCover}
+              reload={fetch}
               loadPublished={published}
               collection={collections[0]}
             />
