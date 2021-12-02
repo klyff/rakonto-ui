@@ -170,7 +170,7 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
               />
             </FormGroup>
           </Box>
-          <CollectionMove storyId={id} reload={reload} />
+          <CollectionMove currentCollectionId={collection.id} storyId={id} reload={reload} />
           <Button color="secondary" startIcon={<UploadIcon />}>
             Replace video/ audio
           </Button>

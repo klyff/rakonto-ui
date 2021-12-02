@@ -182,6 +182,12 @@ export const moveStoryToCollection =
     await request.post(`a/stories/${id}/add-collection`, { collectionId }).then(res => res.data)
   }
 
+export const changeStoryToCollection =
+  (request: AxiosInstance) =>
+  async (id: string, newCollectionId: string, oldCollectionId: string): Promise<void> => {
+    await request.post(`a/stories/${id}/change-collection`, { newCollectionId, oldCollectionId }).then(res => res.data)
+  }
+
 export const isStoryPublished =
   (request: AxiosInstance) =>
   async (id: string): Promise<boolean> => {

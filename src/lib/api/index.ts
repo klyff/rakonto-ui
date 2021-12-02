@@ -73,7 +73,8 @@ import {
   uploadSubtitle,
   updateStoryStatus,
   isStoryPublished,
-  moveStoryToCollection
+  moveStoryToCollection,
+  changeStoryToCollection
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -132,6 +133,7 @@ export default {
   updateStory: updateStory(request),
   updateStoryStatus: updateStoryStatus(request),
   moveStoryToCollection: moveStoryToCollection(request),
+  changeStoryToCollection: changeStoryToCollection(request),
   isStoryPublished: isStoryPublished(request),
   updateStoryCover: updateStoryCover(request),
   publish: publish(request),

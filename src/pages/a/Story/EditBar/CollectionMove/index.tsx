@@ -19,10 +19,11 @@ import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
 
 interface iCollectionMove {
   storyId: string
+  currentCollectionId: string
   reload: () => void
 }
 
-const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload }) => {
+const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload, currentCollectionId }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [open, setOpen] = useState<boolean>(false)
   const [options, setOptions] = useState<SearchResultType[]>([])
@@ -62,7 +63,7 @@ const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload }) => {
   const handleMove = async () => {
     try {
       if (selectedCollection?.entity.id) {
-        await api.moveStoryToCollection(storyId, selectedCollection.entity.id)
+        await api.changeStoryToCollection(storyId, selectedCollection.entity.id, currentCollectionId)
         reload()
         snackActions.open('This story was moved to new collection!')
         handleClose()
