@@ -16,6 +16,7 @@ const Collections: React.FC<RouteComponentProps> = () => {
   const { actions: createCollectionActions } = useContext(CreateCollectionContext)
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
     size: 15,
+    q: '',
     request: api.searchCollections
   })
 

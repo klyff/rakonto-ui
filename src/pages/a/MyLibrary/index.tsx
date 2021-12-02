@@ -1,16 +1,18 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import StoriesSlider from './StoriesSlider'
 import CollectionsTile from './CollectionsSlider'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Suggestion from '../../../components/Suggestion'
+import SearchBox from '../../../components/SearchBox'
 import { RouteComponentProps } from 'react-router-dom'
 import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
 
 const MyLibrary: React.FC<RouteComponentProps> = () => {
   const { actions: newStoryActions } = useContext(StepStoryUploadContext)
+  const [q, setQ] = useState<string>('')
+
   return (
     <Grid
       container
@@ -29,7 +31,7 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
             justifyContent: 'space-between'
           }}
         >
-          <Suggestion />
+          <SearchBox onSearch={value => setQ(value)} />
           <Button variant="outlined" onClick={() => newStoryActions.open()}>
             New story
           </Button>
@@ -40,7 +42,7 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
           Collections
         </Typography>
         <div>
-          <CollectionsTile />
+          <CollectionsTile q={q} />
         </div>
       </Grid>
       <Grid item xs={12}>
@@ -48,7 +50,7 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
           Stories
         </Typography>
         <div>
-          <StoriesSlider />
+          <StoriesSlider q={q} />
         </div>
       </Grid>
     </Grid>

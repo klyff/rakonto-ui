@@ -17,6 +17,7 @@ const Stories: React.FC<RouteComponentProps> = () => {
 
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
     size: 15,
+    q: '',
     request: api.searchStories
   })
 

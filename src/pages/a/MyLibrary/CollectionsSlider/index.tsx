@@ -8,10 +8,15 @@ import CollectionCard from '../../../../components/CollectionCard'
 import { useHistory } from 'react-router-dom'
 import api from '../../../../lib/api'
 
-const CollectionsSlider: React.FC = () => {
+interface iCollectionsSlider {
+  q: string
+}
+
+const CollectionsSlider: React.FC<iCollectionsSlider> = ({ q }) => {
   const history = useHistory()
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
     size: 15,
+    q: q,
     request: api.searchCollections
   })
 

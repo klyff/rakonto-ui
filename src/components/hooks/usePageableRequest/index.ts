@@ -11,9 +11,11 @@ export interface Item {
 
 export const usePageableRequest = <T>({
   size,
+  q,
   request
 }: {
   size: number
+  q: string
   request: (page: number, size: number, q?: string) => Promise<Pageable<T>>
 }): {
   loading: boolean
@@ -29,8 +31,6 @@ export const usePageableRequest = <T>({
   const [hasNextPage, setHasNextPage] = useState<boolean>(true)
   const [error, setError] = useState<Error | undefined>()
   const [page, setPage] = useState<number>(0)
-  const location = useLocation()
-  const { q } = parse(location?.search as string, { ignoreQueryPrefix: true })
 
   async function reload() {
     setLoading(true)

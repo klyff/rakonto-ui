@@ -8,10 +8,15 @@ import Card from '../../../../components/Card'
 import StoryCard from '../../../../components/StoryCard'
 import { useHistory } from 'react-router-dom'
 
-const StoriesSliderTile: React.FC = () => {
+interface iStoriesSliderTiler {
+  q: string
+}
+
+const StoriesSliderTile: React.FC<iStoriesSliderTiler> = ({ q }) => {
   const history = useHistory()
   const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
     size: 15,
+    q: q,
     request: api.searchStories
   })
 
