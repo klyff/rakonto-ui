@@ -6,12 +6,12 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import SearchBox from '../../../components/SearchBox'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, useHistory } from 'react-router-dom'
 import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
 
 const MyLibrary: React.FC<RouteComponentProps> = () => {
   const { actions: newStoryActions } = useContext(StepStoryUploadContext)
-  const [q, setQ] = useState<string>('')
+  const history = useHistory()
 
   return (
     <Grid
@@ -31,7 +31,7 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
             justifyContent: 'space-between'
           }}
         >
-          <SearchBox onSearch={value => setQ(value)} />
+          <SearchBox onSearch={value => history.push({ pathname: '/a/search', search: `q=${value}` })} />
           <Button variant="outlined" onClick={() => newStoryActions.open()}>
             New story
           </Button>
@@ -42,7 +42,7 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
           Collections
         </Typography>
         <div>
-          <CollectionsTile q={q} />
+          <CollectionsTile q={''} />
         </div>
       </Grid>
       <Grid item xs={12}>
@@ -50,7 +50,7 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
           Stories
         </Typography>
         <div>
-          <StoriesSlider q={q} />
+          <StoriesSlider q={''} />
         </div>
       </Grid>
     </Grid>

@@ -5,6 +5,7 @@ import AuthenticatedLayout from './a/AuthenticatedLayout'
 import PublicLayout from './u/PublicLayout'
 import Signin from './u/Signin'
 import CircularLoadingCentred from '../components/CircularLoadingCentred'
+import Search from './a/Search'
 
 const Signup = lazy(() => import('./u/Signup'))
 const ConfirmationEmail = lazy(() => import('./u/ConfirmationEmail'))
@@ -27,6 +28,7 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
         <Switch>
           <Route exact path="/a/profile" component={Profile} />
           <Route exact path="/a/my-library" component={MyLibrary} />
+          <Route exact path="/a/search" component={Search} />
           <Route exact path="/a/stories/:storyId" component={Story} />
           <Route exact path="/a/stories" component={Stories} />
           <Route exact path="/a/collections/:collectionId" component={Collection} />

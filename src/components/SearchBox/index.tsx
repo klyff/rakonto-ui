@@ -30,13 +30,14 @@ const useStyles = makeStyles(() =>
 
 interface iSearchBox {
   onSearch: (value: string) => void
+  q?: string
 }
 
-const SearchBox: React.FC<iSearchBox> = ({ onSearch }) => {
+const SearchBox: React.FC<iSearchBox> = ({ onSearch, q }) => {
   const classes = useStyles()
 
-  const [value, setValue] = useState<string | null>(null)
-  const [inputValue, setInputValue] = useState('')
+  const [value, setValue] = useState<string | null>(q || null)
+  const [inputValue, setInputValue] = useState(q || '')
   const [options, setOptions] = useState<readonly string[]>([])
 
   const fetchOptions = useMemo(
