@@ -13,7 +13,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
-import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove'
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import Typography from '@mui/material/Typography'
 import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
 
@@ -82,8 +82,8 @@ const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload, currentCol
 
   return (
     <>
-      <Button color="secondary" onClick={() => setOpen(true)} startIcon={<DriveFileMoveIcon />}>
-        Move to collection
+      <Button color="secondary" onClick={() => setOpen(true)} startIcon={<SwapHorizIcon />}>
+        Change collection
       </Button>
       <Dialog open={open} maxWidth="md" fullWidth onClose={handleClose}>
         <DialogTitle>Move to collection</DialogTitle>

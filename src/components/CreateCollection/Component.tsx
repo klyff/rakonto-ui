@@ -96,39 +96,17 @@ const CreateCollection = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          <TextField
-            key={'title'}
-            name={'title'}
-            fullWidth
-            label={'Collection title'}
-            margin="dense"
-            placeholder="Type your own Collection title"
-            onBlur={handleBlur}
-            value={values.title}
-            onChange={handleChange}
-            error={touched.title && Boolean(errors.title)}
-            helperText={(touched.title && errors.title) || ' '}
-          />
-          <TextField
-            key={'description'}
-            name={'description'}
-            fullWidth
-            multiline
-            rows={4}
-            label={'About'}
-            placeholder="Type a description here..."
-            margin="dense"
-            value={values.description}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.description && Boolean(errors.description)}
-            helperText={(touched.description && errors.description) || ' '}
-          />
+          <Typography gutterBottom>
+            Prefer to use images in 16:9 aspect to fill the entire cover.
+            <br />
+            We suggest a resolution of at least 720 x 540.
+          </Typography>
           <Box
             sx={{
               width: '100%',
               height: 322,
-              position: 'relative'
+              position: 'relative',
+              margin: '16px 0'
             }}
           >
             {!progress && !values.cover && <Droparea onDrop={onDrop} />}
@@ -199,6 +177,34 @@ const CreateCollection = () => {
               </Box>
             )}
           </Box>
+          <TextField
+            key={'title'}
+            name={'title'}
+            fullWidth
+            label={'Collection title'}
+            margin="dense"
+            placeholder="Type your own Collection title"
+            onBlur={handleBlur}
+            value={values.title}
+            onChange={handleChange}
+            error={touched.title && Boolean(errors.title)}
+            helperText={(touched.title && errors.title) || ' '}
+          />
+          <TextField
+            key={'description'}
+            name={'description'}
+            fullWidth
+            multiline
+            rows={4}
+            label={'About'}
+            placeholder="Type a description here..."
+            margin="dense"
+            value={values.description}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.description && Boolean(errors.description)}
+            helperText={(touched.description && errors.description) || ' '}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={actions.close} sx={{ mt: 1, mr: 1 }}>
@@ -210,7 +216,7 @@ const CreateCollection = () => {
             onClick={() => handleSubmit()}
             sx={{ mt: 1, mr: 1 }}
           >
-            Confirm
+            Create
           </Button>
         </DialogActions>
       </Dialog>
