@@ -31,9 +31,10 @@ const useStyles = makeStyles(() =>
 interface iSearchBox {
   onSearch: (value: string) => void
   q?: string
+  autoFocus?: boolean
 }
 
-const SearchBox: React.FC<iSearchBox> = ({ onSearch, q }) => {
+const SearchBox: React.FC<iSearchBox> = ({ onSearch, q, autoFocus }) => {
   const classes = useStyles()
 
   const [value, setValue] = useState<string | null>(q || null)
@@ -67,7 +68,10 @@ const SearchBox: React.FC<iSearchBox> = ({ onSearch, q }) => {
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue)
-          onSearch(newValue || '')
+
+          if (newValue && newValue.trim().length > 0) {
+            onSearch(newValue || '')
+          }
         }}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue)
@@ -76,6 +80,7 @@ const SearchBox: React.FC<iSearchBox> = ({ onSearch, q }) => {
         renderInput={params => (
           <TextField
             {...params}
+            autoFocus={autoFocus}
             classes={{
               root: classes.textFieldRoot
             }}

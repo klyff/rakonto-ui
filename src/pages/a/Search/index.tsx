@@ -47,6 +47,7 @@ const Search: React.FC<RouteComponentProps> = () => {
           }}
         >
           <SearchBox
+            autoFocus
             q={q as string}
             onSearch={value => history.push({ pathname: '/a/search', search: `q=${value}` })}
           />
