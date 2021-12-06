@@ -91,6 +91,7 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange }) => {
       sx={{
         width: '100%',
         padding: '0 24px',
+        marginBottom: 3,
         height: 65,
         display: 'flex',
         alignItems: 'center'

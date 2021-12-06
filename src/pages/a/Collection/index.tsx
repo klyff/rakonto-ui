@@ -1,17 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import {
-  AssetTypes,
-  CollectionFormType,
-  CollectionType,
-  FileType,
-  GalleryType,
-  ImageType,
-  LinkType,
-  PersonType,
-  StoryType,
-  TimelineType,
-  WatcherType
-} from '../../../lib/types'
+import { AssetTypes, CollectionFormType, CollectionType, ImageType, StoryType } from '../../../lib/types'
 import Player from '../../../components/Player'
 import Cover from '../../../components/Cover'
 import Box from '@mui/material/Box'
@@ -41,55 +29,12 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
   const { autoplay, storyId } = parse(location?.search as string, { ignoreQueryPrefix: true })
   const [collection, setCollection] = useState<CollectionType | null>(null)
   const [story, setStory] = useState<StoryType | null>(null)
-  const [accumulator, setAccumulator] = useState<{
-    persons: PersonType[]
-    files: FileType[]
-    links: LinkType[]
-    galleryEntries: GalleryType[]
-    timelineEntries: TimelineType[]
-    watchers: WatcherType[]
-  }>({
-    persons: [],
-    files: [],
-    links: [],
-    galleryEntries: [],
-    timelineEntries: [],
-    watchers: []
-  })
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [play, setPlay] = useState<boolean>(!!autoplay)
   const [tab, setTab] = useState<string>('')
   const [isOwner, setIsOwner] = useState<boolean>(false)
 
   const computeCollection = (value: CollectionType) => {
-    const acc = value?.stories?.reduce<{
-      persons: PersonType[]
-      files: FileType[]
-      links: LinkType[]
-      galleryEntries: GalleryType[]
-      timelineEntries: TimelineType[]
-      watchers: WatcherType[]
-    }>(
-      (acc, story) => {
-        acc.timelineEntries.push(...story.timelineEntries)
-        acc.files.push(...story.files)
-        acc.links.push(...story.links)
-        acc.galleryEntries.push(...story.galleryEntries)
-        acc.persons.push(...story.persons)
-        acc.watchers.push(...story.watchers)
-        return acc
-      },
-      {
-        persons: [],
-        files: [],
-        links: [],
-        galleryEntries: [],
-        timelineEntries: [],
-        watchers: []
-      }
-    )
-
-    setAccumulator(acc)
     setCollection(value)
     setIsLoading(false)
     if (value.owner.id === user?.id) {
@@ -245,14 +190,14 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="comments">
               <Box component={Paper} sx={{ marginTop: 3 }}>
-                <Comments type={AssetTypes.collection} id={collectionId} watchers={accumulator.watchers} />
+                <Comments type={AssetTypes.collection} id={collectionId} watchers={[]} />
               </Box>
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="people">
-              <People persons={accumulator.persons} />
+              <People list={collection.stories} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="timelines">
-              <Timelines timelines={accumulator.timelineEntries} />
+              <Timelines timelines={[]} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="places">
               places

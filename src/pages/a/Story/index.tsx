@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { AssetTypes, ImageType, StoryType, StoryUpdateType } from '../../../lib/types'
+import { AssetTypes, StoryType, StoryUpdateType } from '../../../lib/types'
 import Player from '../../../components/Player'
 import Box from '@mui/material/Box'
 import About from './About'
@@ -12,8 +12,8 @@ import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import Tab from '@mui/material/Tab'
 import TabPanel from '@mui/lab/TabPanel'
-import People from '../Collection/People'
-import Timelines from '../Collection/Timelines'
+import People from './People'
+import Timelines from './Timelines'
 import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
@@ -171,7 +171,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               </About>
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="people">
-              <People persons={persons} />
+              <People storyId={storyId} canEdit={isOwner} persons={persons} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="timelines">
               <Timelines timelines={timelineEntries} />
