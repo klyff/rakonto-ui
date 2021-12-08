@@ -100,32 +100,34 @@ const Index: React.FC<iPeople> = ({ persons, canEdit, storyId }) => {
       )}
 
       <Divider sx={{ margin: '24px 0' }} />
-      <Box
-        sx={{
-          maxWidth: '422px',
-          marginBottom: 3
-        }}
-      >
-        <TextField
-          size="small"
-          key="search"
-          name="search"
-          fullWidth
-          rows={4}
-          autoComplete="off"
-          placeholder="Type person name for filter list"
-          margin="dense"
-          value={searchValue}
-          onChange={e => setSearchValue(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            )
+      {!canEdit && (
+        <Box
+          sx={{
+            maxWidth: '422px',
+            marginBottom: 3
           }}
-        />
-      </Box>
+        >
+          <TextField
+            size="small"
+            key="search"
+            name="search"
+            fullWidth
+            rows={4}
+            autoComplete="off"
+            placeholder="Type person name for filter list"
+            margin="dense"
+            value={searchValue}
+            onChange={e => setSearchValue(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Box>
+      )}
       {people.length ? (
         people
           .filter(p => p.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))

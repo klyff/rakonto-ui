@@ -76,7 +76,7 @@ const Info: React.FC = () => {
 
   return (
     <Box component="form" sx={{ width: '100%', height: '100%', bgcolor: 'background.paper', padding: 2 }}>
-      <Box sx={{ width: '660px' }}>
+      <Box sx={{ minWidth: '320px', width: '100%' }}>
         <Box
           sx={{
             paddingTop: 2,
@@ -90,7 +90,7 @@ const Info: React.FC = () => {
             {...getRootProps()}
             sx={{
               height: '120px',
-              width: '120px',
+              minWidth: '120px',
               borderRadius: '50%',
               border: '1px solid',
               display: 'flex',

@@ -9,24 +9,6 @@ import SecurityIcon from '@mui/icons-material/Security'
 import Info from './Info'
 import Stack from '@mui/material/Stack'
 
-// const TabPanel: React.FC<{ value: number; index: number }> = ({ children, value, index, ...other }) => {
-//   return (
-//     <div
-//       role="tabpanel"
-//       hidden={value !== index}
-//       id={`vertical-tabpanel-${index}`}
-//       aria-labelledby={`vertical-tab-${index}`}
-//       {...other}
-//     >
-//       {value === index && (
-//         <Box sx={{ paddingLeft: '16px', paddingTop: '24px' }}>
-//           <Typography>{children}</Typography>
-//         </Box>
-//       )}
-//     </div>
-//   )
-// }
-
 const Profile: React.FC<RouteComponentProps> = () => {
   const [tab, setTab] = useState('info')
 

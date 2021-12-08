@@ -18,6 +18,7 @@ const Signout = lazy(() => import('./a/Signout'))
 const Collections = lazy(() => import('./a/Collections'))
 const Collection = lazy(() => import('./a/Collection'))
 const Profile = lazy(() => import('./a/Profile'))
+const People = lazy(() => import('./a/People'))
 
 const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   const token = Cookies.get('token')
@@ -26,6 +27,7 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
     <AuthenticatedLayout>
       <Suspense fallback={<CircularLoadingCentred />}>
         <Switch>
+          <Route exact path="/a/people" component={People} />
           <Route exact path="/a/profile" component={Profile} />
           <Route exact path="/a/my-library" component={MyLibrary} />
           <Route exact path="/a/search" component={Search} />

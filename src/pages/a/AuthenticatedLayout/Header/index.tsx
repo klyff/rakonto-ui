@@ -8,12 +8,7 @@ import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
-import MailIcon from '@mui/icons-material/Mail'
-import TimelineIcon from '@mui/icons-material/Timeline'
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import MoreIcon from '@mui/icons-material/MoreVert'
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera'
-import RoomIcon from '@mui/icons-material/Room'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import FolderSpecialIcon from '@mui/icons-material/FolderSpecial'
 import HomeIcon from '@mui/icons-material/Home'
@@ -52,6 +47,13 @@ export default function PrimarySearchAppBar() {
   const handleLogout = () => {
     history.push('/a/signout')
   }
+
+  const menuOptions = [
+    { name: 'my-library', href: '/a/my-library', icon: <HomeIcon />, text: 'My Library' },
+    { name: 'stories', href: '/a/stories', icon: <MovieIcon />, text: 'Stories' },
+    { name: 'collections', href: '/a/collections', icon: <FolderSpecialIcon />, text: 'Collections' },
+    { name: 'people', href: '/a/people', icon: <PeopleAltIcon />, text: 'People' }
+  ]
 
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
@@ -93,24 +95,28 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={() => history.push('/a/my-library')}>
-        <MailIcon>My Libary</MailIcon>
+      {menuOptions.map(item => (
+        <MenuItem
+          key={item.name}
+          onClick={() => {
+            history.push(item.href)
+            handleMenuClose()
+          }}
+        >
+          {item.text}
+        </MenuItem>
+      ))}
+      <MenuItem
+        onClick={() => {
+          history.push(`/a/profile`)
+          handleMenuClose()
+        }}
+      >
+        Profile
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   )
-
-  const menuOptions = [
-    { name: 'my-library', href: '/a/my-library', icon: <HomeIcon />, text: 'My Library' },
-    { name: 'stories', href: '/a/stories', icon: <MovieIcon />, text: 'Stories' },
-    { name: 'collections', href: '/a/collections', icon: <FolderSpecialIcon />, text: 'Collections' },
-    { name: 'peoples', href: '/a/peoples', icon: <PeopleAltIcon />, text: 'People' },
-    { name: 'places', href: '/a/places', icon: <RoomIcon />, text: 'Places' },
-    { name: 'photos', href: '/a/photos', icon: <PhotoCameraIcon />, text: 'Photos' },
-    { name: 'files', href: '/a/files', icon: <InsertDriveFileIcon />, text: 'Files' },
-    { name: 'timeline', href: '/a/timeline', icon: <TimelineIcon />, text: 'Timeline' }
-  ]
 
   return (
     <Box sx={{ flexGrow: 1 }}>
