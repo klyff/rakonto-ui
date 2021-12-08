@@ -76,7 +76,7 @@ const Info: React.FC = () => {
 
   return (
     <Box component="form" sx={{ width: '100%', height: '100%', bgcolor: 'background.paper', padding: 2 }}>
-      <Box sx={{ minWidth: '320px', width: '100%' }}>
+      <Box sx={{ minWidth: '320px', width: '100%', maxWidth: '422px' }}>
         <Box
           sx={{
             paddingTop: 2,

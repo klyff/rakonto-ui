@@ -55,7 +55,7 @@ const Password: React.FC = () => {
 
   return (
     <Box component="form" sx={{ width: '100%', height: '100%', bgcolor: 'background.paper', padding: 2 }}>
-      <Box sx={{ width: '422px' }}>
+      <Box sx={{ minWidth: '320px', width: '100%', maxWidth: '422px' }}>
         <Typography sx={{ paddingBottom: 4 }} variant="body1">
           We suggest you use 8 or more characters with a mix of letters, numbers for the most secure password:
         </Typography>
