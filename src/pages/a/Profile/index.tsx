@@ -28,19 +28,18 @@ const Profile: React.FC<RouteComponentProps> = () => {
       >
         Profile
       </Typography>
-      <Box sx={{ height: 'calc(100% - 155px)', display: 'flex' }}>
+      <Box sx={{ minHeight: 'calc(100% - 155px)', display: 'flex' }}>
         <Box
           component={Stack}
           direction="column"
           spacing={2}
           sx={{
-            width: '212px',
             paddingLeft: 2,
             paddingRight: 2
           }}
         >
           <Button
-            color={tab === 'info' ? 'secondary' : 'primary'}
+            color={tab === 'info' ? 'primary' : 'secondary'}
             fullWidth
             startIcon={<AccountCircleIcon />}
             onClick={() => onTabClick('info')}
@@ -48,7 +47,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
             <Box sx={{ width: '122px', textAlign: 'start' }}>Personal info</Box>
           </Button>
           <Button
-            color={tab === 'password' ? 'secondary' : 'primary'}
+            color={tab === 'password' ? 'primary' : 'secondary'}
             fullWidth
             startIcon={<SecurityIcon />}
             onClick={() => onTabClick('password')}
@@ -58,12 +57,14 @@ const Profile: React.FC<RouteComponentProps> = () => {
         </Box>
         <Box
           sx={{
-            flex: '1',
-            minHeight: '730px'
+            flex: '1'
           }}
         >
           {tab === 'info' && <Info />}
           {tab === 'password' && <Password />}
+          <Box component="form" sx={{ marginTop: '20px', bgcolor: 'background.paper', padding: 2 }}>
+            <Typography variant="body1">We will be sorry, but you can close your account by clicking here.</Typography>
+          </Box>
         </Box>
       </Box>
     </>
