@@ -62,6 +62,7 @@ const PasswordReset: React.FC<RouteComponentProps> = ({ location, history }) => 
                 fullWidth
                 placeholder="Password"
                 label="Password"
+                type="password"
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -75,6 +76,7 @@ const PasswordReset: React.FC<RouteComponentProps> = ({ location, history }) => 
                 fullWidth
                 placeholder="Confirm new password"
                 label="confirmation"
+                type="password"
                 value={values.confirmation}
                 onBlur={handleBlur}
                 onChange={handleChange}

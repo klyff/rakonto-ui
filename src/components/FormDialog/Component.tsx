@@ -26,17 +26,18 @@ const FormDialog: React.FC = () => {
     >
       {({ isSubmitting, handleBlur, values, handleChange, touched, errors, handleSubmit }) => (
         <Form>
-          <Dialog open={store.isOpen as boolean}>
+          <Dialog open={true}>
             <DialogTitle>{store.title}</DialogTitle>
             <DialogContent>
-              <DialogContentText>{store.content}</DialogContentText>
+              <DialogContentText sx={{ paddingBottom: 3 }}>{store.content}</DialogContentText>
               {store.fields?.map(field => (
                 <TextField
                   key={field.name}
                   name={field.name}
                   fullWidth
                   margin="dense"
-                  variant="standard"
+                  variant="outlined"
+                  type={field.type}
                   placeholder={field.placeholder}
                   value={values[field.name]}
                   onChange={handleChange}
@@ -47,8 +48,10 @@ const FormDialog: React.FC = () => {
               ))}
             </DialogContent>
             <DialogActions>
-              <Button onClick={actions.close}>{store.cancelText}</Button>
-              <Button autoFocus onClick={() => handleSubmit()}>
+              <Button color="secondary" onClick={actions.close}>
+                {store.cancelText}
+              </Button>
+              <Button variant="outlined" autoFocus onClick={() => handleSubmit()}>
                 {store.okText}
               </Button>
             </DialogActions>

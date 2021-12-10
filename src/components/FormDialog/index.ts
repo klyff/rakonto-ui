@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import * as React from 'react'
 
 export interface iFormDialog {
   isOpen: boolean
@@ -8,6 +9,7 @@ export interface iFormDialog {
     name: string
     placeholder: string
     label: string
+    type?: React.InputHTMLAttributes<unknown>['type']
   }[]
   okText?: string
   cancelText?: string

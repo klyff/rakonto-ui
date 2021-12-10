@@ -4,8 +4,8 @@ import api from '../../../lib/api'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import useUser from '../../../components/hooks/useUser'
 import { UserFormType } from '../../../lib/types'
-import { useFormik } from 'formik'
-import { updateUserSchema } from './schemas'
+import { FormikValues, useFormik } from 'formik'
+import { updateUserSchema, closeAccountSchema } from './schemas'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -13,12 +13,43 @@ import Cookies from 'js-cookie'
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
 import CreateIcon from '@mui/icons-material/Create'
 import CloseIcon from '@mui/icons-material/Close'
+import Link from '@mui/material/Link'
 import { useDropzone, DropEvent, FileRejection } from 'react-dropzone'
+import { FormDialogContext } from '../../../components/FormDialog'
 
 const Info: React.FC = () => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
+  const { actions: formDialogActions } = useContext(FormDialogContext)
   const [progress, setProgress] = useState<number>(0)
   const user = useUser()
+
+  const handleCloseSubmit = async (data: FormikValues) => {
+    try {
+      await api.closeAccount(data)
+      snackActions.open('Account closed with success!')
+    } catch (error) {
+      // @ts-ignore
+      const { data } = error
+      if (data.code) {
+        snackActions.open('Wrong password.')
+        return
+      }
+      snackActions.open('Something was wrong! please try again.')
+    }
+  }
+
+  const handleCloseAccount = () => {
+    formDialogActions.open(
+      'Close account',
+      'Are you sure you want to close your account? \n' +
+        'You can return within 30 days. After that your account cannot be recovered. If you sure about this, please confirme your password.',
+      [{ label: 'Password', name: 'password', placeholder: 'password', type: 'password' }],
+      { password: '' },
+      closeAccountSchema,
+      handleCloseSubmit,
+      { okText: 'Yes, close', cancelText: `No, dont't want` }
+    )
+  }
 
   const updateProfile = async (data: UserFormType) => {
     try {
@@ -75,102 +106,113 @@ const Info: React.FC = () => {
   const { getRootProps, getInputProps, open } = useDropzone({ onDrop, noClick: true, accept: 'image/png, image/jpeg' })
 
   return (
-    <Box component="form" sx={{ width: '100%', height: '100%', bgcolor: 'background.paper', padding: 2 }}>
-      <Box sx={{ minWidth: '320px', width: '100%', maxWidth: '422px' }}>
-        <Box
-          sx={{
-            paddingTop: 2,
-            paddingBottom: 4,
-            display: 'flex',
-            flexFlow: 'row',
-            alignItems: 'center'
-          }}
-        >
-          <Box
-            {...getRootProps()}
-            sx={{
-              height: '120px',
-              minWidth: '120px',
-              borderRadius: '50%',
-              border: '1px solid',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundImage: user?.picture?.url ? `url(${user.picture.url})` : 'none',
-              backgroundSize: 'contain'
-            }}
-          >
-            <input {...getInputProps()} />
-            {!user?.picture?.url && <CameraAltIcon sx={{ fontSize: 40 }} />}
-          </Box>
-          <Box
-            sx={{
-              paddingLeft: 2
-            }}
-          >
-            <div>
-              <Button onClick={open} startIcon={<CreateIcon />} variant="outlined">
-                Edit
-              </Button>
-              {user?.picture?.url && (
-                <Button onClick={onRemove} color="secondary" startIcon={<CloseIcon />}>
-                  Remove
-                </Button>
-              )}
-            </div>
-            <Typography sx={{ paddingTop: 1 }} variant="h6">
-              JPG or PNG. Max size of 5 MB.
-            </Typography>
-          </Box>
-        </Box>
-
-        <TextField
-          autoFocus
-          name="firstName"
-          fullWidth
-          placeholder="First name"
-          label="First name"
-          type="text"
-          value={values.firstName}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={touched.firstName && Boolean(errors.firstName)}
-          helperText={(touched.firstName && errors.firstName) || ' '}
-        />
-        <TextField
-          name="lastName"
-          fullWidth
-          placeholder="Last name"
-          label="Last name"
-          type="text"
-          value={values.lastName}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={touched.lastName && Boolean(errors.lastName)}
-          helperText={(touched.lastName && errors.lastName) || ' '}
-        />
-        <Typography sx={{ paddingBottom: 4, paddingTop: 2 }} variant="h6">
-          Let people know about you. Your profile will appear on the Information page of the stories and collections you
-          create, as well as any comments you post.
+    <Box sx={{ width: '100%', height: '100%' }}>
+      <Box sx={{ marginBottom: 3, bgcolor: 'background.paper', padding: 2 }}>
+        <Typography variant="body1">
+          We will be sorry, but you can close your account by clicking{' '}
+          <Link component="button" onClick={handleCloseAccount} underline="hover" variant="body1">
+            here
+          </Link>
+          .
         </Typography>
-        <TextField
-          name="about"
-          fullWidth
-          placeholder="About"
-          multiline
-          rows={6}
-          label="About"
-          type="text"
-          value={values.about}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={touched.about && Boolean(errors.about)}
-          helperText={(touched.about && errors.about) || ' '}
-        />
-        <Box sx={{ textAlign: 'end' }}>
-          <Button color={'primary'} variant="contained" onClick={() => handleSubmit()}>
-            Save
-          </Button>
+      </Box>
+      <Box component="form" sx={{ bgcolor: 'background.paper', padding: 2, paddingBottom: 4 }}>
+        <Box sx={{ minWidth: '320px', width: '100%', maxWidth: '422px' }}>
+          <Box
+            sx={{
+              paddingTop: 2,
+              paddingBottom: 4,
+              display: 'flex',
+              flexFlow: 'row',
+              alignItems: 'center'
+            }}
+          >
+            <Box
+              {...getRootProps()}
+              sx={{
+                height: '120px',
+                minWidth: '120px',
+                borderRadius: '50%',
+                border: '1px solid',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundImage: user?.picture?.url ? `url(${user.picture.url})` : 'none',
+                backgroundSize: 'contain'
+              }}
+            >
+              <input {...getInputProps()} />
+              {!user?.picture?.url && <CameraAltIcon sx={{ fontSize: 40 }} />}
+            </Box>
+            <Box
+              sx={{
+                paddingLeft: 2
+              }}
+            >
+              <div>
+                <Button onClick={open} startIcon={<CreateIcon />} variant="outlined">
+                  Edit
+                </Button>
+                {user?.picture?.url && (
+                  <Button onClick={onRemove} color="secondary" startIcon={<CloseIcon />}>
+                    Remove
+                  </Button>
+                )}
+              </div>
+              <Typography sx={{ paddingTop: 1 }} variant="h6">
+                JPG or PNG. Max size of 5 MB.
+              </Typography>
+            </Box>
+          </Box>
+
+          <TextField
+            autoFocus
+            name="firstName"
+            fullWidth
+            placeholder="First name"
+            label="First name"
+            type="text"
+            value={values.firstName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.firstName && Boolean(errors.firstName)}
+            helperText={(touched.firstName && errors.firstName) || ' '}
+          />
+          <TextField
+            name="lastName"
+            fullWidth
+            placeholder="Last name"
+            label="Last name"
+            type="text"
+            value={values.lastName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.lastName && Boolean(errors.lastName)}
+            helperText={(touched.lastName && errors.lastName) || ' '}
+          />
+          <Typography sx={{ paddingBottom: 4, paddingTop: 2 }} variant="h6">
+            Let people know about you. Your profile will appear on the Information page of the stories and collections
+            you create, as well as any comments you post.
+          </Typography>
+          <TextField
+            name="about"
+            fullWidth
+            placeholder="About"
+            multiline
+            rows={6}
+            label="About"
+            type="text"
+            value={values.about}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.about && Boolean(errors.about)}
+            helperText={(touched.about && errors.about) || ' '}
+          />
+          <Box sx={{ textAlign: 'end' }}>
+            <Button color={'primary'} variant="contained" onClick={() => handleSubmit()}>
+              Save
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Box>

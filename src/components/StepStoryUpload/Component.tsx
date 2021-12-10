@@ -192,7 +192,7 @@ const StepStoryUpload = () => {
                       }}
                     />
                   )}
-                  {uploadType === 'RECORDER' || (!uploadType && <Recorder />)}
+                  {/* {uploadType === 'RECORDER' || (!uploadType && <Recorder />)} */}
                 </>
               </Box>
             </Box>

@@ -62,9 +62,8 @@ const Card: React.FC<iCard> = ({ preview, title = '', loading, owner, type, thum
       </Box>
       <Box
         sx={{
-          height: 8,
-          backgroundColor: 'primary.light',
-          margin: '0px 1px'
+          height: 3,
+          backgroundColor: 'primary.light'
         }}
       />
       <Box

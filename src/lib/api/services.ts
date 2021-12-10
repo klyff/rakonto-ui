@@ -50,6 +50,12 @@ export const updateMe =
     return await request.put(`a/profile`, data).then(res => res.data)
   }
 
+export const closeAccount =
+  (request: AxiosInstance) =>
+  async (data: UserFormType): Promise<void> => {
+    await request.delete(`a/account`, { data }).then(res => res.data)
+  }
+
 export const updateMeCover =
   (request: AxiosInstance) =>
   async (pictureId: string | null): Promise<UserType> => {

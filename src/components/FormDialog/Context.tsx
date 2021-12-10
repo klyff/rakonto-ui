@@ -12,6 +12,7 @@ export const FormDialogContext = createContext<{
         name: string
         placeholder: string
         label: string
+        type?: React.InputHTMLAttributes<unknown>['type']
       }[],
       initialValues: any,
       validationSchema: any,
@@ -96,7 +97,7 @@ export const FormDialogProvider: React.FC = ({ children }) => {
         store: dialog
       }}
     >
-      <Component />
+      {dialog.isOpen && <Component />}
       {children}
     </FormDialogContext.Provider>
   )

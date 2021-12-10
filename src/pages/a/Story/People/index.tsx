@@ -14,6 +14,7 @@ import Button from '@mui/material/Button'
 import CreateEditCollection from './CreateEditPerson'
 import api from '../../../../lib/api'
 import PersonItem from '../../../../components/PersonItem'
+import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
 
 interface iPeople {
   persons: PersonType[]
@@ -23,6 +24,7 @@ interface iPeople {
 
 const Index: React.FC<iPeople> = ({ persons, canEdit, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
+  const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [searchValue, setSearchValue] = useState<string>('')
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [personSelectedEdit, setPersonSelectedEdit] = useState<PersonType | undefined>()
@@ -30,7 +32,19 @@ const Index: React.FC<iPeople> = ({ persons, canEdit, storyId }) => {
 
   const handleSelect = async (person: PersonType) => {
     if (person?.id) {
-      await api.addPersonToStory(storyId, person.id)
+      try {
+        await api.addPersonToStory(storyId, person.id)
+        snackActions.open(`${person.name} added to this story!`)
+      } catch (error) {
+        // @ts-ignore
+        const { data } = error
+        if (data.code) {
+          snackActions.open(`Error to add ${person.name} to this story!`)
+          return
+        }
+        snackActions.open('Something was wrong! please try again.')
+      }
+
       setPeople([...people, person])
     }
   }
@@ -50,7 +64,21 @@ const Index: React.FC<iPeople> = ({ persons, canEdit, storyId }) => {
       </>,
       { okText: 'Yes, delete', showOk: true, cancelText: 'Back' },
       async success => {
-        if (success) await api.removePersonFromStory(storyId, person.id)
+        try {
+          if (success) {
+            await api.removePersonFromStory(storyId, person.id)
+            snackActions.open(`${person.name} removed from this story!`)
+          }
+        } catch (error) {
+          // @ts-ignore
+          const { data } = error
+          if (data.code) {
+            snackActions.open(`Error to add ${person.name} to this story!`)
+            return
+          }
+          snackActions.open('Something was wrong! please try again.')
+        }
+
         setPeople(people.filter(p => p.id !== person.id))
       }
     )

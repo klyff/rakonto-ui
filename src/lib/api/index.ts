@@ -74,7 +74,8 @@ import {
   updateStoryStatus,
   isStoryPublished,
   moveStoryToCollection,
-  changeStoryToCollection
+  changeStoryToCollection,
+  closeAccount
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -117,6 +118,7 @@ export default {
   requestPasswordReset: requestPasswordReset(request),
   getMe: getMe(request),
   updateMe: updateMe(request),
+  closeAccount: closeAccount(request),
   updateMeCover: updateMeCover(request),
   passwordReset: passwordReset(request),
   passwordChange: passwordChange(request),

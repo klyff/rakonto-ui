@@ -44,14 +44,10 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget)
   }
 
-  const handleLogout = () => {
-    history.push('/a/signout')
-  }
-
   const menuOptions = [
     { name: 'my-library', href: '/a/my-library', icon: <HomeIcon />, text: 'My Library' },
-    { name: 'stories', href: '/a/stories', icon: <MovieIcon />, text: 'Stories' },
     { name: 'collections', href: '/a/collections', icon: <FolderSpecialIcon />, text: 'Collections' },
+    { name: 'stories', href: '/a/stories', icon: <MovieIcon />, text: 'Stories' },
     { name: 'people', href: '/a/people', icon: <PeopleAltIcon />, text: 'People' }
   ]
 
@@ -72,9 +68,30 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={greetingsActions.open}>Take a tour</MenuItem>
-      <MenuItem onClick={() => history.push('/a/profile')}>Profile</MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      <MenuItem
+        onClick={() => {
+          greetingsActions.open()
+          handleMenuClose()
+        }}
+      >
+        Take a tour
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          history.push('/a/profile')
+          handleMenuClose()
+        }}
+      >
+        Profile
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          history.push('/a/signout')
+          handleMenuClose()
+        }}
+      >
+        Logout
+      </MenuItem>
     </Menu>
   )
 
@@ -114,7 +131,14 @@ export default function PrimarySearchAppBar() {
       >
         Profile
       </MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      <MenuItem
+        onClick={() => {
+          history.push('/a/signout')
+          handleMenuClose()
+        }}
+      >
+        Logout
+      </MenuItem>
     </Menu>
   )
 

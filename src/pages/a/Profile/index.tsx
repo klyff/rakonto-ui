@@ -62,9 +62,6 @@ const Profile: React.FC<RouteComponentProps> = () => {
         >
           {tab === 'info' && <Info />}
           {tab === 'password' && <Password />}
-          <Box component="form" sx={{ marginTop: '20px', bgcolor: 'background.paper', padding: 2 }}>
-            <Typography variant="body1">We will be sorry, but you can close your account by clicking here.</Typography>
-          </Box>
         </Box>
       </Box>
     </>
