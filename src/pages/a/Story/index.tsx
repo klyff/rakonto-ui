@@ -13,6 +13,7 @@ import TabList from '@mui/lab/TabList'
 import Tab from '@mui/material/Tab'
 import TabPanel from '@mui/lab/TabPanel'
 import People from './People'
+import Places from './Places'
 import Timelines from './Timelines'
 import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
@@ -81,6 +82,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
     title,
     description,
     persons,
+    places,
     timelineEntries,
     collections,
     published,
@@ -177,7 +179,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               <Timelines timelines={timelineEntries} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="places">
-              places
+              <Places storyId={storyId} canEdit={isOwner} intialPlaces={places} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="transcript">
               transcript

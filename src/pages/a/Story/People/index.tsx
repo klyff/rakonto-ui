@@ -9,7 +9,6 @@ import InputAdornment from '@mui/material/InputAdornment'
 import SearchIcon from '@mui/icons-material/Search'
 import PersonSearch from './PersonSearch/PersonSearch'
 import { SimpleDialogContext } from '../../../../components/SimpleDialog'
-import initials from 'initials'
 import Button from '@mui/material/Button'
 import CreateEditCollection from './CreateEditPerson'
 import api from '../../../../lib/api'
@@ -22,7 +21,7 @@ interface iPeople {
   storyId: string
 }
 
-const Index: React.FC<iPeople> = ({ persons, canEdit, storyId }) => {
+const People: React.FC<iPeople> = ({ persons, canEdit, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [searchValue, setSearchValue] = useState<string>('')
@@ -186,4 +185,4 @@ const Index: React.FC<iPeople> = ({ persons, canEdit, storyId }) => {
   )
 }
 
-export default Index
+export default People
