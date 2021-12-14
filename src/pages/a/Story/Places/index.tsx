@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { PlaceType } from '../../../../lib/types'
+import React, { useContext, useEffect, useState } from 'react'
+import { markerType, PlaceType } from '../../../../lib/types'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
@@ -12,6 +12,12 @@ import Button from '@mui/material/Button'
 import CreateEditPlace from './CreatePlace'
 import api from '../../../../lib/api'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
+import MapViewer from '../../../../components/MapViewer'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import DeleteIcon from '@mui/icons-material/Delete'
+import IconButton from '@mui/material/IconButton'
 
 interface iPlace {
   intialPlaces: PlaceType[]
@@ -25,12 +31,31 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [places, setPlaces] = useState<PlaceType[]>(intialPlaces)
+  const [markers, setMarkers] = useState<markerType[]>([])
+  const [openMarker, setOpenMarker] = useState<string | undefined>(undefined)
 
   const handleSelect = async (place: PlaceType) => {
     setPlaces([...places, place])
   }
 
-  const handleDelete = async (place: PlaceType) => {
+  useEffect(() => {
+    setMarkers(
+      places
+        .filter(p => p.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
+        .map(place => ({
+          id: place.id,
+          title: place.name,
+          description: place.description,
+          marker: [Number(place.latitude), Number(place.longitude)]
+        }))
+    )
+  }, [places, searchValue])
+
+  const handleDelete = async (place?: PlaceType) => {
+    if (!place) {
+      snackActions.open('Something was wrong! please try again.')
+      return
+    }
     simpleDialogActions.open(
       'Delete place',
       <>
@@ -42,7 +67,7 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
       async success => {
         try {
           if (success) {
-            await api.removePersonFromStory(storyId, place.id)
+            await api.deletePlace(place.id)
             snackActions.open(`${place.name} removed from this story!`)
           }
         } catch (error) {
@@ -75,7 +100,7 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
     }
     setIsOpen(false)
   }
-
+  console.log(openMarker)
   return (
     <Box
       component={Paper}
@@ -126,10 +151,38 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
           />
         </Box>
       )}
+
       {places.length ? (
-        places
-          .filter(p => p.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
-          .map(place => <div key={place.id}>{place.name}</div>)
+        <Box sx={{ width: '100%', height: '500px', display: 'flex' }}>
+          {canEdit && (
+            <Box sx={{ top: 10, left: 10, width: '250px', height: '100%' }}>
+              <List>
+                {markers.map(m => (
+                  <ListItem
+                    secondaryAction={
+                      <IconButton
+                        onClick={() => handleDelete(places.find(p => p.id === m.id))}
+                        edge="end"
+                        aria-label="delete"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    }
+                    selected={m.id === openMarker}
+                    onMouseEnter={() => setOpenMarker(m.id)}
+                    onMouseLeave={() => setOpenMarker(undefined)}
+                    key={m.id}
+                  >
+                    <ListItemText>{m.title}</ListItemText>
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          )}
+          <Box sx={{ top: 10, left: 10, flex: 1, height: '100%' }}>
+            <MapViewer openMarker={openMarker} markers={markers} />
+          </Box>
+        </Box>
       ) : (
         <Typography align="center">No place register yet</Typography>
       )}

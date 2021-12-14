@@ -15,6 +15,7 @@ import TabPanel from '@mui/lab/TabPanel'
 import People from './People'
 import Places from './Places'
 import Timelines from './Timelines'
+import Transcript from './Transcript'
 import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
@@ -86,7 +87,8 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
     timelineEntries,
     collections,
     published,
-    watchers
+    watchers,
+    transcription
   } = story as StoryType
 
   const handlePlay = () => {
@@ -182,7 +184,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               <Places storyId={storyId} canEdit={isOwner} intialPlaces={places} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="transcript">
-              transcript
+              <Transcript transcription={transcription} storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="subtitles">
               Subtitles

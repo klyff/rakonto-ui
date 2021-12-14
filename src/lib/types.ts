@@ -1,8 +1,12 @@
 // import { VideoJsPlayer } from 'video.js'
 
+import { LatLngExpression } from 'leaflet'
+
 export type apiOptions = {
   errorBoundary: boolean
 }
+
+export type markerType = { id: string; title?: string; description?: string; marker: LatLngExpression }
 
 export type Pageable<T> = {
   totalPages: number
@@ -157,7 +161,7 @@ export type StoryType = {
   persons: PersonType[]
   files: FileType[]
   links: LinkType[]
-  transcription: TranscriptionType | null
+  transcription: TranscriptionType
   galleryEntries: GalleryType[]
   timelineEntries: TimelineType[]
   places: PlaceType[]

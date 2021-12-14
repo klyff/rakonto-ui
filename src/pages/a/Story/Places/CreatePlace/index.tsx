@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import MapViewer from '../../../../../components/MapViewer'
 import api from '../../../../../lib/api'
-import { LocationSearchType, PlaceType } from '../../../../../lib/types'
+import { LocationSearchType, markerType, PlaceType } from '../../../../../lib/types'
 import Typography from '@mui/material/Typography'
 import Search from './Search'
 import { LatLngExpression } from 'leaflet'
@@ -25,7 +25,7 @@ interface iCreatePlace {
 
 const CreatePlace: React.FC<iCreatePlace> = ({ storyId, onClose }) => {
   const [location, setLocation] = useState<LocationSearchType | undefined>(undefined)
-  const [markers, setMarkers] = useState<LatLngExpression[]>([])
+  const [markers, setMarkers] = useState<markerType[]>([])
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
   const handleClose = (place?: PlaceType) => {
@@ -34,7 +34,7 @@ const CreatePlace: React.FC<iCreatePlace> = ({ storyId, onClose }) => {
 
   useEffect(() => {
     if (!location) return
-    setMarkers([[Number(location.lat), Number(location.lon)]])
+    setMarkers([{ id: Math.random().toString(16).slice(2), marker: [Number(location.lat), Number(location.lon)] }])
   }, [location])
 
   const onSubmit = async ({ name, description }: FormikValues) => {
