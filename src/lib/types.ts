@@ -1,12 +1,13 @@
 // import { VideoJsPlayer } from 'video.js'
 
 import { LatLngExpression } from 'leaflet'
+import { ReactNode } from 'react'
 
 export type apiOptions = {
   errorBoundary: boolean
 }
 
-export type markerType = { id: string; title?: string; description?: string; marker: LatLngExpression }
+export type markerType = { id: string; title?: string; content?: string | ReactNode; marker: LatLngExpression }
 
 export type Pageable<T> = {
   totalPages: number

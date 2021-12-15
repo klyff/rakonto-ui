@@ -6,6 +6,7 @@ import Box from '@mui/material/Box'
 import Content from './Content'
 import TabPanel from '@mui/lab/TabPanel'
 import People from './People'
+import Places from './Places'
 import Timelines from './Timelines'
 import Stories from './Stories'
 import TabContext from '@mui/lab/TabContext'
@@ -200,7 +201,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               <Timelines timelines={[]} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="places">
-              places
+              <Places stories={stories} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
               photos

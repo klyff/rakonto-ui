@@ -150,7 +150,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             <Tab label="People" value="people" onClick={() => onTabClick('people')} />
             <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
             <Tab label="Transcript" value="transcript" onClick={() => onTabClick('transcript')} />
-            <Tab label="Subtitles" value="subtitles" onClick={() => onTabClick('subtitles')} />
+            {isOwner && <Tab label="Subtitles" value="subtitles" onClick={() => onTabClick('subtitles')} />}
             <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
             <Tab label="Photos" value="photos" onClick={() => onTabClick('photos')} />
             <Tab label="Files" value="files" onClick={() => onTabClick('files')} />
@@ -186,9 +186,11 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="transcript">
               <Transcript transcription={transcription} storyId={storyId} canEdit={isOwner} />
             </TabPanel>
-            <TabPanel sx={{ height: '100%', padding: 'unset' }} value="subtitles">
-              Subtitles
-            </TabPanel>
+            {isOwner && (
+              <TabPanel sx={{ height: '100%', padding: 'unset' }} value="subtitles">
+                Subtitles
+              </TabPanel>
+            )}
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
               photos
             </TabPanel>

@@ -42,10 +42,16 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
     setMarkers(
       places
         .filter(p => p.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
-        .map(place => ({
+        .map<markerType>(place => ({
           id: place.id,
           title: place.name,
-          description: place.description,
+          content: (
+            <>
+              {place.name}
+              <br />
+              {place.description}
+            </>
+          ),
           marker: [Number(place.latitude), Number(place.longitude)]
         }))
     )
@@ -68,6 +74,7 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
         try {
           if (success) {
             await api.deletePlace(place.id)
+            setPlaces(places.filter(p => p.id !== place.id))
             snackActions.open(`${place.name} removed from this story!`)
           }
         } catch (error) {
@@ -79,8 +86,6 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
           }
           snackActions.open('Something was wrong! please try again.')
         }
-
-        setPlaces(places.filter(p => p.id !== place.id))
       }
     )
   }
@@ -100,7 +105,7 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
     }
     setIsOpen(false)
   }
-  console.log(openMarker)
+
   return (
     <Box
       component={Paper}
@@ -123,43 +128,50 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
       )}
 
       <Divider sx={{ margin: '24px 0' }} />
-      {!canEdit && (
-        <Box
-          sx={{
-            maxWidth: '422px',
-            marginBottom: 3
+      <Box
+        sx={{
+          maxWidth: '422px',
+          marginBottom: 3
+        }}
+      >
+        <TextField
+          size="small"
+          key="search"
+          name="search"
+          fullWidth
+          rows={4}
+          autoComplete="off"
+          placeholder="Type place name for filter list"
+          margin="dense"
+          value={searchValue}
+          onChange={e => setSearchValue(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            )
           }}
-        >
-          <TextField
-            size="small"
-            key="search"
-            name="search"
-            fullWidth
-            rows={4}
-            autoComplete="off"
-            placeholder="Type place name for filter list"
-            margin="dense"
-            value={searchValue}
-            onChange={e => setSearchValue(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Box>
-      )}
+        />
+      </Box>
 
       {places.length ? (
         <Box sx={{ width: '100%', height: '500px', display: 'flex' }}>
-          {canEdit && (
-            <Box sx={{ top: 10, left: 10, width: '250px', height: '100%' }}>
-              <List>
-                {markers.map(m => (
-                  <ListItem
-                    secondaryAction={
+          <Box
+            sx={{
+              top: 10,
+              left: 10,
+              width: '250px',
+              height: '100%',
+              bgcolor: 'background.default',
+              overflow: 'auto'
+            }}
+          >
+            <List>
+              {markers.map(m => (
+                <ListItem
+                  secondaryAction={
+                    canEdit && (
                       <IconButton
                         onClick={() => handleDelete(places.find(p => p.id === m.id))}
                         edge="end"
@@ -167,18 +179,18 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
                       >
                         <DeleteIcon />
                       </IconButton>
-                    }
-                    selected={m.id === openMarker}
-                    onMouseEnter={() => setOpenMarker(m.id)}
-                    onMouseLeave={() => setOpenMarker(undefined)}
-                    key={m.id}
-                  >
-                    <ListItemText>{m.title}</ListItemText>
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
-          )}
+                    )
+                  }
+                  selected={m.id === openMarker}
+                  onMouseEnter={() => setOpenMarker(m.id)}
+                  onMouseLeave={() => setOpenMarker(undefined)}
+                  key={m.id}
+                >
+                  <ListItemText>{m.title}</ListItemText>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
           <Box sx={{ top: 10, left: 10, flex: 1, height: '100%' }}>
             <MapViewer openMarker={openMarker} markers={markers} />
           </Box>

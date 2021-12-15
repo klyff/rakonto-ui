@@ -21,11 +21,7 @@ const CustomMarker: React.FC<{ m: markerType; isActive: boolean }> = ({ m, isAct
 
   return (
     <Marker icon={isActive ? selectedIcon : icon} position={m.marker}>
-      {m.title && (
-        <Popup>
-          {m.title} <br /> {m.description}
-        </Popup>
-      )}
+      {m.content && <Popup>{m.content}</Popup>}
     </Marker>
   )
 }
