@@ -34,7 +34,7 @@ const Transcript: React.FC<iTranscript> = ({ transcription, canEdit, storyId }) 
       )}
 
       <Divider sx={{ margin: '24px 0' }} />
-      <Typography align="center" paragraph>
+      <Typography component="pre" align="center" paragraph>
         {transcription.content}
       </Typography>
     </Box>
