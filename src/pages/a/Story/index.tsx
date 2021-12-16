@@ -14,7 +14,7 @@ import Tab from '@mui/material/Tab'
 import TabPanel from '@mui/lab/TabPanel'
 import People from './People'
 import Places from './Places'
-import Timelines from './Timelines'
+import Timeline from './Timeline'
 import Transcript from './Transcript'
 import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
@@ -150,11 +150,11 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             <Tab label="People" value="people" onClick={() => onTabClick('people')} />
             <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
             <Tab label="Transcript" value="transcript" onClick={() => onTabClick('transcript')} />
-            {isOwner && <Tab label="Subtitles" value="subtitles" onClick={() => onTabClick('subtitles')} />}
             <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
             <Tab label="Photos" value="photos" onClick={() => onTabClick('photos')} />
             <Tab label="Files" value="files" onClick={() => onTabClick('files')} />
             <Tab label="Links" value="links" onClick={() => onTabClick('links')} />
+            {isOwner && <Tab label="Subtitles" value="subtitles" onClick={() => onTabClick('subtitles')} />}
           </Box>
           <Box
             sx={{
@@ -178,7 +178,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               <People storyId={storyId} canEdit={isOwner} persons={persons} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="timelines">
-              <Timelines timelines={timelineEntries} />
+              <Timeline storyId={storyId} canEdit={isOwner} timelines={timelineEntries} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="places">
               <Places storyId={storyId} canEdit={isOwner} intialPlaces={places} />
