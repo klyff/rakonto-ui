@@ -1,13 +1,27 @@
-import React from 'react'
-import { TimelineType } from '../../../lib/types'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
+import Link from '@mui/material/Link'
+import Timeline from '@mui/lab/Timeline'
+import Event from '../../../components/Event'
+import { format, parseJSON } from 'date-fns'
+import Typography from '@mui/material/Typography'
+import { StoryType, TimelineType } from '../../../lib/types'
 
 interface iTimelines {
-  timelines: TimelineType[]
+  list: StoryType[]
 }
 
-const Timelines: React.FC<iTimelines> = ({ timelines }) => {
+const sortByDate = (a: TimelineType, b: TimelineType) =>
+  parseJSON(b.at as unknown as string).getTime() - parseJSON(a.at as unknown as string).getTime()
+
+const Timelines: React.FC<iTimelines> = ({ list }) => {
+  const [events, setEvents] = useState<(TimelineType & { storyTitle: string; storyId: string })[]>([])
+
+  useEffect(() => {
+    list.forEach(s => {
+      setEvents([...events, ...s.timelineEntries.map(t => ({ storyId: s.id, storyTitle: s.title, ...t }))])
+    })
+  }, [list])
   return (
     <Box
       sx={{
@@ -16,13 +30,42 @@ const Timelines: React.FC<iTimelines> = ({ timelines }) => {
       }}
     >
       <Box
-        component={Paper}
         sx={{
-          width: '100%',
-          padding: 3
+          marginBottom: 3
         }}
       >
-        Timelines
+        {events.length ? (
+          <Box sx={{ width: '100%' }}>
+            <Timeline position="alternate">
+              {events.sort(sortByDate).map(e => (
+                <Event
+                  key={e.id}
+                  opositeTitle={
+                    <>
+                      {format(parseJSON(e.at as unknown as string), 'PPP')}
+                      <br />
+                      <Link href={`/a/stories/${e.storyId}`} variant="caption">
+                        {e.storyTitle}
+                      </Link>
+                    </>
+                  }
+                  content={
+                    <>
+                      <Typography variant="h6" component="span">
+                        {e.title}
+                      </Typography>
+                      <Typography sx={{ lineBreak: 'anywhere' }} paragraph>
+                        {e.description}
+                      </Typography>
+                    </>
+                  }
+                />
+              ))}
+            </Timeline>
+          </Box>
+        ) : (
+          <Typography align="center">Nothing here yet.</Typography>
+        )}
       </Box>
     </Box>
   )

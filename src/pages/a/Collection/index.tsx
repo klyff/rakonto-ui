@@ -198,10 +198,10 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               <People list={collection.stories} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="timelines">
-              <Timelines timelines={[]} />
+              <Timelines list={collection.stories} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="places">
-              <Places stories={stories} />
+              <Places list={stories} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
               photos

@@ -12,10 +12,10 @@ import ListItemText from '@mui/material/ListItemText'
 import ListSubheader from '@mui/material/ListSubheader'
 
 interface iPlace {
-  stories: StoryType[]
+  list: StoryType[]
 }
 
-const Places: React.FC<iPlace> = ({ stories }) => {
+const Places: React.FC<iPlace> = ({ list }) => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [openMarker, setOpenMarker] = useState<string | undefined>(undefined)
   const [markers, setMarkers] = useState<markerType[]>([])
@@ -24,7 +24,7 @@ const Places: React.FC<iPlace> = ({ stories }) => {
   >([])
 
   useEffect(() => {
-    stories.forEach(story => {
+    list.forEach(story => {
       const storyTitle = story.title
       const storyId = story.id
       const computedMarkers = story.places.map<markerType>(place => ({
@@ -42,7 +42,7 @@ const Places: React.FC<iPlace> = ({ stories }) => {
       setStoryPlacesList([...storyPlacesList, { storyId, storyTitle, markers: computedMarkers }])
       setMarkers([...markers, ...computedMarkers])
     })
-  }, [stories])
+  }, [list])
 
   return (
     <Box

@@ -2,18 +2,13 @@ import React, { useContext, useState } from 'react'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Timeline from '@mui/lab/Timeline'
-import TimelineItem from '@mui/lab/TimelineItem'
-import TimelineSeparator from '@mui/lab/TimelineSeparator'
-import TimelineConnector from '@mui/lab/TimelineConnector'
-import TimelineContent from '@mui/lab/TimelineContent'
-import TimelineDot from '@mui/lab/TimelineDot'
-import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import { SimpleDialogContext } from '../../../../components/SimpleDialog'
 import Button from '@mui/material/Button'
 import api from '../../../../lib/api'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
+import Event from '../../../../components/Event'
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
 import { TimelineType } from '../../../../lib/types'
@@ -110,29 +105,29 @@ const Timelines: React.FC<iTimelines> = ({ timelines, canEdit, storyId }) => {
           <Box sx={{ width: '100%' }}>
             <Timeline position="alternate">
               {events.sort(sortByDate).map(e => (
-                <TimelineItem key={e.id}>
-                  <TimelineOppositeContent sx={{ m: 'auto 0' }} align="right" variant="body2" color="text.secondary">
-                    {canEdit && (
-                      <IconButton onClick={() => handleDelete(e)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    )}
-                    {format(parseJSON(e.at as unknown as string), 'PPP')}
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineConnector />
-                    <TimelineDot />
-                    <TimelineConnector />
-                  </TimelineSeparator>
-                  <TimelineContent sx={{ py: '12px', px: 2 }}>
-                    <Typography variant="h6" component="span">
-                      {e.title}
-                    </Typography>
-                    <Typography sx={{ lineBreak: 'anywhere' }} paragraph>
-                      {e.description}
-                    </Typography>
-                  </TimelineContent>
-                </TimelineItem>
+                <Event
+                  key={e.id}
+                  opositeTitle={
+                    <>
+                      {canEdit && (
+                        <IconButton onClick={() => handleDelete(e)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      )}
+                      {format(parseJSON(e.at as unknown as string), 'PPP')}
+                    </>
+                  }
+                  content={
+                    <>
+                      <Typography variant="h6" component="span">
+                        {e.title}
+                      </Typography>
+                      <Typography sx={{ lineBreak: 'anywhere' }} paragraph>
+                        {e.description}
+                      </Typography>
+                    </>
+                  }
+                />
               ))}
             </Timeline>
           </Box>
