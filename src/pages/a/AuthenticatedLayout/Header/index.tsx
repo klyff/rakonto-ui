@@ -15,6 +15,7 @@ import HomeIcon from '@mui/icons-material/Home'
 import MovieIcon from '@mui/icons-material/Movie'
 import useUser from '../../../../components/hooks/useUser'
 import { GreetingsDialogContext } from '../../../../components/GreetingsDialog'
+import FeedbackIcon from '@mui/icons-material/Feedback'
 
 export default function PrimarySearchAppBar() {
   const user = useUser()
@@ -165,6 +166,17 @@ export default function PrimarySearchAppBar() {
                 </Button>
               )
             })}
+            <IconButton
+              onClick={() => {
+                window.open(
+                  'https://docs.google.com/forms/d/e/1FAIpQLSdwKpH3CNqVKx4' +
+                    'k4HmXoWWPv60J_LDYdFcIQp63O-EdXLiytw/viewform?usp=sf_link',
+                  '_blank'
+                )
+              }}
+            >
+              <FeedbackIcon />
+            </IconButton>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

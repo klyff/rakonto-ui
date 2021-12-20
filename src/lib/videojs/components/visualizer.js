@@ -52,6 +52,7 @@ const registerPlugin = videojs.registerPlugin || videojs.plugin, onPlayerReady =
         u.connect(h);
         h.connect(l.destination)
       } catch (e) {
+        console.log(e)
       }
     }
 
