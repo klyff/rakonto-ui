@@ -22,7 +22,7 @@ const FacebookButton = styled(Button)<ButtonProps>(({ theme }) => ({
 FacebookButton.defaultProps = {
   startIcon: <FacebookIcon />,
   fullWidth: true,
-  children: 'Sign in with facebook'
+  children: 'Sign in with Facebook'
 }
 
 const Component = () => {

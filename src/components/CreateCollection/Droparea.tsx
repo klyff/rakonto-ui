@@ -68,7 +68,7 @@ const Droparea: React.FC<iDroparea> = ({ onDrop }) => {
                 or
               </Typography>
               <Button size="large" onClick={open} variant="outlined">
-                Choose file
+                Choose File
               </Button>
             </Box>
           </Box>

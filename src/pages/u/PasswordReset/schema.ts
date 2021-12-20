@@ -4,11 +4,13 @@ export default yup.object().shape({
   token: yup.string().required(),
   password: yup
     .string()
-    .required('new password is a required field.')
+    .required()
     .min(8, 'Password is too short - should be 8 chars minimum.')
-    .matches(/[a-zA-Z]/, 'Password can onlsy contain Latin letters.'),
+    .matches(/[a-zA-Z]/, 'Password can onlsy contain Latin letters.')
+    .label('New password'),
   confirmation: yup
     .string()
     .oneOf([yup.ref('password'), null], 'new passwords must match')
-    .required('confirm new password is a required field.')
+    .required()
+    .label('Email')
 })

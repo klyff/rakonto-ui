@@ -16,7 +16,7 @@ const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview?: string
     }
   }
 
-  return <VideoJS handleEnd={handleEnd} preview={preview} options={_options} type="video" />
+  return <VideoJS handleEnd={handleEnd} options={_options} type="video" />
 }
 
 export default VideoJsWrapper

@@ -39,7 +39,7 @@ const GreetingsDialog: React.FC = () => {
       >
         <Grid container spacing={2}>
           {hidden && (
-            <Grid item xs sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Grid item sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Box
                 component="img"
                 sx={{
@@ -51,8 +51,8 @@ const GreetingsDialog: React.FC = () => {
           )}
           <Grid
             item
-            xs
             sx={{
+              flex: 1,
               minWidth: '250px',
               margin: 5
             }}
@@ -61,7 +61,6 @@ const GreetingsDialog: React.FC = () => {
               <Box sx={{ color: 'primary.main' }} component="span">
                 Welcome to Rakonto
               </Box>
-              ,
             </Typography>
             <Typography
               align="center"
@@ -71,7 +70,7 @@ const GreetingsDialog: React.FC = () => {
               gutterBottom
               variant="h5"
             >
-              the place to record and share life&#39;s most important stories!
+              Discover a new way to record and share life&apos;s most important stories
             </Typography>
             <Box
               sx={{
@@ -82,9 +81,9 @@ const GreetingsDialog: React.FC = () => {
                 }
               }}
             >
-              <Button disabled size="large" fullWidth variant="contained">
-                Take a tour
-              </Button>
+              {/* <Button disabled size="large" fullWidth variant="contained"> */}
+              {/*  Take a tour */}
+              {/* </Button> */}
               <Button
                 onClick={() => {
                   actions.close()
@@ -97,9 +96,9 @@ const GreetingsDialog: React.FC = () => {
               >
                 Create my first story
               </Button>
-              <Button size="large" color={'secondary'} fullWidth onClick={() => actions.close()}>
-                Remind me later
-              </Button>
+              {/* <Button size="large" color={'secondary'} fullWidth onClick={() => actions.close()}> */}
+              {/*  Remind me later */}
+              {/* </Button> */}
             </Box>
           </Grid>
         </Grid>

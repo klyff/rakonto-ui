@@ -26,6 +26,7 @@ const Player: React.FC<iVideoPlayer> = ({
 }) => {
   const options: VideoJsPlayerOptions = {
     poster: cover,
+    preload: 'auto',
     controls: true,
     fill: true,
     muted: autoplay,

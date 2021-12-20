@@ -2,6 +2,7 @@ import React, { useState, createContext } from 'react'
 import { iGreetingsDialog } from './index'
 import Component from './Component'
 import Cookies from 'js-cookie'
+import { UserType } from '../../lib/types'
 
 // @ts-ignore
 export const GreetingsDialogContext = createContext<{
@@ -19,7 +20,8 @@ export const GreetingsDialogContext = createContext<{
 })
 
 export const GreetingsDialogProvider: React.FC = ({ children }) => {
-  const isFirstAccess = !(Cookies.get('hasAccessBefore') === 'true')
+  const user: UserType = JSON.parse(Cookies.get('user') || '{}')
+  const isFirstAccess = !(Cookies.get('hasAccessBefore') === user.email)
   const [stepStoryUpload, setGreetingsDialog] = useState<iGreetingsDialog>({
     isOpen: isFirstAccess
   })
@@ -31,7 +33,7 @@ export const GreetingsDialogProvider: React.FC = ({ children }) => {
   }
 
   const close = () => {
-    Cookies.set('hasAccessBefore', 'true')
+    Cookies.set('hasAccessBefore', user.email)
     setGreetingsDialog({
       isOpen: false
     })

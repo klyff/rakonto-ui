@@ -26,7 +26,7 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
       // @ts-ignore
       const { data } = error
       if (data.code === '1001') {
-        snackActions.open('Email is already taken.')
+        snackActions.open('A Rakonto account with this email address already exists.')
         return
       }
       snackActions.open('Something was wrong! please try again.')
@@ -56,8 +56,8 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
               <TextField
                 name="firstName"
                 fullWidth
-                placeholder="First Name"
-                label="First Name"
+                placeholder="First name"
+                label="First name"
                 value={values.firstName}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -69,8 +69,8 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
               <TextField
                 name="lastName"
                 fullWidth
-                placeholder="Last Name"
-                label="Last Name"
+                placeholder="Last name"
+                label="Last name"
                 value={values.lastName}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -96,8 +96,8 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
               <TextField
                 name="confirmation"
                 fullWidth
-                placeholder="Confirmation password"
-                label="Confirmation password"
+                placeholder="Password confirmation"
+                label="Password confirmation"
                 type="password"
                 value={values.confirmation}
                 onChange={handleChange}

@@ -24,7 +24,7 @@ GoogleButton.defaultProps = {
   startIcon: <GoogleIcon />,
   variant: 'outlined',
   fullWidth: true,
-  children: 'Sign in with google'
+  children: 'Sign in with Google'
 }
 
 const Component = () => {

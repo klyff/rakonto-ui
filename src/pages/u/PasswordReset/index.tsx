@@ -74,8 +74,8 @@ const PasswordReset: React.FC<RouteComponentProps> = ({ location, history }) => 
               <TextField
                 name="confirmation"
                 fullWidth
-                placeholder="Confirm new password"
-                label="confirmation"
+                placeholder="Password confirmation"
+                label="Password confirmation"
                 type="password"
                 value={values.confirmation}
                 onBlur={handleBlur}

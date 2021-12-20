@@ -85,6 +85,7 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
             <Grid container spacing={4} direction="row" justifyContent="center" alignItems="center">
               <Grid item xs={12}>
                 <TextField
+                  size="medium"
                   name="email"
                   fullWidth
                   placeholder="Email address"
@@ -98,6 +99,7 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  size="medium"
                   name="password"
                   fullWidth
                   placeholder="Password"
@@ -121,8 +123,8 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
                 >
                   Login
                 </LoadingButton>
-                <Box paddingTop={2.5}>
-                  <Link href="/u/forgot-password">Forgot Password?</Link>
+                <Box textAlign="center" paddingTop={2.5}>
+                  <Link href="/u/forgot-password">Forgot password?</Link>
                 </Box>
               </Grid>
               <Grid item xs={12}>
@@ -139,7 +141,7 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
               </Grid>
               <Grid item xs={12}>
                 <LoadingButton href={'/u/signup'} variant="outlined" fullWidth>
-                  Create new Account
+                  Create new account
                 </LoadingButton>
               </Grid>
             </Grid>
