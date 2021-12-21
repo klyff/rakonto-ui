@@ -31,13 +31,13 @@ const CardImage: React.FC<iCardImage> = ({ type, thumbnail, preview }) => {
     setLoading(false)
     setError(true)
     if (type === 'AUDIO') {
-      setImage('/images/PlaceholderAudio.png')
+      setImage('/images/CoverCardPlaceholder.png')
     }
     if (type === 'VIDEO') {
-      setImage('/images/PlaceholderVideo.png')
+      setImage('/images/CoverCardPlaceholder.png')
     }
     if (type === 'COLLECTION') {
-      setImage('/images/PlaceholderCollection.png')
+      setImage('/images/CoverCardPlaceholder2.png')
     }
   }
 

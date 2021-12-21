@@ -1,0 +1,11 @@
+.vjs-poster {
+  background-size: cover;
+}
+
+.vjs-logo {
+  width: 200px;
+}
+
+.vjs-logo>img {
+  width: 100%;
+}

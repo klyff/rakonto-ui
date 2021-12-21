@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 
 import '../../lib/videojs/skins/treso/videojs.css'
+import './overrides.css'
 
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js'
 import '../../lib/videojs/components/nuevo'
@@ -8,12 +9,15 @@ import '../../lib/videojs/components/visualizer'
 
 interface iVideoJs {
   options: VideoJsPlayerOptions
+  nuevoOptions?: {
+    logo: string
+  }
   onReady?: any
   type: 'audio' | 'video'
   handleEnd?: () => void
 }
 
-export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type }) => {
+export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type, nuevoOptions }) => {
   const videoRef = React.useRef(null)
   const playerRef = React.useRef<VideoJsPlayer | null>(null)
 
@@ -30,9 +34,7 @@ export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type 
       })
       if (type === 'audio') {
         // @ts-ignore
-        playerRef.current.nuevo({
-          logo: options.poster
-        })
+        playerRef.current.nuevo(nuevoOptions)
         // @ts-ignore
         playerRef.current.visualizer({ video: true })
       }
@@ -82,21 +84,13 @@ export const AudioJsWrapper: React.FC<{ options: VideoJsPlayerOptions; id: strin
   handleEnd,
   id
 }) => {
+  const nuevoOptions = {
+    logo: options.poster as string
+  }
   const _options = {
-    ...options
-    // plugins: {
-    //   wavesurfer: {
-    //     backend: 'MediaElement',
-    //     displayMilliseconds: false,
-    //     debug: true,
-    //     waveColor: 'grey',
-    //     progressColor: 'black',
-    //     cursorColor: 'black',
-    //     interact: true,
-    //     hideScrollbar: true
-    //   }
-    // }
+    ...options,
+    poster: '/images/CoverDefault.png'
   }
 
-  return <VideoJS handleEnd={handleEnd} options={_options} type="audio" />
+  return <VideoJS handleEnd={handleEnd} options={_options} type="audio" nuevoOptions={nuevoOptions} />
 }

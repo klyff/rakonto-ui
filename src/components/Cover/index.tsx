@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import Box from '@mui/material/Box'
-import { ImageType, UserType } from '../../lib/types'
+import { UserType } from '../../lib/types'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import AuthorAvatar from '../AuthorAvatar'
@@ -25,8 +25,8 @@ const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description
         position: 'relative',
         width: '100%',
         height: 720,
-        backgroundImage: `url(${src})`,
-        backgroundSize: 'contain',
+        backgroundImage: `url(${src || '/images/CoverDefault.png'})`,
+        backgroundSize: src ? 'contain' : 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
       }}

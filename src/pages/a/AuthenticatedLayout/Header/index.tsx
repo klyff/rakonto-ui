@@ -155,6 +155,9 @@ export default function PrimarySearchAppBar() {
               const isSelected = location.pathname.startsWith(href)
               return (
                 <Button
+                  sx={{
+                    width: '150px'
+                  }}
                   key={index}
                   color={isSelected ? 'primary' : 'inherit'}
                   variant={isSelected ? 'contained' : undefined}
