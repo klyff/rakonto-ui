@@ -105,8 +105,8 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
     dialogActions.open(
       'Delete forever',
       <>
-        <Typography fontWeight="700">Definitely delete this story?</Typography>
-        <Typography>This action cannot be undone after that.</Typography>
+        <Typography fontWeight="700">Are you sure you want to delete this story?</Typography>
+        <Typography> This action cannot be undone.</Typography>
       </>,
       {
         okText: 'Yes, delete',
@@ -172,9 +172,9 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
             </FormGroup>
           </Box>
           <CollectionMove currentCollectionId={collection.id} storyId={id} reload={reload} />
-          <Button color="secondary" startIcon={<UploadIcon />}>
-            Replace video/ audio
-          </Button>
+          {/* <Button color="secondary" startIcon={<UploadIcon />}> */}
+          {/*  Replace video/ audio */}
+          {/* </Button> */}
           <Box {...getRootProps()}>
             <input {...getInputProps()} />
             <LoadingButton

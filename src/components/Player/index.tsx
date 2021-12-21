@@ -1,8 +1,7 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 import { AudioDetails, MediaType, Resolutions, SubtitleType, VideoDetails } from '../../lib/types'
-import VideoJsWrapper from './VideoJs'
-import AudioJsWrapper from './AudioJs'
+import { VideoJsWrapper, AudioJsWrapper } from './VideoJs'
 import { VideoJsPlayerOptions } from 'video.js'
 
 interface iVideoPlayer {

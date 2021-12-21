@@ -60,7 +60,7 @@ const PersonSearch: React.FC<iPersonSearch> = ({ handleSelect, handleOpen, peopl
         if (params.inputValue !== '') {
           filtered.push({
             inputValue: params.inputValue,
-            name: `Create "${params.inputValue}"`
+            name: `Click here to add "${params.inputValue}" as a new person in Rakonto.`
           })
         }
 
@@ -91,7 +91,7 @@ const PersonSearch: React.FC<iPersonSearch> = ({ handleSelect, handleOpen, peopl
       renderInput={params => (
         <TextField
           {...params}
-          placeholder="Search a person for add"
+          placeholder="Type the name of the person you wish to add"
           InputProps={{
             ...params.InputProps,
             type: 'search',

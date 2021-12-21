@@ -23,29 +23,19 @@ export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type 
       const videoElement = videoRef.current
       if (!videoElement) return
 
-      const player = (playerRef.current = videojs(videoElement, options, () => {
-        onReady && onReady(player)
-        if (options.autoplay) {
-          const promise = player.play()
-
-          if (promise !== undefined) {
-            promise
-              .then(function () {
-                // Autoplay started!
-              })
-              .catch(function () {
-                // Autoplay was prevented.
-              })
-          }
-        }
-        handleEnd && player.on('ended', handleEnd)
-      }))
-      // @ts-ignore
-      player.nuevo({
-        logo: options.poster
+      playerRef.current = videojs(videoElement, options, () => {
+        onReady && onReady(playerRef.current)
+        // @ts-ignore
+        handleEnd && playerRef.current.on('ended', handleEnd)
       })
-      // @ts-ignore
-      player.visualizer({ video: true })
+      if (type === 'audio') {
+        // @ts-ignore
+        playerRef.current.nuevo({
+          logo: options.poster
+        })
+        // @ts-ignore
+        playerRef.current.visualizer({ video: true })
+      }
     } else {
       // const player = playerRef.current
       // player.options(options)
@@ -56,6 +46,7 @@ export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type 
   useEffect(() => {
     return () => {
       if (playerRef.current) {
+        playerRef.current.pause()
         playerRef.current.dispose()
         playerRef.current = null
       }
@@ -64,12 +55,13 @@ export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type 
 
   return (
     <div data-vjs-player>
-      <video id={'player'} className="video-js " />
+      {type === 'video' && <video ref={videoRef} className="video-js" />}
+      {type === 'audio' && <audio ref={videoRef} className="video-js" />}
     </div>
   )
 }
 
-const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview?: string; handleEnd?: () => void }> = ({
+export const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview?: string; handleEnd?: () => void }> = ({
   options,
   preview,
   handleEnd
@@ -85,4 +77,26 @@ const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview?: string
   return <VideoJS handleEnd={handleEnd} options={_options} type="video" />
 }
 
-export default VideoJsWrapper
+export const AudioJsWrapper: React.FC<{ options: VideoJsPlayerOptions; id: string; handleEnd?: () => void }> = ({
+  options,
+  handleEnd,
+  id
+}) => {
+  const _options = {
+    ...options
+    // plugins: {
+    //   wavesurfer: {
+    //     backend: 'MediaElement',
+    //     displayMilliseconds: false,
+    //     debug: true,
+    //     waveColor: 'grey',
+    //     progressColor: 'black',
+    //     cursorColor: 'black',
+    //     interact: true,
+    //     hideScrollbar: true
+    //   }
+    // }
+  }
+
+  return <VideoJS handleEnd={handleEnd} options={_options} type="audio" />
+}

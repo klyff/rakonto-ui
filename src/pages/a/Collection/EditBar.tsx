@@ -58,8 +58,8 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange }) => {
     dialogActions.open(
       'Delete forever',
       <>
-        <Typography fontWeight="700">Definitely delete this collection?</Typography>
-        <Typography>This action cannot be undone after that.</Typography>
+        <Typography fontWeight="700">Are you sure you want to delete this collection?</Typography>
+        <Typography> This action cannot be undone.</Typography>
       </>,
       {
         okText: 'Yes, delete',
@@ -72,13 +72,13 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange }) => {
             await api.deleteCollection(id)
             history.push('/a/my-library')
           } catch (error) {
-            // @ts-ignore
-            const { data } = error
-            if (data.code) {
-              snackActions.open(data.message)
-              return
-            }
-            snackActions.open('Something was wrong! please try again.')
+            snackActions.open(
+              <>
+                You cannot delete this collection because if has stories linked to it.
+                <br />
+                If you wish to delete this collection you first must remove all stories from it.
+              </>
+            )
           }
         }
       }

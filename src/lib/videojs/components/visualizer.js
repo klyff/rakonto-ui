@@ -82,9 +82,11 @@ const registerPlugin = videojs.registerPlugin || videojs.plugin, onPlayerReady =
 
           function y() {
             if (a) {
-              if ("VIDEO" == e.$(".vjs-tech").nodeName) {
+              if ("VIDEO" == e.$(".vjs-tech")?.nodeName) {
                 var t = e.el().querySelector(".vjs-background-bar");
                 t && (t.style.height = "10%")
+              } else {
+                return
               }
               h.fftSize = 256;
               c = h.frequencyBinCount;

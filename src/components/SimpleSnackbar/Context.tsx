@@ -1,11 +1,11 @@
-import React, { useState, createContext } from 'react'
+import React, { useState, createContext, ReactNode } from 'react'
 import { iSimpleSnackbar } from './index'
 import Component from './Component'
 
 // @ts-ignore
 export const SimpleSnackbarContext = createContext<{
   actions: {
-    open: (message: string) => void
+    open: (message: string | ReactNode) => void
     close: () => void
   }
   store: Partial<iSimpleSnackbar>
@@ -21,7 +21,7 @@ export const SimpleSnackbarProvider: React.FC = ({ children }) => {
     message: ''
   })
 
-  const open = (message: string) => {
+  const open = (message: string | ReactNode) => {
     setSnackbar({
       isOpen: true,
       message

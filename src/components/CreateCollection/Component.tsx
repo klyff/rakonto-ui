@@ -97,9 +97,7 @@ const CreateCollection = () => {
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            Prefer to use images in 16:9 aspect to fill the entire cover.
-            <br />
-            We suggest a resolution of at least 720 x 540.
+            We recommend you upload an image with 16:9 aspect ratio and a minimum resolution of 720x540.
           </Typography>
           <Box
             sx={{
