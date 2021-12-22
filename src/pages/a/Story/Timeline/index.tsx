@@ -64,7 +64,6 @@ const Timelines: React.FC<iTimelines> = ({ timelines, canEdit, storyId }) => {
   }
 
   const handleCloseDialog = (timeline?: TimelineType) => {
-    debugger
     if (timeline) {
       setEvents([...events, timeline])
     }

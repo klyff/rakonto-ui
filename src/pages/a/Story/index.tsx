@@ -151,10 +151,6 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
             <Tab label="Transcript" value="transcript" onClick={() => onTabClick('transcript')} />
             <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
-            <Tab label="Photos" value="photos" onClick={() => onTabClick('photos')} />
-            <Tab label="Files" value="files" onClick={() => onTabClick('files')} />
-            <Tab label="Links" value="links" onClick={() => onTabClick('links')} />
-            {isOwner && <Tab label="Subtitles" value="subtitles" onClick={() => onTabClick('subtitles')} />}
           </Box>
           <Box
             sx={{

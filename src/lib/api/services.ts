@@ -170,7 +170,7 @@ export const createStory =
 export const updateStory =
   (request: AxiosInstance) =>
   async (id: string, data: Partial<StoryUpdateType>): Promise<StoryType> => {
-    return await request.put(`a/stories/${id}/publish`, data).then(res => res.data)
+    return await request.put(`a/stories/${id}`, data).then(res => res.data)
   }
 
 export const updateStoryStatus =

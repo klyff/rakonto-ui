@@ -39,6 +39,7 @@ const PersonItem: React.FC<iPersonItem> = ({ person, children }) => {
         {!person.picture?.url && initials(person.name)}
       </Box>
       <Typography sx={{ flex: 1 }}>{person.name}</Typography>
+      <Typography sx={{ flex: 1 }}>{person.link}</Typography>
       <Box>{children}</Box>
     </Box>
   )

@@ -39,8 +39,8 @@ const Places: React.FC<iPlace> = ({ list }) => {
         ),
         marker: [Number(place.latitude), Number(place.longitude)]
       }))
-      setStoryPlacesList([...storyPlacesList, { storyId, storyTitle, markers: computedMarkers }])
-      setMarkers([...markers, ...computedMarkers])
+      setStoryPlacesList(old => [...old, { storyId, storyTitle, markers: computedMarkers }])
+      setMarkers(old => [...old, ...computedMarkers])
     })
   }, [list])
 

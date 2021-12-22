@@ -167,9 +167,6 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
             <Tab label="People" value="people" onClick={() => onTabClick('people')} />
             <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
             <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
-            <Tab label="Photos" value="photos" onClick={() => onTabClick('photos')} />
-            <Tab label="Files" value="files" onClick={() => onTabClick('files')} />
-            <Tab label="Links" value="links" onClick={() => onTabClick('links')} />
           </Box>
           <Box
             sx={{

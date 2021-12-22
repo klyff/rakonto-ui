@@ -23,17 +23,17 @@ const Transcript: React.FC<iTranscript> = ({ transcription, canEdit, storyId }) 
         flexFlow: 'column'
       }}
     >
-      {canEdit && (
-        <>
-          <Box>
-            <Button variant="outlined" onClick={() => alert('edit')} sx={{ mt: 1, mr: 1 }}>
-              Edit
-            </Button>
-          </Box>
-        </>
-      )}
+      {/* {canEdit && ( */}
+      {/*  <> */}
+      {/*    <Box> */}
+      {/*      <Button variant="outlined" onClick={() => alert('edit')} sx={{ mt: 1, mr: 1 }}> */}
+      {/*        Edit */}
+      {/*      </Button> */}
+      {/*    </Box> */}
+      {/*  </> */}
+      {/* )} */}
 
-      <Divider sx={{ margin: '24px 0' }} />
+      {/* <Divider sx={{ margin: '24px 0' }} /> */}
       {transcription && (
         <Typography component="pre" align="justify" paragraph>
           {transcription.content}
