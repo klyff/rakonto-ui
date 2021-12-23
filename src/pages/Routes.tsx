@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Switch, Route, Redirect, RouteProps } from 're
 import Cookies from 'js-cookie'
 import AuthenticatedLayout from './a/AuthenticatedLayout'
 import PublicLayout from './u/PublicLayout'
-import Signin from './u/Signin'
 import CircularLoadingCentred from '../components/CircularLoadingCentred'
-import Search from './a/Search'
 
+const Signin = lazy(() => import('./u/Signin'))
+const Search = lazy(() => import('./a/Search'))
 const Signup = lazy(() => import('./u/Signup'))
 const ConfirmationEmail = lazy(() => import('./u/ConfirmationEmail'))
 const PasswordReset = lazy(() => import('./u/PasswordReset'))
