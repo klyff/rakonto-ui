@@ -82,8 +82,6 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
     owner,
     title,
     description,
-    persons,
-    places,
     timelineEntries,
     collections,
     published,
@@ -171,7 +169,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               </About>
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="people">
-              <People storyId={storyId} canEdit={isOwner} persons={persons} />
+              <People storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="timelines">
               <Timeline storyId={storyId} canEdit={isOwner} timelines={timelineEntries} />

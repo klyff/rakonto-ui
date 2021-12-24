@@ -267,7 +267,7 @@ export type PersonType = {
   id: string
   name: string
   link: string
-  picture: ImageType
+  picture: ImageType | null
 }
 
 export type TimelineType = {

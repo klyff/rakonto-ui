@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { PersonType } from '../../../../lib/types'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
@@ -16,18 +16,26 @@ import PersonItem from '../../../../components/PersonItem'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
 
 interface iPeople {
-  persons: PersonType[]
   canEdit: boolean
   storyId: string
 }
 
-const People: React.FC<iPeople> = ({ persons, canEdit, storyId }) => {
+const People: React.FC<iPeople> = ({ canEdit, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [searchValue, setSearchValue] = useState<string>('')
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [personSelectedEdit, setPersonSelectedEdit] = useState<PersonType | undefined>()
-  const [people, setPeople] = useState<PersonType[]>(persons)
+  const [people, setPeople] = useState<PersonType[]>([])
+
+  const fetch = async () => {
+    const result = await api.getPersons(0, 10000, undefined, [storyId])
+    setPeople(result.content)
+  }
+
+  useEffect(() => {
+    fetch()
+  }, [])
 
   const handleSelect = async (person: PersonType) => {
     if (person?.id) {
@@ -44,7 +52,7 @@ const People: React.FC<iPeople> = ({ persons, canEdit, storyId }) => {
         snackActions.open('Something was wrong! please try again.')
       }
 
-      setPeople([...people, person])
+      fetch()
     }
   }
 

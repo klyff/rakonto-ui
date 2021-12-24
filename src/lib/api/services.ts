@@ -278,8 +278,9 @@ export const deleteFile =
 // Person api
 export const getPersons =
   (request: AxiosInstance) =>
-  async (page: number, size: number, q?: string): Promise<Pageable<PersonType>> => {
-    return await request.get(`a/persons?page=${page}&size=${size}${q ? `&name=${q}` : ''}`).then(res => res.data)
+  async (page: number, size: number, q?: string, storyIds?: string[]): Promise<Pageable<PersonType>> => {
+    const queryString = stringify({ page, size, name: q, storyIds }, { indices: false, addQueryPrefix: true })
+    return await request.get(`a/persons${queryString}`).then(res => res.data)
   }
 
 export const createPerson =
