@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useCallback, useContext } from 'react'
 import Grid from '@mui/material/Grid'
 import { CollectionType, SearchResultType } from '../../../lib/types'
 import useInfiniteScroll from '../../../components/hooks/useInfiniteScrool'
@@ -14,7 +14,7 @@ import { CreateCollectionContext } from '../../../components/CreateCollection'
 
 const Collections: React.FC<RouteComponentProps> = () => {
   const { actions: createCollectionActions } = useContext(CreateCollectionContext)
-  const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
+  const { loading, items, hasNextPage, error, loadMore, setItems } = usePageableRequest<SearchResultType>({
     size: 15,
     q: '',
     request: api.searchCollections
@@ -27,6 +27,13 @@ const Collections: React.FC<RouteComponentProps> = () => {
     disabled: !!error,
     rootMargin: '0px 0px 400px 0px'
   })
+
+  const handleCallback = useCallback(
+    (collection: CollectionType) => {
+      setItems([{ kind: 'COLLECTION', entity: collection }, ...items])
+    },
+    [items, setItems]
+  )
 
   return (
     <Grid
@@ -47,7 +54,7 @@ const Collections: React.FC<RouteComponentProps> = () => {
           }}
         >
           <Box sx={{ flex: '1' }} />
-          <Button variant="outlined" onClick={() => createCollectionActions.open()}>
+          <Button variant="outlined" onClick={() => createCollectionActions.open(handleCallback)}>
             New collection
           </Button>
         </Box>

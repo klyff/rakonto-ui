@@ -27,8 +27,8 @@ const CreateCollection = () => {
 
   const onSubmit = async ({ title, cover, description }: FormikValues) => {
     try {
-      await api.createCollection({ title, coverId: cover.id, description })
-      actions.close()
+      const collection = await api.createCollection({ title, coverId: cover.id, description })
+      actions.close(collection)
     } catch (e) {
       console.error(e)
     }
@@ -85,7 +85,7 @@ const CreateCollection = () => {
           New collection
           <IconButton
             aria-label="close"
-            onClick={actions.close}
+            onClick={() => actions.close()}
             sx={{
               position: 'absolute',
               right: 8,
@@ -205,7 +205,7 @@ const CreateCollection = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={actions.close} sx={{ mt: 1, mr: 1 }}>
+          <Button onClick={() => actions.close()} sx={{ mt: 1, mr: 1 }}>
             Cancel
           </Button>
           <Button
