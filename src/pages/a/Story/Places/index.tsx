@@ -22,17 +22,16 @@ import IconButton from '@mui/material/IconButton'
 import { LatLngExpression } from 'leaflet'
 
 interface iPlace {
-  intialPlaces: PlaceType[]
   canEdit: boolean
   storyId: string
 }
 
-const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
+const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [searchValue, setSearchValue] = useState<string>('')
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [places, setPlaces] = useState<PlaceType[]>(intialPlaces)
+  const [places, setPlaces] = useState<PlaceType[]>([])
   const [markers, setMarkers] = useState<markerType[]>([])
   const [openMarker, setOpenMarker] = useState<string | undefined>(undefined)
   const [position, setPosition] = useState<LatLngExpression | undefined>(undefined)
@@ -40,6 +39,14 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
   const handleSelect = async (place: PlaceType) => {
     setPlaces([...places, place])
   }
+
+  useEffect(() => {
+    const fetch = async () => {
+      const result = await api.getPlaces(0, 1000, [storyId])
+      setPlaces(result.content)
+    }
+    fetch()
+  }, [])
 
   useEffect(() => {
     setMarkers(

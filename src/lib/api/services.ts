@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios'
+import { stringify } from 'qs'
 import {
   addWatcherType,
   AssetTypes,
@@ -401,8 +402,9 @@ export const deleteTimeline =
 // Places api
 export const getPlaces =
   (request: AxiosInstance) =>
-  async (page: number, size: number): Promise<Pageable<PlaceType>> => {
-    return await request.get(`a/places?page=${page}&size=${size}`).then(res => res.data)
+  async (page: number, size: number, storyIds?: string[]): Promise<Pageable<PlaceType>> => {
+    const queryString = stringify({ page, size, storyIds }, { indices: false, addQueryPrefix: true })
+    return await request.get(`a/places${queryString}`).then(res => res.data)
   }
 
 export const createPlace =

@@ -1,8 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Pageable } from '../../../lib/types'
-import { parse, stringify } from 'qs'
-import { useLocation } from 'react-router-dom'
-import { timingSafeEqual } from 'crypto'
 
 export interface Item {
   key: number
