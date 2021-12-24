@@ -15,9 +15,11 @@ import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
 import MapViewer from '../../../../components/MapViewer'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
+import { LatLngExpression } from 'leaflet'
 
 interface iPlace {
   intialPlaces: PlaceType[]
@@ -33,6 +35,7 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
   const [places, setPlaces] = useState<PlaceType[]>(intialPlaces)
   const [markers, setMarkers] = useState<markerType[]>([])
   const [openMarker, setOpenMarker] = useState<string | undefined>(undefined)
+  const [position, setPosition] = useState<LatLngExpression | undefined>(undefined)
 
   const handleSelect = async (place: PlaceType) => {
     setPlaces([...places, place])
@@ -47,7 +50,7 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
           title: place.name,
           content: (
             <>
-              {place.name}
+              <strong>{place.name}</strong>
               <br />
               {place.description}
             </>
@@ -161,15 +164,21 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
             sx={{
               top: 10,
               left: 10,
-              width: '250px',
+              width: '422px',
               height: '100%',
               bgcolor: 'background.default',
-              overflow: 'auto'
+              overflow: 'auto',
+              marginRight: 4
             }}
           >
             <List>
               {markers.map(m => (
                 <ListItem
+                  onMouseEnter={() => {
+                    setOpenMarker(m.id)
+                    setPosition(m.marker)
+                  }}
+                  onMouseLeave={() => setOpenMarker(undefined)}
                   secondaryAction={
                     canEdit && (
                       <IconButton
@@ -181,18 +190,24 @@ const Places: React.FC<iPlace> = ({ intialPlaces, canEdit, storyId }) => {
                       </IconButton>
                     )
                   }
-                  selected={m.id === openMarker}
-                  onMouseEnter={() => setOpenMarker(m.id)}
-                  onMouseLeave={() => setOpenMarker(undefined)}
                   key={m.id}
+                  disablePadding
                 >
-                  <ListItemText>{m.title}</ListItemText>
+                  <ListItemButton
+                    role={undefined}
+                    onClick={() => {
+                      setOpenMarker(m.id)
+                      setPosition(m.marker)
+                    }}
+                  >
+                    <ListItemText>{m.title}</ListItemText>
+                  </ListItemButton>
                 </ListItem>
               ))}
             </List>
           </Box>
           <Box sx={{ top: 10, left: 10, flex: 1, height: '100%' }}>
-            <MapViewer openMarker={openMarker} markers={markers} />
+            <MapViewer initialZoom={position ? 12 : 0} position={position} openMarker={openMarker} markers={markers} />
           </Box>
         </Box>
       ) : (

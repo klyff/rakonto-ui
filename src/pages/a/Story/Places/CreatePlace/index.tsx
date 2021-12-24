@@ -15,7 +15,6 @@ import api from '../../../../../lib/api'
 import { LocationSearchType, markerType, PlaceType } from '../../../../../lib/types'
 import Typography from '@mui/material/Typography'
 import Search from './Search'
-import { LatLngExpression } from 'leaflet'
 import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
 
 interface iCreatePlace {
@@ -33,7 +32,10 @@ const CreatePlace: React.FC<iCreatePlace> = ({ storyId, onClose }) => {
   }
 
   useEffect(() => {
-    if (!location) return
+    if (!location) {
+      setMarkers([])
+      return
+    }
     setMarkers([{ id: Math.random().toString(16).slice(2), marker: [Number(location.lat), Number(location.lon)] }])
   }, [location])
 
@@ -123,9 +125,10 @@ const CreatePlace: React.FC<iCreatePlace> = ({ storyId, onClose }) => {
             helperText={(touched.description && errors.description) || ' '}
           />
           <Typography sx={{ marginBottom: 2 }}>Please enter an address to link with this story.</Typography>
-          <Search handleSelect={place => setLocation(place)} />
+          <Search handleSelect={place => setLocation(place || undefined)} />
           <Box sx={{ width: '100%', height: '282px', padding: '16px 0px' }}>
             <MapViewer
+              initialZoom={location ? 13 : 0}
               position={location ? [Number(location?.lat), Number(location?.lon)] : undefined}
               markers={markers}
             />

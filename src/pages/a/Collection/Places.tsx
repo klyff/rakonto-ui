@@ -7,9 +7,12 @@ import InputAdornment from '@mui/material/InputAdornment'
 import SearchIcon from '@mui/icons-material/Search'
 import MapViewer from '../../../components/MapViewer'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
+import MovieIcon from '@mui/icons-material/Movie'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import ListSubheader from '@mui/material/ListSubheader'
+import { LatLngExpression } from 'leaflet'
 
 interface iPlace {
   list: StoryType[]
@@ -18,6 +21,7 @@ interface iPlace {
 const Places: React.FC<iPlace> = ({ list }) => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [openMarker, setOpenMarker] = useState<string | undefined>(undefined)
+  const [position, setPosition] = useState<LatLngExpression | undefined>(undefined)
   const [markers, setMarkers] = useState<markerType[]>([])
   const [storyPlacesList, setStoryPlacesList] = useState<
     { storyId: string; storyTitle: string; markers: markerType[] }[]
@@ -32,7 +36,7 @@ const Places: React.FC<iPlace> = ({ list }) => {
         title: place.name,
         content: (
           <>
-            {place.name}
+            <strong>{place.name}</strong>
             <br />
             {place.description}
           </>
@@ -83,24 +87,46 @@ const Places: React.FC<iPlace> = ({ list }) => {
 
       <Box sx={{ width: '100%', height: '500px', display: 'flex' }}>
         <Box
-          sx={{ top: 10, left: 10, width: '250px', height: '100%', bgcolor: 'background.default', overflow: 'auto' }}
+          sx={{
+            top: 10,
+            left: 10,
+            width: '422px',
+            height: '100%',
+            bgcolor: 'background.default',
+            overflow: 'auto',
+            marginRight: 4
+          }}
         >
           <List>
             {storyPlacesList.map(s => (
               <li key={s.storyTitle}>
                 <ul>
-                  <ListSubheader>{s.storyTitle}</ListSubheader>
+                  <ListSubheader
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <MovieIcon />
+                    <Box sx={{ paddingLeft: 1 }}>{s.storyTitle}</Box>
+                  </ListSubheader>
                   {s.markers
                     .filter(p => p.title?.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
                     .map(m => (
-                      <ListItem
-                        selected={m.id === openMarker}
-                        onMouseEnter={() => setOpenMarker(m.id)}
+                      <ListItemButton
+                        onMouseEnter={() => {
+                          setOpenMarker(m.id)
+                          setPosition(m.marker)
+                        }}
                         onMouseLeave={() => setOpenMarker(undefined)}
                         key={m.id}
+                        onClick={() => {
+                          setOpenMarker(m.id)
+                          setPosition(m.marker)
+                        }}
                       >
                         <ListItemText>{m.title}</ListItemText>
-                      </ListItem>
+                      </ListItemButton>
                     ))}
                 </ul>
               </li>
@@ -110,6 +136,8 @@ const Places: React.FC<iPlace> = ({ list }) => {
         <Box sx={{ top: 10, left: 10, flex: 1, height: '100%' }}>
           <MapViewer
             openMarker={openMarker}
+            initialZoom={position ? 12 : 0}
+            position={position}
             markers={markers.filter(p => p.title?.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))}
           />
         </Box>
