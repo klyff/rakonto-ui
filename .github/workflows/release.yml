@@ -15,7 +15,8 @@ jobs:
           node-version: 17.x
       - run: npx yarn install
       - run: npx yarn build
+      - run: tar -zcvf build.tar.gz ./build
       - uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./build
+            build.tar.gz
