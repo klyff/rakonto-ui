@@ -138,7 +138,9 @@ const Info: React.FC = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 backgroundImage: user?.picture?.url ? `url(${user.picture.url})` : 'none',
-                backgroundSize: 'contain'
+                backgroundSize: 'contain',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
               }}
             >
               <input {...getInputProps()} />

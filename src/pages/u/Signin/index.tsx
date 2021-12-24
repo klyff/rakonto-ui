@@ -127,15 +127,15 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
                   <Link href="/u/forgot-password">Forgot password?</Link>
                 </Box>
               </Grid>
-              <Grid item xs={12}>
-                <Divider>or</Divider>
-              </Grid>
-              <Grid item xs={12}>
-                <FacebookButton />
-              </Grid>
-              <Grid item xs={12}>
-                <GoogleButton />
-              </Grid>
+              {/* <Grid item xs={12}> */}
+              {/*  <Divider>or</Divider> */}
+              {/* </Grid> */}
+              {/* <Grid item xs={12}> */}
+              {/*  <FacebookButton /> */}
+              {/* </Grid> */}
+              {/* <Grid item xs={12}> */}
+              {/*  <GoogleButton /> */}
+              {/* </Grid> */}
               <Grid item xs={12}>
                 <Divider />
               </Grid>

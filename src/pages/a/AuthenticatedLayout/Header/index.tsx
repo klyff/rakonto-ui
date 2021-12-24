@@ -189,7 +189,10 @@ export default function PrimarySearchAppBar() {
                 backgroundColor: 'transparent',
                 border: '1px solid',
                 borderColor: 'common.white',
-                color: 'common.white'
+                color: 'common.white',
+                '&>img': {
+                  objectFit: 'contain'
+                }
               }}
               onClick={handleProfileMenuOpen}
               alt={user?.fullName}

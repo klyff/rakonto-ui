@@ -54,7 +54,6 @@ export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type,
       }
     }
   }, [])
-
   return (
     <div data-vjs-player>
       {type === 'video' && <video ref={videoRef} className="video-js" />}

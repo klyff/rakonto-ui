@@ -7,7 +7,7 @@
     font-display: swap;
 }
 
-*:focus{outline: none;}
+.video-js>*:focus{ outline: none; }
 .video-js,
 .video-js .vjs-progress-holder {
     -webkit-touch-callout: none;
@@ -25,7 +25,7 @@
 	border:0;
 	-moz-outline-style: none;
 }
-*:focus {
+.video-js>*:focus {
     outline: none !important;
 	border:0;
 	-moz-outline-style: none;
@@ -95,7 +95,7 @@
 	text-align:center;
 	font-size:24px;
 }
-	
+
 .video-js .vjs-lcn-poster{
 	position:absolute;
 	top:0;
@@ -155,7 +155,7 @@
 .vjs-playlist-button:before {
     content: "\f00a";
 	text-shadow:1px 1px 1px rgba(0,0,0,0.8);
-	
+
 }
 .vjs-vplaylist {
 	width: 0px;
@@ -277,7 +277,7 @@
 	display:block!important;
 }
 .vjs-scroll {
-  overflow-x: scroll!important; 
+  overflow-x: scroll!important;
   -webkit-overflow-scrolling: touch;
 }
 .video-js .vjs-grid {
@@ -745,7 +745,7 @@ body.vjs-full-window {
 }
 
 
-.vjs-control-text { 
+.vjs-control-text {
 	display:none;
 }
 .no-touch .vjs-control-text {
@@ -1306,7 +1306,7 @@ body.vjs-full-window {
 .videojs .vjs-live-control,
 .videojs .vjs-remaining-time {
     float: left;
-	
+
 }
 .vjs-text-track-settings .vjs-track-settings-colors,
 .vjs-text-track-settings .vjs-track-settings-font {
@@ -1591,7 +1591,7 @@ body.vjs-full-window {
     position: relative;
     display: table;
     margin: 0 auto 8px;
-	
+
 }
 
 .video-js .vjs-show {
@@ -1651,7 +1651,7 @@ body.vjs-full-window {
     border-top: solid 1px #dcdfe5;
 	 -webkit-box-shadow: 0 0 2px #fff;
     box-shadow: 0 0 2px rgba(0, 0, 0, 1);
-   
+
 }
 
 .video-js .vjs-zoom-menu .vjs-zoom-reset:hover {
@@ -2006,7 +2006,7 @@ body.vjs-full-window {
 }
 
 
-.vjs-live .vjs-progress-control, .vjs-live-reload .vjs-progress-control { 
+.vjs-live .vjs-progress-control, .vjs-live-reload .vjs-progress-control {
     display: none!important
 }
 
@@ -2020,9 +2020,9 @@ body.vjs-full-window {
 
 
 
-.vjs-live-reload .vjs-control-bar .vjs-rewind-control, 
-.vjs-live-reload .vjs-control-bar .vjs-forward-control, 
-.vjs-liveui-reload .vjs-control-bar .vjs-rewind-control, 
+.vjs-live-reload .vjs-control-bar .vjs-rewind-control,
+.vjs-live-reload .vjs-control-bar .vjs-forward-control,
+.vjs-liveui-reload .vjs-control-bar .vjs-rewind-control,
 .vjs-liveui-reload .vjs-control-bar .vjs-forward-control,
 .vjs-live-reload .vjs-time-control,
 .vjs-live-reload .vjs-time-divider,
@@ -2120,7 +2120,7 @@ body.vjs-full-window {
 	content: "\f1e1";
 	font-size:28px;
 	color:#fff;
-	
+
 }
 
 .vjs-chromecast-button.vjs-chromecast-casting-state .vjs-icon-placeholder:before {
@@ -2611,7 +2611,7 @@ body.vjs-full-window {
 	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
 	display: -ms-flexbox;      /* TWEENER - IE 10 */
 	display: -webkit-flex;     /* NEW - Chrome */
-	display: flex;  
+	display: flex;
 	max-width:100%;
 }
 .vjs-audio-info a .vjs-audio-info .vjs-cover img {
@@ -2621,7 +2621,7 @@ body.vjs-full-window {
 	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
 	display: -ms-flexbox;      /* TWEENER - IE 10 */
 	display: -webkit-flex;     /* NEW - Chrome */
-	display: flex;  
+	display: flex;
 	margin-right:15px;
 }
 
@@ -2780,7 +2780,7 @@ vjs-song
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    
+
 }
 .vjs-info .vjs-dsc {
 	display: block;
@@ -3151,7 +3151,7 @@ video::-webkit-media-text-track-display {
 	opacity: 1;
 	transform: scale(1);
 	-webkit-transform: scale(1);
-	
+
 }
 
 .roll-skip-button,
@@ -3536,7 +3536,7 @@ clearfix::before {
 	font-size:35px;
 	display:block;
 }
-.vjs-480 .vjs-menu-settings .vjs-menu-content .vjs-speed  { 
+.vjs-480 .vjs-menu-settings .vjs-menu-content .vjs-speed  {
     height: 26px;
     line-height: 26px;
  }
@@ -3700,7 +3700,7 @@ div.vast-skip-button {
   padding: 8px;
   z-index: 2;
   border: 1px solid white;
-  border-right: none; 
+  border-right: none;
   white-space:nowrap; }
 
 p.vast-skip-button-text {

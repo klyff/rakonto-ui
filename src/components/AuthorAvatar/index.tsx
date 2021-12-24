@@ -43,7 +43,10 @@ const AuthorAvatar: React.FC<iAuthorAvatar> = ({ loading, fullName, thumbnail, p
             color: 'common.white',
             width: 32,
             height: 32,
-            fontSize: '0.9em'
+            fontSize: '0.9em',
+            '&>img': {
+              objectFit: 'contain'
+            }
           }}
           src={thumbnail}
         >

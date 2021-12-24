@@ -30,13 +30,13 @@ const PersonSearch: React.FC<iPersonSearch> = ({ handleSelect, handleOpen, peopl
     if (!value) return
     if (value?.id === 'new person') {
       handleOpen(true, value)
-      setValue(null)
       setInputValue('')
+      setValue(null)
       return
     }
     handleSelect(value)
-    setValue(null)
     setInputValue('')
+    setValue(null)
   }, [value])
 
   const fetch = useMemo(
@@ -77,12 +77,12 @@ const PersonSearch: React.FC<iPersonSearch> = ({ handleSelect, handleOpen, peopl
     return () => {
       active = false
     }
-  }, [value, inputValue, fetch])
+  }, [inputValue, fetch])
 
   return (
     <Autocomplete
       inputValue={inputValue}
-      value={value}
+      value={value || undefined}
       size="small"
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue)
@@ -112,6 +112,7 @@ const PersonSearch: React.FC<iPersonSearch> = ({ handleSelect, handleOpen, peopl
       autoComplete
       includeInputInList
       filterSelectedOptions
+      disableClearable
       getOptionLabel={option => option.name}
       renderOption={(props, option) => {
         return (
