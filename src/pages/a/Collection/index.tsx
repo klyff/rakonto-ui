@@ -35,6 +35,10 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
   const [tab, setTab] = useState<string>('')
   const [isOwner, setIsOwner] = useState<boolean>(false)
 
+  useEffect(() => {
+    setPlay(!!autoplay)
+  }, [autoplay])
+
   const computeCollection = (value: CollectionType) => {
     setCollection(value)
     setIsLoading(false)

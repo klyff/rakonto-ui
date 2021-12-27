@@ -80,9 +80,11 @@ const Content: React.FC<iContent> = ({ update, title, id, description, canEdit, 
                 </div>
               )}
             </Box>
-            <Typography variant="h5" paragraph>
-              {'    ' + description}
-            </Typography>
+            {description && (
+              <Typography variant="h5" paragraph>
+                {'    ' + description}
+              </Typography>
+            )}
           </>
         )}
         {editMode && (

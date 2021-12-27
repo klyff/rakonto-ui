@@ -82,7 +82,7 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
                 padding: '20px 16px'
               }}
               onClick={() => {
-                history.push(`/a/collections/${collectionId}?storyId=${story.id}`)
+                history.push(`/a/collections/${collectionId}?storyId=${story.id}&autoplay=true`)
               }}
             >
               <PlayArrowIcon />
