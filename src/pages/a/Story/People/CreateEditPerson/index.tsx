@@ -36,7 +36,7 @@ const CreateEditCollection: React.FC<iCreateEditCollection> = ({ selectedPerson,
 
   const onSubmit = async ({ name, link }: FormikValues) => {
     try {
-      if (selectedPerson?.id) {
+      if (selectedPerson?.id && selectedPerson?.id !== 'new person') {
         const person = await api.updatePerson(selectedPerson.id, { link, name, pictureId: picture?.id || null })
         handleClose(person)
         return
