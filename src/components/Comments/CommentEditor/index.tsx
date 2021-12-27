@@ -49,7 +49,7 @@ const CommentEditor: React.FC<iCommentEditor> = ({ id, mentions, type, createAct
         <EditorWithMentions mentions={mentions} onChange={onChange} state={editorState} />
       </CommentBox>
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-        <Button variant="outlined" onClick={handleSave}>
+        <Button disabled={!editorState.getCurrentContent().getPlainText()} variant="outlined" onClick={handleSave}>
           Comment
         </Button>
       </Box>
