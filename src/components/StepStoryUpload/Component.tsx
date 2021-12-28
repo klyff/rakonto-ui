@@ -57,12 +57,23 @@ const StepStoryUpload = () => {
     file: null
   }
 
-  const { isSubmitting, setFieldValue, values, handleBlur, handleChange, touched, errors, handleSubmit, handleReset } =
-    useFormik({
-      initialValues,
-      validationSchema: schema,
-      onSubmit
-    })
+  const {
+    isSubmitting,
+    setFieldValue,
+    values,
+    handleBlur,
+    isValid,
+    handleChange,
+    touched,
+    dirty,
+    errors,
+    handleSubmit,
+    handleReset
+  } = useFormik({
+    initialValues,
+    validationSchema: schema,
+    onSubmit
+  })
 
   useEffect(() => {
     if (store.isOpen) {
@@ -77,7 +88,7 @@ const StepStoryUpload = () => {
   const steps = [
     { label: 'Story title', error: touched.title && Boolean(errors.title) },
     { label: 'Description', error: touched.description && Boolean(errors.description) },
-    { label: 'Upload', error: false }
+    { label: 'Upload', error: Boolean(errors.file) }
   ]
 
   return (
@@ -205,12 +216,17 @@ const StepStoryUpload = () => {
             </Button>
           )}
           {activeStep === 2 ? (
-            <Button variant="contained" disabled={isSubmitting} onClick={() => handleSubmit()} sx={{ mt: 1, mr: 1 }}>
+            <Button
+              variant="contained"
+              disabled={isSubmitting || !values.file || !isValid}
+              onClick={() => handleSubmit()}
+              sx={{ mt: 1, mr: 1 }}
+            >
               Finish
             </Button>
           ) : (
             <Button variant="contained" onClick={handleNext} sx={{ mt: 1, mr: 1 }}>
-              Confirm
+              Next
             </Button>
           )}
         </DialogActions>
