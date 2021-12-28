@@ -36,7 +36,7 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
               height: '100%',
               width: '100%'
             }}
-            src={story.thumbnailUrl}
+            src={story.thumbnailUrl || '/images/CoverDefault.png'}
             alt={story.title}
           />
           {isSelected && (
@@ -138,15 +138,17 @@ const Stories: React.FC<iStories> = ({ selectedStory, collectionId, stories, pla
   if (!selectedStory) return null
   return (
     <Box sx={{ display: 'flex', flexFlow: 'column', height: '100%' }}>
-      {stories.map(story => (
-        <StoryTile
-          collectionId={collectionId}
-          key={story.id}
-          story={story}
-          isSelected={story.id === selectedStory}
-          playing={playing}
-        />
-      ))}
+      {stories
+        .filter(story => story.ready)
+        .map(story => (
+          <StoryTile
+            collectionId={collectionId}
+            key={story.id}
+            story={story}
+            isSelected={story.id === selectedStory}
+            playing={playing}
+          />
+        ))}
     </Box>
   )
 }
