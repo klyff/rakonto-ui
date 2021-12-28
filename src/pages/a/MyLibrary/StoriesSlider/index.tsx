@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import api from '../../../../lib/api'
 import { SearchResultType, StoryType } from '../../../../lib/types'
@@ -7,6 +7,7 @@ import { usePageableRequest } from '../../../../components/hooks/usePageableRequ
 import Card from '../../../../components/Card'
 import StoryCard from '../../../../components/StoryCard'
 import { useHistory } from 'react-router-dom'
+import { SocketConnectorContext } from '../../../../components/SocketConnector'
 
 interface iStoriesSliderTiler {
   q: string
@@ -14,11 +15,23 @@ interface iStoriesSliderTiler {
 
 const StoriesSliderTile: React.FC<iStoriesSliderTiler> = ({ q }) => {
   const history = useHistory()
-  const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
+  const { store: processorList } = useContext(SocketConnectorContext)
+  const { loading, items, hasNextPage, error, loadMore, setItems } = usePageableRequest<SearchResultType>({
     size: 15,
     q: q,
     request: api.searchStories
   })
+
+  useEffect(() => {
+    Object.values(processorList).forEach(async object => {
+      if (object.ready) {
+        if (!items.some(item => item.entity.id === object.id)) {
+          const story = await api.getStory(object.id)
+          setItems([{ kind: 'STORY', entity: story }, ...items])
+        }
+      }
+    })
+  }, [processorList])
 
   // @ts-ignore
   if (error?.status === 401) {

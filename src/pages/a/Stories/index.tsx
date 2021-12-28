@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import { SearchResultType, StoryType } from '../../../lib/types'
 import useInfiniteScroll from '../../../components/hooks/useInfiniteScrool'
@@ -11,11 +11,14 @@ import { RouteComponentProps } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
+import { SocketConnectorContext } from '../../../components/SocketConnector'
+import { QueueItem } from '../../../components/QueueProcessor'
 
 const Stories: React.FC<RouteComponentProps> = () => {
   const { actions: newStoryActions } = useContext(StepStoryUploadContext)
+  const { store: processorList } = useContext(SocketConnectorContext)
 
-  const { loading, items, hasNextPage, error, loadMore } = usePageableRequest<SearchResultType>({
+  const { loading, items, hasNextPage, error, loadMore, setItems } = usePageableRequest<SearchResultType>({
     size: 15,
     q: '',
     request: api.searchStories
@@ -28,6 +31,17 @@ const Stories: React.FC<RouteComponentProps> = () => {
     disabled: !!error,
     rootMargin: '0px 0px 400px 0px'
   })
+
+  useEffect(() => {
+    Object.values(processorList).forEach(async object => {
+      if (object.ready) {
+        if (!items.some(item => item.entity.id === object.id)) {
+          const story = await api.getStory(object.id)
+          setItems([{ kind: 'STORY', entity: story }, ...items])
+        }
+      }
+    })
+  }, [processorList])
 
   return (
     <Grid
