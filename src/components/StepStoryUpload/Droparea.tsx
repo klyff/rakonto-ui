@@ -107,7 +107,7 @@ const Droparea: React.FC<iDroparea> = ({ onDrop, file, onRemove }) => {
                       }}
                     />
                   </Box>
-                  <Typography fontWeight="700" align="center" variant="h5" gutterBottom>
+                  <Typography fontWeight="700" align="center" variant="h6" gutterBottom>
                     Drag and drop a video or audio file here
                   </Typography>
                   <Typography fontWeight="700" align="center" variant="h6" gutterBottom>

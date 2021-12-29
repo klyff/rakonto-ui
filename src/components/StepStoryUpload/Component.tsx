@@ -25,7 +25,7 @@ const StepStoryUpload = () => {
   const [progress, setProgress] = useState<number>(0)
   const [sending, setSending] = useState<boolean>(false)
   const [activeStep, setActiveStep] = useState(0)
-  const [uploadType, setUploadType] = useState<'FILE' | 'RECORDER' | undefined>()
+  const [uploadType, setUploadType] = useState<'FILE' | 'AUDIO' | 'VIDEO' | null>(null)
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1)
@@ -65,7 +65,6 @@ const StepStoryUpload = () => {
     isValid,
     handleChange,
     touched,
-    dirty,
     errors,
     handleSubmit,
     handleReset
@@ -80,7 +79,7 @@ const StepStoryUpload = () => {
       setSending(false)
       setActiveStep(0)
       setProgress(0)
-      setUploadType(undefined)
+      setUploadType(null)
       handleReset(initialValues)
     }
   }, [store.isOpen])
@@ -199,11 +198,21 @@ const StepStoryUpload = () => {
                       }}
                       onRemove={() => {
                         setFieldValue('file', null)
-                        setUploadType(undefined)
+                        setUploadType(null)
                       }}
                     />
                   )}
-                  {/* {uploadType === 'RECORDER' || (!uploadType && <Recorder />)} */}
+                  {(uploadType === 'AUDIO' || uploadType === 'VIDEO' || !uploadType) && (
+                    <Recorder
+                      type={uploadType}
+                      onDrop={file => {
+                        setFieldValue('file', file)
+                      }}
+                      onSelected={(value: 'AUDIO' | 'VIDEO' | null) => {
+                        setUploadType(value)
+                      }}
+                    />
+                  )}
                 </>
               </Box>
             </Box>
