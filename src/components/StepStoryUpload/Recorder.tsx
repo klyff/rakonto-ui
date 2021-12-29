@@ -19,7 +19,7 @@ const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
   if (!stream) {
     return null
   }
-  return <video height={'95%'} ref={videoRef} autoPlay controls />
+  return <video height={'95%'} ref={videoRef} autoPlay />
 }
 
 interface iRecorder {
@@ -71,7 +71,7 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
               />
             </Box>
             <Typography sx={{ marginBottom: 6 }} fontWeight="700" align="center" variant="h6" gutterBottom>
-              Record video or audio from your devices
+              Record video or audio from your device
             </Typography>
             <ButtonGroup disableElevation size="large" variant="outlined">
               <Button onClick={() => onSelected('VIDEO')} startIcon={<MovieIcon />}>
@@ -142,7 +142,7 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
                         onSelected(null)
                       }}
                     >
-                      Switche media type
+                      Change Recording Type
                     </Button>
                   )}
                 </Box>
