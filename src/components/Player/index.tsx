@@ -9,7 +9,7 @@ interface iVideoPlayer {
   cover?: string
   defaultRes?: Resolutions
   type?: MediaType
-  subtitles: SubtitleType[]
+  subtitles?: SubtitleType[]
   autoplay?: boolean
   handleEnd?: () => void
 }
@@ -30,13 +30,14 @@ const Player: React.FC<iVideoPlayer> = ({
     fill: true,
     muted: autoplay,
     autoplay: autoplay,
-    tracks: subtitles.map(subtitle => ({
-      // If develop mode need replace proxy port = subtitle.url.replace('8080', '3000')
-      src: subtitle.url,
-      srclang: subtitle.language,
-      language: subtitle.language,
-      label: subtitle.language
-    }))
+    tracks:
+      subtitles?.map(subtitle => ({
+        // If develop mode need replace proxy port = subtitle.url.replace('8080', '3000')
+        src: subtitle.url,
+        srclang: subtitle.language,
+        language: subtitle.language,
+        label: subtitle.language
+      })) || []
   }
 
   if (type === 'VIDEO') {

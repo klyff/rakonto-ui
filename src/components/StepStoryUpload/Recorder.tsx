@@ -7,6 +7,7 @@ import MovieIcon from '@mui/icons-material/Movie'
 import HeadphonesIcon from '@mui/icons-material/Headphones'
 import { ReactMediaRecorder } from 'react-media-recorder'
 import CameraIndoorIcon from '@mui/icons-material/CameraIndoor'
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 
 const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -119,30 +120,65 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
                 }}
               >
                 {status === 'recording' ? (
-                  <VideoPreview stream={type === 'VIDEO' ? previewStream : previewAudioStream} />
+                  <>
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 16,
+                        right: 16,
+                        animation: 'blink 2s ease-in infinite',
+                        color: 'red'
+                      }}
+                    >
+                      <FiberManualRecordIcon />
+                    </Box>
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        bottom: 16,
+                        right: 16,
+                        zIndex: '1000'
+                      }}
+                    >
+                      <Button size="large" variant="outlined" onClick={stopRecording}>
+                        Stop recording
+                      </Button>
+                    </Box>
+                    <VideoPreview stream={type === 'VIDEO' ? previewStream : previewAudioStream} />
+                  </>
                 ) : (
                   mediaBlobUrl && <video height={'95%'} src={mediaBlobUrl} controls autoPlay />
                 )}
+
                 <Box sx={{ position: 'absolute' }}>
-                  {status === 'idle' && <Button onClick={startRecording}>Start Recording</Button>}
-                  {status === 'recording' && <Button onClick={stopRecording}>Stop Recording</Button>}
+                  {status === 'idle' && (
+                    <ButtonGroup disableElevation size="large" variant="outlined">
+                      <Button size="large" variant="outlined" onClick={startRecording}>
+                        Start recording
+                      </Button>
+                      {!mediaBlobUrl && (
+                        <Button
+                          size="large"
+                          variant="outlined"
+                          onClick={() => {
+                            onSelected(null)
+                          }}
+                        >
+                          Change recording type
+                        </Button>
+                      )}
+                    </ButtonGroup>
+                  )}
                   {status === 'stopped' && mediaBlobUrl && (
                     <Button
+                      variant="contained"
+                      size="large"
                       onClick={() => {
                         clearBlobUrl()
                         onDrop(null)
                       }}
                     >
-                      Clear
-                    </Button>
-                  )}
-                  {status === 'idle' && !mediaBlobUrl && (
-                    <Button
-                      onClick={() => {
-                        onSelected(null)
-                      }}
-                    >
-                      Change Recording Type
+                      Discard
                     </Button>
                   )}
                 </Box>

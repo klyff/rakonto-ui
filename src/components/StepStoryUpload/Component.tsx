@@ -231,7 +231,7 @@ const StepStoryUpload = () => {
               onClick={() => handleSubmit()}
               sx={{ mt: 1, mr: 1 }}
             >
-              Finish
+              Save
             </Button>
           ) : (
             <Button variant="contained" onClick={handleNext} sx={{ mt: 1, mr: 1 }}>
