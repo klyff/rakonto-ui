@@ -16,6 +16,7 @@ import People from './People'
 import Places from './Places'
 import Timeline from './Timeline'
 import Transcript from './Transcript'
+import Photos from './Photos'
 import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
@@ -149,6 +150,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
             <Tab label="Transcript" value="transcript" onClick={() => onTabClick('transcript')} />
             <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
+            <Tab label="Photos" value="photos" onClick={() => onTabClick('photos')} />
           </Box>
           <Box
             sx={{
@@ -186,7 +188,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               </TabPanel>
             )}
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
-              photos
+              <Photos storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="files">
               files

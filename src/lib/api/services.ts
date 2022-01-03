@@ -342,8 +342,9 @@ export const deleteTranscriptions =
 // Gallery api
 export const getGallery =
   (request: AxiosInstance) =>
-  async (page: number, size: number): Promise<Pageable<GalleryType>> => {
-    return await request.get(`a/gallery-entries?page=${page}&size=${size}`).then(res => res.data)
+  async (page: number, size: number, storyIds?: string[]): Promise<Pageable<GalleryType>> => {
+    const queryString = stringify({ page, size, storyIds }, { indices: false, addQueryPrefix: true })
+    return await request.get(`a/gallery-entries${queryString}`).then(res => res.data)
   }
 
 export const getGalleryItem =
