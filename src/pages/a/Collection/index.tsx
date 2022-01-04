@@ -9,6 +9,7 @@ import People from './People'
 import Places from './Places'
 import Timelines from './Timelines'
 import Stories from './Stories'
+import Photos from './Photos'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import Tab from '@mui/material/Tab'
@@ -171,6 +172,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
             <Tab label="People" value="people" onClick={() => onTabClick('people')} />
             <Tab label="Places" value="places" onClick={() => onTabClick('places')} />
             <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
+            <Tab label="Photos" value="photos" onClick={() => onTabClick('photos')} />
           </Box>
           <Box
             sx={{
@@ -205,7 +207,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               <Places list={stories} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
-              photos
+              <Photos list={stories} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="files">
               files

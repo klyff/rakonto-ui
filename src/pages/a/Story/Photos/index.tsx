@@ -117,7 +117,7 @@ const Photos: React.FC<iPhotos> = ({ canEdit, storyId }) => {
           <Box sx={{ width: '100%', minHeight: 400 }}>
             <ImageList variant="masonry" cols={3} gap={8}>
               {photos.map(photo => (
-                <ImageListItem key={photo.id} style={{ borderBottomLeftRadius: 4, borderBottomRightRadius: 4 }}>
+                <ImageListItem key={photo.id}>
                   <img
                     src={`${photo.image.url}`}
                     srcSet={`${photo.image.url}`}
