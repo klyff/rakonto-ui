@@ -75,7 +75,8 @@ import {
   isStoryPublished,
   moveStoryToCollection,
   changeStoryToCollection,
-  closeAccount
+  closeAccount,
+  getSubtitles
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -176,6 +177,7 @@ export default {
   createPlace: createPlace(request),
   deletePlace: deletePlace(request),
   searchLocation: searchLocation(request),
+  getSubtitles: getSubtitles(request),
   uploadSubtitle: uploadSubtitle(request),
   deleteSubtitle: deleteSubtitle(request),
   getWatchers: getWatchers(request),

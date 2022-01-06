@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Timeline from '@mui/lab/Timeline'
@@ -16,7 +16,6 @@ import CreateTimeline from './CreateTimeline'
 import { format, parseJSON } from 'date-fns'
 
 interface iTimelines {
-  timelines: TimelineType[]
   canEdit: boolean
   storyId: string
 }
@@ -24,11 +23,20 @@ interface iTimelines {
 const sortByDate = (a: TimelineType, b: TimelineType) =>
   parseJSON(b.at as unknown as string).getTime() - parseJSON(a.at as unknown as string).getTime()
 
-const Timelines: React.FC<iTimelines> = ({ timelines, canEdit, storyId }) => {
+const Timelines: React.FC<iTimelines> = ({ canEdit, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [events, setEvents] = useState<TimelineType[]>(timelines)
+  const [events, setEvents] = useState<TimelineType[]>([])
+
+  const fetch = async () => {
+    const result = await api.getTimelines(0, 10000, [storyId])
+    setEvents(result.content)
+  }
+
+  useEffect(() => {
+    fetch()
+  }, [])
 
   const handleDelete = async (timeline?: TimelineType) => {
     if (!timeline) {

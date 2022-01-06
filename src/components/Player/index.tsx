@@ -14,34 +14,18 @@ interface iVideoPlayer {
   handleEnd?: () => void
 }
 
-const Player: React.FC<iVideoPlayer> = ({
-  autoplay,
-  handleEnd,
-  subtitles,
-  media,
-  type,
-  defaultRes = '720p',
-  cover
-}) => {
+const Player: React.FC<iVideoPlayer> = ({ autoplay, handleEnd, subtitles, media, type, cover }) => {
   const options: VideoJsPlayerOptions = {
     poster: cover,
     preload: 'auto',
     controls: true,
     fill: true,
     muted: autoplay,
-    autoplay: autoplay,
-    tracks:
-      subtitles?.map(subtitle => ({
-        // If develop mode need replace proxy port = subtitle.url.replace('8080', '3000')
-        src: subtitle.url,
-        srclang: subtitle.language,
-        language: subtitle.language,
-        label: subtitle.language
-      })) || []
+    autoplay: autoplay
   }
 
   if (type === 'VIDEO') {
-    const { id, gifUrl, url, thumbnailUrl } = media as VideoDetails
+    const { id, gifUrl, url } = media as VideoDetails
 
     options.sources = [
       {
@@ -51,13 +35,13 @@ const Player: React.FC<iVideoPlayer> = ({
     ]
     return (
       <Box maxHeight={720} height={720}>
-        <VideoJsWrapper key={id} handleEnd={handleEnd} preview={gifUrl} options={options} />
+        <VideoJsWrapper subtitles={subtitles} key={id} handleEnd={handleEnd} preview={gifUrl} options={options} />
       </Box>
     )
   }
 
   if (type === 'AUDIO') {
-    const { id, gifUrl, url, thumbnailUrl } = media as AudioDetails
+    const { id, url } = media as AudioDetails
     options.sources = [
       {
         src: url as string,
@@ -66,7 +50,7 @@ const Player: React.FC<iVideoPlayer> = ({
     ]
     return (
       <Box maxHeight={720} height={720}>
-        <AudioJsWrapper key={id} handleEnd={handleEnd} id={media?.id || ''} options={options} />
+        <AudioJsWrapper subtitles={subtitles} key={id} handleEnd={handleEnd} id={media?.id || ''} options={options} />
       </Box>
     )
   }

@@ -259,8 +259,9 @@ export const uploadFile =
 
 export const getFiles =
   (request: AxiosInstance) =>
-  async (page: number, size: number): Promise<Pageable<FileType>> => {
-    return await request.get(`a/files?page=${page}&size=${size}`).then(res => res.data)
+  async (page: number, size: number, storyIds?: string[]): Promise<Pageable<FileType>> => {
+    const queryString = stringify({ page, size, storyIds }, { indices: false, addQueryPrefix: true })
+    return await request.get(`a/files${queryString}`).then(res => res.data)
   }
 
 export const getFile =
@@ -374,8 +375,9 @@ export const deleteGallery =
 
 export const getTimelines =
   (request: AxiosInstance) =>
-  async (page: number, size: number): Promise<Pageable<TimelineType>> => {
-    return await request.get(`a/timeline-entries?page=${page}&size=${size}`).then(res => res.data)
+  async (page: number, size: number, storyIds?: string[]): Promise<Pageable<TimelineType>> => {
+    const queryString = stringify({ page, size, storyIds }, { indices: false, addQueryPrefix: true })
+    return await request.get(`a/timeline-entries${queryString}`).then(res => res.data)
   }
 
 export const getTimeline =
@@ -428,6 +430,13 @@ export const searchLocation =
   }
 
 // Subtitile api
+export const getSubtitles =
+  (request: AxiosInstance) =>
+  async (page: number, size: number, storyIds?: string[]): Promise<Pageable<SubtitleType>> => {
+    const queryString = stringify({ page, size, storyIds }, { indices: false, addQueryPrefix: true })
+    return await request.get(`a/subtitles${queryString}`).then(res => res.data)
+  }
+
 export const uploadSubtitle =
   (request: AxiosInstance) =>
   async (

@@ -17,6 +17,8 @@ import Places from './Places'
 import Timeline from './Timeline'
 import Transcript from './Transcript'
 import Photos from './Photos'
+import Files from './Files'
+import Subtitles from './Subtitles'
 import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
@@ -83,7 +85,6 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
     owner,
     title,
     description,
-    timelineEntries,
     collections,
     published,
     watchers,
@@ -151,6 +152,8 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             <Tab label="Transcript" value="transcript" onClick={() => onTabClick('transcript')} />
             <Tab label="Timelines" value="timelines" onClick={() => onTabClick('timelines')} />
             <Tab label="Photos" value="photos" onClick={() => onTabClick('photos')} />
+            <Tab label="Files" value="files" onClick={() => onTabClick('files')} />
+            <Tab label="Subtitles" value="subtitles" onClick={() => onTabClick('subtitles')} />
           </Box>
           <Box
             sx={{
@@ -174,7 +177,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               <People storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="timelines">
-              <Timeline storyId={storyId} canEdit={isOwner} timelines={timelineEntries} />
+              <Timeline storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="places">
               <Places storyId={storyId} canEdit={isOwner} />
@@ -182,20 +185,20 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="transcript">
               <Transcript transcription={transcription} storyId={storyId} canEdit={isOwner} />
             </TabPanel>
-            {isOwner && (
-              <TabPanel sx={{ height: '100%', padding: 'unset' }} value="subtitles">
-                Subtitles
-              </TabPanel>
-            )}
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
               <Photos storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="files">
-              files
+              <Files storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="links">
               links
             </TabPanel>
+            {isOwner && (
+              <TabPanel sx={{ height: '100%', padding: 'unset' }} value="subtitles">
+                <Subtitles storyId={storyId} canEdit={isOwner} />
+              </TabPanel>
+            )}
           </Box>
         </Box>
       </Box>

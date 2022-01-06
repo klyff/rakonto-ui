@@ -6,43 +6,60 @@ import './overrides.css'
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js'
 import '../../lib/videojs/components/nuevo'
 import '../../lib/videojs/components/visualizer'
+import { SubtitleType } from '../../lib/types'
 
 interface iVideoJs {
   options: VideoJsPlayerOptions
   nuevoOptions?: {
-    logo: string
+    logo: string | null
   }
   onReady?: any
   type: 'audio' | 'video'
   handleEnd?: () => void
+  subtitles?: SubtitleType[]
 }
 
-export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type, nuevoOptions }) => {
-  const videoRef = React.useRef(null)
+export const VideoJS: React.FC<iVideoJs> = ({ subtitles, options, handleEnd, onReady, type, nuevoOptions }) => {
   const playerRef = React.useRef<VideoJsPlayer | null>(null)
 
   useEffect(() => {
     // make sure Video.js player is only initialized once
     if (!playerRef.current) {
-      const videoElement = videoRef.current
-      if (!videoElement) return
-
-      playerRef.current = videojs(videoElement, options, () => {
+      playerRef.current = videojs('player', options, () => {
         onReady && onReady(playerRef.current)
         // @ts-ignore
         handleEnd && playerRef.current.on('ended', handleEnd)
       })
+
+      const captions =
+        subtitles?.map(subtitle => ({
+          // If develop mode need replace proxy port = subtitle.url.replace('8080', '3000')
+          kind: 'captions',
+          src: subtitle.url,
+          srlang: subtitle.language,
+          label: subtitle.language,
+          default: '1'
+        })) || []
+
+      // @ts-ignore
+      playerRef.current.nuevo(nuevoOptions)
+
+      playerRef.current!.on('nuevoReady', () => {
+        if (captions.length) {
+          // @ts-ignore
+          playerRef.current.loadTracks(captions)
+        }
+      })
+
       if (type === 'audio') {
-        // @ts-ignore
-        playerRef.current.nuevo(nuevoOptions)
-        // @ts-ignore
+        //  @ts-ignore
         playerRef.current.visualizer({ video: true })
       }
     } else {
       // const player = playerRef.current
       // player.options(options)
     }
-  }, [options])
+  }, [options, nuevoOptions])
 
   // Dispose the Video.js player when the functional component unmounts
   useEffect(() => {
@@ -56,33 +73,35 @@ export const VideoJS: React.FC<iVideoJs> = ({ options, handleEnd, onReady, type,
   }, [])
   return (
     <div data-vjs-player>
-      {type === 'video' && <video ref={videoRef} className="video-js" />}
-      {type === 'audio' && <audio ref={videoRef} className="video-js" />}
+      {type === 'video' && <video id="player" className="video-js" />}
+      {type === 'audio' && <audio id="player" className="video-js" />}
     </div>
   )
 }
 
-export const VideoJsWrapper: React.FC<{ options: VideoJsPlayerOptions; preview?: string; handleEnd?: () => void }> = ({
-  options,
-  preview,
-  handleEnd
-}) => {
+export const VideoJsWrapper: React.FC<{
+  subtitles?: SubtitleType[]
+  options: VideoJsPlayerOptions
+  preview?: string
+  handleEnd?: () => void
+}> = ({ options, preview, subtitles, handleEnd }) => {
   const _options = {
-    ...options,
-    controlBar: {
-      subtitlesButton: !!options.tracks?.length,
-      children: ['playToggle', 'progressControl', 'volumePanel', 'qualitySelector', 'fullscreenToggle']
-    }
+    ...options
   }
 
-  return <VideoJS handleEnd={handleEnd} options={_options} type="video" />
+  const nuevoOptions = { logo: null }
+
+  return (
+    <VideoJS subtitles={subtitles} handleEnd={handleEnd} options={_options} type="video" nuevoOptions={nuevoOptions} />
+  )
 }
 
-export const AudioJsWrapper: React.FC<{ options: VideoJsPlayerOptions; id: string; handleEnd?: () => void }> = ({
-  options,
-  handleEnd,
-  id
-}) => {
+export const AudioJsWrapper: React.FC<{
+  subtitles?: SubtitleType[]
+  options: VideoJsPlayerOptions
+  id: string
+  handleEnd?: () => void
+}> = ({ options, subtitles, handleEnd, id }) => {
   const nuevoOptions = {
     logo: options.poster as string
   }
@@ -91,5 +110,7 @@ export const AudioJsWrapper: React.FC<{ options: VideoJsPlayerOptions; id: strin
     poster: '/images/CoverDefault.png'
   }
 
-  return <VideoJS handleEnd={handleEnd} options={_options} type="audio" nuevoOptions={nuevoOptions} />
+  return (
+    <VideoJS subtitles={subtitles} handleEnd={handleEnd} options={_options} type="audio" nuevoOptions={nuevoOptions} />
+  )
 }
