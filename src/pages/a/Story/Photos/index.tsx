@@ -14,6 +14,11 @@ import ImageListItemBar from '@mui/material/ImageListItemBar'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import CircularProgress from '@mui/material/CircularProgress'
 
 interface iPhotos {
   canEdit: boolean
@@ -24,7 +29,7 @@ const Photos: React.FC<iPhotos> = ({ canEdit, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [photos, setPhotos] = useState<GalleryType[]>([])
-  const [progress, setProgress] = useState<number>(0)
+  const [progress, setProgress] = useState<{ [key: string]: number }>({})
 
   const fetch = async () => {
     const result = await api.getGallery(0, 10000, [storyId])
@@ -70,13 +75,17 @@ const Photos: React.FC<iPhotos> = ({ canEdit, storyId }) => {
 
   const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
-      const selectedFile = acceptedFiles[0]
-      const image = await api.uploadImage(selectedFile, event => {
-        setProgress(Math.round((event.loaded * 100) / event.total))
+      acceptedFiles.forEach(async file => {
+        const image = await api.uploadImage(file, event => {
+          setProgress(old => ({ ...old, [file.name]: Math.round((event.loaded * 100) / event.total) }))
+        })
+        setProgress(old => {
+          delete old[file.name]
+          return old
+        })
+        const newPhoto = await api.createGallery(storyId, image.id)
+        setPhotos([newPhoto, ...photos])
       })
-      setProgress(0)
-      const newPhoto = await api.createGallery(storyId, image.id)
-      setPhotos([newPhoto, ...photos])
     }
 
   const { getRootProps, getInputProps, open } = useDropzone({ onDrop, noClick: true, accept: 'image/png, image/jpeg' })
@@ -103,6 +112,32 @@ const Photos: React.FC<iPhotos> = ({ canEdit, storyId }) => {
                 Upload Picture
               </Button>
             </div>
+            <List>
+              {Object.entries(progress).map(([k, v]) => (
+                <ListItem key={k}>
+                  <ListItemText primary={k} />
+                  <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                    <CircularProgress variant="determinate" value={v} />
+                    <Box
+                      sx={{
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                        position: 'absolute',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Typography variant="caption" component="div" color="text.secondary">
+                        {`${Math.round(v || 0)}%`}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </ListItem>
+              ))}
+            </List>
           </Box>
         </>
       )}
