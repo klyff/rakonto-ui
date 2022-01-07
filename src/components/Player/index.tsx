@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-non-null-assertion: 0 */
 import React from 'react'
 import Box from '@mui/material/Box'
 import { AudioDetails, MediaType, Resolutions, SubtitleType, VideoDetails } from '../../lib/types'
@@ -44,7 +45,6 @@ const Player: React.FC<iVideoPlayer> = ({ autoplay, handleEnd, subtitles, media,
     const { id, url } = media as AudioDetails
     options.sources = [
       {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         src: url!,
         type: 'audio/mp3'
       }
