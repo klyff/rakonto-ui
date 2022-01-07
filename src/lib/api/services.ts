@@ -297,6 +297,13 @@ export const updatePerson =
   }
 
 // Link api
+export const getLinks =
+  (request: AxiosInstance) =>
+  async (page: number, size: number, storyIds?: string[]): Promise<Pageable<LinkType>> => {
+    const queryString = stringify({ page, size, storyIds }, { indices: false, addQueryPrefix: true })
+    return await request.get(`a/links${queryString}`).then(res => res.data)
+  }
+
 export const getLink =
   (request: AxiosInstance) =>
   async (id: string): Promise<LinkType> => {

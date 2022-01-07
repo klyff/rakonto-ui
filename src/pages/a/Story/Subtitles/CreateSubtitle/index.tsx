@@ -28,8 +28,8 @@ interface iCreateSubtitle {
 const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
-  const handleClose = (timeline?: SubtitleType) => {
-    onClose(timeline)
+  const handleClose = (subtitle?: SubtitleType) => {
+    onClose(subtitle)
   }
 
   const onSubmit = async ({ language, file }: FormikValues) => {

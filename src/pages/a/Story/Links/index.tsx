@@ -7,60 +7,57 @@ import { SimpleDialogContext } from '../../../../components/SimpleDialog'
 import Button from '@mui/material/Button'
 import api from '../../../../lib/api'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
-import { SubtitleType } from '../../../../lib/types'
+import LinkPreview from '../../../../components/LinkPreview'
+import { LinkType } from '../../../../lib/types'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemText from '@mui/material/ListItemText'
-import Link from '@mui/material/Link'
-import CreateSubtitle from './CreateSubtitle'
+import CreateLink from './CreateLink'
 
-interface iSubtitles {
+interface iLinks {
   canEdit: boolean
   storyId: string
 }
 
-const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId }) => {
+const Links: React.FC<iLinks> = ({ canEdit, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [subtitles, setSubtitles] = useState<SubtitleType[]>([])
+  const [links, setLinks] = useState<LinkType[]>([])
 
   const fetch = async () => {
-    const result = await api.getSubtitles(0, 10000, [storyId])
-    setSubtitles(result.content)
+    const result = await api.getLinks(0, 10000, [storyId])
+    setLinks(result.content)
   }
 
   useEffect(() => {
     fetch()
   }, [])
 
-  const handleDelete = async (subtitle?: SubtitleType) => {
-    if (!subtitle) {
+  const handleDelete = async (link?: LinkType) => {
+    if (!link) {
       snackActions.open('Something was wrong! please try again.')
       return
     }
     simpleDialogActions.open(
-      'Delete subtitle',
+      'Delete link',
       <>
-        <Typography component="span">Are you sure want to delete the subtitle</Typography>
-        <Typography fontWeight="700" component="span">{` "${subtitle.originalName}" `}</Typography>
+        <Typography component="span">Are you sure want to delete the link</Typography>
+        <Typography fontWeight="700" component="span">{` "${link.url}" `}</Typography>
         <Typography component="span">from this story?</Typography>
       </>,
       { okText: 'Yes, delete', showOk: true, cancelText: 'Back' },
       async success => {
         try {
           if (success) {
-            await api.deleteSubtitle(subtitle.id)
-            setSubtitles(subtitles.filter(p => p.id !== subtitle.id))
-            snackActions.open(`${subtitle.language} removed from this story!`)
+            await api.deleteLink(link.id)
+            setLinks(links.filter(p => p.id !== link.id))
+            snackActions.open(`${link.url} removed from this story!`)
           }
         } catch (error) {
           // @ts-ignore
           const { data } = error
           if (data.code) {
-            snackActions.open(`Error to add ${subtitle.language} to this story!`)
+            snackActions.open(`Error to add ${link.url} to this story!`)
             return
           }
           snackActions.open('Something was wrong! please try again.')
@@ -69,9 +66,9 @@ const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId }) => {
     )
   }
 
-  const handleCloseDialog = (subtitle?: SubtitleType) => {
-    if (subtitle) {
-      setSubtitles([...subtitles, subtitle])
+  const handleCloseDialog = (link?: LinkType) => {
+    if (link) {
+      setLinks([...links, link])
     }
     setIsOpen(false)
   }
@@ -88,13 +85,13 @@ const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId }) => {
     >
       {canEdit && (
         <>
-          {isOpen && <CreateSubtitle storyId={storyId} onClose={handleCloseDialog} />}
+          {isOpen && <CreateLink storyId={storyId} onClose={handleCloseDialog} />}
           <Box>
             <Typography sx={{ marginBottom: 3 }} gutterBottom>
-              Add a subtitle to enhance your story.
+              Add a link to enhance your story.
             </Typography>
             <Button variant="outlined" onClick={() => setIsOpen(true)} sx={{ mt: 1, mr: 1 }}>
-              Create subtitle
+              Create link
             </Button>
           </Box>
         </>
@@ -106,31 +103,30 @@ const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId }) => {
           marginBottom: 3
         }}
       >
-        {subtitles.length ? (
-          <Box sx={{ width: '100%', minHeight: 400 }}>
-            <List>
-              {subtitles.map(subtitle => (
-                <ListItem
-                  key={subtitle.id}
-                  secondaryAction={
+        {links.length ? (
+          <Box sx={{ width: '100%' }}>
+            <ul>
+              {links.map(link => (
+                <LinkPreview
+                  key={link.id}
+                  link={link}
+                  action={
                     canEdit && (
-                      <IconButton onClick={() => handleDelete(subtitle)} sx={{ color: 'white' }}>
+                      <IconButton onClick={() => handleDelete(link)} sx={{ color: 'white' }}>
                         <DeleteIcon />
                       </IconButton>
                     )
                   }
-                >
-                  <ListItemText primary={<Link href={subtitle.url}>{subtitle.language}</Link>} />
-                </ListItem>
+                />
               ))}
-            </List>
+            </ul>
           </Box>
         ) : (
-          <Typography align="center">No subtitles here.</Typography>
+          <Typography align="center">No links here.</Typography>
         )}
       </Box>
     </Box>
   )
 }
 
-export default Subtitles
+export default Links

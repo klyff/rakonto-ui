@@ -76,7 +76,8 @@ import {
   moveStoryToCollection,
   changeStoryToCollection,
   closeAccount,
-  getSubtitles
+  getSubtitles,
+  getLinks
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -158,6 +159,7 @@ export default {
   deleteFile: deleteFile(request),
   getFiles: getFiles(request),
   getFile: getFile(request),
+  getLinks: getLinks(request),
   getLink: getLink(request),
   createLink: createLink(request),
   deleteLink: deleteLink(request),
