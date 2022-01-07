@@ -1,4 +1,3 @@
-/* eslint @typescript-eslint/no-non-null-assertion: 0 */
 import React from 'react'
 import Box from '@mui/material/Box'
 import { AudioDetails, MediaType, Resolutions, SubtitleType, VideoDetails } from '../../lib/types'
