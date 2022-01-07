@@ -5,7 +5,7 @@ import { ReactTinyLink } from 'react-tiny-link'
 import { LinkType } from '../../lib/types'
 
 interface iLinkPreview {
-  action: React.ReactNode
+  action?: React.ReactNode
   link: LinkType
 }
 const LinkPreview: React.FC<iLinkPreview> = ({ link, action }) => {
@@ -13,6 +13,7 @@ const LinkPreview: React.FC<iLinkPreview> = ({ link, action }) => {
     <Box
       sx={{
         position: 'relative',
+        marginBottom: 1,
         '&>a': {
           backgroundColor: 'background.default',
           color: 'primary.main',
