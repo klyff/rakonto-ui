@@ -44,7 +44,7 @@ const Player: React.FC<iVideoPlayer> = ({ autoplay, handleEnd, subtitles, media,
     const { id, url } = media as AudioDetails
     options.sources = [
       {
-        src: url as string,
+        src: url!,
         type: 'audio/mp3'
       }
     ]
