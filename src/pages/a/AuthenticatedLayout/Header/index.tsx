@@ -15,7 +15,7 @@ import HomeIcon from '@mui/icons-material/Home'
 import MovieIcon from '@mui/icons-material/Movie'
 import useUser from '../../../../components/hooks/useUser'
 import { GreetingsDialogContext } from '../../../../components/GreetingsDialog'
-import FeedbackIcon from '@mui/icons-material/Feedback'
+import RateReviewIcon from '@mui/icons-material/RateReview'
 
 export default function PrimarySearchAppBar() {
   const user = useUser()
@@ -178,7 +178,7 @@ export default function PrimarySearchAppBar() {
                 )
               }}
             >
-              <FeedbackIcon />
+              <RateReviewIcon />
             </IconButton>
           </Box>
           <Box sx={{ flexGrow: 1 }} />

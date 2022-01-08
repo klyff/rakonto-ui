@@ -62,8 +62,8 @@ const Password: React.FC = () => {
         <TextField
           name="password"
           fullWidth
-          placeholder="Your password"
-          label="Your password"
+          placeholder="Your existing password"
+          label="Your existing password"
           type={showPassword.password ? 'text' : 'password'}
           value={values.password}
           onChange={handleChange}
@@ -104,8 +104,8 @@ const Password: React.FC = () => {
         <TextField
           name="confirmation"
           fullWidth
-          placeholder="Confirmation password"
-          label="Confirmation password"
+          placeholder="Re-type your new password"
+          label="Re-type your new password"
           type={showPassword.confirmation ? 'text' : 'password'}
           value={values.confirmation}
           onChange={handleChange}

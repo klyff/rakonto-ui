@@ -42,12 +42,12 @@ const Info: React.FC = () => {
     formDialogActions.open(
       'Close account',
       'Are you sure you want to close your account? \n' +
-        'You can return within 30 days. After that your account cannot be recovered. If you sure about this, please confirme your password.',
+        'We will maintain your account for 30 days. After that, your account will be removed along with your data and cannot be recovered. Please enter your password to confirm you wish to close your account.',
       [{ label: 'Password', name: 'password', placeholder: 'password', type: 'password' }],
       { password: '' },
       closeAccountSchema,
       handleCloseSubmit,
-      { okText: 'Yes, close', cancelText: `No, dont't want` }
+      { okText: 'Yes, close my account', cancelText: `No, keep my account` }
     )
   }
 
@@ -107,16 +107,10 @@ const Info: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Box sx={{ marginBottom: 3, bgcolor: 'background.paper', padding: 2 }}>
-        <Typography variant="body1">
-          We will be sorry, but you can close your account by clicking{' '}
-          <Link component="button" onClick={handleCloseAccount} underline="hover" variant="body1">
-            here
-          </Link>
-          .
+      <Box component="form" sx={{ bgcolor: 'background.paper', padding: 2, marginBottom: 3 }}>
+        <Typography sx={{ paddingBottom: 2, paddingTop: 2 }} variant="h6">
+          Let people know about you!
         </Typography>
-      </Box>
-      <Box component="form" sx={{ bgcolor: 'background.paper', padding: 2, paddingBottom: 4 }}>
         <Box sx={{ minWidth: '320px', width: '100%', maxWidth: '422px' }}>
           <Box
             sx={{
@@ -153,7 +147,7 @@ const Info: React.FC = () => {
             >
               <div>
                 <Button onClick={open} startIcon={<CreateIcon />} variant="outlined">
-                  Edit
+                  Change
                 </Button>
                 {user?.picture?.url && (
                   <Button onClick={onRemove} color="secondary" startIcon={<CloseIcon />}>
@@ -193,8 +187,7 @@ const Info: React.FC = () => {
             helperText={(touched.lastName && errors.lastName) || ' '}
           />
           <Typography sx={{ paddingBottom: 4, paddingTop: 2 }} variant="h6">
-            Let people know about you. Your profile will appear on the Information page of the stories and collections
-            you create, as well as any comments you post.
+            Your profile will appear on stories and collections you create, as well as any comments you post.
           </Typography>
           <TextField
             name="about"
@@ -216,6 +209,13 @@ const Info: React.FC = () => {
             </Button>
           </Box>
         </Box>
+      </Box>
+      <Box sx={{ mb: 4, bgcolor: 'background.paper', padding: 2 }}>
+        <Typography variant="body1">
+          <Link component="button" onClick={handleCloseAccount} underline="hover" variant="body1">
+            Close account
+          </Link>
+        </Typography>
       </Box>
     </Box>
   )

@@ -97,7 +97,7 @@ const GreetingsDialog: React.FC = () => {
                 Create my first story
               </Button>
               <Button size="large" color={'secondary'} fullWidth onClick={() => actions.close()}>
-                Close
+                View My Library
               </Button>
             </Box>
           </Grid>

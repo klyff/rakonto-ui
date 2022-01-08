@@ -129,6 +129,10 @@ const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
       {canEdit && (
         <>
           {isOpen && <CreateEditPlace storyId={storyId} onClose={handleCloseDialog} />}
+          <Typography sx={{ marginBottom: 3 }} gutterBottom>
+            Add places that are mentioned in the story. Users will be able to filter / search for stories mentioning
+            specific places and view them on a map.
+          </Typography>
           <Box>
             <Button variant="outlined" onClick={() => setIsOpen(true)} sx={{ mt: 1, mr: 1 }}>
               Add place

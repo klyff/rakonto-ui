@@ -4,8 +4,10 @@ export const updatePasswordSchema = yup.object().shape({
   newPassword: yup
     .string()
     .required()
-    .min(8, 'Password is too short - should be 8 chars minimum.')
-    .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+    )
     .label('Password'),
   confirmation: yup
     .string()

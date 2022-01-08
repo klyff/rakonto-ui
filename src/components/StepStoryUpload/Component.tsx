@@ -12,18 +12,20 @@ import { useFormik, FormikValues } from 'formik'
 import { StepStoryUploadContext } from './Context'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
+import MenuItem from '@mui/material/MenuItem'
 import schema from './schema'
 import Droparea from './Droparea'
 import IconButton from '@mui/material/IconButton'
 import Recorder from './Recorder'
 import CloseIcon from '@mui/icons-material/Close'
 import { QueueProcessorContext } from '../QueueProcessor'
+import { SimpleSnackbarContext } from '../SimpleSnackbar'
 
 const StepStoryUpload = () => {
   const { actions: queueActions } = useContext(QueueProcessorContext)
   const { store, actions } = useContext(StepStoryUploadContext)
-  const [progress, setProgress] = useState<number>(0)
-  const [sending, setSending] = useState<boolean>(false)
+  const { actions: snackActions } = useContext(SimpleSnackbarContext)
+  const [selectedSuggestion, setSelectedSuggestion] = useState<string>('')
   const [activeStep, setActiveStep] = useState(0)
   const [uploadType, setUploadType] = useState<'FILE' | 'AUDIO' | 'VIDEO' | null>(null)
 
@@ -45,6 +47,9 @@ const StepStoryUpload = () => {
         description: values.description,
         file: values.file
       })
+      snackActions.open(
+        `Rakonto is now uploading and processing your story. It may take a while. We'll send you an email when it's completed.`
+      )
       actions.close()
     } catch (e) {
       console.error(e)
@@ -76,9 +81,7 @@ const StepStoryUpload = () => {
 
   useEffect(() => {
     if (store.isOpen) {
-      setSending(false)
       setActiveStep(0)
-      setProgress(0)
       setUploadType(null)
       handleReset(initialValues)
     }
@@ -89,6 +92,13 @@ const StepStoryUpload = () => {
     { label: 'Description', error: touched.description && Boolean(errors.description) },
     { label: 'Upload', error: Boolean(errors.file) }
   ]
+
+  const suggestions = ['suggestion 1', 'suggestion 2']
+  useEffect(() => {
+    if (!selectedSuggestion) return
+    setFieldValue('title', selectedSuggestion)
+    setSelectedSuggestion('')
+  }, [selectedSuggestion])
 
   return (
     <form>
@@ -128,12 +138,11 @@ const StepStoryUpload = () => {
           </Box>
           {activeStep === 0 && (
             <Box sx={{ width: '100%' }}>
-              <Typography variant="body1" align="center" fontWeight="400" marginBottom={3} gutterBottom>
-                Rakonto makes it easy to record and share your stories. And if you have more questions and need help,
-                we’re here for you!
+              <Typography variant="body1" fontWeight="400" marginBottom={3} paddingLeft={'14px'} gutterBottom>
+                Rakonto makes it easy to record and share your stories.
               </Typography>
-              <Typography variant="body1" fontWeight="600" paddingLeft={5} gutterBottom>
-                What is your story called?
+              <Typography variant="body1" fontWeight="600" paddingLeft={'14px'} gutterBottom>
+                First, give your story a title (and don&lsquo;t worry, you can always change it later)
               </Typography>
               <TextField
                 autoFocus
@@ -141,22 +150,80 @@ const StepStoryUpload = () => {
                 name={'title'}
                 fullWidth
                 margin="dense"
-                placeholder="Click to select a Title or type your own Story title"
+                placeholder="Type your Story title here (Rakonto may offer suggestions based on what you type)"
                 onBlur={handleBlur}
                 value={values.title}
                 onChange={handleChange}
                 error={touched.title && Boolean(errors.title)}
                 helperText={(touched.title && errors.title) || ' '}
               />
+              <Box
+                sx={{
+                  display: 'flex'
+                }}
+              >
+                <Box
+                  sx={{
+                    width: '230px',
+                    height: '128px',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    borderRadius: '6px',
+                    padding: 2,
+                    mr: 2,
+                    display: 'flex',
+                    flexFlow: 'column',
+                    justifyContent: 'space-around'
+                  }}
+                >
+                  <Typography variant="body1" gutterBottom>
+                    Do you want a suggestion for your title?
+                  </Typography>
+                  <TextField
+                    select
+                    size="small"
+                    label="Select a suggestion"
+                    value={selectedSuggestion}
+                    onChange={e => setSelectedSuggestion(e.target.value)}
+                    fullWidth
+                  >
+                    {suggestions.map(option => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Box>
+                <Box
+                  sx={{
+                    width: '230px',
+                    height: '128px',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    borderRadius: '6px',
+                    padding: 2,
+                    display: 'flex',
+                    flexFlow: 'column',
+                    justifyContent: 'space-around'
+                  }}
+                >
+                  <Typography variant="body1" gutterBottom>
+                    Watch a video tutorial recording.
+                  </Typography>
+                  <Button href="http://www.youtube.com" target="_blank" variant="outlined" sx={{ mt: 1, mr: 1 }}>
+                    {'Watch'}
+                  </Button>
+                </Box>
+              </Box>
             </Box>
           )}
           {activeStep === 1 && (
             <Box sx={{ width: '100%' }}>
-              <Typography variant="body1" align="center" fontWeight="400" marginBottom={3} gutterBottom>
-                Okay, just one more question before you start recording. You will can enter or edit this information
-                after recording.
+              <Typography variant="body1" paddingLeft={'14px'} fontWeight="400" marginBottom={3} gutterBottom>
+                Okay, just one more question before you start recording. Remember, you can change this information at
+                any time.
               </Typography>
-              <Typography variant="body1" fontWeight="600" paddingLeft={5} gutterBottom>
+              <Typography variant="body1" fontWeight="600" paddingLeft={'14px'} gutterBottom>
                 What is this story about (in just one or a few sentences)?
               </Typography>
               <TextField
@@ -166,7 +233,7 @@ const StepStoryUpload = () => {
                 fullWidth
                 multiline
                 rows={4}
-                placeholder="Type a description here..."
+                placeholder="Type your description here..."
                 margin="dense"
                 value={values.description}
                 onChange={handleChange}

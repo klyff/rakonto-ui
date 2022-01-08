@@ -5,8 +5,10 @@ export default yup.object().shape({
   password: yup
     .string()
     .required()
-    .min(8, 'Password is too short - should be 8 chars minimum.')
-    .matches(/[a-zA-Z]/, 'Password can onlsy contain Latin letters.')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+    )
     .label('New password'),
   confirmation: yup
     .string()

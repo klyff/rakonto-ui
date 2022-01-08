@@ -53,6 +53,11 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
       await history.push('/a/my-library')
     } catch (error) {
       // @ts-ignore
+      if (error?.response?.status === 401) {
+        snackActions.open('Email or password are incorrect. Please try again')
+        return
+      }
+      // @ts-ignore
       const { data } = error
       if (data.code === '1004') {
         snackActions.open('Email or password are incorrect. Please try again')
