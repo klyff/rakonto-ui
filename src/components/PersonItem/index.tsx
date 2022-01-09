@@ -59,7 +59,7 @@ const PersonItem: React.FC<iPersonItem> = ({ person, children, storyList }) => {
         </Typography>
         {!!stories.length && (
           <Typography sx={{ flex: 1 }}>
-            Reference stories:{' '}
+            Referenced on Stories:{' '}
             <span>
               {stories.map(([k, v], i) => (
                 <>
