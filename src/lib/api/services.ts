@@ -168,6 +168,22 @@ export const createStory =
       .then(res => res.data)
   }
 
+export const changeStoryMedia =
+  (request: AxiosInstance) =>
+  async (
+    id: string,
+    file: File,
+    progressCallback: (progress: { total: number; loaded: number }) => void
+  ): Promise<StoryType> => {
+    const formdata = new FormData()
+    formdata.append('file', file, file.name)
+    return await request
+      .post(`a/stories/${id}/change-media`, formdata, {
+        onUploadProgress: e => progressCallback({ total: e.total, loaded: e.loaded })
+      })
+      .then(res => res.data)
+  }
+
 export const updateStory =
   (request: AxiosInstance) =>
   async (id: string, data: Partial<StoryUpdateType>): Promise<StoryType> => {

@@ -80,7 +80,7 @@ const Files: React.FC<iFiles> = ({ canEdit, storyId }) => {
           delete old[file.name]
           return old
         })
-        setFiles([uploadedFile, ...files])
+        setFiles(value => [uploadedFile, ...value])
       })
     }
 

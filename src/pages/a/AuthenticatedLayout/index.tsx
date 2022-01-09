@@ -6,6 +6,7 @@ import { GreetingsDialogProvider } from '../../../components/GreetingsDialog'
 import { QueueProcessorProvider } from '../../../components/QueueProcessor'
 import { CreateCollectionProvider } from '../../../components/CreateCollection'
 import { SocketConnectorProvider } from '../../../components/SocketConnector'
+import { ChangeMediaProvider } from '../../../components/ChangeMedia'
 import api from '../../../lib/api'
 
 const AuthenticatedLayout: React.FC = ({ children }) => {
@@ -22,10 +23,12 @@ const AuthenticatedLayout: React.FC = ({ children }) => {
         <QueueProcessorProvider>
           <CreateCollectionProvider>
             <StepStoryUploadProvider>
-              <GreetingsDialogProvider>
-                <Header />
-                {children}
-              </GreetingsDialogProvider>
+              <ChangeMediaProvider>
+                <GreetingsDialogProvider>
+                  <Header />
+                  {children}
+                </GreetingsDialogProvider>
+              </ChangeMediaProvider>
             </StepStoryUploadProvider>
           </CreateCollectionProvider>
         </QueueProcessorProvider>

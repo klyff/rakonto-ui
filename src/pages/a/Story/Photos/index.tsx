@@ -83,7 +83,7 @@ const Photos: React.FC<iPhotos> = ({ canEdit, storyId }) => {
           return old
         })
         const newPhoto = await api.createGallery(storyId, image.id)
-        setPhotos([newPhoto, ...photos])
+        setPhotos(value => [newPhoto, ...value])
       })
     }
 

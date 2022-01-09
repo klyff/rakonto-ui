@@ -42,6 +42,63 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
     [store]
   )
 
+  const replace = useCallback(
+    async (upload: Partial<QueueItem> & NonNullable<{ id: string; file: File }>) => {
+      try {
+        const story = await api.changeStoryMedia(upload.id, upload.file, event => {
+          const progress = Math.round((event.loaded * 100) / event.total)
+          // @ts-ignore
+          setStore(value => {
+            return value.map(item => {
+              if (item.id === upload.id) {
+                return {
+                  ...item,
+                  progress,
+                  step: progress < 100 ? 'UPLOADING' : 'UPLOADED'
+                }
+              }
+              return {
+                ...item
+              }
+            })
+          })
+        })
+        setStore(value => {
+          return value.map(item => {
+            if (item.id === upload.id) {
+              return {
+                ...item,
+                id: story.id,
+                progress: undefined,
+                step: 'START THE CONVERSION PROCESS'
+              }
+            }
+            return {
+              ...item
+            }
+          })
+        })
+      } catch (e) {
+        setStore(value => {
+          return value.map(item => {
+            if (item.id === upload.id) {
+              return {
+                ...item,
+                progress: 0,
+                step: 'ERROR',
+                finished: true
+              }
+            }
+            return {
+              ...item
+            }
+          })
+        })
+      }
+    },
+    [store, setStore]
+  )
+
   const upload = useCallback(
     async (
       upload: Partial<QueueItem> & NonNullable<{ id: string; file: File; title: string; description: string }>
@@ -114,13 +171,24 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
       setStore([...store, item])
       setShow(true)
       if (item.step === 'UPLOAD') {
-        upload({
-          id: item.id,
-          file: item.file as File,
-          title: item.title as string,
-          description: item.description as string
-        })
+        if (item.action === 'NEW') {
+          upload({
+            id: item.id,
+            file: item.file as File,
+            title: item.title as string,
+            description: item.description as string
+          })
+        }
+
+        if (item.action === 'REPLACE') {
+          replace({
+            id: item.id,
+            file: item.file as File,
+            title: item.title as string
+          })
+        }
       }
+
       await Promise.resolve()
     },
     [upload, store, setStore]

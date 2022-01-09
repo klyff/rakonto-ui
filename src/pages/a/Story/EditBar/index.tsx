@@ -19,6 +19,7 @@ import api from '../../../../lib/api'
 import { SimpleDialogContext } from '../../../../components/SimpleDialog'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
 import CollectionMove from './CollectionMove'
+import { ChangeMediaContext } from '../../../../components/ChangeMedia'
 
 interface iEditBar {
   collection: CollectionType
@@ -31,6 +32,7 @@ interface iEditBar {
 const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPublished }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
+  const { actions: mediaActions } = useContext(ChangeMediaContext)
   const history = useHistory()
   const [progress, setProgress] = useState<number>(0)
   const [published, setPublished] = useState<boolean>(loadPublished || false)
@@ -172,9 +174,9 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
             </FormGroup>
           </Box>
           <CollectionMove currentCollectionId={collection.id} storyId={id} reload={reload} />
-          {/* <Button color="secondary" startIcon={<UploadIcon />}> */}
-          {/*  Replace video/ audio */}
-          {/* </Button> */}
+          <Button color="secondary" onClick={() => mediaActions.open(id)} startIcon={<UploadIcon />}>
+            Replace video/audio
+          </Button>
           <Box {...getRootProps()}>
             <input {...getInputProps()} />
             <LoadingButton

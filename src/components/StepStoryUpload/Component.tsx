@@ -43,6 +43,7 @@ const StepStoryUpload = () => {
         id: Date.now().toString(),
         step: 'UPLOAD',
         type: 'FILE',
+        action: 'NEW',
         title: values.title,
         description: values.description,
         file: values.file
@@ -210,7 +211,7 @@ const StepStoryUpload = () => {
                   <Typography variant="body1" gutterBottom>
                     Watch a video tutorial recording.
                   </Typography>
-                  <Button href="http://www.youtube.com" target="_blank" variant="outlined" sx={{ mt: 1, mr: 1 }}>
+                  <Button href="https://youtu.be/jFivHCW414k" target="_blank" variant="outlined" sx={{ mt: 1, mr: 1 }}>
                     {'Watch'}
                   </Button>
                 </Box>
