@@ -20,6 +20,7 @@ import Recorder from './Recorder'
 import CloseIcon from '@mui/icons-material/Close'
 import { QueueProcessorContext } from '../QueueProcessor'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
+import suggestionList from './suggestionList.json'
 
 const StepStoryUpload = () => {
   const { actions: queueActions } = useContext(QueueProcessorContext)
@@ -94,7 +95,6 @@ const StepStoryUpload = () => {
     { label: 'Upload', error: Boolean(errors.file) }
   ]
 
-  const suggestions = ['suggestion 1', 'suggestion 2']
   useEffect(() => {
     if (!selectedSuggestion) return
     setFieldValue('title', selectedSuggestion)
@@ -188,7 +188,7 @@ const StepStoryUpload = () => {
                     onChange={e => setSelectedSuggestion(e.target.value)}
                     fullWidth
                   >
-                    {suggestions.map(option => (
+                    {suggestionList.map(option => (
                       <MenuItem key={option} value={option}>
                         {option}
                       </MenuItem>
