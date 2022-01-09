@@ -3,12 +3,15 @@ import initials from 'initials'
 import Typography from '@mui/material/Typography'
 import React from 'react'
 import { PersonType } from '../../lib/types'
+import Link from '@mui/material/Link'
 
 interface iPersonItem {
   person: PersonType
+  storyList?: { [key: string]: string }
 }
 
-const PersonItem: React.FC<iPersonItem> = ({ person, children }) => {
+const PersonItem: React.FC<iPersonItem> = ({ person, children, storyList }) => {
+  const stories = Object.entries(storyList || {})
   return (
     <Box
       sx={{
@@ -38,8 +41,38 @@ const PersonItem: React.FC<iPersonItem> = ({ person, children }) => {
       >
         {!person.picture?.url && initials(person.name)}
       </Box>
-      <Typography sx={{ flex: 1 }}>{person.name}</Typography>
-      <Typography sx={{ flex: 1 }}>{person.link}</Typography>
+      <Box
+        sx={{
+          flex: '1',
+          display: 'flex',
+          flexFlow: 'column'
+        }}
+      >
+        <Typography sx={{ flex: 1 }}>
+          {person.link ? (
+            <Link href={person.link} target="_blank">
+              {person.name}
+            </Link>
+          ) : (
+            person.name
+          )}
+        </Typography>
+        {!!stories.length && (
+          <Typography sx={{ flex: 1 }}>
+            Reference stories:{' '}
+            <span>
+              {stories.map(([k, v], i) => (
+                <>
+                  {i !== 0 && <span> ,</span>}
+                  <Link key={k} href={`/a/stories/${k}`} variant="caption">
+                    {v}
+                  </Link>
+                </>
+              ))}
+            </span>
+          </Typography>
+        )}
+      </Box>
       <Box>{children}</Box>
     </Box>
   )

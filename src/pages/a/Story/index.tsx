@@ -185,7 +185,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               <Places storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="transcript">
-              <Transcript transcriptionId={transcription.id} storyId={storyId} canEdit={isOwner} />
+              <Transcript transcription={transcription} storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
               <Photos storyId={storyId} canEdit={isOwner} />

@@ -7,27 +7,35 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
 import api from '../../../../lib/api'
+import { TranscriptionType } from '../../../../lib/types'
 
 interface iTranscript {
-  transcriptionId: string
+  transcription?: TranscriptionType
   canEdit: boolean
   storyId: string
 }
 
-const Transcript: React.FC<iTranscript> = ({ transcriptionId, canEdit, storyId }) => {
+const Transcript: React.FC<iTranscript> = ({ transcription, canEdit, storyId }) => {
+  const [localTranscription, setLocalTranscription] = useState<TranscriptionType | undefined>(transcription)
+  const [text, setText] = useState<string>('')
   const [editMode, setEditMode] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [text, setText] = useState<string>('')
 
   const fetch = async () => {
-    const transcript = await api.getTranscriptions(transcriptionId)
-    setText(transcript.content)
+    if (!localTranscription?.id) {
+      setIsLoading(false)
+      return
+    }
+    const transcript = await api.getTranscriptions(localTranscription.id)
+    setLocalTranscription(transcript)
     setIsLoading(false)
   }
 
   const update = async () => {
-    const transcript = await api.updateTranscriptions(transcriptionId, { storyId, content: text })
-    setText(transcript.content)
+    const transcript = localTranscription?.id
+      ? await api.updateTranscriptions(localTranscription.id, { storyId, content: text })
+      : await api.createTranscriptions({ storyId, content: text })
+    setLocalTranscription(transcript)
     setEditMode(false)
   }
 
@@ -35,6 +43,11 @@ const Transcript: React.FC<iTranscript> = ({ transcriptionId, canEdit, storyId }
     setIsLoading(true)
     fetch()
   }, [])
+
+  useEffect(() => {
+    if (!localTranscription?.id) return
+    setText(localTranscription.content)
+  }, [localTranscription])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value)
