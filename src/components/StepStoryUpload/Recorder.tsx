@@ -5,9 +5,10 @@ import ButtonGroup from '@mui/material/ButtonGroup'
 import Typography from '@mui/material/Typography'
 import MovieIcon from '@mui/icons-material/Movie'
 import HeadphonesIcon from '@mui/icons-material/Headphones'
-import { ReactMediaRecorder } from 'react-media-recorder'
+import { useReactMediaRecorder } from 'react-media-recorder'
 import CameraIndoorIcon from '@mui/icons-material/CameraIndoor'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
+import { useStopwatch } from 'react-timer-hook'
 
 const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -20,7 +21,7 @@ const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
   if (!stream) {
     return null
   }
-  return <video height={'95%'} ref={videoRef} autoPlay />
+  return <video height="100%" width="auto" ref={videoRef} autoPlay muted={true} />
 }
 
 interface iRecorder {
@@ -30,6 +31,19 @@ interface iRecorder {
 }
 
 const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
+  const { seconds, minutes, hours, reset, start, pause } = useStopwatch({ autoStart: false })
+  const { previewStream, previewAudioStream, status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
+    useReactMediaRecorder({
+      video: type === 'VIDEO',
+      audio: true,
+      onStop: (blobUrl: string, blob: Blob) => {
+        onDrop(
+          new File([blob], `Recorded.${type === 'VIDEO' ? 'mp4' : 'wav'}`, {
+            type: type === 'VIDEO' ? 'video/mp4' : 'audio/wav'
+          })
+        )
+      }
+    })
   return (
     <>
       {!type && (
@@ -86,106 +100,102 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
         </Box>
       )}
       {type && (
-        <ReactMediaRecorder
-          video={type === 'VIDEO'}
-          onStop={(blobUrl: string, blob: Blob) => {
-            onDrop(
-              new File([blob], `Recorded.${type === 'VIDEO' ? 'mp4' : 'wav'}`, {
-                type: type === 'VIDEO' ? 'video/mp4' : 'audio/wav'
-              })
-            )
+        <Box
+          sx={{
+            position: 'relative',
+            width: '100%',
+            height: 422,
+            border: '1px solid #7b7b7c',
+            borderRadius: '20px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexFlow: 'column'
           }}
-          audio
-          render={({
-            previewStream,
-            previewAudioStream,
-            status,
-            startRecording,
-            stopRecording,
-            mediaBlobUrl,
-            clearBlobUrl
-          }) => {
-            return (
+        >
+          {status === 'recording' ? (
+            <>
               <Box
                 sx={{
-                  position: 'relative',
-                  width: '100%',
-                  height: 422,
-                  border: '1px solid #7b7b7c',
-                  borderRadius: '20px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexFlow: 'column'
+                  position: 'absolute',
+                  top: 16,
+                  right: 16,
+                  color: 'red'
                 }}
               >
-                {status === 'recording' ? (
-                  <>
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: 16,
-                        right: 16,
-                        animation: 'blink 2s ease-in infinite',
-                        color: 'red'
-                      }}
-                    >
-                      <FiberManualRecordIcon />
-                    </Box>
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        bottom: 16,
-                        right: 16,
-                        zIndex: '1000'
-                      }}
-                    >
-                      <Button size="large" variant="outlined" onClick={stopRecording}>
-                        Stop recording
-                      </Button>
-                    </Box>
-                    <VideoPreview stream={type === 'VIDEO' ? previewStream : previewAudioStream} />
-                  </>
-                ) : (
-                  mediaBlobUrl && <video height={'95%'} src={mediaBlobUrl} controls autoPlay />
-                )}
-
-                <Box sx={{ position: 'absolute' }}>
-                  {status === 'idle' && (
-                    <ButtonGroup disableElevation size="large" variant="outlined">
-                      <Button size="large" variant="outlined" onClick={startRecording}>
-                        Start recording
-                      </Button>
-                      {!mediaBlobUrl && (
-                        <Button
-                          size="large"
-                          variant="outlined"
-                          onClick={() => {
-                            onSelected(null)
-                          }}
-                        >
-                          Change recording type
-                        </Button>
-                      )}
-                    </ButtonGroup>
-                  )}
-                  {status === 'stopped' && mediaBlobUrl && (
-                    <Button
-                      variant="contained"
-                      size="large"
-                      onClick={() => {
-                        clearBlobUrl()
-                        onDrop(null)
-                      }}
-                    >
-                      Discard
-                    </Button>
-                  )}
+                <Box sx={{ textAlign: 'center', animation: 'blink 2s ease-in infinite' }}>
+                  <FiberManualRecordIcon />
                 </Box>
+                <Typography>{`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
+                  .toString()
+                  .padStart(2, '0')}`}</Typography>
               </Box>
-            )
-          }}
-        />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: 16,
+                  right: 16,
+                  zIndex: '1000'
+                }}
+              >
+                <Button
+                  size="large"
+                  variant="outlined"
+                  onClick={() => {
+                    stopRecording()
+                    pause()
+                    reset()
+                  }}
+                >
+                  Stop recording
+                </Button>
+              </Box>
+              <VideoPreview stream={type === 'VIDEO' ? previewStream : previewAudioStream} />
+            </>
+          ) : (
+            mediaBlobUrl && <video height={'100%'} width="auto" src={mediaBlobUrl} controls autoPlay />
+          )}
+
+          <Box sx={{ position: 'absolute' }}>
+            {status === 'idle' && (
+              <ButtonGroup disableElevation size="large" variant="outlined">
+                <Button
+                  size="large"
+                  variant="outlined"
+                  onClick={() => {
+                    startRecording()
+                    start()
+                  }}
+                >
+                  Start recording
+                </Button>
+                {!mediaBlobUrl && (
+                  <Button
+                    size="large"
+                    variant="outlined"
+                    onClick={() => {
+                      onSelected(null)
+                    }}
+                  >
+                    Change recording type
+                  </Button>
+                )}
+              </ButtonGroup>
+            )}
+            {status === 'stopped' && mediaBlobUrl && (
+              <Button
+                variant="contained"
+                size="large"
+                onClick={() => {
+                  clearBlobUrl()
+                  onDrop(null)
+                }}
+              >
+                Discard
+              </Button>
+            )}
+          </Box>
+        </Box>
       )}
     </>
   )
