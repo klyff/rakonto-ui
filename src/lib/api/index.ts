@@ -78,7 +78,10 @@ import {
   closeAccount,
   getSubtitles,
   getLinks,
-  changeStoryMedia
+  changeStoryMedia,
+  removePlaceFromStory,
+  addPlaceToStory,
+  editPlace
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -156,7 +159,9 @@ export default {
   updatePerson: updatePerson(request),
   createPerson: createPerson(request),
   addPersonToStory: addPersonToStory(request),
+  addPlaceToStory: addPlaceToStory(request),
   removePersonFromStory: removePersonFromStory(request),
+  removePlaceFromStory: removePlaceFromStory(request),
   uploadFile: uploadFile(request),
   deleteFile: deleteFile(request),
   getFiles: getFiles(request),
@@ -179,6 +184,7 @@ export default {
   deleteTimeline: deleteTimeline(request),
   getPlaces: getPlaces(request),
   createPlace: createPlace(request),
+  editPlace: editPlace(request),
   deletePlace: deletePlace(request),
   searchLocation: searchLocation(request),
   getSubtitles: getSubtitles(request),

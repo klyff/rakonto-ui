@@ -12,17 +12,17 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import MapViewer from '../../../../../components/MapViewer'
 import api from '../../../../../lib/api'
-import { LocationSearchType, markerType, PlaceType } from '../../../../../lib/types'
+import { LocationSearchType, markerType, PersonType, PlaceType } from '../../../../../lib/types'
 import Typography from '@mui/material/Typography'
 import Search from './Search'
 import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
 
 interface iCreatePlace {
-  storyId: string
   onClose: (place?: PlaceType) => void
+  selectedPlace?: PlaceType
 }
 
-const CreatePlace: React.FC<iCreatePlace> = ({ storyId, onClose }) => {
+const CreatePlace: React.FC<iCreatePlace> = ({ onClose, selectedPlace }) => {
   const [location, setLocation] = useState<LocationSearchType | undefined>(undefined)
   const [markers, setMarkers] = useState<markerType[]>([])
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
@@ -42,15 +42,22 @@ const CreatePlace: React.FC<iCreatePlace> = ({ storyId, onClose }) => {
   const onSubmit = async ({ name, description }: FormikValues) => {
     if (!location) return
     try {
-      const place = await api.createPlace({
-        storyId,
-        name,
-        description,
-        location: location.display_name,
-        latitude: location.lat,
-        longitude: location.lon
-      })
-      snackActions.open(`${place.name} added to this story!`)
+      const place =
+        selectedPlace?.id && selectedPlace?.id !== 'new place'
+          ? await api.editPlace(selectedPlace.id, {
+              name,
+              description,
+              location: location.display_name,
+              latitude: location.lat,
+              longitude: location.lon
+            })
+          : await api.createPlace({
+              name,
+              description,
+              location: location.display_name,
+              latitude: location.lat,
+              longitude: location.lon
+            })
       handleClose(place)
     } catch (error) {
       // @ts-ignore
@@ -64,7 +71,7 @@ const CreatePlace: React.FC<iCreatePlace> = ({ storyId, onClose }) => {
   }
 
   const initialValues: { name?: string; description?: string } = {
-    name: '',
+    name: selectedPlace?.name || '',
     description: ''
   }
 
@@ -138,7 +145,12 @@ const CreatePlace: React.FC<iCreatePlace> = ({ storyId, onClose }) => {
           <Button onClick={() => handleClose()} sx={{ mt: 1, mr: 1 }}>
             Cancel
           </Button>
-          <Button disabled={isSubmitting} variant="contained" onClick={() => handleSubmit()} sx={{ mt: 1, mr: 1 }}>
+          <Button
+            disabled={isSubmitting || !location}
+            variant="contained"
+            onClick={() => handleSubmit()}
+            sx={{ mt: 1, mr: 1 }}
+          >
             Create
           </Button>
         </DialogActions>

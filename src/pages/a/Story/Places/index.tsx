@@ -8,7 +8,6 @@ import Divider from '@mui/material/Divider'
 import InputAdornment from '@mui/material/InputAdornment'
 import SearchIcon from '@mui/icons-material/Search'
 import { SimpleDialogContext } from '../../../../components/SimpleDialog'
-import Button from '@mui/material/Button'
 import CreateEditPlace from './CreatePlace'
 import api from '../../../../lib/api'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
@@ -19,6 +18,7 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
+import PlaceSearch from './PlaceSearch'
 import { LatLngExpression } from 'leaflet'
 
 interface iPlace {
@@ -35,18 +35,40 @@ const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
   const [markers, setMarkers] = useState<markerType[]>([])
   const [openMarker, setOpenMarker] = useState<string | undefined>(undefined)
   const [position, setPosition] = useState<LatLngExpression | undefined>(undefined)
+  const [placeSelectedEdit, setPlaceSelectedEdit] = useState<PlaceType | undefined>()
 
-  const handleSelect = async (place: PlaceType) => {
-    setPlaces([...places, place])
+  const fetch = async () => {
+    const result = await api.getPlaces(0, 1000, '', [storyId])
+    setPlaces(result.content)
   }
 
   useEffect(() => {
-    const fetch = async () => {
-      const result = await api.getPlaces(0, 1000, [storyId])
-      setPlaces(result.content)
-    }
     fetch()
   }, [])
+
+  const handleSelect = async (place: PlaceType) => {
+    if (place?.id) {
+      try {
+        await api.addPlaceToStory(storyId, place.id)
+        snackActions.open(`${place.name} added to this story!`)
+      } catch (error) {
+        // @ts-ignore
+        const { data } = error
+        if (data.code) {
+          snackActions.open(`Error to add ${place.name} to this story!`)
+          return
+        }
+        snackActions.open('Something was wrong! please try again.')
+      }
+
+      fetch()
+    }
+  }
+
+  const handleOpen = (value: boolean, place?: PlaceType) => {
+    setPlaceSelectedEdit(value ? place : undefined)
+    setIsOpen(value)
+  }
 
   useEffect(() => {
     setMarkers(
@@ -83,7 +105,7 @@ const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
       async success => {
         try {
           if (success) {
-            await api.deletePlace(place.id)
+            await api.removePlaceFromStory(storyId, place.id)
             setPlaces(places.filter(p => p.id !== place.id))
             snackActions.open(`${place.name} removed from this story!`)
           }
@@ -128,15 +150,17 @@ const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
     >
       {canEdit && (
         <>
-          {isOpen && <CreateEditPlace storyId={storyId} onClose={handleCloseDialog} />}
+          {isOpen && <CreateEditPlace onClose={handleCloseDialog} selectedPlace={placeSelectedEdit} />}
           <Typography sx={{ marginBottom: 3 }} gutterBottom>
             Add places that are mentioned in the story. Users will be able to filter / search for stories mentioning
             specific places and view them on a map.
           </Typography>
-          <Box>
-            <Button variant="outlined" onClick={() => setIsOpen(true)} sx={{ mt: 1, mr: 1 }}>
-              Add place
-            </Button>
+          <Box
+            sx={{
+              maxWidth: '422px'
+            }}
+          >
+            <PlaceSearch handleOpen={handleOpen} handleSelect={handleSelect} places={places} />
           </Box>
         </>
       )}

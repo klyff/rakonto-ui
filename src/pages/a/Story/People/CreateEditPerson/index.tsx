@@ -36,12 +36,10 @@ const CreateEditCollection: React.FC<iCreateEditCollection> = ({ selectedPerson,
 
   const onSubmit = async ({ name, link }: FormikValues) => {
     try {
-      if (selectedPerson?.id && selectedPerson?.id !== 'new person') {
-        const person = await api.updatePerson(selectedPerson.id, { link, name, pictureId: picture?.id || null })
-        handleClose(person)
-        return
-      }
-      const person = await api.createPerson({ link, name, pictureId: picture?.id || null })
+      const person =
+        selectedPerson?.id && selectedPerson?.id !== 'new person'
+          ? await api.updatePerson(selectedPerson.id, { link, name, pictureId: picture?.id || null })
+          : await api.createPerson({ link, name, pictureId: picture?.id || null })
       handleClose(person)
     } catch (e) {
       console.error(e)
@@ -53,7 +51,7 @@ const CreateEditCollection: React.FC<iCreateEditCollection> = ({ selectedPerson,
     link: selectedPerson?.link
   }
 
-  const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit, handleReset } = useFormik({
+  const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit } = useFormik({
     initialValues,
     validationSchema: schema,
     onSubmit

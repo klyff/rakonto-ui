@@ -20,7 +20,7 @@ interface iPersonSearch {
   people: PersonType[]
 }
 
-const PersonSearch: React.FC<iPersonSearch> = ({ handleSelect, handleOpen, people }) => {
+const Index: React.FC<iPersonSearch> = ({ handleSelect, handleOpen, people }) => {
   const [options, setOptions] = useState<readonly PersonTypeOption[]>([])
   const [value, setValue] = useState<PersonTypeOption | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -146,4 +146,4 @@ const PersonSearch: React.FC<iPersonSearch> = ({ handleSelect, handleOpen, peopl
   )
 }
 
-export default PersonSearch
+export default Index

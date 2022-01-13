@@ -236,6 +236,18 @@ export const removePersonFromStory =
     return await request.post(`a/stories/${id}/remove-person`, { personId }).then(res => res.data)
   }
 
+export const addPlaceToStory =
+  (request: AxiosInstance) =>
+  async (id: string, personId: string): Promise<void> => {
+    return await request.post(`a/stories/${id}/add-place`, { personId }).then(res => res.data)
+  }
+
+export const removePlaceFromStory =
+  (request: AxiosInstance) =>
+  async (id: string, personId: string): Promise<void> => {
+    return await request.post(`a/stories/${id}/remove-place`, { personId }).then(res => res.data)
+  }
+
 // Image api
 export const uploadImage =
   (request: AxiosInstance) =>
@@ -429,8 +441,8 @@ export const deleteTimeline =
 // Places api
 export const getPlaces =
   (request: AxiosInstance) =>
-  async (page: number, size: number, storyIds?: string[]): Promise<Pageable<PlaceType>> => {
-    const queryString = stringify({ page, size, storyIds }, { indices: false, addQueryPrefix: true })
+  async (page: number, size: number, q?: string, storyIds?: string[]): Promise<Pageable<PlaceType>> => {
+    const queryString = stringify({ page, size, q, storyIds }, { indices: false, addQueryPrefix: true })
     return await request.get(`a/places${queryString}`).then(res => res.data)
   }
 
@@ -438,6 +450,12 @@ export const createPlace =
   (request: AxiosInstance) =>
   async (data: PlaceFormType): Promise<PlaceType> => {
     return await request.post(`a/places`, data).then(res => res.data)
+  }
+
+export const editPlace =
+  (request: AxiosInstance) =>
+  async (id: string, data: PlaceFormType): Promise<PlaceType> => {
+    return await request.put(`a/places/${id}`, data).then(res => res.data)
   }
 
 export const deletePlace =

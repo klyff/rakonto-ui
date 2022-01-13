@@ -287,14 +287,13 @@ export type TimelineFormType = {
 export type PlaceType = {
   id: string
   name: string
-  description: string
-  location: string
-  latitude: string
-  longitude: string
+  description?: string
+  location?: string
+  latitude?: string
+  longitude?: string
 }
 
 export type PlaceFormType = {
-  storyId: string
   name: string
   description: string
   location: string
