@@ -353,6 +353,13 @@ export const deleteLink =
 // Transcipt api
 export const getTranscriptions =
   (request: AxiosInstance) =>
+  async (page: number, size: number, storyIds?: string[]): Promise<Pageable<TranscriptionType>> => {
+    const queryString = stringify({ page, size, storyIds }, { indices: false, addQueryPrefix: true })
+    return await request.get(`a/transcriptions${queryString}`).then(res => res.data)
+  }
+
+export const getTranscription =
+  (request: AxiosInstance) =>
   async (id: string): Promise<TranscriptionType> => {
     return await request.get(`a/transcriptions/${id}`).then(res => res.data)
   }

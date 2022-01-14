@@ -77,20 +77,8 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
     return <CircularLoadingCentred />
   }
 
-  const {
-    type,
-    video,
-    audio,
-    thumbnailUrl,
-    subtitles,
-    owner,
-    title,
-    description,
-    collections,
-    published,
-    watchers,
-    transcription
-  } = story as StoryType
+  const { type, video, audio, thumbnailUrl, subtitles, owner, title, description, collections, published, watchers } =
+    story as StoryType
 
   const handlePlay = () => {
     setPlay(true)
@@ -185,7 +173,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               <Places storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="transcript">
-              <Transcript transcription={transcription} storyId={storyId} canEdit={isOwner} />
+              <Transcript storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
               <Photos storyId={storyId} canEdit={isOwner} />

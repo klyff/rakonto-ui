@@ -234,6 +234,7 @@ export type LinkType = {
 export type TranscriptionType = {
   id: string
   content: string
+  storyId: string
   updatedAt: Date
   createdAt: Date
 }

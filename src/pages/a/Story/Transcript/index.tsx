@@ -10,24 +10,19 @@ import api from '../../../../lib/api'
 import { TranscriptionType } from '../../../../lib/types'
 
 interface iTranscript {
-  transcription?: TranscriptionType
   canEdit: boolean
   storyId: string
 }
 
-const Transcript: React.FC<iTranscript> = ({ transcription, canEdit, storyId }) => {
-  const [localTranscription, setLocalTranscription] = useState<TranscriptionType | undefined>(transcription)
+const Transcript: React.FC<iTranscript> = ({ canEdit, storyId }) => {
+  const [localTranscription, setLocalTranscription] = useState<TranscriptionType | undefined>(undefined)
   const [text, setText] = useState<string>('')
   const [editMode, setEditMode] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const fetch = async () => {
-    if (!localTranscription?.id) {
-      setIsLoading(false)
-      return
-    }
-    const transcript = await api.getTranscriptions(localTranscription.id)
-    setLocalTranscription(transcript)
+    const transcripts = await api.getTranscriptions(0, 1000, [storyId])
+    setLocalTranscription(transcripts.content[0])
     setIsLoading(false)
   }
 
