@@ -7,7 +7,13 @@ export type apiOptions = {
   errorBoundary: boolean
 }
 
-export type markerType = { id: string; title?: string; content?: string | ReactNode; marker: LatLngExpression }
+export type markerType = {
+  id: string
+  title?: string
+  content?: string | ReactNode
+  marker: LatLngExpression
+  place?: PlaceType
+}
 
 export type Pageable<T> = {
   totalPages: number

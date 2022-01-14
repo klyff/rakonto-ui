@@ -84,7 +84,8 @@ const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
               {place.description}
             </>
           ),
-          marker: [Number(place.latitude), Number(place.longitude)]
+          marker: [Number(place.latitude), Number(place.longitude)],
+          place: place
         }))
     )
   }, [places, searchValue])
@@ -166,32 +167,34 @@ const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
       )}
 
       <Divider sx={{ margin: '24px 0' }} />
-      <Box
-        sx={{
-          maxWidth: '422px',
-          marginBottom: 3
-        }}
-      >
-        <TextField
-          size="small"
-          key="search"
-          name="search"
-          fullWidth
-          rows={4}
-          autoComplete="off"
-          placeholder="Type place name for filter list"
-          margin="dense"
-          value={searchValue}
-          onChange={e => setSearchValue(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            )
+      {!canEdit && (
+        <Box
+          sx={{
+            maxWidth: '422px',
+            marginBottom: 3
           }}
-        />
-      </Box>
+        >
+          <TextField
+            size="small"
+            key="search"
+            name="search"
+            fullWidth
+            rows={4}
+            autoComplete="off"
+            placeholder="Type place name for filter list"
+            margin="dense"
+            value={searchValue}
+            onChange={e => setSearchValue(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Box>
+      )}
 
       {places.length ? (
         <Box sx={{ width: '100%', height: '500px', display: 'flex' }}>
@@ -216,13 +219,23 @@ const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
                   onMouseLeave={() => setOpenMarker(undefined)}
                   secondaryAction={
                     canEdit && (
-                      <IconButton
-                        onClick={() => handleDelete(places.find(p => p.id === m.id))}
-                        edge="end"
-                        aria-label="delete"
-                      >
-                        <DeleteIcon />
-                      </IconButton>
+                      <>
+                        <IconButton
+                          onClick={() => {
+                            handleOpen(true, m.place)
+                          }}
+                          color="secondary"
+                        >
+                          Edit
+                        </IconButton>
+                        <IconButton
+                          onClick={() => handleDelete(places.find(p => p.id === m.id))}
+                          edge="end"
+                          aria-label="delete"
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </>
                     )
                   }
                   key={m.id}
