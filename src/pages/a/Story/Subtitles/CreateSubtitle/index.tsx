@@ -5,6 +5,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
+import Link from '@mui/material/Link'
 import { FormikValues, useFormik } from 'formik'
 import TextField from '@mui/material/TextField'
 import schema from './schema'
@@ -117,7 +118,7 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
           >
             {Object.values(LanguageEnum).map(option => (
               <MenuItem key={option} value={option}>
-                {option}
+                {option.charAt(0).toUpperCase() + option.slice(1)}
               </MenuItem>
             ))}
           </TextField>
@@ -227,6 +228,13 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
                   <Button size="large" onClick={open} variant="outlined">
                     Choose file
                   </Button>
+                  <Typography fontWeight="700" variant="caption" marginTop={2} gutterBottom>
+                    note: only{' '}
+                    <Link href="https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API" target="_blank">
+                      WebVTT
+                    </Link>{' '}
+                    files will be accepted
+                  </Typography>
                 </Box>
               </Box>
             </Box>

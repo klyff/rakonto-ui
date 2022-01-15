@@ -81,7 +81,7 @@ const CreateLink: React.FC<iCreateLink> = ({ storyId, onClose }) => {
         </DialogTitle>
         <DialogContent dividers>
           <Typography sx={{ marginBottom: 3 }} gutterBottom>
-            Type or paste the link for add your story!
+            Type or paste a link to associate with this story:
           </Typography>
           <TextField
             autoFocus

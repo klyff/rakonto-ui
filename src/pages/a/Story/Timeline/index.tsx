@@ -93,7 +93,8 @@ const Timelines: React.FC<iTimelines> = ({ canEdit, storyId }) => {
           {isOpen && <CreateTimeline storyId={storyId} onClose={handleCloseDialog} />}
           <Box>
             <Typography sx={{ marginBottom: 3 }} gutterBottom>
-              A timeline helps the user to better understand a story.
+              Add key events that are mentioned in the story. Users will be able to see these events, displayed in a
+              chronological timeline.
             </Typography>
             <Button variant="outlined" onClick={() => setIsOpen(true)} sx={{ mt: 1, mr: 1 }}>
               Add event

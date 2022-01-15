@@ -209,7 +209,7 @@ const CreateCollection = () => {
             Cancel
           </Button>
           <Button
-            disabled={isSubmitting || !!progress}
+            disabled={isSubmitting || !values.cover || !!progress}
             variant="contained"
             onClick={() => handleSubmit()}
             sx={{ mt: 1, mr: 1 }}

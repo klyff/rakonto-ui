@@ -133,7 +133,7 @@ const CreateEditCollection: React.FC<iCreateEditCollection> = ({ selectedPerson,
             >
               <div>
                 <Button onClick={open} startIcon={<CreateIcon />} variant="outlined">
-                  Edit
+                  Thumbnail
                 </Button>
                 {picture?.url && (
                   <Button onClick={onRemove} color="secondary" startIcon={<CloseIcon />}>

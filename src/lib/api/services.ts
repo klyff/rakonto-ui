@@ -238,14 +238,14 @@ export const removePersonFromStory =
 
 export const addPlaceToStory =
   (request: AxiosInstance) =>
-  async (id: string, personId: string): Promise<void> => {
-    return await request.post(`a/stories/${id}/add-place`, { personId }).then(res => res.data)
+  async (id: string, placeId: string): Promise<void> => {
+    return await request.post(`a/stories/${id}/add-place`, { placeId }).then(res => res.data)
   }
 
 export const removePlaceFromStory =
   (request: AxiosInstance) =>
-  async (id: string, personId: string): Promise<void> => {
-    return await request.post(`a/stories/${id}/remove-place`, { personId }).then(res => res.data)
+  async (id: string, placeId: string): Promise<void> => {
+    return await request.post(`a/stories/${id}/remove-place`, { placeId }).then(res => res.data)
   }
 
 // Image api

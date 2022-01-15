@@ -149,7 +149,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               description={description}
               onClick={handlePlay}
               hidePlayButton={!story?.id}
-              buttonLabel="View first video"
+              buttonLabel="View most recent story"
             />
           )}
         </Box>

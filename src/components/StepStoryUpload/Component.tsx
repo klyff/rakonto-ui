@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Dialog from '@mui/material/Dialog'
+import Link from '@mui/material/Link'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
@@ -12,7 +13,7 @@ import { useFormik, FormikValues } from 'formik'
 import { StepStoryUploadContext } from './Context'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
-import MenuItem from '@mui/material/MenuItem'
+import Autocomplete from '@mui/material/Autocomplete'
 import schema from './schema'
 import Droparea from './Droparea'
 import IconButton from '@mui/material/IconButton'
@@ -151,7 +152,7 @@ const StepStoryUpload = () => {
                 name={'title'}
                 fullWidth
                 margin="dense"
-                placeholder="Type your Story title here (Rakonto may offer suggestions based on what you type)"
+                placeholder="Type your Story title here or choose from a list of titles in the Suggestion field below"
                 onBlur={handleBlur}
                 value={values.title}
                 onChange={handleChange}
@@ -180,20 +181,16 @@ const StepStoryUpload = () => {
                   <Typography variant="body1" gutterBottom>
                     Do you want a suggestion for your title?
                   </Typography>
-                  <TextField
-                    select
+                  <Autocomplete
                     size="small"
-                    label="Select a suggestion"
                     value={selectedSuggestion}
-                    onChange={e => setSelectedSuggestion(e.target.value)}
                     fullWidth
-                  >
-                    {suggestionList.map(option => (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                    options={suggestionList}
+                    onChange={(event: any, newValue: string | null) => {
+                      setFieldValue('title', newValue)
+                    }}
+                    renderInput={params => <TextField {...params} />}
+                  />
                 </Box>
                 <Box
                   sx={{
@@ -211,7 +208,7 @@ const StepStoryUpload = () => {
                   <Typography variant="body1" gutterBottom>
                     Watch a video tutorial recording.
                   </Typography>
-                  <Button href="https://youtu.be/jFivHCW414k" target="_blank" variant="outlined" sx={{ mt: 1, mr: 1 }}>
+                  <Button href="https://youtu.be/bEO2R8gbjQ0" target="_blank" variant="outlined" sx={{ mt: 1, mr: 1 }}>
                     {'Watch'}
                   </Button>
                 </Box>
@@ -246,9 +243,23 @@ const StepStoryUpload = () => {
           )}
           {activeStep === 2 && (
             <Box sx={{ width: '100%' }}>
-              <Typography align="center" variant="body2" fontWeight="400" marginBottom={3} gutterBottom>
-                You`re all set! You can now upload or record your story (audio or video).
-              </Typography>
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="body2" fontWeight="400" gutterBottom>
+                  You`re all set! You can now upload or record your story (audio or video).
+                </Typography>
+
+                <Typography
+                  component={Link}
+                  href="https://youtu.be/jFivHCW414k"
+                  target="_blank"
+                  align="center"
+                  variant="caption"
+                  fontWeight="400"
+                  gutterBottom
+                >
+                  Not sure how to record your story? Watch this short video for 5 helpful tips.
+                </Typography>
+              </Box>
               <Box
                 sx={{
                   display: 'flex',

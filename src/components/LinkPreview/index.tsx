@@ -1,7 +1,6 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-// @ts-ignore
-import { ReactTinyLink } from 'react-tiny-link'
+import Link from '@mui/material/Link'
 import { LinkType } from '../../lib/types'
 
 interface iLinkPreview {
@@ -39,7 +38,9 @@ const LinkPreview: React.FC<iLinkPreview> = ({ link, action }) => {
           {action}
         </Box>
       )}
-      <ReactTinyLink showGraphic={false} cardSize="small" maxLine={2} minLine={1} url={link.url} />
+      <Link href={link.url} target="_blank">
+        {link.url}
+      </Link>
     </Box>
   )
 }

@@ -120,7 +120,13 @@ const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId }) => {
                     )
                   }
                 >
-                  <ListItemText primary={<Link href={subtitle.url}>{subtitle.language}</Link>} />
+                  <ListItemText
+                    primary={
+                      <Link href={subtitle.url}>
+                        {subtitle.language.charAt(0).toUpperCase() + subtitle.language.slice(1)}
+                      </Link>
+                    }
+                  />
                 </ListItem>
               ))}
             </List>

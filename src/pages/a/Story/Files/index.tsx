@@ -100,7 +100,7 @@ const Files: React.FC<iFiles> = ({ canEdit, storyId }) => {
         <>
           <Box>
             <Typography sx={{ marginBottom: 3 }} gutterBottom>
-              Add a file to enhance your story.
+              Add files to enhance your story.
             </Typography>
             <div {...getRootProps()}>
               <input {...getInputProps()} />

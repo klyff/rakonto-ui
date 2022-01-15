@@ -9,7 +9,7 @@ export default yup.object().shape({
     .required()
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+      'Must contain at least 8 characters and include uppercase, lowercase, numbers and special characters'
     )
     .label('Password'),
   confirmation: yup

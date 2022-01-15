@@ -88,7 +88,7 @@ const Links: React.FC<iLinks> = ({ canEdit, storyId }) => {
           {isOpen && <CreateLink storyId={storyId} onClose={handleCloseDialog} />}
           <Box>
             <Typography sx={{ marginBottom: 3 }} gutterBottom>
-              Add a link to enhance your story.
+              Add links to external websites that enhance your story and provide users with additional information.
             </Typography>
             <Button variant="outlined" onClick={() => setIsOpen(true)} sx={{ mt: 1, mr: 1 }}>
               Create link

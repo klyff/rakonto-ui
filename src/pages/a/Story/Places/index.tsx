@@ -8,7 +8,7 @@ import Divider from '@mui/material/Divider'
 import InputAdornment from '@mui/material/InputAdornment'
 import SearchIcon from '@mui/icons-material/Search'
 import { SimpleDialogContext } from '../../../../components/SimpleDialog'
-import CreateEditPlace from './CreatePlace'
+import CreateEditPlace from './CreateEditPlace'
 import api from '../../../../lib/api'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
 import MapViewer from '../../../../components/MapViewer'
@@ -17,6 +17,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 import IconButton from '@mui/material/IconButton'
 import PlaceSearch from './PlaceSearch'
 import { LatLngExpression } from 'leaflet'
@@ -224,9 +225,8 @@ const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
                           onClick={() => {
                             handleOpen(true, m.place)
                           }}
-                          color="secondary"
                         >
-                          Edit
+                          <EditIcon />
                         </IconButton>
                         <IconButton
                           onClick={() => handleDelete(places.find(p => p.id === m.id))}

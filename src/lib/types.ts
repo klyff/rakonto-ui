@@ -335,19 +335,19 @@ export type CommentFormType = {
 }
 
 export type LocationSearchType = {
-  boundingbox: string[]
-  class: string
+  boundingbox?: string[]
+  class?: string
   // eslint-disable-next-line camelcase
   display_name: string
-  icon: string
-  importance: number
+  icon?: string
+  importance?: number
   lat: string
-  licence: string
+  licence?: string
   lon: string
-  osmId: number
-  osmType: string
-  placeId: number
-  type: string
+  osmId?: number
+  osmType?: string
+  placeId?: number
+  type?: string
 }
 
 export enum LanguageEnum {

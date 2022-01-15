@@ -10,9 +10,10 @@ import { LocationSearchType } from '../../../../../lib/types'
 
 interface iPersonSearch {
   handleSelect: (place: LocationSearchType | null) => void
+  initialValue?: string
 }
 
-const Search: React.FC<iPersonSearch> = ({ handleSelect }) => {
+const Search: React.FC<iPersonSearch> = ({ handleSelect, initialValue }) => {
   const [options, setOptions] = useState<readonly LocationSearchType[]>([])
   const [value, setValue] = useState<LocationSearchType | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -31,6 +32,16 @@ const Search: React.FC<iPersonSearch> = ({ handleSelect }) => {
       }, 1000),
     []
   )
+
+  useEffect(() => {
+    if (initialValue) {
+      fetch(initialValue, (results?: readonly LocationSearchType[]) => {
+        setOptions([...results!])
+        setValue(results![0])
+        setInputValue(results![0].display_name)
+      })
+    }
+  }, [initialValue])
 
   useEffect(() => {
     let active = true
@@ -94,7 +105,7 @@ const Search: React.FC<iPersonSearch> = ({ handleSelect }) => {
       renderInput={params => (
         <TextField
           {...params}
-          placeholder="Search a person for add"
+          placeholder="Search a place for add"
           InputProps={{
             ...params.InputProps,
             type: 'search',

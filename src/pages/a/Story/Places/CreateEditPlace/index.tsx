@@ -17,12 +17,12 @@ import Typography from '@mui/material/Typography'
 import Search from './Search'
 import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
 
-interface iCreatePlace {
+interface iCreateEditPlace {
   onClose: (place?: PlaceType) => void
   selectedPlace?: PlaceType
 }
 
-const CreatePlace: React.FC<iCreatePlace> = ({ onClose, selectedPlace }) => {
+const CreateEditPlace: React.FC<iCreateEditPlace> = ({ onClose, selectedPlace }) => {
   const [location, setLocation] = useState<LocationSearchType | undefined>(undefined)
   const [markers, setMarkers] = useState<markerType[]>([])
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
@@ -72,7 +72,7 @@ const CreatePlace: React.FC<iCreatePlace> = ({ onClose, selectedPlace }) => {
 
   const initialValues: { name?: string; description?: string } = {
     name: selectedPlace?.name || '',
-    description: ''
+    description: selectedPlace?.description
   }
 
   const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit } = useFormik({
@@ -94,7 +94,7 @@ const CreatePlace: React.FC<iCreatePlace> = ({ onClose, selectedPlace }) => {
         open={true}
       >
         <DialogTitle>
-          Create place
+          {selectedPlace?.id && selectedPlace?.id !== 'new place' ? 'Edit place' : 'Create place'}
           <IconButton
             aria-label="close"
             onClick={() => handleClose()}
@@ -132,7 +132,7 @@ const CreatePlace: React.FC<iCreatePlace> = ({ onClose, selectedPlace }) => {
             helperText={(touched.description && errors.description) || ' '}
           />
           <Typography sx={{ marginBottom: 2 }}>Please enter an address to link with this story.</Typography>
-          <Search handleSelect={place => setLocation(place || undefined)} />
+          <Search handleSelect={place => setLocation(place || undefined)} initialValue={selectedPlace?.location} />
           <Box sx={{ width: '100%', height: '282px', padding: '16px 0px' }}>
             <MapViewer
               initialZoom={location ? 13 : 0}
@@ -151,7 +151,7 @@ const CreatePlace: React.FC<iCreatePlace> = ({ onClose, selectedPlace }) => {
             onClick={() => handleSubmit()}
             sx={{ mt: 1, mr: 1 }}
           >
-            Create
+            {selectedPlace?.id && selectedPlace?.id !== 'new place' ? 'Edit place' : 'Create place'}
           </Button>
         </DialogActions>
       </Dialog>
@@ -159,4 +159,4 @@ const CreatePlace: React.FC<iCreatePlace> = ({ onClose, selectedPlace }) => {
   )
 }
 
-export default CreatePlace
+export default CreateEditPlace

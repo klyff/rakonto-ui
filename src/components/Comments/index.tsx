@@ -1,6 +1,5 @@
 import React from 'react'
 import { AssetTypes, WatcherType } from '../../lib/types'
-import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
@@ -38,7 +37,7 @@ const Comments: React.FC<iComments> = ({ id, watchers, type }) => {
       }}
     >
       <Box component={Typography} sx={{ paddingBottom: 1 }}>
-        Add a comment
+        Join the conversation
       </Box>
       <CommentEditor mentions={mentions} createAction={createComment} type={type} id={id} />
       <Divider sx={{ margin: '16px 0px' }} />
