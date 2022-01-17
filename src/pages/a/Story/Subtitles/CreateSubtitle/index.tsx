@@ -28,6 +28,7 @@ interface iCreateSubtitle {
 
 const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
+  const [file, setFile] = useState<File | null>(null)
 
   const handleClose = (subtitle?: SubtitleType) => {
     onClose(subtitle)
@@ -50,8 +51,7 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
   }
 
   const initialValues: { language: LanguageEnum | null; file: File | null } = {
-    language: null,
-    file: null
+    language: null
   }
 
   const { isSubmitting, values, handleBlur, handleChange, setFieldValue, touched, errors, handleSubmit } = useFormik({
@@ -62,7 +62,7 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
 
   const onDrop: <T extends File>(acceptedFiles: T[], subtitleRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
-      setFieldValue('file', acceptedFiles[0])
+      setFile(acceptedFiles[0])
     }
 
   const { getRootProps, getInputProps, open } = useDropzone({
@@ -122,7 +122,7 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
               </MenuItem>
             ))}
           </TextField>
-          {values.file && (
+          {file && (
             <Box
               sx={{
                 display: 'flex',
@@ -159,11 +159,11 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
                   />
                 </Box>
                 <Typography fontWeight="700" align="center" variant="h5" gutterBottom>
-                  {values.file.name}
+                  {file.name}
                 </Typography>
                 <Button
                   onClick={() => {
-                    setFieldValue('file', null)
+                    setFile(null)
                   }}
                 >
                   Remove
@@ -171,7 +171,7 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
               </Box>
             </Box>
           )}
-          {!values.file && (
+          {!file && (
             <Box
               sx={{
                 width: '100%',
@@ -247,7 +247,7 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
           <LoadingButton
             loading={isSubmitting}
             variant="contained"
-            disabled={!values.file}
+            disabled={!file}
             onClick={() => handleSubmit()}
             sx={{ mt: 1, mr: 1 }}
           >
