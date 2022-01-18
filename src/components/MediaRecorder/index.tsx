@@ -100,7 +100,13 @@ export function useReactMediaRecorder({
       } else {
         const stream = await window.navigator.mediaDevices.getUserMedia({
           audio: requiredMedia.audio,
-          video: requiredMedia.video ? { aspectRatio: { ideal: 1.7777777778 } } : requiredMedia.video
+          video: requiredMedia.video
+            ? {
+                width: { ideal: 1280 },
+                height: { ideal: 720 },
+                aspectRatio: { ideal: 1.7777777778 }
+              }
+            : requiredMedia.video
         })
         mediaStream.current = stream
       }
