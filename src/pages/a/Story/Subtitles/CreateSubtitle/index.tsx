@@ -15,7 +15,7 @@ import api from '../../../../../lib/api'
 import { LanguageEnum, SubtitleType } from '../../../../../lib/types'
 import Typography from '@mui/material/Typography'
 import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
-import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
+import Dropzone, { DropEvent, FileRejection } from 'react-dropzone'
 import LoadingButton from '@mui/lab/LoadingButton'
 import Box from '@mui/material/Box'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
@@ -54,7 +54,7 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
     language: null
   }
 
-  const { isSubmitting, values, handleBlur, handleChange, setFieldValue, touched, errors, handleSubmit } = useFormik({
+  const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit } = useFormik({
     initialValues,
     validationSchema: schema,
     onSubmit
@@ -64,13 +64,6 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
     async acceptedFiles => {
       setFile(acceptedFiles[0])
     }
-
-  const { getRootProps, getInputProps, open } = useDropzone({
-    onDrop,
-    noClick: true,
-    multiple: false,
-    accept: 'text/vtt'
-  })
 
   return (
     <form>
@@ -172,72 +165,76 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
             </Box>
           )}
           {!file && (
-            <Box
-              sx={{
-                width: '100%',
-                paddingTop: 10,
-                height: 422,
-                border: '1px dashed #7b7b7c',
-                borderRadius: '20px'
-              }}
-            >
-              <Box
-                sx={{
-                  width: '100%',
-                  height: '100%'
-                }}
-                {...getRootProps()}
-              >
-                <input {...getInputProps()} />
+            <Dropzone noClick multiple={false} accept="text/vtt" onDrop={onDrop}>
+              {({ getRootProps, getInputProps, open }) => (
                 <Box
                   sx={{
                     width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    flexFlow: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: '0px 85px'
+                    paddingTop: 10,
+                    height: 422,
+                    border: '1px dashed #7b7b7c',
+                    borderRadius: '20px'
                   }}
                 >
                   <Box
                     sx={{
-                      width: 72,
-                      height: 72,
-                      borderRadius: 50,
-                      backgroundColor: 'primary.main',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginBottom: 2
+                      width: '100%',
+                      height: '100%'
                     }}
+                    {...getRootProps()}
                   >
-                    <FileUploadIcon
+                    <input {...getInputProps()} />
+                    <Box
                       sx={{
-                        fontSize: 52,
-                        color: 'common.black'
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        flexFlow: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '0px 85px'
                       }}
-                    />
+                    >
+                      <Box
+                        sx={{
+                          width: 72,
+                          height: 72,
+                          borderRadius: 50,
+                          backgroundColor: 'primary.main',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          marginBottom: 2
+                        }}
+                      >
+                        <FileUploadIcon
+                          sx={{
+                            fontSize: 52,
+                            color: 'common.black'
+                          }}
+                        />
+                      </Box>
+                      <Typography fontWeight="700" align="center" variant="h6" gutterBottom>
+                        Drag and drop a subtitle file here
+                      </Typography>
+                      <Typography fontWeight="700" align="center" variant="h6" gutterBottom>
+                        or
+                      </Typography>
+                      <Button size="large" onClick={open} variant="outlined">
+                        Choose file
+                      </Button>
+                      <Typography fontWeight="700" variant="caption" marginTop={2} gutterBottom>
+                        note: only{' '}
+                        <Link href="https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API" target="_blank">
+                          WebVTT
+                        </Link>{' '}
+                        files will be accepted
+                      </Typography>
+                    </Box>
                   </Box>
-                  <Typography fontWeight="700" align="center" variant="h6" gutterBottom>
-                    Drag and drop a subtitle file here
-                  </Typography>
-                  <Typography fontWeight="700" align="center" variant="h6" gutterBottom>
-                    or
-                  </Typography>
-                  <Button size="large" onClick={open} variant="outlined">
-                    Choose file
-                  </Button>
-                  <Typography fontWeight="700" variant="caption" marginTop={2} gutterBottom>
-                    note: only{' '}
-                    <Link href="https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API" target="_blank">
-                      WebVTT
-                    </Link>{' '}
-                    files will be accepted
-                  </Typography>
                 </Box>
-              </Box>
-            </Box>
+              )}
+            </Dropzone>
           )}
         </DialogContent>
         <DialogActions>
