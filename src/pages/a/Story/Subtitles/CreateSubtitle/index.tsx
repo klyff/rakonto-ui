@@ -62,6 +62,7 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
 
   const onDrop: <T extends File>(acceptedFiles: T[], subtitleRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
+      console.log('subtitleDropFile:', acceptedFiles, acceptedFiles[0])
       setFile(acceptedFiles[0])
     }
 
