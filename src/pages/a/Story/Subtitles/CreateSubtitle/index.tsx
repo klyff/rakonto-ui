@@ -60,12 +60,6 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
     onSubmit
   })
 
-  const onDrop: <T extends File>(acceptedFiles: T[], subtitleRejections: FileRejection[], event: DropEvent) => void =
-    async acceptedFiles => {
-      console.log('subtitleDropFile:', acceptedFiles, acceptedFiles[0])
-      setFile(acceptedFiles[0])
-    }
-
   return (
     <form>
       <Dialog
@@ -166,7 +160,14 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
             </Box>
           )}
           {!file && (
-            <Dropzone noClick multiple={false} accept="text/vtt" onDrop={onDrop}>
+            <Dropzone
+              noClick
+              multiple={false}
+              accept="text/vtt"
+              onDrop={acceptedFiles => {
+                setFile(acceptedFiles[0])
+              }}
+            >
               {({ getRootProps, getInputProps, open }) => (
                 <Box
                   sx={{
