@@ -117,7 +117,13 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => actions.close()} sx={{ mt: 1, mr: 1 }}>
+        <Button
+          onClick={() => {
+            setFile(null)
+            actions.close()
+          }}
+          sx={{ mt: 1, mr: 1 }}
+        >
           Cancel
         </Button>
         <Button variant="contained" disabled={!file} onClick={handleSave} sx={{ mt: 1, mr: 1 }}>
