@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
@@ -34,9 +34,9 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
     onClose(subtitle)
   }
 
-  const onSubmit = async ({ language, file }: FormikValues) => {
+  const onSubmit = async ({ language }: FormikValues) => {
     try {
-      const subtitle = await api.uploadSubtitle(storyId, language, file)
+      const subtitle = await api.uploadSubtitle(storyId, language, file!)
       snackActions.open(`${subtitle.language} added to this story!`)
       handleClose(subtitle)
     } catch (error) {
@@ -50,7 +50,7 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
     }
   }
 
-  const initialValues: { language: LanguageEnum | null; file: File | null } = {
+  const initialValues: { language: LanguageEnum | null } = {
     language: null
   }
 
@@ -100,7 +100,7 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
         </DialogTitle>
         <DialogContent dividers>
           <Typography sx={{ marginBottom: 3 }} gutterBottom>
-            Select a language and upload your subtitle file!
+            Add subtitles to allow users to view stories in different languages
           </Typography>
           <TextField
             autoFocus

@@ -78,12 +78,15 @@ const GreetingsDialog: React.FC = () => {
                 maxWidth: '210px',
                 '&>button': {
                   marginBottom: 3
+                },
+                '&>a': {
+                  marginBottom: 3
                 }
               }}
             >
-              {/* <Button disabled size="large" fullWidth variant="contained"> */}
-              {/*  Take a tour */}
-              {/* </Button> */}
+              <Button size="large" href="https://youtu.be/fgGu2sIW0AA" target="_blank" fullWidth variant="contained">
+                Take a tour
+              </Button>
               <Button
                 onClick={() => {
                   actions.close()

@@ -21,7 +21,9 @@ const Player: React.FC<iVideoPlayer> = ({ autoplay, handleEnd, subtitles, media,
     controls: true,
     fill: true,
     muted: autoplay,
-    autoplay: autoplay
+    autoplay: autoplay,
+    notSupportedMessage:
+      'Your recording is still processing. Please wait a few moments, then refresh the page and try again.'
   }
 
   if (type === 'VIDEO') {
