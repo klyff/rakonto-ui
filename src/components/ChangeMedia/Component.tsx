@@ -34,6 +34,7 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
       snackActions.open(
         `Rakonto is now uploading and processing your new media of story. It may take a while. We'll send you an email when it's completed.`
       )
+      setFile(null)
       actions.close()
     } catch (e) {
       console.error(e)
@@ -56,6 +57,7 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
       maxWidth="md"
       onClose={(event, reason) => {
         if (reason !== 'backdropClick') {
+          setFile(null)
           actions.close()
         }
       }}
