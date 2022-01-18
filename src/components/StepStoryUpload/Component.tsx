@@ -166,7 +166,7 @@ const StepStoryUpload = () => {
               >
                 <Box
                   sx={{
-                    width: '230px',
+                    width: '350px',
                     height: '128px',
                     border: '1px solid',
                     borderColor: 'divider',
