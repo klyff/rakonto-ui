@@ -163,8 +163,10 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
             <Dropzone
               noClick
               multiple={false}
-              accept="text/vtt"
-              onDrop={acceptedFiles => {
+              onDrop={(acceptedFiles, fileRejections, event) => {
+                console.log('acceptedFiles', acceptedFiles)
+                console.log('fileRejections', fileRejections)
+                console.log('event', event)
                 setFile(acceptedFiles[0])
               }}
             >
