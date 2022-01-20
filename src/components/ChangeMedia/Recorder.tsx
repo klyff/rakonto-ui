@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback } from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
@@ -11,13 +11,12 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { useStopwatch } from 'react-timer-hook'
 
 const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    if (videoRef.current && stream) {
-      videoRef.current.srcObject = stream
+  const videoRef = useCallback(node => {
+    if (node && stream) {
+      node.srcObject = stream
     }
-  }, [stream])
+  }, [])
+
   if (!stream) {
     return null
   }
