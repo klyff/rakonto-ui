@@ -74,7 +74,7 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange }) => {
           } catch (error) {
             snackActions.open(
               <>
-                You cannot delete this collection because if has stories linked to it.
+                You cannot delete this collection because it has stories linked to it.
                 <br />
                 If you wish to delete this collection you first must remove all stories from it.
               </>

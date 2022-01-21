@@ -12,9 +12,10 @@ import { TranscriptionType } from '../../../../lib/types'
 interface iTranscript {
   canEdit: boolean
   storyId: string
+  refetch: () => void
 }
 
-const Transcript: React.FC<iTranscript> = ({ canEdit, storyId }) => {
+const Transcript: React.FC<iTranscript> = ({ canEdit, storyId, refetch: refetchStory }) => {
   const [localTranscription, setLocalTranscription] = useState<TranscriptionType | undefined>(undefined)
   const [text, setText] = useState<string>('')
   const [editMode, setEditMode] = useState<boolean>(false)
@@ -32,6 +33,7 @@ const Transcript: React.FC<iTranscript> = ({ canEdit, storyId }) => {
       : await api.createTranscriptions({ storyId, content: text })
     setLocalTranscription(transcript)
     setEditMode(false)
+    refetchStory()
   }
 
   useEffect(() => {

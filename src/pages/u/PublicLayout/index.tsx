@@ -15,9 +15,9 @@ const PublicLayout: React.FC = ({ children }) => {
           width: '100%',
           minHeight: 755,
           padding: `72px 5vw`,
-          top: '50%',
+          top: '80px',
           left: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: 'translate(-50%, 0%)',
           borderRadius: '20px'
         }}
         component={matches ? Paper : 'div'}

@@ -155,7 +155,7 @@ const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
           <FormGroup>
             <FormControlLabel
               control={<Switch checked={published} onChange={handlePublished} />}
-              label={published ? 'Public for everyone see it' : 'Private'}
+              label={published ? 'Anyone can view this collection' : 'Private'}
             />
           </FormGroup>
         </Box>

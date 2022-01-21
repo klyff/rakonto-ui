@@ -173,7 +173,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               <Places storyId={storyId} canEdit={isOwner} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="transcript">
-              <Transcript storyId={storyId} canEdit={isOwner} />
+              <Transcript storyId={storyId} canEdit={isOwner} refetch={fetch} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
               <Photos storyId={storyId} canEdit={isOwner} />
@@ -186,7 +186,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             </TabPanel>
             {isOwner && (
               <TabPanel sx={{ height: '100%', padding: 'unset' }} value="subtitles">
-                <Subtitles storyId={storyId} canEdit={isOwner} />
+                <Subtitles storyId={storyId} canEdit={isOwner} refetch={fetch} />
               </TabPanel>
             )}
           </Box>

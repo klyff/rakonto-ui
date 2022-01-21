@@ -19,9 +19,10 @@ import CreateSubtitle from './CreateSubtitle'
 interface iSubtitles {
   canEdit: boolean
   storyId: string
+  refetch: () => void
 }
 
-const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId }) => {
+const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId, refetch: reftechStory }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -56,6 +57,7 @@ const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId }) => {
             setSubtitles(subtitles.filter(p => p.id !== subtitle.id))
             snackActions.open(`${subtitle.language} removed from this story!`)
           }
+          reftechStory()
         } catch (error) {
           // @ts-ignore
           const { data } = error
@@ -74,6 +76,7 @@ const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId }) => {
       setSubtitles([...subtitles, subtitle])
     }
     setIsOpen(false)
+    reftechStory()
   }
 
   return (

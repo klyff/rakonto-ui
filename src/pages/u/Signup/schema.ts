@@ -16,5 +16,7 @@ export default yup.object().shape({
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')
     .required()
-    .label('Password confirmation')
+    .label('Password confirmation'),
+  terms: yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
+  mailList: yup.boolean()
 })
