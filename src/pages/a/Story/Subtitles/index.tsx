@@ -57,7 +57,7 @@ const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId, refetch: reftechSto
             setSubtitles(subtitles.filter(p => p.id !== subtitle.id))
             snackActions.open(`${subtitle.language} removed from this story!`)
           }
-          reftechStory()
+          window.location.reload()
         } catch (error) {
           // @ts-ignore
           const { data } = error
@@ -76,7 +76,7 @@ const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId, refetch: reftechSto
       setSubtitles([...subtitles, subtitle])
     }
     setIsOpen(false)
-    reftechStory()
+    window.location.reload()
   }
 
   return (

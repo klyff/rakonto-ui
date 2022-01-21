@@ -33,7 +33,7 @@ const Transcript: React.FC<iTranscript> = ({ canEdit, storyId, refetch: refetchS
       : await api.createTranscriptions({ storyId, content: text })
     setLocalTranscription(transcript)
     setEditMode(false)
-    refetchStory()
+    window.location.reload()
   }
 
   useEffect(() => {
