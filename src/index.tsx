@@ -12,7 +12,7 @@ ReactDOM.render(
 )
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
-  hotjar.initialize(2748132, 6)
+  hotjar.initialize(2806820, 6)
   history.listen(location => {
     hotjar.stateChange(location.pathname + location.search)
   })
