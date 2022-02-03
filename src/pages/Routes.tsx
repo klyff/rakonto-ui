@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, ComponentType } from 'react'
+import React, { Suspense, lazy } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect, RouteProps } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import AuthenticatedLayout from './a/AuthenticatedLayout'

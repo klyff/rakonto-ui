@@ -1,20 +1,32 @@
-import React, { useState } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { RouteComponentProps, useHistory, useLocation } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Password from './Password'
+import Subscription from './Subscription'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import SecurityIcon from '@mui/icons-material/Security'
+import CreditCardIcon from '@mui/icons-material/CreditCard'
 import Info from './Info'
 import Stack from '@mui/material/Stack'
+import { parse } from 'qs'
 
 const Profile: React.FC<RouteComponentProps> = () => {
-  const [tab, setTab] = useState('info')
+  const [t, setTab] = useState('info')
+  const history = useHistory()
+  const location = useLocation()
 
   const onTabClick = (tab: string) => {
-    setTab(tab)
+    history.push(`/a/profile?tab=${tab}`)
   }
+
+  useEffect(() => {
+    const { tab } = parse(location?.search === '' ? 'tab=info' : (location?.search as string), {
+      ignoreQueryPrefix: true
+    })
+    setTab(tab as string)
+  }, [location])
 
   return (
     <>
@@ -39,7 +51,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
           }}
         >
           <Button
-            color={tab === 'info' ? 'primary' : 'secondary'}
+            color={t === 'info' ? 'primary' : 'secondary'}
             fullWidth
             startIcon={<AccountCircleIcon />}
             onClick={() => onTabClick('info')}
@@ -47,12 +59,20 @@ const Profile: React.FC<RouteComponentProps> = () => {
             <Box sx={{ width: '122px', textAlign: 'start' }}>Personal info</Box>
           </Button>
           <Button
-            color={tab === 'password' ? 'primary' : 'secondary'}
+            color={t === 'password' ? 'primary' : 'secondary'}
             fullWidth
             startIcon={<SecurityIcon />}
             onClick={() => onTabClick('password')}
           >
             <Box sx={{ width: '122px', textAlign: 'start' }}>Password</Box>
+          </Button>
+          <Button
+            color={t === 'subscription' ? 'primary' : 'secondary'}
+            fullWidth
+            startIcon={<CreditCardIcon />}
+            onClick={() => onTabClick('subscription')}
+          >
+            <Box sx={{ width: '122px', textAlign: 'start' }}>Subscription</Box>
           </Button>
         </Box>
         <Box
@@ -60,8 +80,9 @@ const Profile: React.FC<RouteComponentProps> = () => {
             flex: '1'
           }}
         >
-          {tab === 'info' && <Info />}
-          {tab === 'password' && <Password />}
+          {t === 'info' && <Info />}
+          {t === 'password' && <Password />}
+          {t === 'subscription' && <Subscription />}
         </Box>
       </Box>
     </>
