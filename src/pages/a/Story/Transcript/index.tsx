@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
@@ -8,6 +8,7 @@ import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
 import api from '../../../../lib/api'
 import { TranscriptionType } from '../../../../lib/types'
+import { SimpleDialogContext } from '../../../../components/SimpleDialog'
 
 interface iTranscript {
   canEdit: boolean
@@ -16,6 +17,7 @@ interface iTranscript {
 }
 
 const Transcript: React.FC<iTranscript> = ({ canEdit, storyId, refetch: refetchStory }) => {
+  const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const [localTranscription, setLocalTranscription] = useState<TranscriptionType | undefined>(undefined)
   const [text, setText] = useState<string>('')
   const [editMode, setEditMode] = useState<boolean>(false)
@@ -33,7 +35,14 @@ const Transcript: React.FC<iTranscript> = ({ canEdit, storyId, refetch: refetchS
       : await api.createTranscriptions({ storyId, content: text })
     setLocalTranscription(transcript)
     setEditMode(false)
-    window.location.reload()
+    simpleDialogActions.open(
+      'Transcript Updated',
+      'To see your changes reflected in the captions displayed in the video player, you will need to refresh the page and Select English Transcript in the video player caption control. Do you want to see your changes?',
+      { okText: 'Yes, refresh the page now', cancelText: 'No, I will refresh later', showOk: true },
+      success => {
+        if (success) window.location.reload()
+      }
+    )
   }
 
   useEffect(() => {
