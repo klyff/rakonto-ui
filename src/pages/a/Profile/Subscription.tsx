@@ -11,25 +11,46 @@ const Subscription: React.FC = () => {
     <>
       {user && user.tier === 0 && (
         <>
-          <div>Bronze USD 1,00 / monthly</div>
+          <div>Standard $95.00 / year</div>
           <form
-            action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_TIER_1}&returnUrl=${returnUrl}&jwt=${token}`}
+            action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_TIER_1_YEAR}&returnUrl=${returnUrl}&jwt=${token}`}
+            method="POST"
+          >
+            <button type="submit">Checkout</button>
+          </form>
+          <div>Standard $9.99 / month</div>
+          <form
+            action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_TIER_1_MONTH}&returnUrl=${returnUrl}&jwt=${token}`}
             method="POST"
           >
             <button type="submit">Checkout</button>
           </form>
           <br />
-          <div>Silver USD 2,00 / monthly</div>
+          <div>Premiere $182.00 / year</div>
           <form
-            action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_TIER_2}&returnUrl=${returnUrl}&jwt=${token}`}
+            action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_TIER_2_YEAR}&returnUrl=${returnUrl}&jwt=${token}`}
+            method="POST"
+          >
+            <button type="submit">Checkout</button>
+          </form>
+          <div>Premiere $18.99 / month</div>
+          <form
+            action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_TIER_2_MONTH}&returnUrl=${returnUrl}&jwt=${token}`}
             method="POST"
           >
             <button type="submit">Checkout</button>
           </form>
           <br />
-          <div>Gold USD 3,00 / monthly</div>
+          <div>Professional $287.00 / year</div>
           <form
-            action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_TIER_3}&returnUrl=${returnUrl}&jwt=${token}`}
+            action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_TIER_3_YEAR}&returnUrl=${returnUrl}&jwt=${token}`}
+            method="POST"
+          >
+            <button type="submit">Checkout</button>
+          </form>
+          <div>Professional $29.99 / month</div>
+          <form
+            action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_TIER_3_MONTH}&returnUrl=${returnUrl}&jwt=${token}`}
             method="POST"
           >
             <button type="submit">Checkout</button>
