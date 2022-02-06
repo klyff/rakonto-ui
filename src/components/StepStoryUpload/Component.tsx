@@ -86,7 +86,7 @@ const StepStoryUpload = () => {
 
   useEffect(() => {
     if (store.isOpen) {
-      setActiveStep(2)
+      setActiveStep(0)
       handleReset(initialValues)
     }
   }, [store.isOpen])
@@ -262,7 +262,7 @@ const StepStoryUpload = () => {
                   Not sure how to record your story? Watch this short video for 5 helpful tips.
                 </Typography>
               </Box>
-              <InputFileArea file={values.file} callback={file => setFieldValue('file', file)} />
+              <InputFileArea file={values.file} callback={(file: File | null) => setFieldValue('file', file)} />
             </Box>
           )}
         </DialogContent>

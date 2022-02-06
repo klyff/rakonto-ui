@@ -17,7 +17,6 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
   const { actions: queueActions } = useContext(QueueProcessorContext)
   const { store, actions } = useContext(ChangeMediaContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
-  const [uploadType, setUploadType] = useState<'FILE' | 'AUDIO' | 'VIDEO' | null>(null)
   const [file, setFile] = useState<File | null>(null)
 
   const handleSave = async () => {
@@ -39,16 +38,6 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
       console.error(e)
     }
   }
-
-  const initialValues: { file: File | null } = {
-    file: null
-  }
-
-  useEffect(() => {
-    if (store.isOpen) {
-      setUploadType(null)
-    }
-  }, [store.isOpen])
 
   return (
     <Dialog
@@ -81,7 +70,7 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
           <Typography align="center" variant="body2" fontWeight="400" marginBottom={3} gutterBottom>
             You can now upload or record your story (audio or video).
           </Typography>
-          <InputFileArea file={file} callback={file => setFile(file)} />
+          <InputFileArea file={file} callback={(file: File | null) => setFile(file)} />
         </Box>
       </DialogContent>
       <DialogActions>
