@@ -7,12 +7,11 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { ChangeMediaContext } from './Context'
 import Typography from '@mui/material/Typography'
-import Droparea from './Droparea'
 import IconButton from '@mui/material/IconButton'
-import Recorder from './Recorder'
 import CloseIcon from '@mui/icons-material/Close'
 import { QueueProcessorContext } from '../QueueProcessor'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
+import InputFileArea from '../InputFileArea'
 
 const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
   const { actions: queueActions } = useContext(QueueProcessorContext)
@@ -82,40 +81,7 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
           <Typography align="center" variant="body2" fontWeight="400" marginBottom={3} gutterBottom>
             You can now upload or record your story (audio or video).
           </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
-            <>
-              {(uploadType === 'FILE' || !uploadType) && (
-                <Droparea
-                  file={file}
-                  onDrop={acceptedFiles => {
-                    const file = acceptedFiles[0]
-                    setFile(file)
-                    setUploadType('FILE')
-                  }}
-                  onRemove={() => {
-                    setFile(null)
-                    setUploadType(null)
-                  }}
-                />
-              )}
-              {(uploadType === 'AUDIO' || uploadType === 'VIDEO' || !uploadType) && (
-                <Recorder
-                  type={uploadType}
-                  onDrop={file => {
-                    setFile(file)
-                  }}
-                  onSelected={(value: 'AUDIO' | 'VIDEO' | null) => {
-                    setUploadType(value)
-                  }}
-                />
-              )}
-            </>
-          </Box>
+          <InputFileArea file={file} callback={file => setFile(file)} />
         </Box>
       </DialogContent>
       <DialogActions>

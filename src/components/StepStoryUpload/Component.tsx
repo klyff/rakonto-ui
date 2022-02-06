@@ -15,12 +15,13 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import schema from './schema'
-import Droparea from './Droparea'
+import InputFileArea from '../InputFileArea'
 import IconButton from '@mui/material/IconButton'
-import Recorder from './Recorder'
 import CloseIcon from '@mui/icons-material/Close'
 import { QueueProcessorContext } from '../QueueProcessor'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
 import suggestionList from './suggestionList.json'
 
 const StepStoryUpload = () => {
@@ -29,7 +30,8 @@ const StepStoryUpload = () => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [selectedSuggestion, setSelectedSuggestion] = useState<string>('')
   const [activeStep, setActiveStep] = useState(0)
-  const [uploadType, setUploadType] = useState<'FILE' | 'AUDIO' | 'VIDEO' | null>(null)
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1)
@@ -84,8 +86,7 @@ const StepStoryUpload = () => {
 
   useEffect(() => {
     if (store.isOpen) {
-      setActiveStep(0)
-      setUploadType(null)
+      setActiveStep(2)
       handleReset(initialValues)
     }
   }, [store.isOpen])
@@ -105,6 +106,7 @@ const StepStoryUpload = () => {
   return (
     <form>
       <Dialog
+        fullScreen={fullScreen}
         fullWidth
         maxWidth="md"
         onClose={(event, reason) => {
@@ -260,40 +262,7 @@ const StepStoryUpload = () => {
                   Not sure how to record your story? Watch this short video for 5 helpful tips.
                 </Typography>
               </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center'
-                }}
-              >
-                <>
-                  {(uploadType === 'FILE' || !uploadType) && (
-                    <Droparea
-                      file={values.file}
-                      onDrop={acceptedFiles => {
-                        const file = acceptedFiles[0]
-                        setFieldValue('file', file)
-                        setUploadType('FILE')
-                      }}
-                      onRemove={() => {
-                        setFieldValue('file', null)
-                        setUploadType(null)
-                      }}
-                    />
-                  )}
-                  {(uploadType === 'AUDIO' || uploadType === 'VIDEO' || !uploadType) && (
-                    <Recorder
-                      type={uploadType}
-                      onDrop={file => {
-                        setFieldValue('file', file)
-                      }}
-                      onSelected={(value: 'AUDIO' | 'VIDEO' | null) => {
-                        setUploadType(value)
-                      }}
-                    />
-                  )}
-                </>
-              </Box>
+              <InputFileArea file={values.file} callback={file => setFieldValue('file', file)} />
             </Box>
           )}
         </DialogContent>

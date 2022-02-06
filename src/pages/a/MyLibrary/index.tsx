@@ -25,17 +25,16 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
         <Typography variant="h6">My Library</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}
-        >
-          <SearchBox onSearch={value => history.push({ pathname: '/a/search', search: `q=${value}` })} />
-          <Button variant="outlined" onClick={() => newStoryActions.open()}>
-            New story
-          </Button>
-        </Box>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs>
+            <SearchBox onSearch={value => history.push({ pathname: '/a/search', search: `q=${value}` })} />
+          </Grid>
+          <Grid item xs minWidth={111} textAlign="right">
+            <Button variant="outlined" onClick={() => newStoryActions.open()}>
+              New story
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h5" sx={{ fontWeight: 700 }} gutterBottom>

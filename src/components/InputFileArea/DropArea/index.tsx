@@ -63,7 +63,7 @@ const Droparea: React.FC<iDroparea> = ({ onDrop, file, onRemove }) => {
           {({ getRootProps, getInputProps, open }) => (
             <Box
               sx={{
-                width: 422,
+                width: { xs: '100%', md: 422 },
                 height: 422,
                 border: '1px dashed #7b7b7c',
                 borderRadius: '20px'

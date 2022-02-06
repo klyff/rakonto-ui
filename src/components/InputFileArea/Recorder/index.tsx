@@ -5,10 +5,10 @@ import ButtonGroup from '@mui/material/ButtonGroup'
 import Typography from '@mui/material/Typography'
 import MovieIcon from '@mui/icons-material/Movie'
 import HeadphonesIcon from '@mui/icons-material/Headphones'
-import { useReactMediaRecorder } from '../MediaRecorder'
 import CameraIndoorIcon from '@mui/icons-material/CameraIndoor'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { useStopwatch } from 'react-timer-hook'
+import { useReactMediaRecorder } from '../../MediaRecorder'
 
 const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
   const videoRef = useCallback(node => {
@@ -43,12 +43,13 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
         )
       }
     })
+
   return (
     <>
       {!type && (
         <Box
           sx={{
-            width: 422,
+            width: { xs: '100%', md: 422 },
             height: 422,
             border: '1px dashed #7b7b7c',
             borderRadius: '20px'
