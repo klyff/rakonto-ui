@@ -98,7 +98,7 @@ const Subscription: React.FC = () => {
   const currentPlan = plans.find(plan => plan.tier === user!.tier)!
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      {user!.tier !== 0 && (
+      {user!.tier === 0 && (
         <>
           <Box sx={{ width: '100%' }}>
             <Typography variant="h5" textAlign="center">
