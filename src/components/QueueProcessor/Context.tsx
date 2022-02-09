@@ -3,6 +3,7 @@ import { QueueItem } from './index'
 import Component from './Component'
 import api from '../../lib/api'
 import { SocketConnectorContext } from '../SocketConnector'
+import { SimpleSnackbarContext } from '../SimpleSnackbar'
 
 // @ts-ignore
 export const QueueProcessorContext = createContext<{
@@ -22,6 +23,7 @@ export const QueueProcessorContext = createContext<{
 })
 
 export const QueueProcessorProvider: React.FC = ({ children }) => {
+  const { actions: snackBarActions } = useContext(SimpleSnackbarContext)
   const [store, setStore] = useState<Partial<QueueItem>[]>([])
   const [show, setShow] = useState<boolean>(false)
 
@@ -144,7 +146,12 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
             }
           })
         })
-      } catch (e) {
+      } catch (error) {
+        // @ts-ignore
+        const { data } = error
+        if (data.code === '1024') {
+          snackBarActions.open('User Storage quota exceeded.')
+        }
         setStore(value => {
           return value.map(item => {
             if (item.id === upload.id) {

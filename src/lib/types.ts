@@ -59,6 +59,7 @@ export type UserType = {
   picture: ImageType
   about: string
   location: string
+  tier: number
 }
 
 export type UserFormType = {
