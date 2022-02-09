@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import Typography from '@mui/material/Typography'
@@ -7,8 +8,10 @@ import MovieIcon from '@mui/icons-material/Movie'
 import HeadphonesIcon from '@mui/icons-material/Headphones'
 import CameraIndoorIcon from '@mui/icons-material/CameraIndoor'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
-import { useStopwatch } from 'react-timer-hook'
+import { useStopwatch, useTimer } from 'react-timer-hook'
 import { useReactMediaRecorder } from '../../MediaRecorder'
+import useStateCallback from '../../hooks/useStateCallback'
+import redColor from '@mui/material/colors/red'
 
 const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
   const videoRef = useCallback(node => {
@@ -23,6 +26,36 @@ const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
   return <video height="100%" width="auto" ref={videoRef} autoPlay muted={true} />
 }
 
+const CountDown: React.FC<{ expire: () => void }> = ({ expire }) => {
+  const time = new Date()
+  time.setSeconds(time.getSeconds() + 3)
+  const { seconds } = useTimer({
+    expiryTimestamp: time,
+    autoStart: true,
+    onExpire: expire
+  })
+  return (
+    <Stack spacing={2} direction="column" alignItems="center">
+      <Typography
+        variant="h4"
+        sx={{
+          color: redColor.A100
+        }}
+      >
+        Starting
+      </Typography>
+      <Typography
+        variant="h3"
+        sx={{
+          color: redColor.A100
+        }}
+      >
+        {seconds}
+      </Typography>
+    </Stack>
+  )
+}
+
 interface iRecorder {
   onSelected: (value: 'AUDIO' | 'VIDEO' | null) => void
   onDrop: (value: File | null) => void
@@ -30,7 +63,10 @@ interface iRecorder {
 }
 
 const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
+  const [showCountdown, setShowCountdown] = useStateCallback<boolean>(false)
+  const [hideStartRecording, setHideStartRecording] = useStateCallback<boolean>(false)
   const { seconds, minutes, hours, reset, start, pause } = useStopwatch({ autoStart: false })
+
   const { previewStream, previewAudioStream, status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
     useReactMediaRecorder({
       video: type === 'VIDEO',
@@ -43,6 +79,24 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
         )
       }
     })
+
+  const handleExpire = () => {
+    // @ts-ignore
+    setShowCountdown(false, () => {
+      // @ts-ignore
+      setHideStartRecording(false)
+      startRecording()
+      start()
+    })
+  }
+
+  const handleStart = () => {
+    // @ts-ignore
+    setHideStartRecording(true, () => {
+      // @ts-ignore
+      setShowCountdown(true)
+    })
+  }
 
   return (
     <>
@@ -113,60 +167,55 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
             flexFlow: 'column'
           }}
         >
-          {status === 'recording' ? (
-            <>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: 16,
-                  right: 16,
-                  color: 'red'
-                }}
-              >
-                <Box sx={{ textAlign: 'center', animation: 'blink 2s ease-in infinite' }}>
-                  <FiberManualRecordIcon />
+          <>
+            {!showCountdown && status === 'recording' ? (
+              <>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 16,
+                    right: 16,
+                    color: redColor.A100
+                  }}
+                >
+                  <Box sx={{ textAlign: 'center', animation: 'blink 2s ease-in infinite' }}>
+                    <FiberManualRecordIcon />
+                  </Box>
+                  <Typography>{`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
+                    .toString()
+                    .padStart(2, '0')}`}</Typography>
                 </Box>
-                <Typography>{`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
-                  .toString()
-                  .padStart(2, '0')}`}</Typography>
-              </Box>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  bottom: 16,
-                  right: 16,
-                  zIndex: '1000'
-                }}
-              >
-                <Button
-                  size="large"
-                  variant="outlined"
-                  onClick={() => {
-                    stopRecording()
-                    pause()
-                    reset()
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    bottom: 16,
+                    right: 16,
+                    zIndex: '1000'
                   }}
                 >
-                  Stop recording
-                </Button>
-              </Box>
-              <VideoPreview stream={type === 'VIDEO' ? previewStream : previewAudioStream} />
-            </>
-          ) : (
-            mediaBlobUrl && <video height={'100%'} width="auto" src={mediaBlobUrl} controls autoPlay />
-          )}
-
+                  <Button
+                    size="large"
+                    variant="outlined"
+                    onClick={() => {
+                      stopRecording()
+                      pause()
+                      reset()
+                    }}
+                  >
+                    Stop recording
+                  </Button>
+                </Box>
+                <VideoPreview stream={type === 'VIDEO' ? previewStream : previewAudioStream} />
+              </>
+            ) : (
+              mediaBlobUrl && <video height={'100%'} width="auto" src={mediaBlobUrl} controls autoPlay />
+            )}
+          </>
           <Box sx={{ position: 'absolute' }}>
-            {status === 'idle' && (
+            {showCountdown && <CountDown expire={handleExpire} />}
+            {!hideStartRecording && status === 'idle' && (
               <ButtonGroup disableElevation size="large" variant="outlined">
-                <Button
-                  size="large"
-                  variant="outlined"
-                  onClick={() => {
-                    startRecording()
-                    start()
-                  }}
-                >
+                <Button size="large" variant="outlined" onClick={handleStart}>
                   Start recording
                 </Button>
                 {!mediaBlobUrl && (
