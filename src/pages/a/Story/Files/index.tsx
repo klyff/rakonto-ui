@@ -72,16 +72,24 @@ const Files: React.FC<iFiles> = ({ canEdit, storyId }) => {
 
   const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
-      acceptedFiles.forEach(async file => {
-        const uploadedFile = await api.uploadFile(storyId, file, event => {
-          setProgress(old => ({ ...old, [file.name]: Math.round((event.loaded * 100) / event.total) }))
-        })
-        setProgress(old => {
-          delete old[file.name]
-          return old
-        })
-        setFiles(value => [uploadedFile, ...value])
-      })
+      for (const file of acceptedFiles) {
+        try {
+          const uploadedFile = await api.uploadFile(storyId, file, event => {
+            setProgress(old => ({ ...old, [file.name]: Math.round((event.loaded * 100) / event.total) }))
+          })
+          setProgress(old => {
+            delete old[file.name]
+            return old
+          })
+          setFiles(value => [uploadedFile, ...value])
+        } catch (error) {
+          // @ts-ignore
+          const { data } = error
+          if (data.code === '1024') {
+            snackActions.open('User Storage quota exceeded.')
+          }
+        }
+      }
     }
 
   const { getRootProps, getInputProps, open } = useDropzone({ onDrop, noClick: true })

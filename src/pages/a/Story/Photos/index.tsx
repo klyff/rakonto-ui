@@ -74,17 +74,25 @@ const Photos: React.FC<iPhotos> = ({ canEdit, storyId }) => {
 
   const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
-      acceptedFiles.forEach(async file => {
-        const image = await api.uploadImage(file, event => {
-          setProgress(old => ({ ...old, [file.name]: Math.round((event.loaded * 100) / event.total) }))
-        })
-        setProgress(old => {
-          delete old[file.name]
-          return old
-        })
-        const newPhoto = await api.createGallery(storyId, image.id)
-        setPhotos(value => [newPhoto, ...value])
-      })
+      for (const file of acceptedFiles) {
+        try {
+          const image = await api.uploadImage(file, event => {
+            setProgress(old => ({ ...old, [file.name]: Math.round((event.loaded * 100) / event.total) }))
+          })
+          setProgress(old => {
+            delete old[file.name]
+            return old
+          })
+          const newPhoto = await api.createGallery(storyId, image.id)
+          setPhotos(value => [newPhoto, ...value])
+        } catch (error) {
+          // @ts-ignore
+          const { data } = error
+          if (data.code === '1024') {
+            snackActions.open('User Storage quota exceeded.')
+          }
+        }
+      }
     }
 
   const { getRootProps, getInputProps, open } = useDropzone({ onDrop, noClick: true, accept: 'image/png, image/jpeg' })
