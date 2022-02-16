@@ -21,43 +21,42 @@ const plans = [
     price: {
       month: {
         id: process.env.REACT_APP_PIRCE_ID_TIER_1_MONTH,
-        price: 9.99
+        price: 9
       },
       year: {
         id: process.env.REACT_APP_PIRCE_ID_TIER_1_YEAR,
-        price: 7.91
+        price: 7
       }
     },
     features: [
-      <>1 hour 720p video</>,
-      <>5 hours audio</>,
-      <>1 GB photo / file capacity</>,
-      <Link rel="noopener" target="_blank" key="standard" href="https://rakonto.io/#pricing">
-        Standard storytelling features
-      </Link>
+      <>Record / upload audio & video stories</>,
+      <>10 GB total library capacity</>,
+      <>People/places/timeline tagging, photo/file uploads</>,
+      <>Shared recording</>,
+      <>Automated English transcription</>
     ]
   },
   {
     tier: 2,
     link: 'https://rakonto.io/#pricing',
-    title: 'Premiere',
+    title: 'Advanced',
     price: {
       month: {
         id: process.env.REACT_APP_PIRCE_ID_TIER_2_MONTH,
-        price: 18.99
+        price: 19
       },
       year: {
         id: process.env.REACT_APP_PIRCE_ID_TIER_2_YEAR,
-        price: 15.16
+        price: 15
       }
     },
     features: [
-      <>1 hour 1080p video</>,
-      <>10 hours audio</>,
-      <>5 GB photo / file capacity</>,
-      <Link rel="noopener" target="_blank" key="premium" href="https://rakonto.io/#pricing">
-        Premium storytelling features
-      </Link>
+      <>Record / upload audio & video stories</>,
+      <>30 GB total library capacity</>,
+      <>People/places/timeline tagging, photo/file uploads</>,
+      <>Shared recording</>,
+      <>Automated English transcription</>,
+      <>Contributor access</>
     ]
   },
   {
@@ -67,20 +66,22 @@ const plans = [
     price: {
       month: {
         id: process.env.REACT_APP_PIRCE_ID_TIER_3_MONTH,
-        price: 29.99
+        price: 29
       },
       year: {
         id: process.env.REACT_APP_PIRCE_ID_TIER_3_YEAR,
-        price: 23.91
+        price: 23
       }
     },
     features: [
-      <>1 hour 4K video</>,
-      <>20 hours audio</>,
-      <>10 GB photo / file capacity</>,
-      <Link rel="noopener" target="_blank" key="professional" href="https://rakonto.io/#pricing">
-        Professional storytelling features
-      </Link>
+      <>Record / upload audio & video stories</>,
+      <>60 GB total library capacity</>,
+      <>People/places/timeline tagging, photo/file uploads</>,
+      <>Shared recording</>,
+      <>Automated English transcription</>,
+      <>Contributor access</>,
+      <>Editor access</>,
+      <>Collection ownership transfer</>
     ]
   }
 ]
@@ -101,14 +102,7 @@ const Subscription: React.FC = () => {
       {user!.tier === 0 && (
         <>
           <Box sx={{ width: '100%' }}>
-            <Typography variant="h5" textAlign="center">
-              Record and share life stories with{' '}
-              <Link rel="noopener" target="_blank" href="https://rakonto.io/#pricing-free">
-                basic features
-              </Link>{' '}
-              for free, or buy a plan that fits your needs
-            </Typography>
-            <Stack justifyContent="center" direction="row" spacing={1} marginY={4}>
+            <Stack justifyContent="center" direction="row" spacing={1}>
               <Typography variant="h5">Monthly</Typography>
               <Switch onChange={handleChange} checked={checked} />
               <Stack direction="row" spacing={1} alignItems="center">
@@ -118,68 +112,86 @@ const Subscription: React.FC = () => {
           </Box>
           <Box mt={4} marginX={2}>
             <Grid container spacing={2}>
-              {plans
-                .filter(plan => plan.tier > 0)
-                .map(({ title, price, features }) => {
-                  const selectedPrice = price[checked ? 'year' : 'month']
-                  return (
-                    <Grid key={title} item xs minWidth={300}>
-                      <Box elevation={4} component={Paper} borderRadius="40px" padding={2}>
-                        <Stack
-                          divider={<Divider flexItem />}
-                          spacing={2}
-                          direction="column"
-                          justifyContent="space-between"
-                          alignItems="strech"
-                        >
-                          <Box textAlign="center" paddingX={1}>
-                            <Typography variant="h4">{title}</Typography>
-                          </Box>
-                          <Box>
-                            <Stack direction="row" justifyContent="center" alignItems="center">
-                              <Box textAlign="center">
-                                <form
-                                  action={`/api/a/stripe/checkout?priceId=${selectedPrice.id}&returnUrl=${returnUrl}&jwt=${token}`}
-                                  method="POST"
-                                >
-                                  <Stack>
-                                    <Typography variant="h5" paddingY={2}>
-                                      {`$${selectedPrice.price} / mo`}
-                                    </Typography>
-                                    {checked && (
-                                      <Typography variant="h6" fontWeight={700} color="secondary" paddingY={2}>
-                                        {`Billed $${Math.round(selectedPrice.price * 12)} annually`}
-                                      </Typography>
-                                    )}
-                                  </Stack>
-                                  {/* @ts-ignore */}
-                                  <Button type="submit" variant="contained">
-                                    Checkout
-                                  </Button>
-                                </form>
-                              </Box>
-                            </Stack>
-                          </Box>
-                          <Box>
-                            <Box sx={{ height: 200 }}>
-                              <List>
-                                {features.map((feature, i) => (
-                                  <ListItem key={i}>{feature}</ListItem>
-                                ))}
-                              </List>
-                            </Box>
-                          </Box>
-                        </Stack>
+              <Grid item xs minWidth={300}>
+                <Box elevation={4} component={Paper} borderRadius="40px" padding={2}>
+                  <Stack
+                    divider={<Divider flexItem />}
+                    spacing={2}
+                    direction="column"
+                    justifyContent="space-between"
+                    alignItems="strech"
+                  >
+                    <Box textAlign="center" paddingX={1}>
+                      <Typography variant="h4">Free</Typography>
+                    </Box>
+                    <Box>
+                      <Box sx={{ height: checked ? 605 : 541 }}>
+                        <List>
+                          <ListItem>Record / upload audio & video stories</ListItem>
+                          <ListItem>1 GB total library capacity</ListItem>
+                          <ListItem>People/places/timeline tagging, photo/file uploads</ListItem>
+                          <ListItem>Shared recording</ListItem>
+                        </List>
                       </Box>
-                    </Grid>
-                  )
-                })}
+                    </Box>
+                  </Stack>
+                </Box>
+              </Grid>
+              {plans.map(({ title, price, features }) => {
+                const selectedPrice = price[checked ? 'year' : 'month']
+                return (
+                  <Grid key={title} item xs minWidth={300}>
+                    <Box elevation={4} component={Paper} borderRadius="40px" padding={2}>
+                      <Stack
+                        divider={<Divider flexItem />}
+                        spacing={2}
+                        direction="column"
+                        justifyContent="space-between"
+                        alignItems="strech"
+                      >
+                        <Box textAlign="center" paddingX={1}>
+                          <Typography variant="h4">{title}</Typography>
+                        </Box>
+                        <Box>
+                          <Stack direction="row" justifyContent="center" alignItems="center">
+                            <Box textAlign="center">
+                              <form
+                                action={`/api/a/stripe/checkout?priceId=${selectedPrice.id}&returnUrl=${returnUrl}&jwt=${token}`}
+                                method="POST"
+                              >
+                                <Stack>
+                                  <Typography variant="h5" paddingY={2}>
+                                    {`$${selectedPrice.price} / mo`}
+                                  </Typography>
+                                  {checked && (
+                                    <Typography variant="h6" fontWeight={700} color="secondary" paddingY={2}>
+                                      {`Billed $${Math.round(selectedPrice.price * 12)} annually`}
+                                    </Typography>
+                                  )}
+                                </Stack>
+                                {/* @ts-ignore */}
+                                <Button type="submit" variant="contained">
+                                  Checkout
+                                </Button>
+                              </form>
+                            </Box>
+                          </Stack>
+                        </Box>
+                        <Box>
+                          <Box sx={{ height: 408 }}>
+                            <List>
+                              {features.map((feature, i) => (
+                                <ListItem key={i}>{feature}</ListItem>
+                              ))}
+                            </List>
+                          </Box>
+                        </Box>
+                      </Stack>
+                    </Box>
+                  </Grid>
+                )
+              })}
             </Grid>
-          </Box>
-          <Box sx={{ width: '100%' }}>
-            <Typography variant="h5" textAlign="center" marginTop={4}>
-              Record and share life stories, with (TBD features) for free, no credit card required.
-            </Typography>
           </Box>
         </>
       )}

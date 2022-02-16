@@ -87,6 +87,14 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
       <MenuItem
         onClick={() => {
+          history.push(`/a/profile?tab=subscription`)
+          handleMenuClose()
+        }}
+      >
+        Subscription
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
           history.push('/a/signout')
           handleMenuClose()
         }}
@@ -131,6 +139,14 @@ export default function PrimarySearchAppBar() {
         }}
       >
         Profile
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          history.push(`/a/profile?tab=subscription`)
+          handleMenuClose()
+        }}
+      >
+        Subscription
       </MenuItem>
       <MenuItem
         onClick={() => {

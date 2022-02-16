@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -14,6 +15,7 @@ const GreetingsDialog: React.FC = () => {
   const { actions: stepStoryUploadActions } = useContext(StepStoryUploadContext)
   // @ts-ignore
   const hidden = useMediaQuery(theme => theme.breakpoints.up('md'))
+  const history = useHistory()
 
   return (
     <Modal
@@ -33,7 +35,7 @@ const GreetingsDialog: React.FC = () => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          maxHeight: '400px',
+          maxHeight: '450px',
           minWidth: { xs: 'unset', md: '800px' }
         }}
       >
@@ -43,7 +45,7 @@ const GreetingsDialog: React.FC = () => {
               <Box
                 component="img"
                 sx={{
-                  maxHeight: '400px'
+                  maxHeight: '450px'
                 }}
                 src={'/images/GreetingsImage.png'}
               />
@@ -98,6 +100,18 @@ const GreetingsDialog: React.FC = () => {
                 autoFocus
               >
                 Create my first story
+              </Button>
+              <Button
+                size="large"
+                fullWidth
+                variant="outlined"
+                autoFocus
+                onClick={() => {
+                  history.push('/a/profile?tab=subscription')
+                  actions.close()
+                }}
+              >
+                Upgrade my plan
               </Button>
               <Button size="large" color={'secondary'} fullWidth onClick={() => actions.close()}>
                 View My Library
