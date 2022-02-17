@@ -19,7 +19,7 @@ export const SocketConnectorProvider: React.FC = ({ children }) => {
   const token = Cookies.get('token')
 
   client.configure({
-    webSocketFactory: () => new SockeJS(`/api/ws?jwt=${token}`),
+    webSocketFactory: () => new SockeJS(`/api/a/ws?jwt=${token}`),
     onConnect: () => {
       setConnected(true)
     }
