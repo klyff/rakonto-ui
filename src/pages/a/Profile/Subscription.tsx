@@ -15,6 +15,27 @@ import ListItem from '@mui/material/ListItem'
 
 const plans = [
   {
+    tier: 0,
+    link: 'https://rakonto.io/#pricing',
+    title: 'Free',
+    price: {
+      month: {
+        id: '',
+        price: 0
+      },
+      year: {
+        id: '',
+        price: 0
+      }
+    },
+    features: [
+      <>Record / upload audio & video stories</>,
+      <>1 GB total library capacity</>,
+      <>People/places/timeline tagging, photo/file uploads</>,
+      <>Shared recording</>
+    ]
+  },
+  {
     tier: 1,
     link: 'https://rakonto.io/#pricing',
     title: 'Standard',
@@ -98,7 +119,7 @@ const Subscription: React.FC = () => {
 
   const currentPlan = plans.find(plan => plan.tier === user!.tier)!
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
+    <Box sx={{ width: '100%', height: '100%', paddingBottom: 4 }}>
       {user!.tier === 0 && (
         <>
           <Box sx={{ width: '100%' }}>
@@ -112,32 +133,7 @@ const Subscription: React.FC = () => {
           </Box>
           <Box mt={4} marginX={2}>
             <Grid container spacing={2}>
-              <Grid item xs minWidth={300}>
-                <Box elevation={4} component={Paper} borderRadius="40px" padding={2}>
-                  <Stack
-                    divider={<Divider flexItem />}
-                    spacing={2}
-                    direction="column"
-                    justifyContent="space-between"
-                    alignItems="strech"
-                  >
-                    <Box textAlign="center" paddingX={1}>
-                      <Typography variant="h4">Free</Typography>
-                    </Box>
-                    <Box>
-                      <Box sx={{ height: checked ? 605 : 541 }}>
-                        <List>
-                          <ListItem>Record / upload audio & video stories</ListItem>
-                          <ListItem>1 GB total library capacity</ListItem>
-                          <ListItem>People/places/timeline tagging, photo/file uploads</ListItem>
-                          <ListItem>Shared recording</ListItem>
-                        </List>
-                      </Box>
-                    </Box>
-                  </Stack>
-                </Box>
-              </Grid>
-              {plans.map(({ title, price, features }) => {
+              {plans.map(({ tier, title, price, features }) => {
                 const selectedPrice = price[checked ? 'year' : 'month']
                 return (
                   <Grid key={title} item xs minWidth={300}>
@@ -154,25 +150,29 @@ const Subscription: React.FC = () => {
                         </Box>
                         <Box>
                           <Stack direction="row" justifyContent="center" alignItems="center">
-                            <Box textAlign="center">
+                            <Box textAlign="center" sx={{ height: 166 }}>
                               <form
                                 action={`/api/a/stripe/checkout?priceId=${selectedPrice.id}&returnUrl=${returnUrl}&jwt=${token}`}
                                 method="POST"
                               >
                                 <Stack>
                                   <Typography variant="h5" paddingY={2}>
-                                    {`$${selectedPrice.price} / mo`}
+                                    {`$ ${selectedPrice.price} / mo`}
                                   </Typography>
-                                  {checked && (
-                                    <Typography variant="h6" fontWeight={700} color="secondary" paddingY={2}>
-                                      {`Billed $${Math.round(selectedPrice.price * 12)} annually`}
-                                    </Typography>
-                                  )}
+                                  <Box textAlign="center" sx={{ height: 64 }}>
+                                    {checked && tier !== 0 && (
+                                      <Typography variant="h6" fontWeight={700} color="secondary" paddingY={2}>
+                                        {`Billed $${Math.round(selectedPrice.price * 12)} annually`}
+                                      </Typography>
+                                    )}
+                                  </Box>
                                 </Stack>
                                 {/* @ts-ignore */}
-                                <Button type="submit" variant="contained">
-                                  Checkout
-                                </Button>
+                                {tier !== 0 && (
+                                  <Button type="submit" variant="contained">
+                                    Checkout
+                                  </Button>
+                                )}
                               </form>
                             </Box>
                           </Stack>
