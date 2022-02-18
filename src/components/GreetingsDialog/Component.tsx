@@ -35,7 +35,8 @@ const GreetingsDialog: React.FC = () => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          maxHeight: '450px',
+          maxHeight: '500px',
+          minHeight: '450px',
           minWidth: { xs: 'unset', md: '800px' }
         }}
       >
@@ -45,9 +46,10 @@ const GreetingsDialog: React.FC = () => {
               <Box
                 component="img"
                 sx={{
-                  maxHeight: '450px'
+                  maxHeight: '500px',
+                  minHeight: '450px'
                 }}
-                src={'/images/GreetingsImage.png'}
+                src={'/images/GreetingsImage2.jpeg'}
               />
             </Grid>
           )}

@@ -61,6 +61,7 @@ const plans = [
     tier: 2,
     link: 'https://rakonto.io/#pricing',
     title: 'Advanced',
+    marked: true,
     price: {
       month: {
         id: process.env.REACT_APP_PIRCE_ID_TIER_2_MONTH,
@@ -119,7 +120,7 @@ const Subscription: React.FC = () => {
 
   const currentPlan = plans.find(plan => plan.tier === user!.tier)!
   return (
-    <Box sx={{ width: '100%', height: '100%', paddingBottom: 4 }}>
+    <Box sx={{ width: '100%', height: '100%' }}>
       {user!.tier === 0 && (
         <>
           <Box sx={{ width: '100%' }}>
@@ -133,11 +134,11 @@ const Subscription: React.FC = () => {
           </Box>
           <Box mt={4} marginX={2}>
             <Grid container spacing={2}>
-              {plans.map(({ tier, title, price, features }) => {
+              {plans.map(({ marked, tier, title, price, features }) => {
                 const selectedPrice = price[checked ? 'year' : 'month']
                 return (
                   <Grid key={title} item xs minWidth={300}>
-                    <Box elevation={4} component={Paper} borderRadius="40px" padding={2}>
+                    <Box elevation={marked ? 12 : 3} component={Paper} borderRadius="40px" padding={2}>
                       <Stack
                         divider={<Divider flexItem />}
                         spacing={2}
@@ -146,7 +147,9 @@ const Subscription: React.FC = () => {
                         alignItems="strech"
                       >
                         <Box textAlign="center" paddingX={1}>
-                          <Typography variant="h4">{title}</Typography>
+                          <Typography color={marked ? 'primary' : ''} variant="h4">
+                            {title}
+                          </Typography>
                         </Box>
                         <Box>
                           <Stack direction="row" justifyContent="center" alignItems="center">
@@ -156,12 +159,17 @@ const Subscription: React.FC = () => {
                                 method="POST"
                               >
                                 <Stack>
-                                  <Typography variant="h5" paddingY={2}>
+                                  <Typography color={marked ? 'primary' : ''} variant="h5" paddingY={2}>
                                     {`$ ${selectedPrice.price} / mo`}
                                   </Typography>
                                   <Box textAlign="center" sx={{ height: 64 }}>
                                     {checked && tier !== 0 && (
-                                      <Typography variant="h6" fontWeight={700} color="secondary" paddingY={2}>
+                                      <Typography
+                                        variant="h6"
+                                        fontWeight={700}
+                                        color={marked ? 'primary' : 'secondary'}
+                                        paddingY={2}
+                                      >
                                         {`Billed $${Math.round(selectedPrice.price * 12)} annually`}
                                       </Typography>
                                     )}
@@ -170,7 +178,7 @@ const Subscription: React.FC = () => {
                                 {/* @ts-ignore */}
                                 {tier !== 0 && (
                                   <Button type="submit" variant="contained">
-                                    Checkout
+                                    Choose your plan
                                   </Button>
                                 )}
                               </form>
