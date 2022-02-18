@@ -94,8 +94,6 @@ export type SingupFormType = {
   email: string
   password: string
   confirmation: string
-  terms: boolean
-  mailList: boolean
 }
 
 export type PasswordResetForm = {
