@@ -24,6 +24,7 @@ import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
 import EditBar from './EditBar'
+import { QueueProcessorContext } from '../../../components/QueueProcessor'
 
 const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, history }) => {
   const user = useUser()
@@ -34,6 +35,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
   const [story, setStory] = useState<StoryType | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isOwner, setIsOwner] = useState<boolean>(false)
+  const { store: processorList } = useContext(QueueProcessorContext)
 
   const computeStory = (value: StoryType) => {
     setStory(value)
@@ -56,6 +58,17 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
     setIsLoading(true)
     fetch()
   }, [])
+
+  useEffect(() => {
+    processorList.forEach(async object => {
+      if (object.finished && object.id === storyId) {
+        setTimeout(async () => {
+          setIsLoading(true)
+          fetch()
+        }, 2000)
+      }
+    })
+  }, [processorList])
 
   const updateStory = async (formData: StoryUpdateType) => {
     try {

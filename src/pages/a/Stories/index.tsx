@@ -12,11 +12,11 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
 import { SocketConnectorContext } from '../../../components/SocketConnector'
-import { QueueItem } from '../../../components/QueueProcessor'
+import { QueueProcessorContext } from '../../../components/QueueProcessor'
 
 const Stories: React.FC<RouteComponentProps> = () => {
   const { actions: newStoryActions } = useContext(StepStoryUploadContext)
-  const { store: processorList } = useContext(SocketConnectorContext)
+  const { store: processorList } = useContext(QueueProcessorContext)
 
   const { loading, items, hasNextPage, error, loadMore, setItems } = usePageableRequest<SearchResultType>({
     size: 15,
@@ -33,12 +33,12 @@ const Stories: React.FC<RouteComponentProps> = () => {
   })
 
   useEffect(() => {
-    Object.values(processorList).forEach(async object => {
-      if (object.ready) {
-        if (!items.some(item => item.entity.id === object.id)) {
-          const story = await api.getStory(object.id)
+    processorList.forEach(async object => {
+      if (object.finished) {
+        setTimeout(async () => {
+          const story = await api.getStory(object.id as string)
           setItems([{ kind: 'STORY', entity: story }, ...items])
-        }
+        }, 2000)
       }
     })
   }, [processorList])

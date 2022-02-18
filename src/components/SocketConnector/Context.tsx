@@ -1,43 +1,23 @@
 import React, { useState, createContext, useEffect } from 'react'
-import { iSocketConnector } from './index'
 import { Client } from '@stomp/stompjs'
 import SockeJS from 'sockjs-client'
 import Cookies from 'js-cookie'
 
-// @ts-ignore
-export const SocketConnectorContext = createContext<{
-  store: iSocketConnector
-}>({
-  store: {}
+export const SocketConnectorContext = createContext<{ connected: boolean; client: Client }>({
+  connected: false,
+  client: new Client()
 })
 
 export const SocketConnectorProvider: React.FC = ({ children }) => {
-  const [client] = useState<Client>(new Client())
-  const [status, setStatus] = useState<iSocketConnector>({})
-  const [conneted, setConnected] = useState<boolean>(false)
-
   const token = Cookies.get('token')
 
-  client.configure({
-    webSocketFactory: () => new SockeJS(`/api/a/ws?jwt=${token}`),
-    onConnect: () => {
-      setConnected(true)
-    }
-  })
-
-  useEffect(() => {
-    if (!conneted) return
-    client.subscribe('/user/queue/media-progress', (message: { body: string }) => {
-      const { type, payload: data } = JSON.parse(message.body)
-      const { id } = data
-      setStatus(value => {
-        return {
-          ...value,
-          [id]: { ...data, type }
-        }
-      })
+  const [connected, setConnected] = useState<boolean>(false)
+  const [client] = useState<Client>(
+    new Client({
+      webSocketFactory: () => new SockeJS(`/api/a/ws?jwt=${token}`),
+      onConnect: () => setConnected(true)
     })
-  }, [conneted, setStatus, status])
+  )
 
   useEffect(() => {
     client.activate()
@@ -46,13 +26,5 @@ export const SocketConnectorProvider: React.FC = ({ children }) => {
     }
   }, [])
 
-  return (
-    <SocketConnectorContext.Provider
-      value={{
-        store: status
-      }}
-    >
-      {children}
-    </SocketConnectorContext.Provider>
-  )
+  return <SocketConnectorContext.Provider value={{ connected, client }}>{children}</SocketConnectorContext.Provider>
 }

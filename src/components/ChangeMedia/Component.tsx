@@ -12,6 +12,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { QueueProcessorContext } from '../QueueProcessor'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
 import InputFileArea from '../InputFileArea'
+import api from '../../lib/api'
 
 const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
   const { actions: queueActions } = useContext(QueueProcessorContext)
@@ -20,15 +21,19 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
   const [file, setFile] = useState<File | null>(null)
 
   const handleSave = async () => {
+    const story = await api.getStory(storyId)
+
     try {
       await queueActions.addProcessor({
-        id: storyId,
+        id: story.id,
         step: 'UPLOAD',
         type: 'FILE',
         action: 'REPLACE',
-        title: file!.name,
+        title: story.title,
+        description: story.description,
         file: file!
       })
+
       snackActions.open(
         `Rakonto is now uploading and processing your new media of story. It may take a while. We'll send you an email when it's completed.`
       )

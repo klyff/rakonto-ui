@@ -7,7 +7,7 @@ import { usePageableRequest } from '../../../../components/hooks/usePageableRequ
 import Card from '../../../../components/Card'
 import StoryCard from '../../../../components/StoryCard'
 import { useHistory } from 'react-router-dom'
-import { SocketConnectorContext } from '../../../../components/SocketConnector'
+import { QueueProcessorContext } from '../../../../components/QueueProcessor'
 
 interface iStoriesSliderTiler {
   q: string
@@ -15,7 +15,7 @@ interface iStoriesSliderTiler {
 
 const StoriesSliderTile: React.FC<iStoriesSliderTiler> = ({ q }) => {
   const history = useHistory()
-  const { store: processorList } = useContext(SocketConnectorContext)
+  const { store: processorList } = useContext(QueueProcessorContext)
   const { loading, items, hasNextPage, error, loadMore, setItems } = usePageableRequest<SearchResultType>({
     size: 15,
     q: q,
@@ -23,12 +23,12 @@ const StoriesSliderTile: React.FC<iStoriesSliderTiler> = ({ q }) => {
   })
 
   useEffect(() => {
-    Object.values(processorList).forEach(async object => {
-      if (object.ready) {
-        if (!items.some(item => item.entity.id === object.id)) {
-          const story = await api.getStory(object.id)
+    processorList.forEach(async object => {
+      if (object.finished) {
+        setTimeout(async () => {
+          const story = await api.getStory(object.id as string)
           setItems([{ kind: 'STORY', entity: story }, ...items])
-        }
+        }, 2000)
       }
     })
   }, [processorList])

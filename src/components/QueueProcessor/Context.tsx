@@ -11,7 +11,6 @@ export const QueueProcessorContext = createContext<{
     addProcessor: (item: Partial<QueueItem> & NonNullable<{ id: string; title: string }>) => Promise<void>
     open: (target: HTMLElement) => void
     close: () => void
-    remove: (id: string) => void
   }
   store: Partial<QueueItem>[]
   isProcessing: boolean
@@ -27,7 +26,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
   const [store, setStore] = useState<Partial<QueueItem>[]>([])
   const [show, setShow] = useState<boolean>(false)
 
-  const { store: processorList } = useContext(SocketConnectorContext)
+  const { client: socketClient, connected } = useContext(SocketConnectorContext)
 
   const open = (target: HTMLElement) => {
     setShow(true)
@@ -36,13 +35,6 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
   const close = () => {
     setShow(false)
   }
-
-  const remove = useCallback(
-    (id: string) => {
-      setStore(store.filter(item => item.id !== id))
-    },
-    [store]
-  )
 
   const replace = useCallback(
     async (upload: Partial<QueueItem> & NonNullable<{ id: string; file: File }>) => {
@@ -202,33 +194,39 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
   )
 
   useEffect(() => {
-    Object.values(processorList).forEach(object => {
-      const processingItem: QueueItem = {
-        id: object.id,
-        title: object.title,
-        finished: object.ready,
+    if (!connected) {
+      return
+    }
+
+    setStore([])
+    socketClient.subscribe('/user/queue/media-progress', (message: { body: string }) => {
+      const { payload: data } = JSON.parse(message.body)
+
+      const item: QueueItem = {
+        id: data.id,
+        title: data.title,
+        finished: data.ready,
         progress: undefined,
-        step: object.ready ? 'FINISHED' : 'PROCESSING'
+        step: data.ready ? 'FINISHED' : 'PROCESSING'
       }
-      if (!store.some(item => item.id === processingItem.id)) {
-        setStore([...store, processingItem])
-        return
+
+      setStore([item, ...store])
+
+      if (item.finished) {
+        setTimeout(() => {
+          setStore(store.filter(s => s.id === item.id))
+        }, 100)
       }
-      setStore(value => {
-        return value.map<Partial<QueueItem>>(item => {
-          if (item.id === processingItem.id) {
-            return {
-              ...item,
-              ...processingItem
-            }
-          }
-          return {
-            ...item
-          }
-        })
-      })
     })
-  }, [processorList])
+  }, [socketClient, connected, setStore, setShow])
+
+  useEffect(() => {
+    if (store.filter(i => !i.finished).length > 0) {
+      setShow(true)
+    } else {
+      setShow(false)
+    }
+  }, [store, setShow])
 
   useEffect(() => {
     const isUploading = store.some(item => item.step === 'UPLOADING' || item.step === 'UPLOADED')
@@ -239,30 +237,10 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
     }
   }, [store])
 
-  useEffect(() => {
-    const init = async () => {
-      const stories = await api.getProcessingStories()
-      if (stories.length) {
-        console.log(stories)
-        setStore(() =>
-          stories.map<QueueItem>(item => ({
-            id: item.id,
-            title: item.title,
-            progress: undefined,
-            step: 'PROCESSING',
-            finished: false
-          }))
-        )
-        setShow(true)
-      }
-    }
-    init()
-  }, [])
-
   return (
     <QueueProcessorContext.Provider
       value={{
-        actions: { addProcessor, open, close, remove },
+        actions: { addProcessor, open, close },
         store,
         isProcessing: store.some(item => !item.finished)
       }}
