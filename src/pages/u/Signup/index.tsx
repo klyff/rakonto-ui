@@ -119,7 +119,7 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
               <Button color={'primary'} variant="contained" fullWidth type="submit">
                 Create account
               </Button>
-              <Typography variant="body2" textAlign="justify" paddingTop={2} paddingLeft={2}>
+              <Typography variant="body2" textAlign="center" paddingTop={2} paddingLeft={2}>
                 By singing up, you agree to our{' '}
                 <Link href="https://rakonto.io/terms-and-conditions" target="_blank">
                   terms

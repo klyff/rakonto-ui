@@ -109,7 +109,7 @@ const plans = [
 ]
 
 const Subscription: React.FC = () => {
-  const user = useUser()
+  const user = { tier: 0 }
   const token = Cookies.get('token')
   const returnUrl = `${window.location.origin}/a/profile?tab=subscription`
   const [checked, setChecked] = React.useState<boolean>(true)
@@ -118,17 +118,19 @@ const Subscription: React.FC = () => {
     setChecked(event.target.checked)
   }
 
-  const currentPlan = plans.find(plan => plan.tier === user!.tier)!
+  const currentPlan = plans.find(plan => plan.tier === user!.tier)! || null
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       {user!.tier === 0 && (
         <>
           <Box sx={{ width: '100%' }}>
             <Stack justifyContent="center" direction="row" spacing={1}>
-              <Typography variant="h5">Monthly</Typography>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Typography variant="h5">Monthly</Typography>
+              </Stack>
               <Switch onChange={handleChange} checked={checked} />
               <Stack direction="row" spacing={1} alignItems="center">
-                <Typography variant="h5">Yearly</Typography> <Typography variant="body2">(save up to 20%)</Typography>
+                <Typography variant="h5">Yearly</Typography> <Typography variant="body2">(save up to 22%)</Typography>
               </Stack>
             </Stack>
           </Box>
