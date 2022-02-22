@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Form, Formik, Field, FieldProps } from 'formik'
+import { Form, Formik } from 'formik'
 import schema from './schema'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -10,11 +10,6 @@ import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Divider from '@mui/material/Divider'
 import api from '../../../lib/api'
 import { RouteComponentProps } from 'react-router-dom'
-import FormControl from '@mui/material/FormControl'
-import FormGroup from '@mui/material/FormGroup'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormHelperText from '@mui/material/FormHelperText'
-import Checkbox from '@mui/material/Checkbox'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
@@ -22,17 +17,9 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
-  const handleSubmit = async ({
-    email,
-    firstName,
-    lastName,
-    password,
-    confirmation,
-    terms,
-    mailList
-  }: SingupFormType) => {
+  const handleSubmit = async ({ email, firstName, lastName, password, confirmation }: SingupFormType) => {
     try {
-      await api.singup({ email, firstName, lastName, password, confirmation, terms, mailList })
+      await api.singup({ email, firstName, lastName, password, confirmation })
       history.push('/u/signin')
       dialogActions.open('Confirm email', 'We sent an email to you to confirm your account. Please check this.', {
         cancelText: 'Close'
@@ -53,9 +40,7 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
     password: '',
     confirmation: '',
     firstName: '',
-    lastName: '',
-    terms: false,
-    mailList: false
+    lastName: ''
   }
 
   return (
@@ -131,69 +116,20 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControl error={!!errors.terms}>
-                <FormGroup>
-                  <Field name="terms">
-                    {({ field }: FieldProps) => (
-                      <>
-                        <FormControlLabel
-                          control={<Checkbox sx={{ alignSelf: 'start', pt: 0 }} {...field} />}
-                          label={
-                            <>
-                              I agree to abide by Rakonto&apos;s{' '}
-                              <Link href="https://rakonto.io/terms-and-conditions" target="_blank">
-                                terms and conditions
-                              </Link>
-                              , and confirm I am older than 13 years or that I have the consent of a parent or a person
-                              holding parental responsibility over me.
-                            </>
-                          }
-                        />
-                      </>
-                    )}
-                  </Field>
-                </FormGroup>
-                <FormHelperText>{(touched.terms && errors.terms) || ' '}</FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      sx={{
-                        '@media (min-width: 529px)': {
-                          alignSelf: 'center',
-                          pt: '9px'
-                        },
-                        alignSelf: 'start',
-
-                        pt: 'unset'
-                      }}
-                      defaultChecked
-                    />
-                  }
-                  label="I would like to receive related news and offers from Rakonto."
-                />
-              </FormGroup>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography paragraph textAlign="justify">
-                Your details will be kept safe and secure, only used by us or those who work for us. If you would like
-                to change your choice you may do so at any time by updating your preferences in your Rakonto profile. We
-                analyze information you provide, and how you use Rakonto, to deliver our services and decide what
-                communications may be of interest to you. If you would like to know more or understand your data
-                protection rights, please take a look at our{' '}
-                <Link href=" https://rakonto.io/privacy-policy" target="_blank">
-                  privacy policy
-                </Link>
-                .
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
               <Button color={'primary'} variant="contained" fullWidth type="submit">
                 Create account
               </Button>
+              <Typography variant="body2" textAlign="center" paddingTop={2} paddingLeft={2}>
+                By singing up, you agree to our{' '}
+                <Link href="https://rakonto.io/terms-and-conditions" target="_blank">
+                  terms
+                </Link>{' '}
+                and{' '}
+                <Link href=" https://rakonto.io/privacy-policy" target="_blank">
+                  {' '}
+                  privacy policy
+                </Link>
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <Divider />
