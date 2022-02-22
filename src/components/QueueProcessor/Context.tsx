@@ -11,6 +11,7 @@ export const QueueProcessorContext = createContext<{
     addProcessor: (item: Partial<QueueItem> & NonNullable<{ id: string; title: string }>) => Promise<void>
     open: (target: HTMLElement) => void
     close: () => void
+    remove: (id: string) => void
   }
   store: Partial<QueueItem>[]
   isProcessing: boolean
@@ -164,6 +165,13 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
     [store, setStore]
   )
 
+  const remove = useCallback(
+    (id: string) => {
+      setStore(store.filter(item => item.id !== id))
+    },
+    [store]
+  )
+
   const addProcessor = useCallback(
     async (item: Partial<QueueItem> & NonNullable<{ id: string }>) => {
       // @ts-ignore
@@ -194,38 +202,24 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
   )
 
   useEffect(() => {
-    if (!connected) {
-      return
-    }
+    connected &&
+      socketClient.subscribe('/user/queue/story-media-progress', (message: { body: string }) => {
+        const { payload: data } = JSON.parse(message.body)
 
-    setStore([])
-    socketClient.subscribe('/user/queue/media-progress', (message: { body: string }) => {
-      const { payload: data } = JSON.parse(message.body)
+        const item: QueueItem = {
+          id: data.id,
+          title: data.title,
+          finished: data.ready,
+          progress: undefined,
+          step: data.ready ? 'FINISHED' : 'PROCESSING'
+        }
 
-      const item: QueueItem = {
-        id: data.id,
-        title: data.title,
-        finished: data.ready,
-        progress: undefined,
-        step: data.ready ? 'FINISHED' : 'PROCESSING'
-      }
-
-      setStore([item, ...store])
-
-      if (item.finished) {
-        setTimeout(() => {
-          setStore(store.filter(s => s.id === item.id))
-        }, 100)
-      }
-    })
+        setStore([item, ...store])
+      })
   }, [socketClient, connected, setStore, setShow])
 
   useEffect(() => {
-    if (store.filter(i => !i.finished).length > 0) {
-      setShow(true)
-    } else {
-      setShow(false)
-    }
+    setShow(store.length > 0)
   }, [store, setShow])
 
   useEffect(() => {
@@ -240,7 +234,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
   return (
     <QueueProcessorContext.Provider
       value={{
-        actions: { addProcessor, open, close },
+        actions: { addProcessor, open, close, remove },
         store,
         isProcessing: store.some(item => !item.finished)
       }}

@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect, RouteProps } from 'react-router-dom'
 import Cookies from 'js-cookie'
+import GuestLayout from './g/GuestLayout'
 import AuthenticatedLayout from './a/AuthenticatedLayout'
 import PublicLayout from './u/PublicLayout'
 import CircularLoadingCentred from '../components/CircularLoadingCentred'
@@ -19,6 +20,7 @@ const Collections = lazy(() => import('./a/Collections'))
 const Collection = lazy(() => import('./a/Collection'))
 const Profile = lazy(() => import('./a/Profile'))
 const People = lazy(() => import('./a/People'))
+const Invitation = lazy(() => import('./g/Invitation'))
 
 const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   const token = Cookies.get('token')
@@ -43,13 +45,27 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   )
 }
 
+const GuestRoutes: React.FC<RouteProps> = () => {
+  const defaultUrl = localStorage.getItem('token') ? '/a' : '/u'
+  return (
+    <GuestLayout>
+      <Suspense fallback={<CircularLoadingCentred />}>
+        <Switch>
+          <Route exact path="/g/invitation" component={Invitation} />
+          <Redirect to={defaultUrl} />
+        </Switch>
+      </Suspense>
+    </GuestLayout>
+  )
+}
+
 const PublicRoutes: React.FC<RouteProps> = () => {
   const tokenItem = localStorage.getItem('token')
   const token = tokenItem ? JSON.parse(tokenItem) : undefined
-  if (token) return <Redirect to="/a/home" />
+  if (token) return <Redirect to="/a/my-library" />
   return (
     <PublicLayout>
-      <Suspense fallback={CircularLoadingCentred}>
+      <Suspense fallback={<CircularLoadingCentred />}>
         <Switch>
           <Route path="/u/signin" component={Signin} />
           <Route path="/u/signup" component={Signup} />
@@ -67,11 +83,14 @@ const Routes: React.FC = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/u">
-          <PublicRoutes />
-        </Route>
         <Route path="/a">
           <AuthenticadeRoutes />
+        </Route>
+        <Route path="/g">
+          <GuestRoutes />
+        </Route>
+        <Route path="/u">
+          <PublicRoutes />
         </Route>
         <Redirect to="/a" />
       </Switch>

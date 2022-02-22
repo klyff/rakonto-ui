@@ -16,6 +16,7 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote'
 import MovieIcon from '@mui/icons-material/Movie'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import Collapse from '@mui/material/Collapse'
+import { ListItemSecondaryAction } from '@mui/material'
 
 const QueueStage: React.FC = () => {
   const { store: list, actions } = useContext(QueueProcessorContext)
@@ -26,8 +27,8 @@ const QueueStage: React.FC = () => {
   useEffect(() => {
     const isAllFinished = list.some(item => item.step !== 'FINISHED')
     setCloseDisabled(isAllFinished)
-    setQueued(list.filter(item => item.step !== 'FINISHED').length)
-    setOpen(list.filter(item => item.step !== 'FINISHED').length > 0)
+    setQueued(list.length)
+    setOpen(list.length > 0)
   }, [list, setOpen])
 
   return (
@@ -71,44 +72,49 @@ const QueueStage: React.FC = () => {
       <Collapse in={open}>
         <Paper sx={{ borderRadius: 'unset' }}>
           <List dense>
-            {list
-              .filter(item => !item.finished)
-              .map(item => {
-                return (
-                  <ListItem key={item.id}>
-                    <ListItemAvatar>
-                      {item.type === 'FILE' && <FileUploadIcon />}
-                      {item.type === 'AUDIO' && <MusicNoteIcon />}
-                      {item.type === 'VIDEO' && <MovieIcon />}
-                    </ListItemAvatar>
-                    <ListItemText primary={item.title} secondary={item.step} />
-                    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                      <CircularProgress
-                        variant={!item.finished && item.progress === undefined ? 'indeterminate' : 'determinate'}
-                        value={item.progress || 0}
-                      />
-                      {!item.finished && item.progress !== undefined && (
-                        <Box
-                          sx={{
-                            top: 0,
-                            left: 0,
-                            bottom: 0,
-                            right: 0,
-                            position: 'absolute',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}
-                        >
-                          <Typography variant="caption" component="div" color="text.secondary">
-                            {`${Math.round(item.progress || 0)}%`}
-                          </Typography>
-                        </Box>
-                      )}
-                    </Box>
-                  </ListItem>
-                )
-              })}
+            {list.map(item => {
+              return (
+                <ListItem key={item.id}>
+                  <ListItemAvatar>
+                    {item.type === 'FILE' && <FileUploadIcon />}
+                    {item.type === 'AUDIO' && <MusicNoteIcon />}
+                    {item.type === 'VIDEO' && <MovieIcon />}
+                  </ListItemAvatar>
+                  <ListItemText primary={item.title} secondary={item.step} />
+                  <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                    <CircularProgress
+                      variant={!item.finished && item.progress === undefined ? 'indeterminate' : 'determinate'}
+                      value={item.progress || 0}
+                    />
+                    {!item.finished && item.progress !== undefined && (
+                      <Box
+                        sx={{
+                          top: 0,
+                          left: 0,
+                          bottom: 0,
+                          right: 0,
+                          position: 'absolute',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        <Typography variant="caption" component="div" color="text.secondary">
+                          {`${Math.round(item.progress || 0)}%`}
+                        </Typography>
+                      </Box>
+                    )}
+                  </Box>
+                  {item.step === 'FINISHED' && (
+                    <ListItemSecondaryAction>
+                      <IconButton edge="end" onClick={() => actions.remove(item.id as string)} aria-label="delete">
+                        <CloseIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  )}
+                </ListItem>
+              )
+            })}
           </List>
         </Paper>
       </Collapse>

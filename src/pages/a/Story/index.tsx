@@ -24,7 +24,7 @@ import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
 import EditBar from './EditBar'
-import { QueueProcessorContext } from '../../../components/QueueProcessor'
+import { SocketConnectorContext } from '../../../components/SocketConnector'
 
 const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, history }) => {
   const user = useUser()
@@ -35,7 +35,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
   const [story, setStory] = useState<StoryType | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isOwner, setIsOwner] = useState<boolean>(false)
-  const { store: processorList } = useContext(QueueProcessorContext)
+  const { client: socketClient, connected } = useContext(SocketConnectorContext)
 
   const computeStory = (value: StoryType) => {
     setStory(value)
@@ -60,15 +60,15 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
   }, [])
 
   useEffect(() => {
-    processorList.forEach(async object => {
-      if (object.finished && object.id === storyId) {
-        setTimeout(async () => {
+    connected &&
+      socketClient.subscribe('/user/queue/story-media-finished', async (message: { body: string }) => {
+        const { payload: data } = JSON.parse(message.body)
+        api.getStory(data.id).then(() => {
           setIsLoading(true)
           fetch()
-        }, 2000)
-      }
-    })
-  }, [processorList])
+        })
+      })
+  }, [socketClient, connected, fetch, setIsLoading])
 
   const updateStory = async (formData: StoryUpdateType) => {
     try {

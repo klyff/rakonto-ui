@@ -28,7 +28,7 @@ const StepStoryUpload = () => {
   const { actions: queueActions } = useContext(QueueProcessorContext)
   const { store, actions } = useContext(StepStoryUploadContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
-  const [selectedSuggestion, setSelectedSuggestion] = useState<string>('')
+  const [selectedSuggestion, setSelectedSuggestion] = useState<string | null>(null)
   const [activeStep, setActiveStep] = useState(0)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
