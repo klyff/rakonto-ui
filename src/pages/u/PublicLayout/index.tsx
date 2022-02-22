@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
@@ -23,7 +24,9 @@ const PublicLayout: React.FC = ({ children }) => {
         component={matches ? Paper : 'div'}
       >
         <Box paddingBottom={5} textAlign="center">
-          <img width={211} height={62} src={'/images/logo2.svg'} alt="rakonto" />
+          <Link to="/">
+            <img width={211} height={62} src={'/images/logo2.svg'} alt="rakonto" />
+          </Link>
         </Box>
         {children}
       </Box>

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -163,9 +163,9 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <a href="/">
+          <Link to="/">
             <img width={135} height={40} src={'/images/logo-withe.svg'} alt="rakonto" />
-          </a>
+          </Link>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, paddingLeft: 8 }}>
             {menuOptions.map(({ href, text, icon, name }, index) => {
               const isSelected = location.pathname.startsWith(href)
@@ -187,9 +187,9 @@ export default function PrimarySearchAppBar() {
             })}
             <IconButton
               onClick={() => {
+                // eslint-disable-next-line prettier/prettier
                 window.open(
-                  'https://docs.google.com/forms/d/e/1FAIpQLSdwKpH3CNqVKx4' +
-                    'k4HmXoWWPv60J_LDYdFcIQp63O-EdXLiytw/viewform?usp=sf_link',
+                  'https://docs.google.com/forms/d/e/1FAIpQLSdwKpH3CNqVKx4k4HmXoWWPv60J_LDYdFcIQp63O-EdXLiytw/viewform?usp=sf_link',
                   '_blank'
                 )
               }}
