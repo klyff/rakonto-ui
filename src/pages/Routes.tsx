@@ -51,7 +51,7 @@ const GuestRoutes: React.FC<RouteProps> = () => {
     <GuestLayout>
       <Suspense fallback={<CircularLoadingCentred />}>
         <Switch>
-          <Route exact path="/g/invitation" component={Invitation} />
+          <Route exact path="/g/invitation/:id" component={Invitation} />
           <Redirect to={defaultUrl} />
         </Switch>
       </Suspense>
