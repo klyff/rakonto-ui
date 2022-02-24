@@ -24,6 +24,7 @@ import { Invite, MediaType, SearchResultType } from '../../lib/types'
 import { addDays } from 'date-fns'
 import api from '../../lib/api'
 import { SocketConnectorContext } from '../SocketConnector'
+import LoadingButton from '@mui/lab/LoadingButton'
 
 const StepInviteRecorder = () => {
   const { actions } = useContext(StepInviteRecorderContext)
@@ -47,17 +48,6 @@ const StepInviteRecorder = () => {
         }
       })
   }, [socketClient, connected, invite])
-
-  const handleShareAndClose = async (values: FormikValues) => {
-    try {
-      snackActions.open(
-        `Rakonto is now uploading and processing your story. It may take a while. We'll send you an email when it's completed.`
-      )
-      actions.close()
-    } catch (e) {
-      console.error(e)
-    }
-  }
 
   const initialValuesStep4: {
     email: string
@@ -107,7 +97,6 @@ const StepInviteRecorder = () => {
         values.file,
         event => {
           const progress = Math.round((event.loaded * 100) / event.total)
-          console.log(progress)
         }
       )
       setInvite(inviteResult)
@@ -120,14 +109,17 @@ const StepInviteRecorder = () => {
 
   const sendEmails = async (values: FormikValues) => {
     try {
-      await api.sendInviteEmails(
-        invite!.id,
-        (values.emails as { email: string; name: string }[]).reduce<{ [key: string]: string }>((acc, value) => {
-          acc[value.email] = value.name
-          return acc
-        }, {})
-      )
-      handleNext()
+      if (values.emails.length) {
+        await api.sendInviteEmails(
+          invite!.id,
+          (values.emails as { email: string; name: string }[]).reduce<{ [key: string]: string }>((acc, value) => {
+            acc[value.email] = value.name
+            return acc
+          }, {})
+        )
+        snackActions.open(`An email has been sent to recorders that are invited.`)
+      }
+      actions.close()
     } catch (e) {
       console.error(e)
     }
@@ -231,24 +223,26 @@ const StepInviteRecorder = () => {
             </Button>
           )}
           {activeStep === 3 && (
-            <Button
+            <LoadingButton
               variant="contained"
-              disabled={loading && (formikStep4.isSubmitting || !formikStep4.isValid)}
+              loading={loading || formikStep4.isSubmitting}
+              disabled={!formikStep4.isValid}
               onClick={() => formikStep4.handleSubmit()}
               sx={{ mt: 1, mr: 1 }}
             >
               Share and close
-            </Button>
+            </LoadingButton>
           )}
           {activeStep === 2 && (
-            <Button
+            <LoadingButton
               variant="contained"
-              disabled={formik.isSubmitting || !formik.isValid}
+              loading={formik.isSubmitting}
+              disabled={!formik.isValid}
               onClick={() => formik.handleSubmit()}
               sx={{ mt: 1, mr: 1 }}
             >
               Generate
-            </Button>
+            </LoadingButton>
           )}
           {activeStep < 2 && (
             <Button variant="contained" onClick={handleNext} sx={{ mt: 1, mr: 1 }}>
