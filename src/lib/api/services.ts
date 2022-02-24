@@ -9,6 +9,7 @@ import {
   CollectionType,
   CommentFormType,
   CommentType,
+  InviteInput,
   FileType,
   GalleryType,
   ImageType,
@@ -38,7 +39,7 @@ import {
   TranscriptionType,
   UserFormType,
   UserType,
-  WatcherType
+  WatcherType, Invite
 } from '../types'
 
 // User api
@@ -656,4 +657,27 @@ export const publish =
       return publish
         ? await request.post(`a/stories/${id}/make-public`).then(res => res.data)
         : await request.post(`a/stories/${id}/make-private`).then(res => res.data)
+    }
+
+// Invite
+export const createInvite =
+  (request: AxiosInstance) =>
+    async (data: InviteInput, file?: File | null, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<Invite> => {
+      const formdata = new FormData()
+      if (file) formdata.append('file', file, file.name)
+      formdata.append(
+        'invite',
+        new Blob([JSON.stringify(data)], {
+          type: 'application/json'
+        })
+      )
+      return await request.post(`a/collection-invites`, formdata, {
+          onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
+      }).then(res => res.data)
+    }
+
+export const sendInviteEmails =
+  (request: AxiosInstance) =>
+    async (id: string, emails: { [key: string]: string }): Promise<Invite> => {
+      return await request.post(`a/collection-invites/${id}/send-email`, { emails }).then(res => res.data)
     }

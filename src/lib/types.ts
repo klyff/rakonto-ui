@@ -351,6 +351,34 @@ export type LocationSearchType = {
   type?: string
 }
 
+export type InviteInput = {
+  collectionId: string
+  title: string
+  description: string
+  requestedMediaType: MediaType | null
+  requestedMediaLength: number
+  dueAt: Date
+}
+export type Invite = {
+  id: string
+  collectionId: string
+  video: {
+    id: string
+    url: string
+    thumbnailUrl: string
+    gifUrl: string
+  }
+  title: string
+  description: string
+  requestedMediaType: MediaType
+  requestedMediaLength: number
+  token: string
+  url: string
+  dueAt: Date
+  createdAt: Date
+  ready: boolean
+}
+
 export enum LanguageEnum {
   'arabic' = 'arabic',
   'brazilianPortuguese' = 'brazilian portuguese',

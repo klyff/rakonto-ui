@@ -57,7 +57,7 @@ const CountDown: React.FC<{ expire: () => void }> = ({ expire }) => {
 }
 
 interface iRecorder {
-  onSelected: (value: 'AUDIO' | 'VIDEO' | null) => void
+  onSelected?: (value: 'AUDIO' | 'VIDEO' | null) => void
   onDrop: (value: File | null) => void
   type?: 'AUDIO' | 'VIDEO' | null
 }
@@ -142,14 +142,16 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
             <Typography sx={{ marginBottom: 6 }} fontWeight="700" align="center" variant="h6" gutterBottom>
               Record video or audio from your device
             </Typography>
-            <ButtonGroup disableElevation size="large" variant="outlined">
-              <Button onClick={() => onSelected('VIDEO')} startIcon={<MovieIcon />}>
-                Video
-              </Button>
-              <Button onClick={() => onSelected('AUDIO')} endIcon={<HeadphonesIcon />}>
-                Audio
-              </Button>
-            </ButtonGroup>
+            {onSelected && (
+              <ButtonGroup disableElevation size="large" variant="outlined">
+                <Button onClick={() => onSelected('VIDEO')} startIcon={<MovieIcon />}>
+                  Video
+                </Button>
+                <Button onClick={() => onSelected('AUDIO')} endIcon={<HeadphonesIcon />}>
+                  Audio
+                </Button>
+              </ButtonGroup>
+            )}
           </Box>
         </Box>
       )}
@@ -218,7 +220,7 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
                 <Button size="large" variant="outlined" onClick={handleStart}>
                   Start recording
                 </Button>
-                {!mediaBlobUrl && (
+                {!mediaBlobUrl && onSelected && (
                   <Button
                     size="large"
                     variant="outlined"

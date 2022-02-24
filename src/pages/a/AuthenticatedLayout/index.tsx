@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Header from './Header'
 import Cookies from 'js-cookie'
 import { StepStoryUploadProvider } from '../../../components/StepStoryUpload'
+import { StepInviteRecorderProvider } from '../../../components/StepInviteRecorder'
 import { GreetingsDialogProvider } from '../../../components/GreetingsDialog'
 import { QueueProcessorProvider } from '../../../components/QueueProcessor'
 import { CreateCollectionProvider } from '../../../components/CreateCollection'
@@ -23,12 +24,14 @@ const AuthenticatedLayout: React.FC = ({ children }) => {
         <QueueProcessorProvider>
           <CreateCollectionProvider>
             <StepStoryUploadProvider>
-              <ChangeMediaProvider>
-                <GreetingsDialogProvider>
-                  <Header />
-                  {children}
-                </GreetingsDialogProvider>
-              </ChangeMediaProvider>
+              <StepInviteRecorderProvider>
+                <ChangeMediaProvider>
+                  <GreetingsDialogProvider>
+                    <Header />
+                    {children}
+                  </GreetingsDialogProvider>
+                </ChangeMediaProvider>
+              </StepInviteRecorderProvider>
             </StepStoryUploadProvider>
           </CreateCollectionProvider>
         </QueueProcessorProvider>

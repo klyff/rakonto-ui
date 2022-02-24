@@ -80,7 +80,9 @@ import {
   changeStoryMedia,
   removePlaceFromStory,
   addPlaceToStory,
-  editPlace
+  editPlace,
+  createInvite,
+  sendInviteEmails
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -199,5 +201,7 @@ export default {
   searchStories: searchStories(request),
   searchCollections: searchCollections(request),
   searchSuggestions: searchSuggestions(request),
-  getComments: getComments(request)
+  getComments: getComments(request),
+  createInvite: createInvite(request),
+  sendInviteEmails: sendInviteEmails(request)
 }

@@ -3,14 +3,16 @@ import StoriesSlider from './StoriesSlider'
 import CollectionsTile from './CollectionsSlider'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup'
 import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
 import SearchBox from '../../../components/SearchBox'
 import { RouteComponentProps, useHistory } from 'react-router-dom'
 import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
+import { StepInviteRecorderContext } from '../../../components/StepInviteRecorder'
 
 const MyLibrary: React.FC<RouteComponentProps> = () => {
   const { actions: newStoryActions } = useContext(StepStoryUploadContext)
+  const { actions: recorderActions } = useContext(StepInviteRecorderContext)
   const history = useHistory()
 
   return (
@@ -29,10 +31,11 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
           <Grid item xs>
             <SearchBox onSearch={value => history.push({ pathname: '/a/search', search: `q=${value}` })} />
           </Grid>
-          <Grid item xs minWidth={111} textAlign="right">
-            <Button variant="outlined" onClick={() => newStoryActions.open()}>
-              New story
-            </Button>
+          <Grid item xs minWidth={180} textAlign="right">
+            <ButtonGroup variant="outlined">
+              <Button onClick={() => newStoryActions.open()}>New story</Button>
+              <Button onClick={() => recorderActions.open()}>Request a story</Button>
+            </ButtonGroup>
           </Grid>
         </Grid>
       </Grid>

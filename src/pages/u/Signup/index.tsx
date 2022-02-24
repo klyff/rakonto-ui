@@ -122,7 +122,7 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
                 Create account
               </Button>
               <Typography variant="body2" textAlign="center" paddingTop={2} paddingLeft={2}>
-                By singing up, you agree to our{' '}
+                By signing up, you agree to our{' '}
                 <Link href="https://rakonto.io/terms-and-conditions" target="_blank">
                   terms
                 </Link>{' '}

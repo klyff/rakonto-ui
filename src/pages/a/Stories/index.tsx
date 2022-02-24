@@ -12,9 +12,12 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
 import { SocketConnectorContext } from '../../../components/SocketConnector'
+import { StepInviteRecorderContext } from '../../../components/StepInviteRecorder'
+import ButtonGroup from '@mui/material/ButtonGroup'
 
 const Stories: React.FC<RouteComponentProps> = () => {
   const { actions: newStoryActions } = useContext(StepStoryUploadContext)
+  const { actions: recorderActions } = useContext(StepInviteRecorderContext)
   const { client: socketClient, connected } = useContext(SocketConnectorContext)
 
   const { loading, items, hasNextPage, error, loadMore, setItems, reload } = usePageableRequest<SearchResultType>({
@@ -57,9 +60,10 @@ const Stories: React.FC<RouteComponentProps> = () => {
           }}
         >
           <Box sx={{ flex: '1' }} />
-          <Button variant="outlined" onClick={() => newStoryActions.open()}>
-            New story
-          </Button>
+          <ButtonGroup variant="outlined">
+            <Button onClick={() => newStoryActions.open()}>New story</Button>
+            <Button onClick={() => recorderActions.open()}>Request a story</Button>
+          </ButtonGroup>
         </Box>
       </Grid>
       <Grid item xs={12}>
