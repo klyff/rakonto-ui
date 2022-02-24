@@ -34,9 +34,7 @@ const Step2 = () => {
         error={touched && Boolean(error)}
         helperText={(touched && error) || ' '}
       />
-      <Typography mb={2}>
-        If you like... you can record an invitation so those you invite can see your request
-      </Typography>
+      <Typography mb={2}>If you like you can record an invitation so those you invite can see your request.</Typography>
       <Box>
         <Recorder type="VIDEO" onDrop={file => setValue(file)} />
         {errorFile && <FormHelperText error>{errorFile}</FormHelperText>}
