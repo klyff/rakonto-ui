@@ -82,7 +82,8 @@ import {
   addPlaceToStory,
   editPlace,
   createInvite,
-  sendInviteEmails
+  sendInviteEmails,
+  getInviteSubmission
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -203,5 +204,6 @@ export default {
   searchSuggestions: searchSuggestions(request),
   getComments: getComments(request),
   createInvite: createInvite(request),
-  sendInviteEmails: sendInviteEmails(request)
+  sendInviteEmails: sendInviteEmails(request),
+  getInviteSubmission: getInviteSubmission(request)
 }

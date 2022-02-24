@@ -45,14 +45,13 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   )
 }
 
-const GuestRoutes: React.FC<RouteProps> = () => {
-  const defaultUrl = localStorage.getItem('token') ? '/a' : '/u'
+const GuestRoutes: React.FC<RouteProps> = ({ location }) => {
   return (
     <GuestLayout>
       <Suspense fallback={<CircularLoadingCentred />}>
         <Switch>
           <Route exact path="/g/invitation/:id" component={Invitation} />
-          <Redirect to={defaultUrl} />
+          <Redirect to="/" />
         </Switch>
       </Suspense>
     </GuestLayout>

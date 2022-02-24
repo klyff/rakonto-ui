@@ -681,3 +681,9 @@ export const sendInviteEmails =
     async (id: string, emails: { [key: string]: string }): Promise<Invite> => {
       return await request.post(`a/collection-invites/${id}/send-email`, { emails }).then(res => res.data)
     }
+
+export const getInviteSubmission =
+  (request: AxiosInstance) =>
+    async (id: string, token: string): Promise<Invite> => {
+      return await request.get(`g/collection-invite-submissions/${id}/invite?token=${token}`).then(res => res.data)
+    }

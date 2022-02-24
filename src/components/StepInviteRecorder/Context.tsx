@@ -13,7 +13,7 @@ export const StepInviteRecorderContext = createContext<{
 })
 
 export const StepInviteRecorderProvider: React.FC = ({ children }) => {
-  const [stepStoryUpload, setStepInviteRecorder] = useState<boolean>(true)
+  const [stepStoryUpload, setStepInviteRecorder] = useState<boolean>(false)
 
   const open = () => {
     setStepInviteRecorder(true)
