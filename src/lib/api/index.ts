@@ -83,7 +83,8 @@ import {
   editPlace,
   createInvite,
   sendInviteEmails,
-  getInviteSubmission
+  getInviteSubmission,
+  sendInviteSubmission
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -95,6 +96,7 @@ const request = axios.create({
 
 request.interceptors.request.use(function (config) {
   const token = Cookies.get('token')
+  if (config!.url!.startsWith('g/')) return config
   config.headers.Authorization = `Bearer ${token}`
   return config
 })
@@ -205,5 +207,6 @@ export default {
   getComments: getComments(request),
   createInvite: createInvite(request),
   sendInviteEmails: sendInviteEmails(request),
-  getInviteSubmission: getInviteSubmission(request)
+  getInviteSubmission: getInviteSubmission(request),
+  sendInviteSubmission: sendInviteSubmission(request)
 }

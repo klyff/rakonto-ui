@@ -69,36 +69,43 @@ const Transcript: React.FC<iTranscript> = ({ canEdit, storyId, refetch: refetchS
         flexFlow: 'column'
       }}
     >
-      {canEdit && (
-        <>
-          <Box>
-            {editMode ? (
-              <>
-                <Button color="secondary" onClick={() => setEditMode(false)} sx={{ mt: 1, mr: 1 }}>
-                  Cancel
+      <Box
+        sx={{
+          padding: '0 24px',
+          minHeight: '40vh'
+        }}
+      >
+        {canEdit && (
+          <>
+            <Box>
+              {editMode ? (
+                <>
+                  <Button color="secondary" onClick={() => setEditMode(false)} sx={{ mt: 1, mr: 1 }}>
+                    Cancel
+                  </Button>
+                  <Button variant="outlined" onClick={update} sx={{ mt: 1, mr: 1 }}>
+                    Save
+                  </Button>
+                </>
+              ) : (
+                <Button variant="outlined" onClick={() => setEditMode(true)} sx={{ mt: 1, mr: 1 }}>
+                  Edit
                 </Button>
-                <Button variant="outlined" onClick={update} sx={{ mt: 1, mr: 1 }}>
-                  Save
-                </Button>
-              </>
-            ) : (
-              <Button variant="outlined" onClick={() => setEditMode(true)} sx={{ mt: 1, mr: 1 }}>
-                Edit
-              </Button>
-            )}
-          </Box>
-          <Divider sx={{ margin: '24px 0' }} />
-        </>
-      )}
-      {isLoading ? (
-        <CircularProgress variant="indeterminate" />
-      ) : editMode ? (
-        <TextField multiline value={text} onChange={handleChange} />
-      ) : (
-        <Typography component="pre" align="justify" paragraph>
-          {text}
-        </Typography>
-      )}
+              )}
+            </Box>
+            <Divider sx={{ margin: '24px 0' }} />
+          </>
+        )}
+        {isLoading ? (
+          <CircularProgress variant="indeterminate" />
+        ) : editMode ? (
+          <TextField multiline minRows={4} value={text} fullWidth onChange={handleChange} />
+        ) : (
+          <Typography component="pre" align="justify" paragraph>
+            {text}
+          </Typography>
+        )}
+      </Box>
     </Box>
   )
 }

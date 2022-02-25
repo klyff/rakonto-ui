@@ -129,7 +129,7 @@ const Step4: React.FC<{ loading: boolean; url: string }> = ({ loading, url }) =>
                     mt: 2
                   }}
                 >
-                  <CopyToClipboard text="Link">
+                  <CopyToClipboard text={url}>
                     <Button variant="outlined">Copy to clipboard</Button>
                   </CopyToClipboard>
                 </Box>

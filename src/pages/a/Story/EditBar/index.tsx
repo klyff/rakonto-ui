@@ -20,6 +20,10 @@ import { SimpleDialogContext } from '../../../../components/SimpleDialog'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
 import CollectionMove from './CollectionMove'
 import { ChangeMediaContext } from '../../../../components/ChangeMedia'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import IconButton from '@mui/material/IconButton'
+import MoreIcon from '@mui/icons-material/MoreVert'
 
 interface iEditBar {
   collection: CollectionType
@@ -36,6 +40,17 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
   const history = useHistory()
   const [progress, setProgress] = useState<number>(0)
   const [published, setPublished] = useState<boolean>(loadPublished || false)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null)
+
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null)
+  }
+
+  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMobileMoreAnchorEl(event.currentTarget)
+  }
 
   const fetchIsPublished = async () => {
     setPublished(await api.isStoryPublished(id))
@@ -133,6 +148,62 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
       }
     )
   }
+
+  const mobileMenuId = 'primary-search-account-menu-mobile'
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right'
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right'
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <CollectionMove
+        onClick={() => {
+          handleMobileMenuClose()
+        }}
+        currentCollectionId={collection.id}
+        storyId={id}
+        reload={reload}
+        isMenu
+      />
+      <MenuItem
+        onClick={() => {
+          mediaActions.open(id)
+          handleMobileMenuClose()
+        }}
+      >
+        Replace video/audio
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          openUpload()
+          handleMobileMenuClose()
+        }}
+      >
+        <Box {...getRootProps()}>
+          <input {...getInputProps()} />
+          Thumbnail
+        </Box>
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleDelete()
+          handleMobileMenuClose()
+        }}
+      >
+        Delete
+      </MenuItem>
+    </Menu>
+  )
   return (
     <Box
       sx={{
@@ -155,7 +226,10 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
         }}
       >
         <ArrowBackIcon />
-        <Typography sx={{ paddingLeft: 1 }}>{collection?.title}</Typography>
+        <Typography sx={{ display: { xs: 'none', md: 'inherit' }, paddingLeft: 1 }}>{collection?.title}</Typography>
+        <Typography variant="caption" sx={{ display: { xs: 'inherit', md: 'none' }, paddingLeft: 1 }}>
+          {collection?.title}
+        </Typography>
       </Box>
       {canEdit && (
         <Stack direction="row">
@@ -173,11 +247,18 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
               />
             </FormGroup>
           </Box>
-          <CollectionMove currentCollectionId={collection.id} storyId={id} reload={reload} />
-          <Button color="secondary" onClick={() => mediaActions.open(id)} startIcon={<UploadIcon />}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
+            <CollectionMove currentCollectionId={collection.id} storyId={id} reload={reload} />
+          </Box>
+          <Button
+            sx={{ display: { xs: 'none', md: 'flex' } }}
+            color="secondary"
+            onClick={() => mediaActions.open(id)}
+            startIcon={<UploadIcon />}
+          >
             Replace video/audio
           </Button>
-          <Box {...getRootProps()}>
+          <Box {...getRootProps()} sx={{ display: { xs: 'none', md: 'flex' } }}>
             <input {...getInputProps()} />
             <LoadingButton
               loadingPosition="start"
@@ -190,11 +271,29 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
             </LoadingButton>
           </Box>
 
-          <Button color="secondary" onClick={handleDelete} startIcon={<DeleteIcon />}>
+          <Button
+            sx={{ display: { xs: 'none', md: 'flex' } }}
+            color="secondary"
+            onClick={handleDelete}
+            startIcon={<DeleteIcon />}
+          >
             Delete
           </Button>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
         </Stack>
       )}
+      {renderMobileMenu}
     </Box>
   )
 }

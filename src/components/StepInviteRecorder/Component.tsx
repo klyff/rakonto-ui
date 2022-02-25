@@ -61,7 +61,7 @@ const StepInviteRecorder = () => {
     collection: SearchResultType | null
     instructions: string
     file: File | null
-    recordingType: MediaType | null
+    recordingType: MediaType | 'NONE'
     expire: Date
     size: string
     title: string
@@ -69,7 +69,7 @@ const StepInviteRecorder = () => {
     collection: null,
     instructions: '',
     file: null,
-    recordingType: null,
+    recordingType: 'NONE',
     expire: addDays(new Date(), 7),
     size: '10',
     title: ''
@@ -92,7 +92,7 @@ const StepInviteRecorder = () => {
           description: values!.instructions,
           dueAt: values!.expire,
           requestedMediaLength: Number(values!.size),
-          requestedMediaType: values.recordingType
+          requestedMediaType: values.recordingType === 'NONE' ? null : values.recordingType
         },
         values.file,
         event => {
@@ -167,7 +167,7 @@ const StepInviteRecorder = () => {
     setFieldValue('title', selectedSuggestion)
     setSelectedSuggestion('')
   }, [selectedSuggestion])
-
+  console.log(formik.values)
   return (
     <form>
       <Dialog

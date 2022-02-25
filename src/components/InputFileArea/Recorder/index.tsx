@@ -56,16 +56,41 @@ const CountDown: React.FC<{ expire: () => void }> = ({ expire }) => {
   )
 }
 
+const useCountDown = (countdown = 0, expire?: () => void) => {
+  const time = new Date()
+  time.setSeconds(time.getSeconds() + countdown * 60)
+  const timer = useTimer({
+    expiryTimestamp: time,
+    autoStart: false,
+    onExpire: expire
+  })
+  const stopwatch = useStopwatch({ autoStart: false })
+
+  const current = countdown ? timer : stopwatch
+  const Component = () => (
+    <Typography>{`${current.hours.toString().padStart(2, '0')}:${current.minutes
+      .toString()
+      .padStart(2, '0')}:${current.seconds.toString().padStart(2, '0')}`}</Typography>
+  )
+  return {
+    reset: countdown ? () => timer.restart(time, false) : stopwatch.reset,
+    start: current.start,
+    pause: current.pause,
+    Component
+  }
+}
+
 interface iRecorder {
   onSelected?: (value: 'AUDIO' | 'VIDEO' | null) => void
   onDrop: (value: File | null) => void
   type?: 'AUDIO' | 'VIDEO' | null
+  disableChangeMediaType?: boolean
+  countdown?: number
 }
 
-const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
+const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop, disableChangeMediaType, countdown }) => {
   const [showCountdown, setShowCountdown] = useStateCallback<boolean>(false)
   const [hideStartRecording, setHideStartRecording] = useStateCallback<boolean>(false)
-  const { seconds, minutes, hours, reset, start, pause } = useStopwatch({ autoStart: false })
 
   const { previewStream, previewAudioStream, status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
     useReactMediaRecorder({
@@ -79,6 +104,8 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
         )
       }
     })
+
+  const { Component, start, pause, reset } = useCountDown(countdown, stopRecording)
 
   const handleExpire = () => {
     // @ts-ignore
@@ -183,9 +210,7 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
                   <Box sx={{ textAlign: 'center', animation: 'blink 2s ease-in infinite' }}>
                     <FiberManualRecordIcon />
                   </Box>
-                  <Typography>{`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
-                    .toString()
-                    .padStart(2, '0')}`}</Typography>
+                  <Component />
                 </Box>
                 <Box
                   sx={{
@@ -220,7 +245,7 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop }) => {
                 <Button size="large" variant="outlined" onClick={handleStart}>
                   Start recording
                 </Button>
-                {!mediaBlobUrl && onSelected && (
+                {!disableChangeMediaType && !mediaBlobUrl && onSelected && (
                   <Button
                     size="large"
                     variant="outlined"

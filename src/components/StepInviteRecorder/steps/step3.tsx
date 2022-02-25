@@ -24,6 +24,7 @@ const Step3 = () => {
     { value: titleValue, onBlur: titleOnBlur, onChange: titleOnChange },
     { touched: titleTouched, error: titleError }
   ] = useField('title')
+  const [{ value: recordingTypeValue, onChange: recordingTypeChange }] = useField('recordingType')
 
   return (
     <>
@@ -82,11 +83,16 @@ const Step3 = () => {
         <Grid item xs={12}>
           <FormControl>
             <FormLabel id="recordings">Recording type</FormLabel>
-            <Field component={RadioGroup} defaultValue={null} name="recordingType">
-              <FormControlLabel value={null} control={<Radio />} label="Audio or Video" />
-              <FormControlLabel value="audio" control={<Radio />} label="Audio" />
-              <FormControlLabel value="video" control={<Radio />} label="Video" />
-            </Field>
+            <RadioGroup
+              value={recordingTypeValue}
+              onChange={recordingTypeChange}
+              defaultValue="NONE"
+              name="recordingType"
+            >
+              <FormControlLabel value="NONE" control={<Radio />} label="Audio or Video" />
+              <FormControlLabel value="AUDIO" control={<Radio />} label="Audio" />
+              <FormControlLabel value="VIDEO" control={<Radio />} label="Video" />
+            </RadioGroup>
           </FormControl>
         </Grid>
       </Grid>

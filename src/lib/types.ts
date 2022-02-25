@@ -372,7 +372,7 @@ export type Invite = {
   description: string
   requestedMediaType: MediaType
   requestedMediaLength: number
-  onwer: UserType
+  user: UserType
   token: string
   url: string
   dueAt: Date

@@ -16,14 +16,17 @@ import Button from '@mui/material/Button'
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import Typography from '@mui/material/Typography'
 import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
+import MenuItem from '@mui/material/MenuItem'
 
 interface iCollectionMove {
   storyId: string
   currentCollectionId: string
   reload: () => void
+  isMenu?: boolean
+  onClick?: () => void
 }
 
-const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload, currentCollectionId }) => {
+const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload, currentCollectionId, isMenu, onClick }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [open, setOpen] = useState<boolean>(false)
   const [options, setOptions] = useState<SearchResultType[]>([])
@@ -82,9 +85,20 @@ const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload, currentCol
 
   return (
     <>
-      <Button color="secondary" onClick={() => setOpen(true)} startIcon={<SwapHorizIcon />}>
-        Change collection
-      </Button>
+      {isMenu ? (
+        <MenuItem
+          onClick={() => {
+            onClick && onClick()
+            setOpen(true)
+          }}
+        >
+          Change collection
+        </MenuItem>
+      ) : (
+        <Button color="secondary" onClick={() => setOpen(true)} startIcon={<SwapHorizIcon />}>
+          Change collection
+        </Button>
+      )}
       <Dialog open={open} maxWidth="md" fullWidth onClose={handleClose}>
         <DialogTitle>Move to collection</DialogTitle>
         <DialogContent>

@@ -41,7 +41,7 @@ const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description
       >
         <Box
           sx={{
-            width: '100%',
+            width: { xs: 'unset', md: '100%' },
             maxWidth: 684,
             marginLeft: 3,
             marginTop: 20,
