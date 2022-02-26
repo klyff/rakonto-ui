@@ -54,27 +54,38 @@ const Step3: React.FC<{ invite: Invite; progress: number }> = ({ invite, progres
           fullWidth
         />
       </Grid>
-      {!!progress && (
-        <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-          <CircularProgress variant="determinate" value={progress || 0} />
-          <Box
-            sx={{
-              top: 0,
-              left: 0,
-              bottom: 0,
-              right: 0,
-              position: 'absolute',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Typography variant="caption" component="div" color="text.secondary">
-              {`${Math.round(progress || 0)}%`}
+      <Grid
+        item
+        xs={12}
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 10, flexFlow: 'column' }}
+      >
+        {!!progress && (
+          <>
+            <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+              <CircularProgress size={100} variant="determinate" value={progress || 100} />
+              <Box
+                sx={{
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  position: 'absolute',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Typography variant="h6" component="div" color="text.secondary">
+                  {`${Math.round(progress || 100)}%`}
+                </Typography>
+              </Box>
+            </Box>
+            <Typography mt={2} variant="h6" component="div" color="text.secondary">
+              uploading the story...
             </Typography>
-          </Box>
-        </Box>
-      )}
+          </>
+        )}
+      </Grid>
     </Grid>
   )
 }

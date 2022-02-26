@@ -20,6 +20,8 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import Box from '@mui/material/Box'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 interface iCreateSubtitle {
   storyId: string
@@ -29,6 +31,8 @@ interface iCreateSubtitle {
 const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [file, setFile] = useState<File | null>(null)
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const handleClose = (subtitle?: SubtitleType) => {
     onClose(subtitle)
@@ -63,6 +67,7 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
   return (
     <form>
       <Dialog
+        fullScreen={fullScreen}
         fullWidth
         maxWidth="sm"
         onClose={(event, reason) => {

@@ -172,7 +172,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               collection={collections[0]}
             />
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="about">
-              <About update={updateStory} canEdit={isOwner} title={title} id={storyId} description={description}>
+              <About update={updateStory} canEdit={isOwner} title={title} id={storyId} description={description || ''}>
                 <Comments type={AssetTypes.story} id={storyId} watchers={watchers} />
               </About>
             </TabPanel>

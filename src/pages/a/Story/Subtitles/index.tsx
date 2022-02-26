@@ -81,16 +81,16 @@ const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId, refetch: reftechSto
   const handleCloseDialog = (subtitle?: SubtitleType) => {
     if (subtitle) {
       setSubtitles([...subtitles, subtitle])
+      simpleDialogActions.open(
+        'Subtitle Updated',
+        'To see your changes reflected in the captions displayed in the video player, you will need to refresh the page and Select English Transcript in the video player caption control. Do you want to see your changes?',
+        { okText: 'Yes, refresh the page now', cancelText: 'No, I will refresh later', showOk: true },
+        success => {
+          if (success) window.location.reload()
+        }
+      )
     }
     setIsOpen(false)
-    simpleDialogActions.open(
-      'Subtitle Updated',
-      'To see your changes reflected in the captions displayed in the video player, you will need to refresh the page and Select English Transcript in the video player caption control. Do you want to see your changes?',
-      { okText: 'Yes, refresh the page now', cancelText: 'No, I will refresh later' },
-      success => {
-        if (success) window.location.reload()
-      }
-    )
   }
 
   return (

@@ -167,7 +167,7 @@ const StepInviteRecorder = () => {
     setFieldValue('title', selectedSuggestion)
     setSelectedSuggestion('')
   }, [selectedSuggestion])
-  console.log(formik.values)
+
   return (
     <form>
       <Dialog

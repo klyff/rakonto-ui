@@ -19,11 +19,15 @@ import { SimpleSnackbarContext } from '../SimpleSnackbar'
 import Droparea from './Droparea'
 import { ImageType } from '../../lib/types'
 import { CircularProgress } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const CreateCollection = () => {
   const { store, actions } = useContext(CreateCollectionContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [progress, setProgress] = useState<number>(0)
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const onSubmit = async ({ title, cover, description }: FormikValues) => {
     try {
@@ -72,6 +76,7 @@ const CreateCollection = () => {
   return (
     <form>
       <Dialog
+        fullScreen={fullScreen}
         fullWidth
         maxWidth="md"
         onClose={(event, reason) => {

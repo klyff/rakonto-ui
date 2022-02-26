@@ -89,8 +89,8 @@ const Invitation: React.FC = () => {
         setProgress(progress)
       }
     )
-    setProgress(0)
     handleNext()
+    setProgress(0)
   }
 
   const formik = useFormik({
@@ -135,7 +135,6 @@ const Invitation: React.FC = () => {
   }
 
   if (loading) return <CircularLoadingCentred />
-  console.log(formik.errors)
   return (
     <>
       <Box sx={{ width: '100%', paddingY: 5, paddingX: 2 }}>

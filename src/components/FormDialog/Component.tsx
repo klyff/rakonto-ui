@@ -9,8 +9,12 @@ import { FormDialogContext } from './Context'
 import { useContext } from 'react'
 import { Formik, Form, FormikValues } from 'formik'
 import TextField from '@mui/material/TextField'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const FormDialog: React.FC = () => {
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const { store, actions } = useContext(FormDialogContext)
   const submit = (values: FormikValues) => {
     store.submit(values)
@@ -26,7 +30,7 @@ const FormDialog: React.FC = () => {
     >
       {({ isSubmitting, handleBlur, values, handleChange, touched, errors, handleSubmit }) => (
         <Form>
-          <Dialog open={true}>
+          <Dialog fullScreen={fullScreen} open={true}>
             <DialogTitle>{store.title}</DialogTitle>
             <DialogContent>
               <DialogContentText sx={{ paddingBottom: 3 }}>{store.content}</DialogContentText>

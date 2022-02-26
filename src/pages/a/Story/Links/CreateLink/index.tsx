@@ -14,6 +14,8 @@ import { LinkType } from '../../../../../lib/types'
 import Typography from '@mui/material/Typography'
 import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
 import LoadingButton from '@mui/lab/LoadingButton'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
 
 interface iCreateLink {
   storyId: string
@@ -21,6 +23,8 @@ interface iCreateLink {
 }
 
 const CreateLink: React.FC<iCreateLink> = ({ storyId, onClose }) => {
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
   const handleClose = (link?: LinkType) => {
@@ -56,6 +60,7 @@ const CreateLink: React.FC<iCreateLink> = ({ storyId, onClose }) => {
   return (
     <form>
       <Dialog
+        fullScreen={fullScreen}
         fullWidth
         maxWidth="sm"
         onClose={(event, reason) => {

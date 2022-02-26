@@ -13,12 +13,16 @@ import { QueueProcessorContext } from '../QueueProcessor'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
 import InputFileArea from '../InputFileArea'
 import api from '../../lib/api'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
   const { actions: queueActions } = useContext(QueueProcessorContext)
   const { store, actions } = useContext(ChangeMediaContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [file, setFile] = useState<File | null>(null)
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const handleSave = async () => {
     const story = await api.getStory(storyId)
@@ -46,6 +50,7 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
 
   return (
     <Dialog
+      fullScreen={fullScreen}
       fullWidth
       maxWidth="md"
       onClose={(event, reason) => {

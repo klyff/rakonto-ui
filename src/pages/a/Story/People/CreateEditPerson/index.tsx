@@ -17,6 +17,8 @@ import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
 import { ImageType, PersonType } from '../../../../../lib/types'
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
 import CreateIcon from '@mui/icons-material/Create'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
 
 interface iCreateEditCollection {
   selectedPerson?: PersonType
@@ -27,6 +29,8 @@ const CreateEditCollection: React.FC<iCreateEditCollection> = ({ selectedPerson,
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [progress, setProgress] = useState<number>(0)
   const [picture, setPicture] = useState<ImageType | null>(selectedPerson?.picture || null)
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const isEditMode = !!selectedPerson?.id
 
@@ -76,6 +80,7 @@ const CreateEditCollection: React.FC<iCreateEditCollection> = ({ selectedPerson,
   return (
     <form>
       <Dialog
+        fullScreen={fullScreen}
         fullWidth
         maxWidth="md"
         onClose={(event, reason) => {

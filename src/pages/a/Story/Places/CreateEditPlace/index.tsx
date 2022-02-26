@@ -16,6 +16,8 @@ import { LocationSearchType, markerType, PersonType, PlaceType } from '../../../
 import Typography from '@mui/material/Typography'
 import Search from './Search'
 import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
 
 interface iCreateEditPlace {
   onClose: (place?: PlaceType) => void
@@ -26,6 +28,8 @@ const CreateEditPlace: React.FC<iCreateEditPlace> = ({ onClose, selectedPlace })
   const [location, setLocation] = useState<LocationSearchType | undefined>(undefined)
   const [markers, setMarkers] = useState<markerType[]>([])
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const handleClose = (place?: PlaceType) => {
     onClose(place)
@@ -84,6 +88,7 @@ const CreateEditPlace: React.FC<iCreateEditPlace> = ({ onClose, selectedPlace })
   return (
     <form>
       <Dialog
+        fullScreen={fullScreen}
         fullWidth
         maxWidth="md"
         onClose={(event, reason) => {

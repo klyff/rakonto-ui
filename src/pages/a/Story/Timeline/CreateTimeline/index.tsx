@@ -16,6 +16,8 @@ import api from '../../../../../lib/api'
 import { TimelineType } from '../../../../../lib/types'
 import Typography from '@mui/material/Typography'
 import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 interface iCreateTimeline {
   storyId: string
@@ -23,6 +25,8 @@ interface iCreateTimeline {
 }
 
 const CreateTimeline: React.FC<iCreateTimeline> = ({ storyId, onClose }) => {
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
   const handleClose = (timeline?: TimelineType) => {
@@ -65,6 +69,7 @@ const CreateTimeline: React.FC<iCreateTimeline> = ({ storyId, onClose }) => {
   return (
     <form>
       <Dialog
+        fullScreen={fullScreen}
         fullWidth
         maxWidth="md"
         onClose={(event, reason) => {

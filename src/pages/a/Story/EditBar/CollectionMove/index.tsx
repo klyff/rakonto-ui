@@ -17,6 +17,10 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import Typography from '@mui/material/Typography'
 import { SimpleSnackbarContext } from '../../../../../components/SimpleSnackbar'
 import MenuItem from '@mui/material/MenuItem'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
+import CloseIcon from '@mui/icons-material/Close'
+import IconButton from '@mui/material/IconButton'
 
 interface iCollectionMove {
   storyId: string
@@ -33,6 +37,8 @@ const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload, currentCol
   const [loading, setLoading] = useState<boolean>(false)
   const [searchValue, setSearchValue] = useState<string>('')
   const [selectedCollection, setSelectedCollection] = useState<SearchResultType | null>(null)
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const searchHandler = useCallback(
     debounce(async (query: string) => {
@@ -99,8 +105,21 @@ const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload, currentCol
           Change collection
         </Button>
       )}
-      <Dialog open={open} maxWidth="md" fullWidth onClose={handleClose}>
-        <DialogTitle>Move to collection</DialogTitle>
+      <Dialog fullScreen={fullScreen} open={open} maxWidth="md" fullWidth onClose={handleClose}>
+        <DialogTitle>
+          Move to collection{' '}
+          <IconButton
+            aria-label="close"
+            onClick={() => setOpen(false)}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <DialogContentText component="div">
             <Typography variant="body2" fontWeight="700" marginBottom={3} gutterBottom>
