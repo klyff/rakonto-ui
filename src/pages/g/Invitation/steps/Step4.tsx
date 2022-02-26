@@ -1,12 +1,12 @@
 import React from 'react'
-import { Invite } from '../../../../lib/types'
+import { InviteType } from '../../../../lib/types'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 
-const Step4: React.FC<{ invite: Invite }> = ({ invite }) => {
+const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
   return (
     <Grid container>
       <Grid item xs={12}>

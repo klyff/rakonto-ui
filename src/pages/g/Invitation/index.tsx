@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { parse } from 'qs'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams, useHistory } from 'react-router-dom'
 import api from '../../../lib/api'
-import { Invite } from '../../../lib/types'
+import { InviteType } from '../../../lib/types'
 import Typography from '@mui/material/Typography'
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
@@ -20,15 +20,18 @@ import Step4 from './steps/Step4'
 import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 import { useFormik, FormikValues, FormikProvider } from 'formik'
 import schema from './schema'
+import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 
 const Invitation: React.FC = () => {
   const location = useLocation()
   const { id } = useParams<{ id: string }>()
   const [token, setToken] = useState<string>('')
-  const [invite, setInvite] = useState<Invite | null>(null)
+  const [invite, setInvite] = useState<InviteType | null>(null)
   const [activeStep, setActiveStep] = useState(0)
   const [progress, setProgress] = useState(0)
   const [loading, setLoading] = useState(true)
+  const { actions: snackActions } = useContext(SimpleSnackbarContext)
+  const history = useHistory()
 
   const fetch = async () => {
     try {
@@ -36,7 +39,8 @@ const Invitation: React.FC = () => {
       setInvite(inviteResult)
       setLoading(false)
     } catch (e) {
-      console.log(e)
+      snackActions.open('This link was expired.')
+      history.push('u/signin')
     }
   }
 

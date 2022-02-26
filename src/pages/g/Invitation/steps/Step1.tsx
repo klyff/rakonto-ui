@@ -2,10 +2,10 @@ import React from 'react'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { Invite } from '../../../../lib/types'
+import { InviteType } from '../../../../lib/types'
 import Player from '../../../../components/Player'
 
-const Step1: React.FC<{ invite: Invite }> = ({ invite }) => {
+const Step1: React.FC<{ invite: InviteType }> = ({ invite }) => {
   return (
     <Grid container>
       <Grid item xs={12} md={invite.video ? 6 : 12}>

@@ -174,6 +174,7 @@ export type StoryType = {
   timelineEntries: TimelineType[]
   places: PlaceType[]
   subtitles: SubtitleType[]
+  submission: SubmissipnType
 }
 
 export type StoryCreateType = {
@@ -359,7 +360,7 @@ export type InviteInput = {
   requestedMediaLength: number
   dueAt: Date
 }
-export type Invite = {
+export type InviteType = {
   id: string
   collectionId: string
   video: {
@@ -378,6 +379,16 @@ export type Invite = {
   dueAt: Date
   createdAt: Date
   ready: boolean
+}
+
+export type SubmissipnType = {
+  createdAt: Date
+  firstName: string
+  id: string
+  invite: InviteType
+  lastName: string
+  name: string
+  storyId: string
 }
 
 export enum LanguageEnum {

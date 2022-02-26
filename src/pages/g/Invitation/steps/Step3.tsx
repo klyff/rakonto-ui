@@ -1,5 +1,5 @@
 import React from 'react'
-import { Invite } from '../../../../lib/types'
+import { InviteType } from '../../../../lib/types'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
@@ -8,7 +8,7 @@ import { useField } from 'formik'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 
-const Step3: React.FC<{ invite: Invite; progress: number }> = ({ invite, progress }) => {
+const Step3: React.FC<{ invite: InviteType; progress: number }> = ({ invite, progress }) => {
   const [{ onChange: firstNameOnChange, onBlur: firstNameOnBlur, value: firstNameValue }, { error, touched }] =
     useField('firstName')
   const [{ onChange: lastNameOnChange, onBlur: lastNameOnBlur, value: lastNameValue }] = useField('lastName')

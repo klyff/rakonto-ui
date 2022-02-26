@@ -19,7 +19,9 @@ const StoryCard: React.FC<{ story: StoryType }> = ({ story }) => {
         preview={story.type === 'VIDEO' ? story.video.gifUrl : ''}
         loading={false}
         type={story.type}
-        title={story.title}
+        title={`${story.title}${
+          !!story.submission && ` by ${story.submission.firstName} ${story.submission.lastName}`
+        }`}
         subTitle={story.collections[0]?.title}
         owner={story.owner}
         thumbnail={story.thumbnailUrl}

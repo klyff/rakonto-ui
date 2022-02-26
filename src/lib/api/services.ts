@@ -39,7 +39,7 @@ import {
   TranscriptionType,
   UserFormType,
   UserType,
-  WatcherType, Invite
+  WatcherType, InviteType
 } from '../types'
 
 // User api
@@ -662,7 +662,7 @@ export const publish =
 // Invite
 export const createInvite =
   (request: AxiosInstance) =>
-    async (data: InviteInput, file?: File | null, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<Invite> => {
+    async (data: InviteInput, file?: File | null, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<InviteType> => {
       const formdata = new FormData()
       if (file) formdata.append('file', file, file.name)
       formdata.append(
@@ -678,13 +678,13 @@ export const createInvite =
 
 export const sendInviteEmails =
   (request: AxiosInstance) =>
-    async (id: string, emails: { [key: string]: string }): Promise<Invite> => {
+    async (id: string, emails: { [key: string]: string }): Promise<InviteType> => {
       return await request.post(`a/collection-invites/${id}/send-email`, { emails }).then(res => res.data)
     }
 
 export const getInviteSubmission =
   (request: AxiosInstance) =>
-    async (id: string, token: string): Promise<Invite> => {
+    async (id: string, token: string): Promise<InviteType> => {
       return await request.get(`g/collection-invite-submissions/${id}/invite`, { headers: {
         'Authorization': `Bearer ${token}`
         }}).then(res => res.data)
@@ -692,7 +692,7 @@ export const getInviteSubmission =
 
 export const sendInviteSubmission =
   (request: AxiosInstance) =>
-    async (id: string, token: string, data: { firstName: string, lastName?: string } , file: File, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<Invite> => {
+    async (id: string, token: string, data: { firstName: string, lastName?: string } , file: File, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<InviteType> => {
       const formdata = new FormData()
       formdata.append('file', file, file.name)
       formdata.append(

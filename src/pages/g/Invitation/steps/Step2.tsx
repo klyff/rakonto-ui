@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Invite } from '../../../../lib/types'
+import { InviteType } from '../../../../lib/types'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Recorder from '../../../../components/InputFileArea/Recorder'
 import { useField } from 'formik'
 
-const Step2: React.FC<{ invite: Invite }> = ({ invite }) => {
+const Step2: React.FC<{ invite: InviteType }> = ({ invite }) => {
   const [uploadType, setUploadType] = useState<'AUDIO' | 'VIDEO' | null>(invite.requestedMediaType)
   const [, , { setValue }] = useField('file')
   return (

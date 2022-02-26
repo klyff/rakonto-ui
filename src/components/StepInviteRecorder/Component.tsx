@@ -20,7 +20,7 @@ import Step4 from './steps/step4'
 import Step2 from './steps/step2'
 import Step3 from './steps/step3'
 import Step1 from './steps/step1'
-import { Invite, MediaType, SearchResultType } from '../../lib/types'
+import { InviteType, MediaType, SearchResultType } from '../../lib/types'
 import { addDays } from 'date-fns'
 import api from '../../lib/api'
 import { SocketConnectorContext } from '../SocketConnector'
@@ -30,7 +30,7 @@ const StepInviteRecorder = () => {
   const { actions } = useContext(StepInviteRecorderContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [selectedSuggestion, setSelectedSuggestion] = useState<string>('')
-  const [invite, setInvite] = useState<Invite | null>(null)
+  const [invite, setInvite] = useState<InviteType | null>(null)
   const [activeStep, setActiveStep] = useState(0)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
