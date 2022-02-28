@@ -1,40 +1,40 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { InviteType } from '../../../../lib/types'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import Recorder from '../../../../components/InputFileArea/Recorder'
 import { useField } from 'formik'
+import InputFileArea from '../../../../components/InputFileArea'
 
 const Step2: React.FC<{ invite: InviteType }> = ({ invite }) => {
-  const [uploadType, setUploadType] = useState<'AUDIO' | 'VIDEO' | null>(invite.requestedMediaType)
-  const [, , { setValue }] = useField('file')
+  const [{ value: file }, , { setValue }] = useField('file')
   return (
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`${invite.user.firstName} would like you to record ${uploadType?.toLowerCase() || 'audio or video'}.
+          {`${invite.user.firstName} would like you to record ${
+            invite.requestedMediaType?.toLowerCase() || 'audio or video'
+          }.
           If possible, please keep your recording under ${invite.requestedMediaLength} minutes.`}
         </Typography>
-        <Typography variant="h6">When you are ready, press Record and tell your story.</Typography>
+        <Typography variant="h6">When you are ready, press Upload or Start recording and tell your story.</Typography>
       </Grid>
       <Grid
         item
         xs={12}
         mt={4}
+        mb={9}
         sx={{
           display: 'flex',
           justifyContent: 'center',
           width: '100%'
         }}
       >
-        <Recorder
-          type={uploadType}
-          onDrop={file => setValue(file)}
-          disableChangeMediaType={!!invite.requestedMediaType}
+        <InputFileArea
+          file={file}
+          callback={file => setValue(file)}
           countdown={invite.requestedMediaLength}
-          onSelected={(value: 'AUDIO' | 'VIDEO' | null) => {
-            setUploadType(value)
-          }}
+          disableChangeMediaType={!!invite.requestedMediaType}
+          startType={invite.requestedMediaType || null}
         />
       </Grid>
     </Grid>

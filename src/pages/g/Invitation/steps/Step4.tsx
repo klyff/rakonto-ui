@@ -4,7 +4,6 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
 
 const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
   return (
@@ -23,13 +22,24 @@ const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
         </Typography>
       </Grid>
       <Grid textAlign="center" item xs={12} mt={4}>
-        <Button href={'/u/signup'} sx={{ maxWidth: { xs: 'inherit', md: '300px' } }} variant="contained" fullWidth>
+        <Button
+          autoFocus
+          href={'/u/signup'}
+          sx={{ maxWidth: { xs: 'inherit', md: '400px' } }}
+          variant="contained"
+          fullWidth
+        >
           Create new account now
         </Button>
       </Grid>
       <Grid textAlign="center" justifySelf="center" item xs={12} mt={2}>
-        <Button href="http://rakonto.io" sx={{ maxWidth: { xs: 'inherit', md: '300px' } }} fullWidth>
+        <Button href="http://rakonto.io" sx={{ maxWidth: { xs: 'inherit', md: '400px' } }} variant="outlined" fullWidth>
           I&apos;ll create an account later
+        </Button>
+      </Grid>
+      <Grid textAlign="center" justifySelf="center" item xs={12} mt={2}>
+        <Button href={'/u/signin'} sx={{ maxWidth: { xs: 'inherit', md: '400px' } }} fullWidth>
+          If you already have a Rakonto account, you may login.
         </Button>
       </Grid>
     </Grid>

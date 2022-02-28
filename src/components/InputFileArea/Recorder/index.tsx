@@ -81,20 +81,22 @@ const useCountDown = (countdown = 0, expire?: () => void) => {
 }
 
 interface iRecorder {
-  onSelected?: (value: 'AUDIO' | 'VIDEO' | null) => void
+  onSelected?: (isSelected: boolean) => void
   onDrop: (value: File | null) => void
   type?: 'AUDIO' | 'VIDEO' | null
   disableChangeMediaType?: boolean
   countdown?: number
+  clearMedia?: () => void
 }
 
-const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop, disableChangeMediaType, countdown }) => {
+const Recorder: React.FC<iRecorder> = ({ onSelected, type, clearMedia, onDrop, disableChangeMediaType, countdown }) => {
   const [showCountdown, setShowCountdown] = useStateCallback<boolean>(false)
   const [hideStartRecording, setHideStartRecording] = useStateCallback<boolean>(false)
+  const [isRecordingType, setIsRecordingType] = useState<'AUDIO' | 'VIDEO' | null>(null)
 
   const { previewStream, previewAudioStream, status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
     useReactMediaRecorder({
-      video: type === 'VIDEO',
+      video: isRecordingType === 'VIDEO',
       audio: true,
       onStop: (blobUrl: string, blob: Blob) => {
         onDrop(
@@ -125,9 +127,14 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop, disableChange
     })
   }
 
+  const handleSelectType = (type: 'AUDIO' | 'VIDEO' | null) => {
+    setIsRecordingType(type)
+    onSelected && onSelected(true)
+  }
+
   return (
     <>
-      {!type && (
+      {!isRecordingType && (
         <Box
           sx={{
             width: { xs: '100%', md: 422 },
@@ -167,22 +174,24 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop, disableChange
               />
             </Box>
             <Typography sx={{ marginBottom: 6 }} fontWeight="700" align="center" variant="h6" gutterBottom>
-              Record video or audio from your device
+              {`Record ${!type ? 'video or audio' : type.toLowerCase()} from your device`}
             </Typography>
-            {onSelected && (
-              <ButtonGroup disableElevation size="large" variant="outlined">
-                <Button onClick={() => onSelected('VIDEO')} startIcon={<MovieIcon />}>
+            <ButtonGroup disableElevation size="large" variant="outlined">
+              {(!type || type === 'VIDEO') && (
+                <Button onClick={() => handleSelectType('VIDEO')} startIcon={<MovieIcon />}>
                   Video
                 </Button>
-                <Button onClick={() => onSelected('AUDIO')} endIcon={<HeadphonesIcon />}>
+              )}
+              {(!type || type === 'AUDIO') && (
+                <Button onClick={() => handleSelectType('AUDIO')} endIcon={<HeadphonesIcon />}>
                   Audio
                 </Button>
-              </ButtonGroup>
-            )}
+              )}
+            </ButtonGroup>
           </Box>
         </Box>
       )}
-      {type && (
+      {isRecordingType && (
         <Box
           sx={{
             position: 'relative',
@@ -245,12 +254,13 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, onDrop, disableChange
                 <Button size="large" variant="outlined" onClick={handleStart}>
                   Start recording
                 </Button>
-                {!disableChangeMediaType && !mediaBlobUrl && onSelected && (
+                {!mediaBlobUrl && (
                   <Button
                     size="large"
                     variant="outlined"
                     onClick={() => {
-                      onSelected(null)
+                      setIsRecordingType(null)
+                      onSelected && onSelected(false)
                     }}
                   >
                     Change recording type

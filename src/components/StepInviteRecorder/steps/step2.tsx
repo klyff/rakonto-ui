@@ -1,13 +1,13 @@
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Recorder from '../../InputFileArea/Recorder'
 import React from 'react'
 import { useField } from 'formik'
 import TextField from '@mui/material/TextField'
 import FormHelperText from '@mui/material/FormHelperText'
+import InputFileArea from '../../InputFileArea'
 
 const Step2 = () => {
-  const [, { error: errorFile }, { setValue }] = useField('file')
+  const [{ value: file }, { error: errorFile }, { setValue }] = useField('file')
   const [{ onChange, onBlur, value }, { error, touched }] = useField('instructions')
   return (
     <>
@@ -36,7 +36,7 @@ const Step2 = () => {
       />
       <Typography mb={2}>If you like you can record an invitation so those you invite can see your request.</Typography>
       <Box>
-        <Recorder type="VIDEO" onDrop={file => setValue(file)} />
+        <InputFileArea file={file} callback={file => setValue(file)} disableChangeMediaType={true} startType="VIDEO" />
         {errorFile && <FormHelperText error>{errorFile}</FormHelperText>}
       </Box>
     </>

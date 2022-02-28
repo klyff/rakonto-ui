@@ -8,7 +8,7 @@ import Player from '../../../../components/Player'
 const Step1: React.FC<{ invite: InviteType }> = ({ invite }) => {
   return (
     <Grid container>
-      <Grid item xs={12} md={invite.video ? 6 : 12}>
+      <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
           {`Hi! ${invite.user.firstName} ${invite.user.lastName} has invited you to record a story.`}
           <br />
@@ -24,7 +24,7 @@ const Step1: React.FC<{ invite: InviteType }> = ({ invite }) => {
         </Typography>
       </Grid>
       {invite.video && (
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} mb={12}>
           <Player subtitles={[]} type={'VIDEO'} media={invite.video} />
         </Grid>
       )}

@@ -74,25 +74,19 @@ const Invitation: React.FC = () => {
 
   const initialValues: {
     file: File | null
-    fistName: string
-    lastName: string
+    name: string
+    email: string
   } = {
     file: null,
-    fistName: '',
-    lastName: ''
+    name: '',
+    email: ''
   }
 
   const handleSubmit = async (values: FormikValues) => {
-    await api.sendInviteSubmission(
-      id,
-      token,
-      { firstName: values.firstName, lastName: values.lastName },
-      values.file,
-      event => {
-        const progress = Math.round((event.loaded * 100) / event.total)
-        setProgress(progress)
-      }
-    )
+    await api.sendInviteSubmission(id, token, { name: values.name, email: values.email }, values.file, event => {
+      const progress = Math.round((event.loaded * 100) / event.total)
+      setProgress(progress)
+    })
     handleNext()
     setProgress(0)
   }

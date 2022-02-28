@@ -9,9 +9,11 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 
 const Step3: React.FC<{ invite: InviteType; progress: number }> = ({ invite, progress }) => {
-  const [{ onChange: firstNameOnChange, onBlur: firstNameOnBlur, value: firstNameValue }, { error, touched }] =
-    useField('firstName')
-  const [{ onChange: lastNameOnChange, onBlur: lastNameOnBlur, value: lastNameValue }] = useField('lastName')
+  const [{ onChange: nameOnChange, onBlur: nameOnBlur, value: nameValue }, { error, touched }] = useField('name')
+  const [
+    { onChange: emailOnChange, onBlur: emailOnBlur, value: emailValue },
+    { error: emailError, touched: emailTouched }
+  ] = useField('email')
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -32,12 +34,12 @@ const Step3: React.FC<{ invite: InviteType; progress: number }> = ({ invite, pro
       </Grid>
       <Grid item xs={12} md={6}>
         <TextField
-          label="First name"
-          name="firstName"
+          label="Name"
+          name="name"
           type="text"
-          value={firstNameValue}
-          onChange={firstNameOnChange}
-          onBlur={firstNameOnBlur}
+          value={nameValue}
+          onChange={nameOnChange}
+          onBlur={nameOnBlur}
           error={touched && Boolean(error)}
           helperText={(touched && error) || ' '}
           fullWidth
@@ -45,12 +47,14 @@ const Step3: React.FC<{ invite: InviteType; progress: number }> = ({ invite, pro
       </Grid>
       <Grid item xs={12} md={6}>
         <TextField
-          label="Last name"
-          name="lastName"
+          label="Email"
+          name="email"
           type="text"
-          value={lastNameValue}
-          onChange={lastNameOnChange}
-          onBlur={lastNameOnBlur}
+          value={emailValue}
+          onChange={emailOnChange}
+          onBlur={emailOnBlur}
+          error={emailTouched && Boolean(emailError)}
+          helperText={(emailTouched && emailError) || ' '}
           fullWidth
         />
       </Grid>

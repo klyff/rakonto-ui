@@ -28,11 +28,11 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
       </Grid>
       <Grid item xs={12}>
         <Grid container spacing={2} justifyContent="center">
-          <Grid item xs>
+          <Grid item xs={12} sm>
             <SearchBox onSearch={value => history.push({ pathname: '/a/search', search: `q=${value}` })} />
           </Grid>
-          <Grid item xs minWidth={180} textAlign="right">
-            <ButtonGroup variant="outlined">
+          <Grid item xs={12} sm minWidth={180} textAlign="right">
+            <ButtonGroup sx={{ height: '56px' }} size="large" variant="outlined">
               <Button onClick={() => newStoryActions.open()}>New story</Button>
               <Button onClick={() => recorderActions.open()}>Request a story</Button>
             </ButtonGroup>

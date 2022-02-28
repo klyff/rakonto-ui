@@ -692,7 +692,7 @@ export const getInviteSubmission =
 
 export const sendInviteSubmission =
   (request: AxiosInstance) =>
-    async (id: string, token: string, data: { firstName: string, lastName?: string } , file: File, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<InviteType> => {
+    async (id: string, token: string, data: { name: string, email?: string } , file: File, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<InviteType> => {
       const formdata = new FormData()
       formdata.append('file', file, file.name)
       formdata.append(

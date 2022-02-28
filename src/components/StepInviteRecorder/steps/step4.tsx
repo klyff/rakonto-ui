@@ -129,7 +129,7 @@ const Step4: React.FC<{ loading: boolean; url: string }> = ({ loading, url }) =>
                     mt: 2
                   }}
                 >
-                  <CopyToClipboard text={url}>
+                  <CopyToClipboard text={url} options={{ format: 'text' }}>
                     <Button variant="outlined">Copy to clipboard</Button>
                   </CopyToClipboard>
                 </Box>
@@ -150,7 +150,7 @@ const Step4: React.FC<{ loading: boolean; url: string }> = ({ loading, url }) =>
                 >
                   <CircularProgress variant="indeterminate" size={80} />
                   <Typography variant="caption" sx={{ marginY: 2 }}>
-                    generating the link...
+                    We&apos;re creating your link. It will be ready shortly.
                   </Typography>
                 </Box>
               </>
