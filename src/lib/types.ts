@@ -383,10 +383,9 @@ export type InviteType = {
 
 export type SubmissipnType = {
   createdAt: Date
-  firstName: string
   id: string
   invite: InviteType
-  lastName: string
+  email: string
   name: string
   storyId: string
 }
