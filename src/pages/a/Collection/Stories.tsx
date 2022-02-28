@@ -100,7 +100,7 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
         }}
       >
         <Typography sx={{ fontWeight: '700' }} variant="h5" gutterBottom>
-          {`${story.title}${!!story.submission && ` by ${story.submission.name}`}`}
+          {`${story.title}${story.submission ? ` by ${story.submission.name}` : ''} `}
         </Typography>
         <Typography
           sx={{

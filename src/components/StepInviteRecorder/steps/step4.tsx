@@ -149,7 +149,7 @@ const Step4: React.FC<{ loading: boolean; url: string }> = ({ loading, url }) =>
                   }}
                 >
                   <CircularProgress variant="indeterminate" size={80} />
-                  <Typography variant="caption" sx={{ marginY: 2 }}>
+                  <Typography textAlign="center" variant="caption" sx={{ marginY: 2 }}>
                     We&apos;re creating your link. It will be ready shortly.
                   </Typography>
                 </Box>

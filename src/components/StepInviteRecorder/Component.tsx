@@ -32,6 +32,7 @@ const StepInviteRecorder = () => {
   const [selectedSuggestion, setSelectedSuggestion] = useState<string>('')
   const [invite, setInvite] = useState<InviteType | null>(null)
   const [activeStep, setActiveStep] = useState(0)
+  const [progress, setProgress] = useState(0)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
@@ -96,10 +97,11 @@ const StepInviteRecorder = () => {
         },
         values.file,
         event => {
-          const progress = Math.round((event.loaded * 100) / event.total)
+          setProgress(Math.round((event.loaded * 100) / event.total))
         }
       )
       setInvite(inviteResult)
+      setProgress(0)
       setLoading(!!inviteResult.video)
       handleNext()
     } catch (e) {
@@ -209,7 +211,7 @@ const StepInviteRecorder = () => {
             <FormikProvider value={formik}>
               {activeStep === 0 && <Step1 />}
               {activeStep === 1 && <Step2 />}
-              {activeStep === 2 && <Step3 />}
+              {activeStep === 2 && <Step3 progress={progress} />}
             </FormikProvider>
             <FormikProvider value={formikStep4}>
               {activeStep === 3 && <Step4 loading={loading} url={invite!.url} />}
