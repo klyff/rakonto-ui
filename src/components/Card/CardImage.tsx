@@ -12,10 +12,13 @@ interface iCardImage {
 const CardImage: React.FC<iCardImage> = ({ type, thumbnail, preview }) => {
   const [isLoading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<boolean>(false)
-  const [image, setImage] = useState<string>('')
+  const [image, setImage] = useState<string>(
+    type === 'COLLECTION' ? '/images/CoverCardPlaceholder2.png' : '/images/CoverCardPlaceholder.png'
+  )
   const [hover, setHover] = useState<boolean>(false)
 
   useEffect(() => {
+    setLoading(true)
     if (!error && preview) {
       setImage(hover ? preview : thumbnail)
     } else {
@@ -30,15 +33,11 @@ const CardImage: React.FC<iCardImage> = ({ type, thumbnail, preview }) => {
   const handleError = () => {
     setLoading(false)
     setError(true)
-    if (type === 'AUDIO') {
-      setImage('/images/CoverCardPlaceholder.png')
-    }
-    if (type === 'VIDEO') {
-      setImage('/images/CoverCardPlaceholder.png')
-    }
     if (type === 'COLLECTION') {
       setImage('/images/CoverCardPlaceholder2.png')
+      return
     }
+    setImage('/images/CoverCardPlaceholder.png')
   }
 
   return (
@@ -59,9 +58,11 @@ const CardImage: React.FC<iCardImage> = ({ type, thumbnail, preview }) => {
           objectFit: 'cover',
           objectPosition: 'center',
           borderTopLeftRadius: 8,
-          borderTopRightRadius: 8
+          borderTopRightRadius: 8,
+          display: !isLoading ? 'block' : 'none'
         }}
         src={image}
+        alt="preview"
         onLoad={() => handleLoaded()}
         onError={() => handleError()}
       />

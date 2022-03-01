@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box'
-import UploadFileIcon from '@mui/icons-material/UploadFile'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import React from 'react'
+import Player from '../Player'
 
 interface RemoveFile {
   file: File
@@ -14,43 +14,26 @@ const RemoveFile: React.FC<RemoveFile> = ({ file, onRemove }) => {
     <Box
       sx={{
         display: 'flex',
-        flexFlow: 'column'
+        flexFlow: 'column',
+        width: '100%'
       }}
     >
       <Box
-        component="div"
         sx={{
-          height: 422,
           display: 'flex',
-          flexFlow: 'column',
-          justifyContent: 'center',
+          width: '100%',
           alignItems: 'center'
         }}
       >
-        <Box
-          sx={{
-            width: 72,
-            height: 72,
-            borderRadius: 50,
-            backgroundColor: 'primary.main',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 2
-          }}
-        >
-          <UploadFileIcon
-            sx={{
-              fontSize: 52,
-              color: 'common.black'
-            }}
-          />
-        </Box>
-        <Typography fontWeight="700" align="center" variant="h5" gutterBottom>
+        <Typography mb="unset" fontWeight="700" align="center" variant="subtitle1" gutterBottom>
           {file.name}
         </Typography>
-        <Button onClick={onRemove}>Remove</Button>
+        <Box flex={1} />
+        <Box>
+          <Button onClick={onRemove}>Remove</Button>
+        </Box>
       </Box>
+      <Player maxHeight="520px" subtitles={[]} type={'VIDEO'} media={{ id: 'local', url: URL.createObjectURL(file) }} />
     </Box>
   )
 }

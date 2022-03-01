@@ -12,9 +12,18 @@ interface iVideoPlayer {
   subtitles?: SubtitleType[]
   autoplay?: boolean
   handleEnd?: () => void
+  maxHeight?: string
 }
 
-const Player: React.FC<iVideoPlayer> = ({ autoplay, handleEnd, subtitles, media, type, cover }) => {
+const Player: React.FC<iVideoPlayer> = ({
+  maxHeight = '720px',
+  autoplay,
+  handleEnd,
+  subtitles,
+  media,
+  type,
+  cover
+}) => {
   const options: VideoJsPlayerOptions = {
     poster: cover,
     preload: 'auto',
@@ -36,7 +45,7 @@ const Player: React.FC<iVideoPlayer> = ({ autoplay, handleEnd, subtitles, media,
       }
     ]
     return (
-      <Box sx={{ maxHeight: { xs: '50vh', md: '720px' }, height: { xs: '50vh', md: '720px' } }}>
+      <Box sx={{ maxHeight: { xs: '50vh', md: maxHeight }, height: { xs: '50vh', md: maxHeight } }}>
         <VideoJsWrapper subtitles={subtitles} key={id} handleEnd={handleEnd} preview={gifUrl} options={options} />
       </Box>
     )
@@ -51,7 +60,7 @@ const Player: React.FC<iVideoPlayer> = ({ autoplay, handleEnd, subtitles, media,
       }
     ]
     return (
-      <Box sx={{ maxHeight: { xs: '50vh', md: '720px' }, height: { xs: '50vh', md: '720px' } }}>
+      <Box sx={{ maxHeight: { xs: '50vh', md: maxHeight }, height: { xs: '50vh', md: maxHeight } }}>
         <AudioJsWrapper subtitles={subtitles} key={id} handleEnd={handleEnd} id={media?.id || ''} options={options} />
       </Box>
     )
