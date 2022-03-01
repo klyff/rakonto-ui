@@ -106,7 +106,7 @@ const Info: React.FC = () => {
   const { getRootProps, getInputProps, open } = useDropzone({ onDrop, noClick: true, accept: 'image/png, image/jpeg' })
 
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
+    <Box sx={{ width: '100%', height: '100%', minHeight: 'inherit' }}>
       <Box component="form" sx={{ bgcolor: 'background.paper', padding: 2, marginBottom: 3 }}>
         <Typography sx={{ paddingBottom: 2, paddingTop: 2 }} variant="h6">
           Let people know about you!
