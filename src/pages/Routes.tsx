@@ -20,7 +20,8 @@ const Collections = lazy(() => import('./a/Collections'))
 const Collection = lazy(() => import('./a/Collection'))
 const Profile = lazy(() => import('./a/Profile'))
 const People = lazy(() => import('./a/People'))
-const Invitation = lazy(() => import('./g/Invitation'))
+const CollectionInvite = lazy(() => import('./g/CollectionInvite'))
+const StoryInvite = lazy(() => import('./g/StoryInvite'))
 
 const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   const token = Cookies.get('token')
@@ -50,7 +51,8 @@ const GuestRoutes: React.FC<RouteProps> = ({ location }) => {
     <GuestLayout>
       <Suspense fallback={<CircularLoadingCentred />}>
         <Switch>
-          <Route exact path="/g/invitation/:id" component={Invitation} />
+          <Route exact path="/g/collection-invite/:id" component={CollectionInvite} />
+          <Route exact path="/g/story-invite/:id" component={StoryInvite} />
           <Redirect to="/" />
         </Switch>
       </Suspense>

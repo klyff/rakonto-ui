@@ -22,7 +22,7 @@ import { useFormik, FormikValues, FormikProvider } from 'formik'
 import schema from './schema'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 
-const Invitation: React.FC = () => {
+const CollectionInvite: React.FC = () => {
   const location = useLocation()
   const { id } = useParams<{ id: string }>()
   const [token, setToken] = useState<string>('')
@@ -179,4 +179,4 @@ const Invitation: React.FC = () => {
   )
 }
 
-export default Invitation
+export default CollectionInvite
