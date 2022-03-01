@@ -164,8 +164,8 @@ const Invitation: React.FC = () => {
             steps={steps.length}
             position="static"
             activeStep={activeStep}
-            backButton={<ButtonBack size="small" startIcon={<KeyboardArrowLeft />} />}
-            nextButton={<ButtonNext size="small" endIcon={activeStep < 2 && <KeyboardArrowRight />} />}
+            backButton={<ButtonBack size="large" startIcon={<KeyboardArrowLeft />} />}
+            nextButton={<ButtonNext size="large" endIcon={activeStep < 2 && <KeyboardArrowRight />} />}
           />
           <Box sx={{ display: { xs: 'none', md: 'flex' }, width: '100%', position: 'fixed', bottom: 24, right: 24 }}>
             <div style={{ flex: 1 }} />

@@ -110,7 +110,8 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
               <TextField
                 label="Time limit per recording (minutes)"
                 name="size"
-                type="text"
+                type="number"
+                InputProps={{ inputProps: { min: 1 } }}
                 value={sizeValue}
                 onChange={sizeOnChange}
                 onBlur={sizeOnBlur}

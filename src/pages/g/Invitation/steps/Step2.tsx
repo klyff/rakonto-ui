@@ -16,7 +16,7 @@ const Step2: React.FC<{ invite: InviteType }> = ({ invite }) => {
           }.
           If possible, please keep your recording under ${invite.requestedMediaLength} minutes.`}
         </Typography>
-        <Typography variant="h6">When you are ready, press Upload or Start recording and tell your story.</Typography>
+        <Typography variant="h6">When you are ready, upload or record your story.</Typography>
       </Grid>
       <Grid
         item
