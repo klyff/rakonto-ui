@@ -61,7 +61,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
 
   useEffect(() => {
     connected &&
-      socketClient.subscribe('/user/queue/story-media-finished', async (message: { body: string }) => {
+      socketClient.subscribe('/user/queue/story-media-success', async (message: { body: string }) => {
         const { payload: data } = JSON.parse(message.body)
         api.getStory(data.id).then(() => {
           setIsLoading(true)

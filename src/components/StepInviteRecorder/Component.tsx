@@ -41,7 +41,7 @@ const StepInviteRecorder = () => {
   useEffect(() => {
     !!invite?.video &&
       connected &&
-      socketClient.subscribe('/user/queue/collection-invite-media-finished', (message: { body: string }) => {
+      socketClient.subscribe('/user/queue/collection-invite-media-success', (message: { body: string }) => {
         const { payload: data } = JSON.parse(message.body)
         if (data.id === invite!.id) {
           setLoading(false)

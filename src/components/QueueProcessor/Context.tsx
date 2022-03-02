@@ -203,7 +203,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     connected &&
-      socketClient.subscribe('/user/queue/story-media-progress', (message: { body: string }) => {
+      socketClient.subscribe('/user/queue/story-media-processing', (message: { body: string }) => {
         const { payload: data } = JSON.parse(message.body)
 
         const item: QueueItem = {

@@ -36,7 +36,7 @@ const Stories: React.FC<RouteComponentProps> = () => {
 
   useEffect(() => {
     connected &&
-      socketClient.subscribe('/user/queue/story-media-finished', (message: { body: string }) => {
+      socketClient.subscribe('/user/queue/story-media-success', (message: { body: string }) => {
         reload()
       })
   }, [socketClient, connected])
