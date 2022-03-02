@@ -7,6 +7,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
+import { isMobile } from 'react-device-detect'
 
 interface iStory {
   story: StoryType
@@ -17,7 +18,7 @@ interface iStory {
 
 const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected }) => {
   const history = useHistory()
-  const [hover, setHover] = useState<boolean>(false)
+  const [hover, setHover] = useState<boolean>(isMobile)
 
   return (
     <Box sx={{ display: 'flex', maxHeight: 200, marginBottom: 1 }} key={story.id}>
@@ -92,36 +93,44 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
       </Box>
       <Box
         sx={{
-          display: 'flex',
-          flexFlow: 'column',
-          width: '100%',
-          padding: 3,
+          flex: 1,
+          display: { xs: 'none', sm: 'flex' },
+          flexFlow: 'row',
           backgroundColor: playing ? 'action.selected' : 'default'
         }}
       >
-        <Typography sx={{ fontWeight: '700' }} variant="h5" gutterBottom>
-          {`${story.title}${!!story.submission && ` by ${story.submission.name}`}`}
-        </Typography>
-        <Typography
+        <Box
           sx={{
-            fontWeight: '400'
+            display: 'flex',
+            flexFlow: 'column',
+            width: '100%',
+            padding: 3
           }}
-          className="line-clamp"
-          variant="h6"
         >
-          {story.description}
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          marginRight: 3
-        }}
-      >
-        <IconButton component={Link} to={`/a/stories/${story.id}`}>
-          <ArrowForwardIcon />
-        </IconButton>
+          <Typography sx={{ fontWeight: '700' }} variant="h5" gutterBottom>
+            {`${story.title}${story.submission ? ` by ${story.submission.name}` : ''} `}
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: '400'
+            }}
+            className="line-clamp"
+            variant="h6"
+          >
+            {story.description}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            marginRight: 3
+          }}
+        >
+          <IconButton component={Link} to={`/a/stories/${story.id}`}>
+            <ArrowForwardIcon />
+          </IconButton>
+        </Box>
       </Box>
     </Box>
   )
@@ -146,7 +155,7 @@ const Stories: React.FC<iStories> = ({ selectedStory, collectionId, stories, pla
             key={story.id}
             story={story}
             isSelected={story.id === selectedStory}
-            playing={playing}
+            playing={playing && story.id === selectedStory}
           />
         ))}
     </Box>

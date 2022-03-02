@@ -11,8 +11,12 @@ import CreditCardIcon from '@mui/icons-material/CreditCard'
 import Info from './Info'
 import Stack from '@mui/material/Stack'
 import { parse } from 'qs'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const Profile: React.FC<RouteComponentProps> = () => {
+  const theme = useTheme()
+  const isMd = useMediaQuery(theme.breakpoints.down('md'))
   const [t, setTab] = useState('info')
   const history = useHistory()
   const location = useLocation()
@@ -40,10 +44,16 @@ const Profile: React.FC<RouteComponentProps> = () => {
       >
         Profile
       </Typography>
-      <Box sx={{ minHeight: 'calc(100% - 155px)', display: 'flex' }}>
+      <Box
+        sx={{
+          height: `calc(100% - 155px)`,
+          display: 'flex',
+          flexFlow: isMd ? 'column' : 'row'
+        }}
+      >
         <Box
           component={Stack}
-          direction="column"
+          direction={isMd ? 'row' : 'column'}
           spacing={2}
           sx={{
             paddingLeft: 2,
@@ -56,7 +66,9 @@ const Profile: React.FC<RouteComponentProps> = () => {
             startIcon={<AccountCircleIcon />}
             onClick={() => onTabClick('info')}
           >
-            <Box sx={{ width: '122px', textAlign: 'start' }}>Personal info</Box>
+            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
+              Personal info
+            </Box>
           </Button>
           <Button
             color={t === 'password' ? 'primary' : 'secondary'}
@@ -64,7 +76,9 @@ const Profile: React.FC<RouteComponentProps> = () => {
             startIcon={<SecurityIcon />}
             onClick={() => onTabClick('password')}
           >
-            <Box sx={{ width: '122px', textAlign: 'start' }}>Password</Box>
+            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
+              Password
+            </Box>
           </Button>
           <Button
             color={t === 'subscription' ? 'primary' : 'secondary'}
@@ -72,7 +86,9 @@ const Profile: React.FC<RouteComponentProps> = () => {
             startIcon={<CreditCardIcon />}
             onClick={() => onTabClick('subscription')}
           >
-            <Box sx={{ width: '122px', textAlign: 'start' }}>Subscription</Box>
+            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
+              Subscription
+            </Box>
           </Button>
         </Box>
         <Box

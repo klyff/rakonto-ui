@@ -7,54 +7,11 @@ import Typography from '@mui/material/Typography'
 import MovieIcon from '@mui/icons-material/Movie'
 import HeadphonesIcon from '@mui/icons-material/Headphones'
 import CameraIndoorIcon from '@mui/icons-material/CameraIndoor'
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
+import Wrapper from './Wrapper'
 import { useStopwatch, useTimer } from 'react-timer-hook'
 import { useReactMediaRecorder } from '../../MediaRecorder'
 import useStateCallback from '../../hooks/useStateCallback'
 import redColor from '@mui/material/colors/red'
-
-const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
-  const videoRef = useCallback(node => {
-    if (node && stream) {
-      node.srcObject = stream
-    }
-  }, [])
-
-  if (!stream) {
-    return null
-  }
-  return <video height="100%" width="auto" ref={videoRef} autoPlay muted={true} />
-}
-
-const CountDown: React.FC<{ expire: () => void }> = ({ expire }) => {
-  const time = new Date()
-  time.setSeconds(time.getSeconds() + 3)
-  const { seconds } = useTimer({
-    expiryTimestamp: time,
-    autoStart: true,
-    onExpire: expire
-  })
-  return (
-    <Stack spacing={2} direction="column" alignItems="center">
-      <Typography
-        variant="h4"
-        sx={{
-          color: redColor.A100
-        }}
-      >
-        Starting
-      </Typography>
-      <Typography
-        variant="h3"
-        sx={{
-          color: redColor.A100
-        }}
-      >
-        {seconds}
-      </Typography>
-    </Stack>
-  )
-}
 
 const useCountDown = (countdown = 0, expire?: () => void) => {
   const time = new Date()
@@ -90,42 +47,7 @@ interface iRecorder {
 }
 
 const Recorder: React.FC<iRecorder> = ({ onSelected, type, clearMedia, onDrop, disableChangeMediaType, countdown }) => {
-  const [showCountdown, setShowCountdown] = useStateCallback<boolean>(false)
-  const [hideStartRecording, setHideStartRecording] = useStateCallback<boolean>(false)
   const [isRecordingType, setIsRecordingType] = useState<'AUDIO' | 'VIDEO' | null>(null)
-
-  const { previewStream, previewAudioStream, status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
-    useReactMediaRecorder({
-      video: isRecordingType === 'VIDEO',
-      audio: true,
-      onStop: (blobUrl: string, blob: Blob) => {
-        onDrop(
-          new File([blob], `Recorded.${type === 'VIDEO' ? 'mp4' : 'wav'}`, {
-            type: type === 'VIDEO' ? 'video/mp4' : 'audio/wav'
-          })
-        )
-      }
-    })
-
-  const { Component, start, pause, reset } = useCountDown(countdown, stopRecording)
-
-  const handleExpire = () => {
-    // @ts-ignore
-    setShowCountdown(false, () => {
-      // @ts-ignore
-      setHideStartRecording(false)
-      startRecording()
-      start()
-    })
-  }
-
-  const handleStart = () => {
-    // @ts-ignore
-    setHideStartRecording(true, () => {
-      // @ts-ignore
-      setShowCountdown(true)
-    })
-  }
 
   const handleSelectType = (type: 'AUDIO' | 'VIDEO' | null) => {
     setIsRecordingType(type)
@@ -192,96 +114,15 @@ const Recorder: React.FC<iRecorder> = ({ onSelected, type, clearMedia, onDrop, d
         </Box>
       )}
       {isRecordingType && (
-        <Box
-          sx={{
-            position: 'relative',
-            width: '100%',
-            height: 422,
-            border: '1px solid #7b7b7c',
-            borderRadius: '20px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexFlow: 'column'
+        <Wrapper
+          onDrop={onDrop}
+          isRecordingType={isRecordingType}
+          countdown={countdown}
+          onChangeRecordingType={() => {
+            setIsRecordingType(null)
+            onSelected && onSelected(false)
           }}
-        >
-          <>
-            {!showCountdown && status === 'recording' ? (
-              <>
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    top: 16,
-                    right: 16,
-                    color: redColor.A100
-                  }}
-                >
-                  <Box sx={{ textAlign: 'center', animation: 'blink 2s ease-in infinite' }}>
-                    <FiberManualRecordIcon />
-                  </Box>
-                  <Component />
-                </Box>
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    bottom: 16,
-                    right: 16,
-                    zIndex: '1000'
-                  }}
-                >
-                  <Button
-                    size="large"
-                    variant="outlined"
-                    onClick={() => {
-                      stopRecording()
-                      pause()
-                      reset()
-                    }}
-                  >
-                    Stop recording
-                  </Button>
-                </Box>
-                <VideoPreview stream={type === 'VIDEO' ? previewStream : previewAudioStream} />
-              </>
-            ) : (
-              mediaBlobUrl && <video height={'100%'} width="auto" src={mediaBlobUrl} controls autoPlay />
-            )}
-          </>
-          <Box sx={{ position: 'absolute' }}>
-            {showCountdown && <CountDown expire={handleExpire} />}
-            {!hideStartRecording && status === 'idle' && (
-              <ButtonGroup disableElevation size="large" variant="outlined">
-                <Button size="large" variant="outlined" onClick={handleStart}>
-                  Start recording
-                </Button>
-                {!mediaBlobUrl && (
-                  <Button
-                    size="large"
-                    variant="outlined"
-                    onClick={() => {
-                      setIsRecordingType(null)
-                      onSelected && onSelected(false)
-                    }}
-                  >
-                    Change recording type
-                  </Button>
-                )}
-              </ButtonGroup>
-            )}
-            {status === 'stopped' && mediaBlobUrl && (
-              <Button
-                variant="contained"
-                size="large"
-                onClick={() => {
-                  clearBlobUrl()
-                  onDrop(null)
-                }}
-              >
-                Discard
-              </Button>
-            )}
-          </Box>
-        </Box>
+        />
       )}
     </>
   )
