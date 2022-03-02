@@ -16,7 +16,7 @@ import IconButton from '@mui/material/IconButton'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { CircularProgress } from '@mui/material'
 
-const Step4: React.FC<{ loading: boolean; url: string }> = ({ loading, url }) => {
+const Step4: React.FC<{ loading: boolean; url: string }> = ({ url }) => {
   const [
     { onBlur: emailOnBlur, onChange: emailOnChange, value: emailValue },
     { touched: emailTouched, error: emailError },
@@ -121,40 +121,16 @@ const Step4: React.FC<{ loading: boolean; url: string }> = ({ loading, url }) =>
             }}
           >
             <Typography sx={{ mb: 4 }}>Share link:</Typography>
-            {!loading ? (
-              <>
-                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${url}`} />
-                <Box
-                  sx={{
-                    mt: 2
-                  }}
-                >
-                  <CopyToClipboard text={url} options={{ format: 'text' }}>
-                    <Button variant="outlined">Copy to clipboard</Button>
-                  </CopyToClipboard>
-                </Box>
-              </>
-            ) : (
-              <>
-                <Box
-                  component={Paper}
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexFlow: 'column',
-                    width: 200,
-                    height: 200
-                  }}
-                >
-                  <CircularProgress variant="indeterminate" size={80} />
-                  <Typography textAlign="center" variant="caption" sx={{ marginY: 2 }}>
-                    We&apos;re creating your link. It will be ready shortly.
-                  </Typography>
-                </Box>
-              </>
-            )}
+            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${url}`} />
+            <Box
+              sx={{
+                mt: 2
+              }}
+            >
+              <CopyToClipboard text={url} options={{ format: 'text' }}>
+                <Button variant="outlined">Copy to clipboard</Button>
+              </CopyToClipboard>
+            </Box>
           </Box>
         </Grid>
       </Grid>

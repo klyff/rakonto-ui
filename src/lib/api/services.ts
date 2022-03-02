@@ -39,8 +39,38 @@ import {
   TranscriptionType,
   UserFormType,
   UserType,
-  WatcherType, InviteType
+  WatcherType,
+  InviteType
 } from '../types'
+
+class CustomError extends Error {
+  data: {
+    code: string
+    message: string
+  } | undefined
+
+  constructor(object: { data: {code: string; message: string }}) {
+    super(object.data.message)
+    this.data = object.data
+  }
+}
+
+// Check Storage api
+export const verifyStorageUsage = (request: AxiosInstance) => async (previewQuota: number): Promise<void> => {
+  const quota = await request.get<{
+    available: number
+    used: number
+    free: number
+  }>('a/storage-quota').then(res => res.data)
+  if (quota.free < previewQuota) {
+    throw new CustomError({
+      data: {
+        code: '1024',
+        message: 'User Storage quota exceeded.'
+      }
+    })
+  }
+}
 
 // User api
 export const getMe = (request: AxiosInstance) => async (): Promise<UserType> => {
@@ -151,6 +181,7 @@ export const createStory =
       data: StoryCreateType,
       progressCallback: (progress: { total: number; loaded: number }) => void
     ): Promise<StoryType> => {
+      await verifyStorageUsage(request)(file.size)
       const formdata = new FormData()
       formdata.append('file', file, file.name)
       formdata.append(
@@ -173,6 +204,7 @@ export const changeStoryMedia =
       file: File,
       progressCallback: (progress: { total: number; loaded: number }) => void
     ): Promise<StoryType> => {
+      await verifyStorageUsage(request)(file.size)
       const formdata = new FormData()
       formdata.append('file', file, file.name)
       return await request
@@ -250,6 +282,7 @@ export const removePlaceFromStory =
 export const uploadImage =
   (request: AxiosInstance) =>
     async (file: File, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<ImageType> => {
+      await verifyStorageUsage(request)(file.size)
       const data = new FormData()
       data.append('file', file)
       return await request
@@ -273,6 +306,7 @@ export const uploadFile =
       file: File,
       progressCallback?: (progress: { total: number; loaded: number }) => void
     ): Promise<FileType> => {
+      await verifyStorageUsage(request)(file.size)
       const data = new FormData()
       data.append('file', file)
       data.append('storyId', storyId)
