@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { MediaType } from '../../lib/types'
-import CircularProgress from '@mui/material/CircularProgress'
+import Skeleton from '@mui/material/Skeleton'
 
 interface iCardImage {
   thumbnail: string
@@ -18,7 +18,6 @@ const CardImage: React.FC<iCardImage> = ({ type, thumbnail, preview }) => {
   const [hover, setHover] = useState<boolean>(false)
 
   useEffect(() => {
-    setLoading(true)
     if (!error && preview) {
       setImage(hover ? preview : thumbnail)
     } else {
@@ -26,13 +25,7 @@ const CardImage: React.FC<iCardImage> = ({ type, thumbnail, preview }) => {
     }
   }, [hover, error])
 
-  const handleLoaded = () => {
-    setLoading(false)
-  }
-
   const handleError = () => {
-    setLoading(false)
-    setError(true)
     if (type === 'COLLECTION') {
       setImage('/images/CoverCardPlaceholder2.png')
       return
@@ -42,8 +35,12 @@ const CardImage: React.FC<iCardImage> = ({ type, thumbnail, preview }) => {
 
   return (
     <Box
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseEnter={() => {
+        !error && setHover(true)
+      }}
+      onMouseLeave={() => {
+        !error && setHover(false)
+      }}
       sx={{
         position: 'relative',
         width: '100%',
@@ -63,19 +60,39 @@ const CardImage: React.FC<iCardImage> = ({ type, thumbnail, preview }) => {
         }}
         src={image}
         alt="preview"
-        onLoad={() => handleLoaded()}
-        onError={() => handleError()}
+        onLoadStart={() => {
+          setLoading(true)
+        }}
+        onLoad={() => {
+          setLoading(false)
+        }}
+        onError={() => {
+          handleError()
+          setLoading(false)
+          setError(true)
+        }}
       />
       {isLoading && (
         <Box
           sx={{
+            width: '100%',
+            height: '100%',
             position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)'
+            top: '0',
+            left: '0',
+            zIndex: '1'
           }}
         >
-          <CircularProgress />
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            sx={{
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
+              width: '100%',
+              height: '100%'
+            }}
+          />
         </Box>
       )}
     </Box>
