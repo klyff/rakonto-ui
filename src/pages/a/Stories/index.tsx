@@ -11,14 +11,14 @@ import { RouteComponentProps } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { StepStoryUploadContext } from '../../../components/StepStoryUpload'
-import { SocketConnectorContext } from '../../../components/SocketConnector'
 import { StepInviteRecorderContext } from '../../../components/StepInviteRecorder'
 import ButtonGroup from '@mui/material/ButtonGroup'
+import { useMitt } from 'react-mitt'
 
 const Stories: React.FC<RouteComponentProps> = () => {
   const { actions: newStoryActions } = useContext(StepStoryUploadContext)
   const { actions: recorderActions } = useContext(StepInviteRecorderContext)
-  const { client: socketClient, connected } = useContext(SocketConnectorContext)
+  const { emitter } = useMitt()
 
   const { loading, items, hasNextPage, error, loadMore, setItems, reload } = usePageableRequest<SearchResultType>({
     size: 15,
@@ -35,11 +35,10 @@ const Stories: React.FC<RouteComponentProps> = () => {
   })
 
   useEffect(() => {
-    connected &&
-      socketClient.subscribe('/user/queue/story-media-success', (message: { body: string }) => {
-        reload()
-      })
-  }, [socketClient, connected])
+    emitter.on('story-media-success', event => {
+      reload()
+    })
+  }, [])
 
   return (
     <Grid

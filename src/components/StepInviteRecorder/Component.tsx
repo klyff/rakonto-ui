@@ -23,8 +23,8 @@ import Step1 from './steps/step1'
 import { InviteType, MediaType, SearchResultType } from '../../lib/types'
 import { addDays } from 'date-fns'
 import api from '../../lib/api'
-import { SocketConnectorContext } from '../SocketConnector'
 import LoadingButton from '@mui/lab/LoadingButton'
+import { useMitt } from 'react-mitt'
 
 const StepInviteRecorder = () => {
   const { actions } = useContext(StepInviteRecorderContext)
@@ -35,20 +35,18 @@ const StepInviteRecorder = () => {
   const [progress, setProgress] = useState(0)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
-
-  const { client: socketClient, connected } = useContext(SocketConnectorContext)
   const [loading, setLoading] = useState<boolean>(false)
+  const { emitter } = useMitt()
 
   useEffect(() => {
     !!invite?.video &&
-      connected &&
-      socketClient.subscribe('/user/queue/collection-invite-media-success', (message: { body: string }) => {
-        const { payload: data } = JSON.parse(message.body)
+      emitter.on('story-media-success', event => {
+        const { payload: data } = JSON.parse(event.data)
         if (data.id === invite!.id) {
           setLoading(false)
         }
       })
-  }, [socketClient, connected, invite])
+  }, [invite])
 
   const initialValuesStep4: {
     email: string

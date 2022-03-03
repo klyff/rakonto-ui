@@ -8,12 +8,14 @@ import Card from '../../../../components/Card'
 import StoryCard from '../../../../components/StoryCard'
 import { useHistory } from 'react-router-dom'
 import { SocketConnectorContext } from '../../../../components/SocketConnector'
+import { useMitt } from 'react-mitt'
 
 interface iStoriesSliderTiler {
   q: string
 }
 
 const StoriesSliderTile: React.FC<iStoriesSliderTiler> = ({ q }) => {
+  const { emitter } = useMitt()
   const history = useHistory()
   const { client: socketClient, connected } = useContext(SocketConnectorContext)
   const { loading, items, hasNextPage, error, loadMore, setItems, reload } = usePageableRequest<SearchResultType>({
@@ -23,11 +25,10 @@ const StoriesSliderTile: React.FC<iStoriesSliderTiler> = ({ q }) => {
   })
 
   useEffect(() => {
-    connected &&
-      socketClient.subscribe('/user/queue/story-media-success', (message: { body: string }) => {
-        reload()
-      })
-  }, [socketClient, connected])
+    emitter.on('story-media-success', event => {
+      reload()
+    })
+  }, [])
 
   // @ts-ignore
   if (error?.status === 401) {

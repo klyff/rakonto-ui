@@ -24,7 +24,7 @@ import useUser from '../../../components/hooks/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
 import EditBar from './EditBar'
-import { SocketConnectorContext } from '../../../components/SocketConnector'
+import { useMitt } from 'react-mitt'
 
 const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, history }) => {
   const user = useUser()
@@ -35,7 +35,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
   const [story, setStory] = useState<StoryType | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isOwner, setIsOwner] = useState<boolean>(false)
-  const { client: socketClient, connected } = useContext(SocketConnectorContext)
+  const { emitter } = useMitt()
 
   const computeStory = (value: StoryType) => {
     setStory(value)
@@ -60,15 +60,14 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
   }, [])
 
   useEffect(() => {
-    connected &&
-      socketClient.subscribe('/user/queue/story-media-success', async (message: { body: string }) => {
-        const { payload: data } = JSON.parse(message.body)
-        api.getStory(data.id).then(() => {
-          setIsLoading(true)
-          fetch()
-        })
+    emitter.on('story-media-success', event => {
+      const { payload: data } = JSON.parse(event.data)
+      api.getStory(data.id).then(() => {
+        setIsLoading(true)
+        fetch()
       })
-  }, [socketClient, connected, fetch, setIsLoading])
+    })
+  }, [])
 
   const updateStory = async (formData: StoryUpdateType) => {
     try {

@@ -4,6 +4,7 @@ import Component from './Component'
 import api from '../../lib/api'
 import { SocketConnectorContext } from '../SocketConnector'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
+import { useMitt } from 'react-mitt'
 
 // @ts-ignore
 export const QueueProcessorContext = createContext<{
@@ -26,6 +27,7 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
   const { actions: snackBarActions } = useContext(SimpleSnackbarContext)
   const [store, setStore] = useState<Partial<QueueItem>[]>([])
   const [show, setShow] = useState<boolean>(false)
+  const { emitter } = useMitt()
 
   const { client: socketClient, connected } = useContext(SocketConnectorContext)
 
@@ -211,10 +213,45 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
           title: data.title,
           finished: data.ready,
           progress: undefined,
-          step: data.ready ? 'FINISHED' : 'PROCESSING'
+          step: 'PROCESSING'
         }
 
         setStore([item, ...store])
+        emitter.emit('story-media-processing', item)
+      })
+
+    console.log(1)
+    connected &&
+      socketClient.subscribe('/user/queue/story-media-success', (message: { body: string }) => {
+        const { payload: data } = JSON.parse(message.body)
+
+        const item: QueueItem = {
+          id: data.id,
+          title: data.title,
+          finished: data.ready,
+          progress: undefined,
+          step: 'FINISHED'
+        }
+
+        setStore([item, ...store])
+        emitter.emit('story-media-success', item)
+      })
+
+    console.log(2)
+    connected &&
+      socketClient.subscribe('/user/queue/story-media-error', (message: { body: string }) => {
+        const { payload: data } = JSON.parse(message.body)
+
+        const item: QueueItem = {
+          id: data.id,
+          title: data.title,
+          finished: data.ready,
+          progress: undefined,
+          step: 'ERROR'
+        }
+
+        setStore([item, ...store])
+        emitter.emit('story-media-error', item)
       })
   }, [socketClient, connected, setStore, setShow])
 

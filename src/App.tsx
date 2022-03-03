@@ -8,6 +8,7 @@ import { SimpleDialogProvider } from './components/SimpleDialog'
 import { FormDialogProvider } from './components/FormDialog'
 import CssBaseline from '@mui/material/CssBaseline'
 import theme from './lib/theme'
+import { MittProvider } from 'react-mitt'
 
 export const history = createBrowserHistory()
 
@@ -15,15 +16,17 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <SimpleSnackbarProvider>
-        <SimpleDialogProvider>
-          <FormDialogProvider>
-            <Router history={history}>
-              <Routes />
-            </Router>
-          </FormDialogProvider>
-        </SimpleDialogProvider>
-      </SimpleSnackbarProvider>
+      <MittProvider>
+        <SimpleSnackbarProvider>
+          <SimpleDialogProvider>
+            <FormDialogProvider>
+              <Router history={history}>
+                <Routes />
+              </Router>
+            </FormDialogProvider>
+          </SimpleDialogProvider>
+        </SimpleSnackbarProvider>
+      </MittProvider>
     </ThemeProvider>
   )
 }
