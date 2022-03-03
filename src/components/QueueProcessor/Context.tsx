@@ -220,7 +220,6 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
         emitter.emit('story-media-processing', item)
       })
 
-    console.log(1)
     connected &&
       socketClient.subscribe('/user/queue/story-media-success', (message: { body: string }) => {
         const { payload: data } = JSON.parse(message.body)
@@ -237,7 +236,6 @@ export const QueueProcessorProvider: React.FC = ({ children }) => {
         emitter.emit('story-media-success', item)
       })
 
-    console.log(2)
     connected &&
       socketClient.subscribe('/user/queue/story-media-error', (message: { body: string }) => {
         const { payload: data } = JSON.parse(message.body)
