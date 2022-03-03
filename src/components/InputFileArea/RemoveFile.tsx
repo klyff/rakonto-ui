@@ -3,13 +3,17 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import React from 'react'
 import Player from '../Player'
+import Link from '@mui/material/Link'
+import { Link as RouterLink } from 'react-router-dom'
 
 interface RemoveFile {
   file: File
   onRemove: () => void
+  onSubscriptionClicked?: () => void
+  quotaError: boolean
 }
 
-const RemoveFile: React.FC<RemoveFile> = ({ file, onRemove }) => {
+const RemoveFile: React.FC<RemoveFile> = ({ file, onRemove, quotaError, onSubscriptionClicked }) => {
   return (
     <Box
       sx={{
@@ -18,6 +22,22 @@ const RemoveFile: React.FC<RemoveFile> = ({ file, onRemove }) => {
         width: '100%'
       }}
     >
+      {quotaError && (
+        <Typography color="error" mb="unset" fontWeight="700" align="center" variant="subtitle1" gutterBottom>
+          You have exceeded your total library capacity.{' '}
+          <Link
+            to="/a/profile?tab=subscription"
+            component={RouterLink}
+            onClick={() => {
+              if (onSubscriptionClicked) {
+                onSubscriptionClicked()
+              }
+            }}
+          >
+            Upgrade my plan.
+          </Link>
+        </Typography>
+      )}
       <Box
         sx={{
           display: 'flex',

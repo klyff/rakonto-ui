@@ -57,13 +57,6 @@ const CollectionInvite: React.FC = () => {
     }
   }, [token])
 
-  const steps = [
-    { label: 'Story request' },
-    { label: 'The green room' },
-    { label: 'Submit your recording' },
-    { label: 'Thank you!' }
-  ]
-
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1)
   }
@@ -97,6 +90,13 @@ const CollectionInvite: React.FC = () => {
     validateOnBlur: true,
     onSubmit: handleSubmit
   })
+
+  const steps = [
+    { label: 'Story request', error: false },
+    { label: 'The green room', error: false },
+    { label: 'Submit your recording', error: false },
+    { label: 'Thank you!', error: false }
+  ]
 
   const ButtonBack: React.FC<ButtonProps> = props => {
     if (activeStep !== 0) {
@@ -139,7 +139,7 @@ const CollectionInvite: React.FC = () => {
         <Stepper sx={{ display: { xs: 'none', md: 'flex' } }} activeStep={activeStep} alternativeLabel>
           {steps.map(item => (
             <Step key={item.label}>
-              <StepLabel>{item.label}</StepLabel>
+              <StepLabel error={item.error}>{item.label}</StepLabel>
             </Step>
           ))}
         </Stepper>

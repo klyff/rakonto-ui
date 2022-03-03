@@ -23,6 +23,7 @@ import { SimpleSnackbarContext } from '../SimpleSnackbar'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import suggestionList from './suggestionList.json'
+import api from '../../lib/api'
 
 const StepStoryUpload = () => {
   const { actions: queueActions } = useContext(QueueProcessorContext)
@@ -102,6 +103,21 @@ const StepStoryUpload = () => {
     setFieldValue('title', selectedSuggestion)
     setSelectedSuggestion('')
   }, [selectedSuggestion])
+
+  const [quotaError, setQuotaError] = useState<boolean>(false)
+
+  const verifyQuota = async (f: File) => {
+    try {
+      await api.verifyStorageUsage(f.size)
+      setQuotaError(false)
+    } catch (e) {
+      setQuotaError(true)
+    }
+  }
+
+  useEffect(() => {
+    values.file && verifyQuota(values.file)
+  }, [values.file])
 
   return (
     <form>
@@ -262,7 +278,12 @@ const StepStoryUpload = () => {
                   Not sure how to record your story? Watch this short video for 5 helpful tips.
                 </Typography>
               </Box>
-              <InputFileArea file={values.file} callback={(file: File | null) => setFieldValue('file', file)} />
+              <InputFileArea
+                onSubscriptionClicked={() => actions.close()}
+                quotaError={quotaError}
+                file={values.file}
+                callback={(file: File | null) => setFieldValue('file', file)}
+              />
             </Box>
           )}
         </DialogContent>
@@ -275,7 +296,7 @@ const StepStoryUpload = () => {
           {activeStep === 2 ? (
             <Button
               variant="contained"
-              disabled={isSubmitting || !values.file || !isValid}
+              disabled={isSubmitting || !values.file || !isValid || quotaError}
               onClick={() => handleSubmit()}
               sx={{ mt: 1, mr: 1 }}
             >

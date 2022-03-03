@@ -84,7 +84,8 @@ import {
   createInvite,
   sendInviteEmails,
   getInviteSubmission,
-  sendInviteSubmission
+  sendInviteSubmission,
+  verifyStorageUsage
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -123,6 +124,7 @@ request.interceptors.response.use(
 )
 
 export default {
+  verifyStorageUsage: verifyStorageUsage(request),
   singup: singup(request),
   singout: singout(request),
   requestPasswordReset: requestPasswordReset(request),

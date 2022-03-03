@@ -1,20 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
 import Box from '@mui/material/Box'
 import Droparea from './DropArea'
 import Recorder from './Recorder'
 import MobileUpload from './MobileUpload'
 import RemoveFile from './RemoveFile'
+import api from '../../lib/api'
 
 interface iInputFileArea {
   file: File | null
   callback: (file: File | null) => void
   disableChangeMediaType?: boolean
+  onSubscriptionClicked?: () => void
   countdown?: number
   startType?: 'AUDIO' | 'VIDEO' | null
+  quotaError?: boolean
 }
 
-const InputFileArea: React.FC<iInputFileArea> = ({ file, callback, disableChangeMediaType, countdown, startType }) => {
+const InputFileArea: React.FC<iInputFileArea> = ({
+  file,
+  callback,
+  disableChangeMediaType,
+  onSubscriptionClicked,
+  countdown,
+  startType,
+  quotaError = false
+}) => {
   const [uploadType, setUploadType] = useState<'FILE' | 'RECORD' | null>(file ? 'FILE' : null)
   return (
     <Box
@@ -35,6 +46,8 @@ const InputFileArea: React.FC<iInputFileArea> = ({ file, callback, disableChange
       {!!file && (
         <RemoveFile
           file={file}
+          quotaError={quotaError}
+          onSubscriptionClicked={onSubscriptionClicked}
           onRemove={() => {
             callback(null)
             setUploadType(null)

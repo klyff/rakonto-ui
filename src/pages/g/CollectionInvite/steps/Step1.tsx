@@ -10,7 +10,8 @@ const Step1: React.FC<{ invite: InviteType }> = ({ invite }) => {
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`Hi! ${invite.user.firstName} ${invite.user.lastName} has invited you to record a story.`}
+          Hi! <br />
+          {`${invite.user.firstName} ${invite.user.lastName} has invited you to record a story.`}
           <br />
           {`Here is what ${invite.user.firstName} is looking for:`}
         </Typography>

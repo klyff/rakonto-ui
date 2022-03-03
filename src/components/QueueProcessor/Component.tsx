@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link as RouterLink } from 'react-router-dom'
 import { QueueProcessorContext } from './Context'
 import List from '@mui/material/List'
+import Link from '@mui/material/Link'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
@@ -54,7 +55,7 @@ const QueueStage: React.FC = () => {
           alignItems: 'center'
         }}
       >
-        <Typography>{isQueued} Story(ies) uploading and processing </Typography>
+        <Typography>Now uploading and processing your story</Typography>
         <Box
           sx={{
             flex: '1'
@@ -72,23 +73,30 @@ const QueueStage: React.FC = () => {
         </IconButton>
       </Box>
       <Collapse in={open}>
-        <Paper sx={{ borderRadius: 'unset' }}>
+        <Paper sx={{ borderRadius: 'unset', minHeight: '50vh' }}>
           <List dense>
             {list.map(item => {
-              const isLink = item.step !== 'UPLOAD' && item.step !== 'UPLOADED' && item.step !== 'UPLOADING'
+              const isLink =
+                item.step !== 'UPLOAD' && item.step !== 'UPLOADED' && item.step !== 'UPLOADING' && item.step !== 'ERROR'
               return (
-                <ListItem
-                  key={item.id}
-                  onClick={() => {
-                    if (isLink) history.push(`a/story/${item.id}`)
-                  }}
-                >
+                <ListItem key={item.id}>
                   <ListItemAvatar>
                     {item.type === 'FILE' && <FileUploadIcon />}
                     {item.type === 'AUDIO' && <MusicNoteIcon />}
                     {item.type === 'VIDEO' && <MovieIcon />}
                   </ListItemAvatar>
-                  <ListItemText primary={item.title} secondary={item.step} />
+                  <ListItemText
+                    primary={
+                      isLink ? (
+                        <Link component={RouterLink} to={`/a/stories/${item.id}`}>
+                          {item.title}
+                        </Link>
+                      ) : (
+                        item.title
+                      )
+                    }
+                    secondary={item.step}
+                  />
                   <Box sx={{ position: 'relative', display: 'inline-flex' }}>
                     <CircularProgress
                       variant={!item.finished && item.progress === undefined ? 'indeterminate' : 'determinate'}
@@ -113,7 +121,7 @@ const QueueStage: React.FC = () => {
                       </Box>
                     )}
                   </Box>
-                  {item.step === 'FINISHED' && (
+                  {(item.step === 'FINISHED' || item.step === 'ERROR') && (
                     <ListItemSecondaryAction>
                       <IconButton edge="end" onClick={() => actions.remove(item.id as string)} aria-label="delete">
                         <CloseIcon />

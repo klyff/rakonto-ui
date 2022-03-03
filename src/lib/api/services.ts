@@ -49,7 +49,7 @@ class CustomError extends Error {
     message: string
   } | undefined
 
-  constructor(object: { data: {code: string; message: string }}) {
+  constructor(object: { data: { code: string; message: string } }) {
     super(object.data.message)
     this.data = object.data
   }
@@ -706,7 +706,7 @@ export const createInvite =
         })
       )
       return await request.post(`a/collection-invites`, formdata, {
-          onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
+        onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
       }).then(res => res.data)
     }
 
@@ -719,14 +719,16 @@ export const sendInviteEmails =
 export const getInviteSubmission =
   (request: AxiosInstance) =>
     async (id: string, token: string): Promise<InviteType> => {
-      return await request.get(`g/collection-invite-submissions/${id}/invite`, { headers: {
-        'Authorization': `Bearer ${token}`
-        }}).then(res => res.data)
+      return await request.get(`g/collection-invite-submissions/${id}/invite`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => res.data)
     }
 
 export const sendInviteSubmission =
   (request: AxiosInstance) =>
-    async (id: string, token: string, data: { name: string, email?: string } , file: File, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<InviteType> => {
+    async (id: string, token: string, data: { name: string, email?: string }, file: File, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<InviteType> => {
       const formdata = new FormData()
       formdata.append('file', file, file.name)
       formdata.append(

@@ -18,7 +18,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 
 const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
   const { actions: queueActions } = useContext(QueueProcessorContext)
-  const { store, actions } = useContext(ChangeMediaContext)
+  const { actions } = useContext(ChangeMediaContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [file, setFile] = useState<File | null>(null)
   const theme = useTheme()
@@ -48,6 +48,21 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
     }
   }
 
+  const [quotaError, setQuotaError] = useState<boolean>(false)
+
+  const verifyQuota = async (f: File) => {
+    try {
+      await api.verifyStorageUsage(f.size)
+      setQuotaError(false)
+    } catch (e) {
+      setQuotaError(true)
+    }
+  }
+
+  useEffect(() => {
+    file && verifyQuota(file)
+  }, [file])
+
   return (
     <Dialog
       fullScreen={fullScreen}
@@ -59,7 +74,7 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
           actions.close()
         }
       }}
-      open={store.isOpen}
+      open={true}
     >
       <DialogTitle>
         Replace video/audio
@@ -80,7 +95,12 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
           <Typography align="center" variant="body2" fontWeight="400" marginBottom={3} gutterBottom>
             You can now upload or record your story (audio or video).
           </Typography>
-          <InputFileArea file={file} callback={(file: File | null) => setFile(file)} />
+          <InputFileArea
+            onSubscriptionClicked={() => actions.close()}
+            quotaError={quotaError}
+            file={file}
+            callback={(file: File | null) => setFile(file)}
+          />
         </Box>
       </DialogContent>
       <DialogActions>
@@ -93,7 +113,7 @@ const ChangeMedia: React.FC<{ storyId: string }> = ({ storyId }) => {
         >
           Cancel
         </Button>
-        <Button variant="contained" disabled={!file} onClick={handleSave} sx={{ mt: 1, mr: 1 }}>
+        <Button variant="contained" disabled={!file || quotaError} onClick={handleSave} sx={{ mt: 1, mr: 1 }}>
           Save
         </Button>
       </DialogActions>
