@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { QueueProcessorContext } from './Context'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -23,6 +24,7 @@ const QueueStage: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [isQueued, setQueued] = useState<number>(0)
   const [closeDisabled, setCloseDisabled] = useState<boolean>(false)
+  const history = useHistory()
 
   useEffect(() => {
     const isAllFinished = list.some(item => item.step !== 'FINISHED')
@@ -73,8 +75,14 @@ const QueueStage: React.FC = () => {
         <Paper sx={{ borderRadius: 'unset' }}>
           <List dense>
             {list.map(item => {
+              const isLink = item.step !== 'UPLOAD' && item.step !== 'UPLOADED' && item.step !== 'UPLOADING'
               return (
-                <ListItem key={item.id}>
+                <ListItem
+                  key={item.id}
+                  onClick={() => {
+                    if (isLink) history.push(`a/story/${item.id}`)
+                  }}
+                >
                   <ListItemAvatar>
                     {item.type === 'FILE' && <FileUploadIcon />}
                     {item.type === 'AUDIO' && <MusicNoteIcon />}
