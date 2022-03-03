@@ -227,7 +227,7 @@ const StepInviteRecorder = () => {
           {activeStep === 3 && (
             <LoadingButton
               variant="contained"
-              loading={loading || formikStep4.isSubmitting}
+              loading={formikStep4.isSubmitting}
               disabled={!formikStep4.isValid}
               onClick={() => formikStep4.handleSubmit()}
               sx={{ mt: 1, mr: 1 }}
