@@ -109,7 +109,7 @@ const plans = [
 ]
 
 const Subscription: React.FC = () => {
-  const user = { tier: 0 }
+  const user = useUser()
   const token = Cookies.get('token')
   const returnUrl = `${window.location.origin}/a/profile?tab=subscription`
   const [checked, setChecked] = React.useState<boolean>(true)
