@@ -73,8 +73,8 @@ export const VideoJS: React.FC<iVideoJs> = ({ subtitles, options, handleEnd, onR
   }, [])
   return (
     <div data-vjs-player>
-      {type === 'video' && <video id="player" className="video-js" />}
-      {type === 'audio' && <audio id="player" className="video-js" />}
+      {type === 'video' && <video id="player" className="video-js" crossOrigin="anonymous" />}
+      {type === 'audio' && <audio id="player" className="video-js" crossOrigin="anonymous" />}
     </div>
   )
 }

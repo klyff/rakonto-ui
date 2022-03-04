@@ -17,8 +17,7 @@ interface iStoriesSliderTiler {
 const StoriesSliderTile: React.FC<iStoriesSliderTiler> = ({ q }) => {
   const { emitter } = useMitt()
   const history = useHistory()
-  const { client: socketClient, connected } = useContext(SocketConnectorContext)
-  const { loading, items, hasNextPage, error, loadMore, setItems, reload } = usePageableRequest<SearchResultType>({
+  const { loading, items, hasNextPage, error, loadMore, reload } = usePageableRequest<SearchResultType>({
     size: 15,
     q: q,
     request: api.searchStories
@@ -26,7 +25,11 @@ const StoriesSliderTile: React.FC<iStoriesSliderTiler> = ({ q }) => {
 
   useEffect(() => {
     emitter.on('story-media-success', event => {
-      reload()
+      setTimeout(reload, 1000)
+    })
+
+    emitter.on('story-media-processing', event => {
+      setTimeout(reload, 1000)
     })
   }, [])
 
