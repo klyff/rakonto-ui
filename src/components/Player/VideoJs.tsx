@@ -7,6 +7,7 @@ import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js'
 import '../../lib/videojs/components/nuevo'
 import '../../lib/videojs/components/visualizer'
 import { SubtitleType } from '../../lib/types'
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 
 interface iVideoJs {
   options: VideoJsPlayerOptions
@@ -110,7 +111,29 @@ export const AudioJsWrapper: React.FC<{
     poster: '/images/CoverDefault.png'
   }
 
+  function ErrorFallback(props: FallbackProps) {
+    return (
+      <div role="alert">
+        <p>Something went wrong:</p>
+        <pre>{props.error.message}</pre>
+        <button onClick={props.resetErrorBoundary}>Try again</button>
+      </div>
+    )
+  }
+
+  const myErrorHandler = (error: Error, info: { componentStack: string }) => {
+    console.log(error)
+  }
+
   return (
-    <VideoJS subtitles={subtitles} handleEnd={handleEnd} options={_options} type="audio" nuevoOptions={nuevoOptions} />
+    <ErrorBoundary FallbackComponent={ErrorFallback} onError={myErrorHandler}>
+      <VideoJS
+        subtitles={subtitles}
+        handleEnd={handleEnd}
+        options={_options}
+        type="audio"
+        nuevoOptions={nuevoOptions}
+      />
+    </ErrorBoundary>
   )
 }
