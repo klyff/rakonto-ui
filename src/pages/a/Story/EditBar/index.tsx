@@ -8,12 +8,14 @@ import Stack from '@mui/material/Stack'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
+import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
 import UploadIcon from '@mui/icons-material/Upload'
 import LoadingButton from '@mui/lab/LoadingButton'
 import ImageIcon from '@mui/icons-material/Image'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { CollectionType, ImageType } from '../../../../lib/types'
+import DownloadIcon from '@mui/icons-material/Download'
+import { AudioDetails, CollectionType, ImageType, VideoDetails } from '../../../../lib/types'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 import api from '../../../../lib/api'
 import { SimpleDialogContext } from '../../../../components/SimpleDialog'
@@ -22,18 +24,18 @@ import CollectionMove from './CollectionMove'
 import { ChangeMediaContext } from '../../../../components/ChangeMedia'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-import IconButton from '@mui/material/IconButton'
 import MoreIcon from '@mui/icons-material/MoreVert'
 
 interface iEditBar {
   collection: CollectionType
   canEdit: boolean
+  media: VideoDetails | AudioDetails
   id: string
   reload: () => void
   loadPublished?: boolean
 }
 
-const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPublished }) => {
+const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPublished, media }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: mediaActions } = useContext(ChangeMediaContext)
@@ -196,6 +198,14 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
       </MenuItem>
       <MenuItem
         onClick={() => {
+          window.location.assign(media.url as string)
+          handleMobileMenuClose()
+        }}
+      >
+        Download
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
           handleDelete()
           handleMobileMenuClose()
         }}
@@ -270,6 +280,15 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
               Thumbnail
             </LoadingButton>
           </Box>
+
+          <Button
+            startIcon={<DownloadIcon />}
+            sx={{ display: { xs: 'none', md: 'flex' } }}
+            onClick={() => window.location.assign(media.url as string)}
+            color="secondary"
+          >
+            Download
+          </Button>
 
           <Button
             sx={{ display: { xs: 'none', md: 'flex' } }}

@@ -169,6 +169,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               reload={fetch}
               loadPublished={published}
               collection={collections[0]}
+              media={video || audio}
             />
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="about">
               <About update={updateStory} canEdit={isOwner} title={title} id={storyId} description={description || ''}>
