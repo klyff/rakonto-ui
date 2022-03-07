@@ -15,7 +15,7 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import ImageIcon from '@mui/icons-material/Image'
 import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
-import { AudioDetails, CollectionType, ImageType, VideoDetails } from '../../../../lib/types'
+import { AudioDetails, CollectionType, ImageType, StoryType, VideoDetails } from '../../../../lib/types'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 import api from '../../../../lib/api'
 import { SimpleDialogContext } from '../../../../components/SimpleDialog'
@@ -25,6 +25,7 @@ import { ChangeMediaContext } from '../../../../components/ChangeMedia'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import MoreIcon from '@mui/icons-material/MoreVert'
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
 
 interface iEditBar {
   collection: CollectionType
@@ -33,9 +34,10 @@ interface iEditBar {
   id: string
   reload: () => void
   loadPublished?: boolean
+  story?: StoryType
 }
 
-const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPublished, media }) => {
+const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPublished, media, story }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: mediaActions } = useContext(ChangeMediaContext)
@@ -281,14 +283,42 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
             </LoadingButton>
           </Box>
 
-          <Button
-            startIcon={<DownloadIcon />}
-            sx={{ display: { xs: 'none', md: 'flex' } }}
-            onClick={() => window.location.assign(media.url as string)}
-            color="secondary"
-          >
-            Download
-          </Button>
+          <PopupState variant="popover" popupId="demo-popup-menu">
+            {popupState => (
+              <React.Fragment>
+                <Button
+                  startIcon={<DownloadIcon />}
+                  sx={{ display: { xs: 'none', md: 'flex' } }}
+                  color="secondary"
+                  {...bindTrigger(popupState)}
+                >
+                  Download
+                </Button>
+                <Menu {...bindMenu(popupState)}>
+                  <MenuItem
+                    onClick={() => {
+                      const url = new URL(story!.downloadUrl)
+                      window.location.assign(url)
+                      popupState.close()
+                    }}
+                  >
+                    Original
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      const url = new URL(story!.downloadUrl)
+                      url.search = new URLSearchParams({ resolution: '720p' }).toString()
+                      window.location.assign(url)
+
+                      popupState.close()
+                    }}
+                  >
+                    720p
+                  </MenuItem>
+                </Menu>
+              </React.Fragment>
+            )}
+          </PopupState>
 
           <Button
             sx={{ display: { xs: 'none', md: 'flex' } }}

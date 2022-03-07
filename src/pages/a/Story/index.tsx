@@ -165,6 +165,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
           >
             <EditBar
               id={storyId}
+              story={story}
               canEdit={isOwner}
               reload={fetch}
               loadPublished={published}

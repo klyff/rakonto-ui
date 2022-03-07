@@ -158,6 +158,7 @@ export type StoryType = {
   description: string
   id: string
   thumbnailUrl: string
+  downloadUrl: string
   ready: boolean
   publicAcl: boolean
   published: boolean
