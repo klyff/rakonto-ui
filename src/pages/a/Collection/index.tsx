@@ -184,7 +184,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               padding: 3
             }}
           >
-            <EditBar id={collectionId} onChange={updateCover} canEdit={isOwner} />
+            <EditBar id={collectionId} onChange={updateCover} canEdit={isOwner} collection={collection} />
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="content">
               <Content
                 update={updateCollection}

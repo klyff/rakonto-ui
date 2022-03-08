@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import Share from '../../../components/Share'
-import { AssetTypes, ImageType } from '../../../lib/types'
+import { AssetTypes, CollectionType, ImageType } from '../../../lib/types'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
@@ -15,19 +15,26 @@ import Typography from '@mui/material/Typography'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import { SimpleDialogContext } from '../../../components/SimpleDialog'
 import { useHistory } from 'react-router-dom'
+import { Menu, MenuItem } from '@mui/material'
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
+import DownloadIcon from '@mui/icons-material/Download'
+import Cookies from 'js-cookie'
 
 interface iEditBar {
   canEdit: boolean
   id: string
   onChange?: (image: ImageType) => void
+  collection?: CollectionType
 }
 
-const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange }) => {
+const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const history = useHistory()
   const [progress, setProgress] = useState<number>(0)
   const [showShare, setShowShare] = useState<boolean>(false)
+  const token = Cookies.get('token') as string
+
   const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
       try {
@@ -110,6 +117,43 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange }) => {
         >
           Thumbnail
         </LoadingButton>
+        <PopupState variant="popover">
+          {popupState => (
+            <React.Fragment>
+              <Button
+                startIcon={<DownloadIcon />}
+                sx={{ display: { xs: 'none', md: 'flex' } }}
+                color="secondary"
+                {...bindTrigger(popupState)}
+              >
+                Download
+              </Button>
+              <Menu {...bindMenu(popupState)}>
+                <MenuItem
+                  onClick={() => {
+                    const url = new URL(collection!.downloadUrl)
+                    url.search = new URLSearchParams({ original: 't', jwt: token }).toString()
+                    window.location.assign(url)
+                    popupState.close()
+                  }}
+                >
+                  Original
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    const url = new URL(collection!.downloadUrl)
+                    url.search = new URLSearchParams({ original: 'f', jwt: token }).toString()
+                    window.location.assign(url)
+
+                    popupState.close()
+                  }}
+                >
+                  Optimized
+                </MenuItem>
+              </Menu>
+            </React.Fragment>
+          )}
+        </PopupState>
         <Button color="secondary" onClick={() => setShowShare(true)} startIcon={<ShareIcon />}>
           Share
         </Button>

@@ -197,6 +197,7 @@ export type CollectionType = {
   cover: ImageType
   owner: UserType
   thumbnailUrl: string
+  downloadUrl: string
   stories: StoryType[]
   publicAcl: boolean
 }

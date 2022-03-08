@@ -26,6 +26,7 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import MoreIcon from '@mui/icons-material/MoreVert'
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
+import Cookies from 'js-cookie'
 
 interface iEditBar {
   collection: CollectionType
@@ -45,6 +46,7 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
   const [progress, setProgress] = useState<number>(0)
   const [published, setPublished] = useState<boolean>(loadPublished || false)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null)
+  const token = Cookies.get('token') as string
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
@@ -200,11 +202,21 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
       </MenuItem>
       <MenuItem
         onClick={() => {
-          window.location.assign(media.url as string)
-          handleMobileMenuClose()
+          const url = new URL(story!.downloadUrl)
+          url.search = new URLSearchParams({ original: 'f', jwt: token }).toString()
+          window.location.assign(url)
         }}
       >
-        Download
+        Download optimized
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          const url = new URL(story!.downloadUrl)
+          url.search = new URLSearchParams({ original: 't', jwt: token }).toString()
+          window.location.assign(url)
+        }}
+      >
+        Download original
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -262,14 +274,11 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
           <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
             <CollectionMove currentCollectionId={collection.id} storyId={id} reload={reload} />
           </Box>
-          <Button
-            sx={{ display: { xs: 'none', md: 'flex' } }}
-            color="secondary"
-            onClick={() => mediaActions.open(id)}
-            startIcon={<UploadIcon />}
-          >
-            Replace video/audio
-          </Button>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Button color="secondary" onClick={() => mediaActions.open(id)} startIcon={<UploadIcon />}>
+              Replace video/audio
+            </Button>
+          </Box>
           <Box {...getRootProps()} sx={{ display: { xs: 'none', md: 'flex' } }}>
             <input {...getInputProps()} />
             <LoadingButton
@@ -282,52 +291,50 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
               Thumbnail
             </LoadingButton>
           </Box>
-
-          <PopupState variant="popover" popupId="demo-popup-menu">
-            {popupState => (
-              <React.Fragment>
-                <Button
-                  startIcon={<DownloadIcon />}
-                  sx={{ display: { xs: 'none', md: 'flex' } }}
-                  color="secondary"
-                  {...bindTrigger(popupState)}
-                >
-                  Download
-                </Button>
-                <Menu {...bindMenu(popupState)}>
-                  <MenuItem
-                    onClick={() => {
-                      const url = new URL(story!.downloadUrl)
-                      window.location.assign(url)
-                      popupState.close()
-                    }}
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
+            <PopupState variant="popover" popupId="demo-popup-menu">
+              {popupState => (
+                <React.Fragment>
+                  <Button
+                    startIcon={<DownloadIcon />}
+                    sx={{ display: { xs: 'none', md: 'flex' } }}
+                    color="secondary"
+                    {...bindTrigger(popupState)}
                   >
-                    Original
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      const url = new URL(story!.downloadUrl)
-                      url.search = new URLSearchParams({ resolution: '720p' }).toString()
-                      window.location.assign(url)
+                    Download
+                  </Button>
+                  <Menu {...bindMenu(popupState)}>
+                    <MenuItem
+                      onClick={() => {
+                        const url = new URL(story!.downloadUrl)
+                        url.search = new URLSearchParams({ original: 't', jwt: token }).toString()
+                        window.location.assign(url)
+                        popupState.close()
+                      }}
+                    >
+                      Original
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        const url = new URL(story!.downloadUrl)
+                        url.search = new URLSearchParams({ original: 'f', jwt: token }).toString()
+                        window.location.assign(url)
 
-                      popupState.close()
-                    }}
-                  >
-                    720p
-                  </MenuItem>
-                </Menu>
-              </React.Fragment>
-            )}
-          </PopupState>
-
-          <Button
-            sx={{ display: { xs: 'none', md: 'flex' } }}
-            color="secondary"
-            onClick={handleDelete}
-            startIcon={<DeleteIcon />}
-          >
-            Delete
-          </Button>
+                        popupState.close()
+                      }}
+                    >
+                      Optimized
+                    </MenuItem>
+                  </Menu>
+                </React.Fragment>
+              )}
+            </PopupState>
+          </Box>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Button color="secondary" onClick={handleDelete} startIcon={<DeleteIcon />}>
+              Delete
+            </Button>
+          </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
