@@ -42,7 +42,8 @@ import {
   WatcherType,
   InviteType,
   InviteContributorInput,
-  InviteContributorType
+  InviteContributorType,
+  ShortIdType
 } from '../types'
 
 class CustomError extends Error {
@@ -135,6 +136,12 @@ export const requestConfirmEmail =
   (request: AxiosInstance) =>
     async (email: string): Promise<void> => {
       await request.post(`u/confirmation-email`, { email })
+    }
+
+export const getShortId =
+  (request: AxiosInstance) =>
+    async (id: string): Promise<ShortIdType> => {
+      return await request.get(`u/short-id/${id}`).then(res => res.data)
     }
 
 export const passwordReset =

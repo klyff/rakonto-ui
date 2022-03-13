@@ -75,6 +75,10 @@ export type AuthType = {
   user: UserType
 }
 
+export type ShortIdType = {
+  url: string
+}
+
 export type SigninFormType = {
   email: string
   password: string

@@ -89,7 +89,8 @@ import {
   createContributorInvite,
   sendInviteContributorEmails,
   getContributorInviteSubmission,
-  sendContributorInviteSubmission
+  sendContributorInviteSubmission,
+  getShortId
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -218,5 +219,6 @@ export default {
   createContributorInvite: createContributorInvite(request),
   sendInviteContributorEmails: sendInviteContributorEmails(request),
   getContributorInviteSubmission: getContributorInviteSubmission(request),
-  sendContributorInviteSubmission: sendContributorInviteSubmission(request)
+  sendContributorInviteSubmission: sendContributorInviteSubmission(request),
+  getShortId: getShortId(request)
 }

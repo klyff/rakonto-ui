@@ -22,26 +22,25 @@ const Profile = lazy(() => import('./a/Profile'))
 const People = lazy(() => import('./a/People'))
 const CollectionInvite = lazy(() => import('./g/CollectionInvite'))
 const StoryInvite = lazy(() => import('./g/StoryInvite'))
+const ShortId = lazy(() => import('./ShortId'))
 
 const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   const token = Cookies.get('token')
   if (!token) return <Redirect to="/u/signin" />
   return (
     <AuthenticatedLayout>
-      <Suspense fallback={<CircularLoadingCentred />}>
-        <Switch>
-          <Route exact path="/a/people" component={People} />
-          <Route exact path="/a/profile" component={Profile} />
-          <Route exact path="/a/my-library" component={MyLibrary} />
-          <Route exact path="/a/search" component={Search} />
-          <Route exact path="/a/stories/:storyId" component={Story} />
-          <Route exact path="/a/stories" component={Stories} />
-          <Route exact path="/a/collections/:collectionId" component={Collection} />
-          <Route exact path="/a/collections" component={Collections} />
-          <Route exact path="/a/signout" component={Signout} />
-          <Redirect to="/a/my-library" />
-        </Switch>
-      </Suspense>
+      <Switch>
+        <Route exact path="/a/people" component={People} />
+        <Route exact path="/a/profile" component={Profile} />
+        <Route exact path="/a/my-library" component={MyLibrary} />
+        <Route exact path="/a/search" component={Search} />
+        <Route exact path="/a/stories/:storyId" component={Story} />
+        <Route exact path="/a/stories" component={Stories} />
+        <Route exact path="/a/collections/:collectionId" component={Collection} />
+        <Route exact path="/a/collections" component={Collections} />
+        <Route exact path="/a/signout" component={Signout} />
+        <Redirect to="/a/my-library" />
+      </Switch>
     </AuthenticatedLayout>
   )
 }
@@ -49,13 +48,11 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
 const GuestRoutes: React.FC<RouteProps> = ({ location }) => {
   return (
     <GuestLayout>
-      <Suspense fallback={<CircularLoadingCentred />}>
-        <Switch>
-          <Route exact path="/g/collection-invite/:id" component={CollectionInvite} />
-          <Route exact path="/g/story-invite/:id" component={StoryInvite} />
-          <Redirect to="/" />
-        </Switch>
-      </Suspense>
+      <Switch>
+        <Route exact path="/g/collection-invite/:id" component={CollectionInvite} />
+        <Route exact path="/g/story-invite/:id" component={StoryInvite} />
+        <Redirect to="/" />
+      </Switch>
     </GuestLayout>
   )
 }
@@ -66,16 +63,14 @@ const PublicRoutes: React.FC<RouteProps> = () => {
   if (token) return <Redirect to="/a/my-library" />
   return (
     <PublicLayout>
-      <Suspense fallback={<CircularLoadingCentred />}>
-        <Switch>
-          <Route path="/u/signin" component={Signin} />
-          <Route path="/u/signup" component={Signup} />
-          <Route path="/u/forgot-password" component={ForgotPassword} />
-          <Route path="/u/password-reset" component={PasswordReset} />
-          <Route path="/u/confirmation-email" component={ConfirmationEmail} />
-          <Redirect to="/u/signin" />
-        </Switch>
-      </Suspense>
+      <Switch>
+        <Route path="/u/signin" component={Signin} />
+        <Route path="/u/signup" component={Signup} />
+        <Route path="/u/forgot-password" component={ForgotPassword} />
+        <Route path="/u/password-reset" component={PasswordReset} />
+        <Route path="/u/confirmation-email" component={ConfirmationEmail} />
+        <Redirect to="/u/signin" />
+      </Switch>
     </PublicLayout>
   )
 }
@@ -83,18 +78,21 @@ const PublicRoutes: React.FC<RouteProps> = () => {
 const Routes: React.FC = () => {
   return (
     <Router>
-      <Switch>
-        <Route path="/a">
-          <AuthenticadeRoutes />
-        </Route>
-        <Route path="/g">
-          <GuestRoutes />
-        </Route>
-        <Route path="/u">
-          <PublicRoutes />
-        </Route>
-        <Redirect to="/a" />
-      </Switch>
+      <Suspense fallback={<CircularLoadingCentred />}>
+        <Switch>
+          <Route path="/a">
+            <AuthenticadeRoutes />
+          </Route>
+          <Route path="/g">
+            <GuestRoutes />
+          </Route>
+          <Route path="/u">
+            <PublicRoutes />
+          </Route>
+          <Route exact path="/:id([0-9A-Z]{6})" component={ShortId} />
+          <Redirect to="/a" />
+        </Switch>
+      </Suspense>
     </Router>
   )
 }
