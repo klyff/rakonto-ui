@@ -44,12 +44,22 @@ const CreateCollection = () => {
     cover: null
   }
 
-  const { isSubmitting, values, setFieldValue, handleBlur, handleChange, touched, errors, handleSubmit, handleReset } =
-    useFormik({
-      initialValues,
-      validationSchema: schema,
-      onSubmit
-    })
+  const {
+    isSubmitting,
+    isValid,
+    values,
+    setFieldValue,
+    handleBlur,
+    handleChange,
+    touched,
+    errors,
+    handleSubmit,
+    handleReset
+  } = useFormik({
+    initialValues,
+    validationSchema: schema,
+    onSubmit
+  })
 
   useEffect(() => {
     if (store.isOpen) {
@@ -214,7 +224,7 @@ const CreateCollection = () => {
             Cancel
           </Button>
           <Button
-            disabled={isSubmitting || !values.cover || !!progress}
+            disabled={isSubmitting || isValid || !!progress}
             variant="contained"
             onClick={() => handleSubmit()}
             sx={{ mt: 1, mr: 1 }}

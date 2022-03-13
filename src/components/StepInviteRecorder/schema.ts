@@ -48,6 +48,6 @@ export const schema = yup.object().shape({
     .label('File'),
   recordingTypeValue: yup.string(),
   expire: yup.date().required().label('Date'),
-  size: yup.string().required().label('Timelimit'),
+  size: yup.number().min(1).required().label('Time limit'),
   title: yup.string().required().label('Title')
 })
