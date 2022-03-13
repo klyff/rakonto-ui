@@ -3,6 +3,7 @@ import Header from './Header'
 import Cookies from 'js-cookie'
 import { StepStoryUploadProvider } from '../../../components/StepStoryUpload'
 import { StepInviteRecorderProvider } from '../../../components/StepInviteRecorder'
+import { StepInviteContributorProvider } from '../../../components/StepInviteContributor'
 import { GreetingsDialogProvider } from '../../../components/GreetingsDialog'
 import { QueueProcessorProvider } from '../../../components/QueueProcessor'
 import { CreateCollectionProvider } from '../../../components/CreateCollection'
@@ -24,14 +25,16 @@ const AuthenticatedLayout: React.FC = ({ children }) => {
         <QueueProcessorProvider>
           <CreateCollectionProvider>
             <StepStoryUploadProvider>
-              <StepInviteRecorderProvider>
-                <ChangeMediaProvider>
-                  <GreetingsDialogProvider>
-                    <Header />
-                    {children}
-                  </GreetingsDialogProvider>
-                </ChangeMediaProvider>
-              </StepInviteRecorderProvider>
+              <StepInviteContributorProvider>
+                <StepInviteRecorderProvider>
+                  <ChangeMediaProvider>
+                    <GreetingsDialogProvider>
+                      <Header />
+                      {children}
+                    </GreetingsDialogProvider>
+                  </ChangeMediaProvider>
+                </StepInviteRecorderProvider>
+              </StepInviteContributorProvider>
             </StepStoryUploadProvider>
           </CreateCollectionProvider>
         </QueueProcessorProvider>

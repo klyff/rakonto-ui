@@ -40,7 +40,9 @@ import {
   UserFormType,
   UserType,
   WatcherType,
-  InviteType
+  InviteType,
+  InviteContributorInput,
+  InviteContributorType
 } from '../types'
 
 class CustomError extends Error {
@@ -693,7 +695,7 @@ export const publish =
         : await request.post(`a/stories/${id}/make-private`).then(res => res.data)
     }
 
-// Invite
+// Invites
 export const createInvite =
   (request: AxiosInstance) =>
     async (data: InviteInput, file?: File | null, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<InviteType> => {
@@ -738,6 +740,53 @@ export const sendInviteSubmission =
         })
       )
       return await request.post(`g/collection-invite-submissions/${id}`, formdata, {
+        onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded }),
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => res.data)
+    }
+
+export const createContributorInvite =
+  (request: AxiosInstance) =>
+    async (data: InviteContributorInput): Promise<InviteContributorType> => {
+      return await request.post(`a/story-invites`, data).then(res => res.data)
+    }
+
+export const sendInviteContributorEmails =
+  (request: AxiosInstance) =>
+    async (id: string, emails: { [key: string]: string }): Promise<InviteContributorType> => {
+      return await request.post(`a/story-invites/${id}/send-email`, { emails }).then(res => res.data)
+    }
+
+export const getContributorInviteSubmission =
+  (request: AxiosInstance) =>
+    async (id: string, token: string): Promise<InviteContributorType> => {
+      return await request.get(`g/story-invite-submissions/${id}/invite`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => res.data)
+    }
+
+export const sendContributorInviteSubmission =
+  (request: AxiosInstance) =>
+    async (id: string, token: string, data: { name: string, email?: string }, files: File[], progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<InviteType> => {
+      const formdata = new FormData()
+      for (const f of files) {
+        if (f.type.startsWith('image')) {
+          formdata.append('gallery-entries', f, f.name)
+          continue
+        }
+        formdata.append('files', f, f.name)
+      }
+      formdata.append(
+        'submission',
+        new Blob([JSON.stringify(data)], {
+          type: 'application/json'
+        })
+      )
+      return await request.post(`g/story-invite-submissions/${id}`, formdata, {
         onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded }),
         headers: {
           'Authorization': `Bearer ${token}`

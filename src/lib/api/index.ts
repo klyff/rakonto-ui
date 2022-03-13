@@ -85,7 +85,11 @@ import {
   sendInviteEmails,
   getInviteSubmission,
   sendInviteSubmission,
-  verifyStorageUsage
+  verifyStorageUsage,
+  createContributorInvite,
+  sendInviteContributorEmails,
+  getContributorInviteSubmission,
+  sendContributorInviteSubmission
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -210,5 +214,9 @@ export default {
   createInvite: createInvite(request),
   sendInviteEmails: sendInviteEmails(request),
   getInviteSubmission: getInviteSubmission(request),
-  sendInviteSubmission: sendInviteSubmission(request)
+  sendInviteSubmission: sendInviteSubmission(request),
+  createContributorInvite: createContributorInvite(request),
+  sendInviteContributorEmails: sendInviteContributorEmails(request),
+  getContributorInviteSubmission: getContributorInviteSubmission(request),
+  sendContributorInviteSubmission: sendContributorInviteSubmission(request)
 }

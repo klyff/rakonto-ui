@@ -362,6 +362,7 @@ export type InviteInput = {
   requestedMediaLength: number
   dueAt: Date
 }
+
 export type InviteType = {
   id: string
   collectionId: string
@@ -381,6 +382,27 @@ export type InviteType = {
   dueAt: Date
   createdAt: Date
   ready: boolean
+}
+
+export type InviteContributorInput = {
+  storyId: string
+  title: string
+  description: string
+  requestedMediaType: 'FILE' | 'IMAGE' | null
+  dueAt: Date
+}
+
+export type InviteContributorType = {
+  id: string
+  storyId: string
+  title: string
+  description: string
+  requestedMediaType: 'FILE' | 'IMAGE' | null
+  user: UserType
+  token: string
+  url: string
+  dueAt: Date
+  createdAt: Date
 }
 
 export type SubmissipnType = {
