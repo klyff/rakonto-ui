@@ -774,10 +774,6 @@ export const sendContributorInviteSubmission =
     async (id: string, token: string, data: { name: string, email?: string }, files: File[], progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<InviteType> => {
       const formdata = new FormData()
       for (const f of files) {
-        if (f.type.startsWith('image')) {
-          formdata.append('gallery-entries', f, f.name)
-          continue
-        }
         formdata.append('files', f, f.name)
       }
       formdata.append(
