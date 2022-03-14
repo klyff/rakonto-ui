@@ -41,7 +41,7 @@ const StepInviteContributor: React.FC<{ storyId: string }> = ({ storyId }) => {
   const initialValues: {
     title: string
     instructions: string
-    recordingType: 'FILE' | 'IMAGE' | 'NONE'
+    recordingType: 'FILE' | 'GALLERY_ENTRY' | 'NONE'
     expire: Date
   } = {
     title: '',

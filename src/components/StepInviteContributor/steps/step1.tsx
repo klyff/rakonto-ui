@@ -98,7 +98,7 @@ const Step1 = () => {
             >
               <FormControlLabel value="NONE" control={<Radio />} label="File or Image" />
               <FormControlLabel value="FILE" control={<Radio />} label="File" />
-              <FormControlLabel value="IMAGE" control={<Radio />} label="Image" />
+              <FormControlLabel value="GALLERY_ENTRY" control={<Radio />} label="Image" />
             </RadioGroup>
           </FormControl>
         </Grid>

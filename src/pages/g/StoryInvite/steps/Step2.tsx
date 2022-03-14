@@ -23,8 +23,12 @@ const Step2: React.FC<{ invite: InviteContributorType }> = ({ invite }) => {
       setLocalFiles(acceptedFiles)
     }
 
-  const accept = invite.requestedMediaType === 'IMAGE' ? 'image/*' : '*/*'
-  const { getRootProps, getInputProps, open } = useDropzone({ onDrop, noClick: true, multiple: true, accept: accept })
+  const options = { onDrop, noClick: true, multiple: true }
+  if (invite.requestedMediaType === 'GALLERY_ENTRY') {
+    // @ts-ignore
+    options.accept = 'image/*'
+  }
+  const { getRootProps, getInputProps, open } = useDropzone(options)
 
   useEffect(() => {
     if (files?.length) {
@@ -40,13 +44,16 @@ const Step2: React.FC<{ invite: InviteContributorType }> = ({ invite }) => {
     setValue(removeFiles)
   }
 
+  let mediaType = null
+  if (invite.requestedMediaType) {
+    mediaType = invite.requestedMediaType === 'GALLERY_ENTRY' ? 'image' : invite.requestedMediaType?.toLowerCase()
+  }
+
   return (
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`${invite.user.firstName} would like you to contribute with ${
-            invite.requestedMediaType?.toLowerCase() || 'file or image'
-          }.`}
+          {`${invite.user.firstName} would like you to contribute with ${mediaType || 'file or image'}.`}
         </Typography>
         <Typography variant="h6">When you are ready, drop or select your files.</Typography>
       </Grid>

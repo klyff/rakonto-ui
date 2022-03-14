@@ -392,7 +392,7 @@ export type InviteContributorInput = {
   storyId: string
   title: string
   description: string
-  requestedMediaType: 'FILE' | 'IMAGE' | null
+  requestedMediaType: 'FILE' | 'GALLERY_ENTRY' | null
   dueAt: Date
 }
 
@@ -401,7 +401,7 @@ export type InviteContributorType = {
   storyId: string
   title: string
   description: string
-  requestedMediaType: 'FILE' | 'IMAGE' | null
+  requestedMediaType: 'FILE' | 'GALLERY_ENTRY' | null
   user: UserType
   token: string
   url: string
