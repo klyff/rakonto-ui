@@ -23,11 +23,11 @@ import PlaceSearch from './PlaceSearch'
 import { LatLngExpression } from 'leaflet'
 
 interface iPlace {
-  canEdit: boolean
+  isEditor: boolean
   storyId: string
 }
 
-const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
+const Places: React.FC<iPlace> = ({ isEditor, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [searchValue, setSearchValue] = useState<string>('')
@@ -150,7 +150,7 @@ const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
         flexFlow: 'column'
       }}
     >
-      {canEdit && (
+      {isEditor && (
         <>
           {isOpen && <CreateEditPlace onClose={handleCloseDialog} selectedPlace={placeSelectedEdit} />}
           <Typography sx={{ marginBottom: 3 }} gutterBottom>
@@ -168,7 +168,7 @@ const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
       )}
 
       <Divider sx={{ margin: '24px 0' }} />
-      {!canEdit && (
+      {!isEditor && (
         <Box
           sx={{
             maxWidth: '422px',
@@ -219,7 +219,7 @@ const Places: React.FC<iPlace> = ({ canEdit, storyId }) => {
                   }}
                   onMouseLeave={() => setOpenMarker(undefined)}
                   secondaryAction={
-                    canEdit && (
+                    isEditor && (
                       <>
                         <IconButton
                           onClick={() => {

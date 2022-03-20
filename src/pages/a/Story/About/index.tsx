@@ -15,11 +15,11 @@ interface iAbout {
   title: string
   id: string
   description: string
-  canEdit: boolean
+  isEditor: boolean
   update: (formData: StoryUpdateType | CollectionFormType) => void
 }
 
-const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, children }) => {
+const About: React.FC<iAbout> = ({ update, title, id, description, isEditor, children }) => {
   const [editMode, setEditMode] = useState<boolean>(false)
   const initialValues = { title: title, description: description }
 
@@ -70,7 +70,7 @@ const About: React.FC<iAbout> = ({ update, title, id, description, canEdit, chil
               >
                 {title}
               </Typography>
-              {canEdit && (
+              {isEditor && (
                 <div>
                   <IconButton onClick={() => setEditMode(true)}>
                     <CreateIcon />

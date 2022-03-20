@@ -16,14 +16,14 @@ import CreateTimeline from './CreateTimeline'
 import { format, parseJSON } from 'date-fns'
 
 interface iTimelines {
-  canEdit: boolean
+  isEditor: boolean
   storyId: string
 }
 
 const sortByDate = (a: TimelineType, b: TimelineType) =>
   parseJSON(b.at as unknown as string).getTime() - parseJSON(a.at as unknown as string).getTime()
 
-const Timelines: React.FC<iTimelines> = ({ canEdit, storyId }) => {
+const Timelines: React.FC<iTimelines> = ({ isEditor, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -88,7 +88,7 @@ const Timelines: React.FC<iTimelines> = ({ canEdit, storyId }) => {
         flexFlow: 'column'
       }}
     >
-      {canEdit && (
+      {isEditor && (
         <>
           {isOpen && <CreateTimeline storyId={storyId} onClose={handleCloseDialog} />}
           <Box>
@@ -117,7 +117,7 @@ const Timelines: React.FC<iTimelines> = ({ canEdit, storyId }) => {
                   key={e.id}
                   opositeTitle={
                     <>
-                      {canEdit && (
+                      {isEditor && (
                         <IconButton onClick={() => handleDelete(e)}>
                           <DeleteIcon />
                         </IconButton>

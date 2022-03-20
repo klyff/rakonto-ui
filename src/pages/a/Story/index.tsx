@@ -35,6 +35,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
   const [story, setStory] = useState<StoryType | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isOwner, setIsOwner] = useState<boolean>(false)
+  const [isEditor, setIsEditor] = useState<boolean>(false)
   const { emitter } = useMitt()
 
   const computeStory = (value: StoryType) => {
@@ -48,6 +49,9 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
       setIsLoading(false)
       if (result.owner.id === user?.id) {
         setIsOwner(true)
+      }
+      if (result.editors?.find(e => user?.id)) {
+        setIsEditor(true)
       }
     } catch (error) {
       history.push('/a/my-library')
@@ -166,41 +170,48 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             <EditBar
               id={storyId}
               story={story}
-              canEdit={isOwner}
+              isOwner={isOwner}
+              isEditor={isEditor}
               reload={fetch}
               loadPublished={published}
               collection={collections[0]}
               media={video || audio}
             />
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="about">
-              <About update={updateStory} canEdit={isOwner} title={title} id={storyId} description={description || ''}>
+              <About
+                update={updateStory}
+                isEditor={isOwner || isEditor}
+                title={title}
+                id={storyId}
+                description={description || ''}
+              >
                 <Comments type={AssetTypes.story} id={storyId} watchers={watchers} />
               </About>
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="people">
-              <People storyId={storyId} canEdit={isOwner} />
+              <People storyId={storyId} isEditor={isOwner || isEditor} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="timelines">
-              <Timeline storyId={storyId} canEdit={isOwner} />
+              <Timeline storyId={storyId} isEditor={isOwner || isEditor} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="places">
-              <Places storyId={storyId} canEdit={isOwner} />
+              <Places storyId={storyId} isEditor={isOwner || isEditor} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="transcript">
-              <Transcript storyId={storyId} canEdit={isOwner} refetch={fetch} />
+              <Transcript storyId={storyId} isEditor={isOwner || isEditor} refetch={fetch} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="photos">
-              <Photos storyId={storyId} canEdit={isOwner} />
+              <Photos storyId={storyId} isEditor={isOwner || isEditor} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="files">
-              <Files storyId={storyId} canEdit={isOwner} />
+              <Files storyId={storyId} isEditor={isOwner || isEditor} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="links">
-              <Links storyId={storyId} canEdit={isOwner} />
+              <Links storyId={storyId} isEditor={isOwner || isEditor} />
             </TabPanel>
-            {isOwner && (
+            {(isOwner || isEditor) && (
               <TabPanel sx={{ height: '100%', padding: 'unset' }} value="subtitles">
-                <Subtitles storyId={storyId} canEdit={isOwner} refetch={fetch} />
+                <Subtitles storyId={storyId} isEditor={isOwner || isEditor} refetch={fetch} />
               </TabPanel>
             )}
           </Box>

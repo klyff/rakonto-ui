@@ -18,11 +18,11 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Link from '@mui/material/Link'
 
 interface iFiles {
-  canEdit: boolean
+  isEditor: boolean
   storyId: string
 }
 
-const Files: React.FC<iFiles> = ({ canEdit, storyId }) => {
+const Files: React.FC<iFiles> = ({ isEditor, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [files, setFiles] = useState<FileType[]>([])
@@ -104,7 +104,7 @@ const Files: React.FC<iFiles> = ({ canEdit, storyId }) => {
         flexFlow: 'column'
       }}
     >
-      {canEdit && (
+      {isEditor && (
         <>
           <Box>
             <Typography sx={{ marginBottom: 3 }} gutterBottom>
@@ -159,7 +159,7 @@ const Files: React.FC<iFiles> = ({ canEdit, storyId }) => {
                 <ListItem
                   key={file.id}
                   secondaryAction={
-                    canEdit && (
+                    isEditor && (
                       <IconButton onClick={() => handleDelete(file)} sx={{ color: 'white' }}>
                         <DeleteIcon />
                       </IconButton>

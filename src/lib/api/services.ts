@@ -39,7 +39,7 @@ import {
   TranscriptionType,
   UserFormType,
   UserType,
-  WatcherType,
+  Watcher,
   InviteType,
   InviteContributorInput,
   InviteContributorType,
@@ -555,7 +555,7 @@ export const deleteSubtitle =
 
 export const getWatchers =
   (request: AxiosInstance) =>
-    async (id: string, type: AssetTypes): Promise<Pageable<WatcherType>> => {
+    async (id: string, type: AssetTypes): Promise<Pageable<Watcher>> => {
       if (type === AssetTypes.collection) {
         return await request.get(`a/collection-watchers?collectionId=${id}`).then(res => res.data)
       }
@@ -564,8 +564,8 @@ export const getWatchers =
 
 export const addWatcher =
   (request: AxiosInstance) =>
-    async ({ id, email }: addWatcherType, type: AssetTypes): Promise<WatcherType> => {
-      if (type === AssetTypes.collection) {
+    async ({ id, email, type }: addWatcherType, assetType: AssetTypes): Promise<Watcher> => {
+      if (assetType === AssetTypes.collection) {
         return await request.post(`a/collection-watchers`, { email, collectionId: id }).then(res => res.data)
       }
       return await request.post(`a/story-watchers`, { email, storyId: id }).then(res => res.data)

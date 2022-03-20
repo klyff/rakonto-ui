@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import CloseIcon from '@mui/icons-material/Close'
 import LinkIcon from '@mui/icons-material/Link'
 import IconButton from '@mui/material/IconButton'
-import { AssetTypes, WatcherType } from '../../lib/types'
+import { AssetTypes, Watcher, WatcherType } from '../../lib/types'
 import api from '../../lib/api'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -24,31 +24,32 @@ import schema from './schema'
 
 interface iShare {
   id?: string
-  type?: AssetTypes
+  assetType?: AssetTypes
   published?: boolean
   onCloseClick: () => void
+  type: WatcherType
 }
 
-const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
+const Share: React.FC<iShare> = ({ id, assetType, onCloseClick, type }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
-  const [watchers, setWatchers] = useState<WatcherType[]>([])
+  const [watchers, setWatchers] = useState<Watcher[]>([])
   const [published, setPublished] = useState<boolean>(false)
 
   const fetchWatchers = async () => {
-    if (!id || !type) return
-    const watchers = await api.getWatchers(id, type)
+    if (!id || !assetType) return
+    const watchers = await api.getWatchers(id, assetType)
     setWatchers(watchers.content)
   }
 
   const fetchIsPublished = async () => {
-    if (!id || !type) return
-    setPublished(await api.isPublished(id, type))
+    if (!id || !assetType) return
+    setPublished(await api.isPublished(id, assetType))
   }
 
   useEffect(() => {
     fetchWatchers()
     fetchIsPublished()
-  }, [id, type])
+  }, [id, assetType])
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -57,49 +58,50 @@ const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
 
   const onSubmit = async ({ email }: { email: string }) => {
     try {
-      if (!id || !type) return
-      await api.addWatcher({ email, id }, type)
-      snackActions.open(`${email} added to watch this ${type}`)
+      if (!id || !assetType) return
+      await api.addWatcher({ email, id, type }, assetType)
+      snackActions.open(`${email} added to watch this ${assetType}`)
       fetchWatchers()
     } catch (error) {
-      snackActions.open(`Problem to add ${email} to watch this ${type}`)
+      snackActions.open(`Problem to add ${email} to watch this ${assetType}`)
     }
   }
 
-  const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit, resetForm } = useFormik({
-    initialValues: { email: '' },
-    validationSchema: schema,
-    onSubmit
-  })
+  const { isSubmitting, values, handleBlur, handleChange, touched, errors, handleSubmit, resetForm, setFieldValue } =
+    useFormik({
+      initialValues: { email: '' },
+      validationSchema: schema,
+      onSubmit
+    })
 
   const handlePublished = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      if (!id || !type) return
-      await api.publish(id, event.target.checked, type)
+      if (!id || !assetType) return
+      await api.publish(id, event.target.checked, assetType)
       fetchIsPublished()
     } catch (error) {
-      snackActions.open(`Problem to make this ${type} ${event.target.checked ? 'private' : 'public'}`)
+      snackActions.open(`Problem to make this ${assetType} ${event.target.checked ? 'private' : 'public'}`)
     }
   }
 
   const removeWatcher = async (watcherId: string) => {
-    const watcher = watchers.find(w => watcherId === w.id) as WatcherType
+    const watcher = watchers.find(w => watcherId === w.id) as Watcher
     try {
-      if (!type) return
-      await api.removeWatcher(watcherId, type)
+      if (!assetType) return
+      await api.removeWatcher(watcherId, assetType)
       fetchWatchers()
-      snackActions.open(`${watcher.email} removed to watch this ${type}`)
+      snackActions.open(`${watcher.email} removed to watch this ${assetType}`)
     } catch (error) {
-      snackActions.open(`Problem to remove ${watcher.email} from this ${type}`)
+      snackActions.open(`Problem to remove ${watcher.email} from this ${assetType}`)
     }
   }
 
   const notifyWatcher = async (watcherId: string) => {
-    const watcher = watchers.find(w => watcherId === w.id) as WatcherType
+    const watcher = watchers.find(w => watcherId === w.id) as Watcher
     try {
-      if (!type) return
-      await api.notifyWatcher(watcherId, type)
-      snackActions.open(`${watcher.email} notified to watch this ${type}`)
+      if (!assetType) return
+      await api.notifyWatcher(watcherId, assetType)
+      snackActions.open(`${watcher.email} notified to watch this ${assetType}`)
     } catch (error) {
       snackActions.open(`Problem to notify ${watcher.email}`)
     }
@@ -144,21 +146,23 @@ const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
             Copy link
           </Button>
         </Box>
-        <Box
-          sx={{
-            backgroundColor: 'grey.400',
-            padding: 3,
-            color: 'common.black'
-          }}
-        >
-          <Typography>Choose who will be able to view your {type}</Typography>
-          <FormGroup>
-            <FormControlLabel
-              control={<Switch checked={published} onChange={handlePublished} />}
-              label={published ? 'Anyone can view this collection' : 'Private'}
-            />
-          </FormGroup>
-        </Box>
+        {type === 'VIEWER' && (
+          <Box
+            sx={{
+              backgroundColor: 'grey.400',
+              padding: 3,
+              color: 'common.black'
+            }}
+          >
+            <Typography>Choose who will be able to view your {assetType}</Typography>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch checked={published} onChange={handlePublished} />}
+                label={published ? 'Anyone can view this collection' : 'Private'}
+              />
+            </FormGroup>
+          </Box>
+        )}
         <Box
           sx={{
             padding: '24px 24px 0px',
@@ -167,7 +171,9 @@ const Share: React.FC<iShare> = ({ id, type, onCloseClick }) => {
             flex: '1'
           }}
         >
-          <Typography gutterBottom>Invite people to see your {type}</Typography>
+          <Typography gutterBottom>
+            Invite people to {type === 'VIEWER' ? 'see' : 'edit'} your {assetType}
+          </Typography>
           <form>
             <TextField
               margin="normal"

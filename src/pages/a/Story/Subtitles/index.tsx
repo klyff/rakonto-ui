@@ -17,12 +17,12 @@ import Link from '@mui/material/Link'
 import CreateSubtitle from './CreateSubtitle'
 
 interface iSubtitles {
-  canEdit: boolean
+  isEditor: boolean
   storyId: string
   refetch: () => void
 }
 
-const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId, refetch: reftechStory }) => {
+const Subtitles: React.FC<iSubtitles> = ({ isEditor, storyId, refetch: reftechStory }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -103,7 +103,7 @@ const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId, refetch: reftechSto
         flexFlow: 'column'
       }}
     >
-      {canEdit && (
+      {isEditor && (
         <>
           {isOpen && <CreateSubtitle storyId={storyId} onClose={handleCloseDialog} />}
           <Box>
@@ -130,7 +130,7 @@ const Subtitles: React.FC<iSubtitles> = ({ canEdit, storyId, refetch: reftechSto
                 <ListItem
                   key={subtitle.id}
                   secondaryAction={
-                    canEdit && (
+                    isEditor && (
                       <IconButton onClick={() => handleDelete(subtitle)} sx={{ color: 'white' }}>
                         <DeleteIcon />
                       </IconButton>

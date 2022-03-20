@@ -170,7 +170,8 @@ export type StoryType = {
   owner: UserType
   type: MediaType
   video: VideoDetails
-  watchers: WatcherType[]
+  watchers: Watcher[]
+  editors: Watcher[]
   persons: PersonType[]
   files: FileType[]
   links: LinkType[]
@@ -253,7 +254,9 @@ export type TranscriptionType = {
   createdAt: Date
 }
 
-export type WatcherType = {
+export type WatcherType = 'VIEWER' | 'EDITOR'
+
+export type Watcher = {
   id: string
   email: string
   notifiedAt: Date
@@ -319,6 +322,7 @@ export type PlaceFormType = {
 export type addWatcherType = {
   id: string
   email: string
+  type: WatcherType
 }
 
 export enum AssetTypes {

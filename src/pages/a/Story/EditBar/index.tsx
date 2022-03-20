@@ -14,7 +14,15 @@ import UploadFileIcon from '@mui/icons-material/UploadFile'
 import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
-import { AudioDetails, CollectionType, ImageType, StoryType, VideoDetails } from '../../../../lib/types'
+import {
+  AssetTypes,
+  AudioDetails,
+  CollectionType,
+  ImageType,
+  StoryType,
+  UserType,
+  VideoDetails
+} from '../../../../lib/types'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 import api from '../../../../lib/api'
 import { SimpleDialogContext } from '../../../../components/SimpleDialog'
@@ -27,10 +35,13 @@ import MoreIcon from '@mui/icons-material/MoreVert'
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
 import Cookies from 'js-cookie'
 import { StepInviteContributorContext } from '../../../../components/StepInviteContributor'
+import Share from '../../../../components/Share'
+import ShareIcon from '@mui/icons-material/Share'
 
 interface iEditBar {
   collection: CollectionType
-  canEdit: boolean
+  isEditor: boolean
+  isOwner: boolean
   media: VideoDetails | AudioDetails
   id: string
   reload: () => void
@@ -38,7 +49,7 @@ interface iEditBar {
   story?: StoryType
 }
 
-const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPublished, media, story }) => {
+const EditBar: React.FC<iEditBar> = ({ collection, isEditor, isOwner, id, reload, loadPublished, media, story }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: mediaActions } = useContext(ChangeMediaContext)
@@ -48,6 +59,10 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
   const [published, setPublished] = useState<boolean>(loadPublished || false)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null)
   const token = Cookies.get('token') as string
+  const user: UserType = JSON.parse(Cookies.get('user') || '{}')
+  const [showShare, setShowShare] = useState<boolean>(false)
+
+  const canDownload = user.tier > 0 && isOwner
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
@@ -182,63 +197,88 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
         reload={reload}
         isMenu
       />
-      <MenuItem
-        onClick={() => {
-          mediaActions.open(id)
-          handleMobileMenuClose()
-        }}
-      >
-        Replace video/audio
-      </MenuItem>
       <MenuItem onClick={() => inviteContributorActions.open(id)}>Add Contributor</MenuItem>
-      <MenuItem
-        onClick={() => {
-          openUpload()
-          handleMobileMenuClose()
-        }}
-      >
-        <Box {...getRootProps()}>
-          <input {...getInputProps()} />
-          Thumbnail
-        </Box>
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          const url = new URL(story!.downloadUrl)
-          url.search = new URLSearchParams({ original: 'f', jwt: token }).toString()
-          window.location.assign(url)
-        }}
-      >
-        Download optimized
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          const url = new URL(story!.downloadUrl)
-          url.search = new URLSearchParams({ original: 't', jwt: token }).toString()
-          window.location.assign(url)
-        }}
-      >
-        Download original
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handleDelete()
-          handleMobileMenuClose()
-        }}
-      >
-        Delete
-      </MenuItem>
+      {isOwner && (
+        <>
+          {' '}
+          <MenuItem
+            onClick={() => {
+              mediaActions.open(id)
+              handleMobileMenuClose()
+            }}
+          >
+            Replace video/audio
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              openUpload()
+              handleMobileMenuClose()
+            }}
+          >
+            <Box {...getRootProps()}>
+              <input {...getInputProps()} />
+              Thumbnail
+            </Box>
+          </MenuItem>
+        </>
+      )}
+      {canDownload && (
+        <>
+          {' '}
+          <MenuItem
+            onClick={() => {
+              const url = new URL(story!.downloadUrl)
+              url.search = new URLSearchParams({ original: 'f', jwt: token }).toString()
+              window.location.assign(url)
+            }}
+          >
+            Download optimized
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              const url = new URL(story!.downloadUrl)
+              url.search = new URLSearchParams({ original: 't', jwt: token }).toString()
+              window.location.assign(url)
+            }}
+          >
+            Download original
+          </MenuItem>{' '}
+        </>
+      )}
+      {isOwner && (
+        <MenuItem
+          onClick={() => {
+            setShowShare(true)
+            handleMobileMenuClose()
+          }}
+        >
+          Share
+        </MenuItem>
+      )}
+      {isOwner && (
+        <MenuItem
+          onClick={() => {
+            handleDelete()
+            handleMobileMenuClose()
+          }}
+        >
+          Delete
+        </MenuItem>
+      )}
     </Menu>
   )
   return (
     <>
-      {canEdit && (
+      {isOwner && (
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'end'
           }}
         >
+          {showShare && (
+            <Share id={id} assetType={AssetTypes.story} type="EDITOR" onCloseClick={() => setShowShare(false)} />
+          )}
           <FormGroup>
             <FormControlLabel
               control={<Switch checked={published} onChange={handlePublished} />}
@@ -270,7 +310,7 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
           <ArrowBackIcon />
           <Typography sx={{ paddingLeft: 1 }}>{collection?.title}</Typography>
         </Box>
-        {canEdit && (
+        {isOwner && (
           <Stack direction="row">
             <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
               <Button color="secondary" onClick={() => inviteContributorActions.open(id)} startIcon={<PersonAddIcon />}>
@@ -280,79 +320,90 @@ const EditBar: React.FC<iEditBar> = ({ collection, canEdit, id, reload, loadPubl
             <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
               <CollectionMove currentCollectionId={collection.id} storyId={id} reload={reload} />
             </Box>
-            <Box {...getRootProps()} sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
-              <PopupState variant="popover" popupId="demo-popup-menu">
-                {popupState => (
-                  <React.Fragment>
-                    <Button
-                      startIcon={<UploadFileIcon />}
-                      sx={{ display: { xs: 'none', md: 'flex' } }}
-                      color="secondary"
-                      {...bindTrigger(popupState)}
-                    >
-                      Replace
-                    </Button>
-                    <Menu {...bindMenu(popupState)}>
-                      <input {...getInputProps()} />
-                      <MenuItem
-                        onClick={() => {
-                          mediaActions.open(id)
-                          popupState.close()
-                        }}
+            {isOwner && (
+              <Box {...getRootProps()} sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
+                <PopupState variant="popover" popupId="demo-popup-menu">
+                  {popupState => (
+                    <React.Fragment>
+                      <Button
+                        startIcon={<UploadFileIcon />}
+                        sx={{ display: { xs: 'none', md: 'flex' } }}
+                        color="secondary"
+                        {...bindTrigger(popupState)}
                       >
-                        Media
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          openUpload()
-                          popupState.close()
-                        }}
+                        Replace
+                      </Button>
+                      <Menu {...bindMenu(popupState)}>
+                        <input {...getInputProps()} />
+                        <MenuItem
+                          onClick={() => {
+                            mediaActions.open(id)
+                            popupState.close()
+                          }}
+                        >
+                          Media
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            openUpload()
+                            popupState.close()
+                          }}
+                        >
+                          Thumbnail
+                        </MenuItem>
+                      </Menu>
+                    </React.Fragment>
+                  )}
+                </PopupState>
+              </Box>
+            )}
+            {canDownload && (
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
+                <PopupState variant="popover" popupId="demo-popup-menu">
+                  {popupState => (
+                    <React.Fragment>
+                      <Button
+                        startIcon={<DownloadIcon />}
+                        sx={{ display: { xs: 'none', md: 'flex' } }}
+                        color="secondary"
+                        {...bindTrigger(popupState)}
                       >
-                        Thumbnail
-                      </MenuItem>
-                    </Menu>
-                  </React.Fragment>
-                )}
-              </PopupState>
-            </Box>
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
-              <PopupState variant="popover" popupId="demo-popup-menu">
-                {popupState => (
-                  <React.Fragment>
-                    <Button
-                      startIcon={<DownloadIcon />}
-                      sx={{ display: { xs: 'none', md: 'flex' } }}
-                      color="secondary"
-                      {...bindTrigger(popupState)}
-                    >
-                      Download
-                    </Button>
-                    <Menu {...bindMenu(popupState)}>
-                      <MenuItem
-                        onClick={() => {
-                          const url = new URL(story!.downloadUrl)
-                          url.search = new URLSearchParams({ original: 't', jwt: token }).toString()
-                          window.location.assign(url)
-                          popupState.close()
-                        }}
-                      >
-                        Original
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          const url = new URL(story!.downloadUrl)
-                          url.search = new URLSearchParams({ original: 'f', jwt: token }).toString()
-                          window.location.assign(url)
-                          popupState.close()
-                        }}
-                      >
-                        Optimized
-                      </MenuItem>
-                    </Menu>
-                  </React.Fragment>
-                )}
-              </PopupState>
-            </Box>
+                        Download
+                      </Button>
+                      <Menu {...bindMenu(popupState)}>
+                        <MenuItem
+                          onClick={() => {
+                            const url = new URL(story!.downloadUrl)
+                            url.search = new URLSearchParams({ original: 't', jwt: token }).toString()
+                            window.location.assign(url)
+                            popupState.close()
+                          }}
+                        >
+                          Original
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            const url = new URL(story!.downloadUrl)
+                            url.search = new URLSearchParams({ original: 'f', jwt: token }).toString()
+                            window.location.assign(url)
+                            popupState.close()
+                          }}
+                        >
+                          Optimized
+                        </MenuItem>
+                      </Menu>
+                    </React.Fragment>
+                  )}
+                </PopupState>
+              </Box>
+            )}
+            {isOwner && (
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                <Button color="secondary" onClick={() => setShowShare(true)} startIcon={<ShareIcon />}>
+                  Share
+                </Button>
+              </Box>
+            )}
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button color="secondary" onClick={handleDelete} startIcon={<DeleteIcon />}>
                 Delete

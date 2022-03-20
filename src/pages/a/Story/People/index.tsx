@@ -16,11 +16,11 @@ import PersonItem from '../../../../components/PersonItem'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
 
 interface iPeople {
-  canEdit: boolean
+  isEditor: boolean
   storyId: string
 }
 
-const People: React.FC<iPeople> = ({ canEdit, storyId }) => {
+const People: React.FC<iPeople> = ({ isEditor, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [searchValue, setSearchValue] = useState<string>('')
@@ -117,7 +117,7 @@ const People: React.FC<iPeople> = ({ canEdit, storyId }) => {
         flexFlow: 'column'
       }}
     >
-      {canEdit && (
+      {isEditor && (
         <>
           {isOpen && <CreateEditCollection onClose={handleCloseDialog} selectedPerson={personSelectedEdit} />}
           <Typography sx={{ marginBottom: 3 }} gutterBottom>
@@ -135,7 +135,7 @@ const People: React.FC<iPeople> = ({ canEdit, storyId }) => {
       )}
 
       <Divider sx={{ margin: '24px 0' }} />
-      {!canEdit && (
+      {!isEditor && (
         <Box
           sx={{
             maxWidth: '422px',

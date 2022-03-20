@@ -11,12 +11,12 @@ import { TranscriptionType } from '../../../../lib/types'
 import { SimpleDialogContext } from '../../../../components/SimpleDialog'
 
 interface iTranscript {
-  canEdit: boolean
+  isEditor: boolean
   storyId: string
   refetch: () => void
 }
 
-const Transcript: React.FC<iTranscript> = ({ canEdit, storyId, refetch: refetchStory }) => {
+const Transcript: React.FC<iTranscript> = ({ isEditor, storyId, refetch: refetchStory }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const [localTranscription, setLocalTranscription] = useState<TranscriptionType | undefined>(undefined)
   const [text, setText] = useState<string>('')
@@ -75,7 +75,7 @@ const Transcript: React.FC<iTranscript> = ({ canEdit, storyId, refetch: refetchS
           minHeight: '40vh'
         }}
       >
-        {canEdit && (
+        {isEditor && (
           <>
             <Box>
               {editMode ? (

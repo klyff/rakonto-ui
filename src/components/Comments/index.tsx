@@ -1,5 +1,5 @@
 import React from 'react'
-import { AssetTypes, WatcherType } from '../../lib/types'
+import { AssetTypes, Watcher } from '../../lib/types'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
@@ -12,7 +12,7 @@ import { LinearProgress } from '@mui/material'
 interface iComments {
   id: string
   type: AssetTypes
-  watchers: WatcherType[]
+  watchers: Watcher[]
 }
 
 const Comments: React.FC<iComments> = ({ id, watchers, type }) => {

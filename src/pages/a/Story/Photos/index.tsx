@@ -20,11 +20,11 @@ import ListItemText from '@mui/material/ListItemText'
 import CircularProgress from '@mui/material/CircularProgress'
 
 interface iPhotos {
-  canEdit: boolean
+  isEditor: boolean
   storyId: string
 }
 
-const Photos: React.FC<iPhotos> = ({ canEdit, storyId }) => {
+const Photos: React.FC<iPhotos> = ({ isEditor, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [photos, setPhotos] = useState<GalleryType[]>([])
@@ -107,7 +107,7 @@ const Photos: React.FC<iPhotos> = ({ canEdit, storyId }) => {
         flexFlow: 'column'
       }}
     >
-      {canEdit && (
+      {isEditor && (
         <>
           <Box>
             <Typography sx={{ marginBottom: 3 }} gutterBottom>
@@ -170,7 +170,7 @@ const Photos: React.FC<iPhotos> = ({ canEdit, storyId }) => {
                     position="below"
                     title={photo.image.originalName}
                     actionIcon={
-                      canEdit && (
+                      isEditor && (
                         <IconButton onClick={() => handleDelete(photo)} sx={{ color: 'white' }}>
                           <DeleteIcon />
                         </IconButton>

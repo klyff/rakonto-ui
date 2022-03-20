@@ -14,11 +14,11 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import CreateLink from './CreateLink'
 
 interface iLinks {
-  canEdit: boolean
+  isEditor: boolean
   storyId: string
 }
 
-const Links: React.FC<iLinks> = ({ canEdit, storyId }) => {
+const Links: React.FC<iLinks> = ({ isEditor, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -83,7 +83,7 @@ const Links: React.FC<iLinks> = ({ canEdit, storyId }) => {
         flexFlow: 'column'
       }}
     >
-      {canEdit && (
+      {isEditor && (
         <>
           {isOpen && <CreateLink storyId={storyId} onClose={handleCloseDialog} />}
           <Box>
@@ -111,7 +111,7 @@ const Links: React.FC<iLinks> = ({ canEdit, storyId }) => {
                   key={link.id}
                   link={link}
                   action={
-                    canEdit && (
+                    isEditor && (
                       <IconButton onClick={() => handleDelete(link)} sx={{ color: 'white' }}>
                         <DeleteIcon />
                       </IconButton>

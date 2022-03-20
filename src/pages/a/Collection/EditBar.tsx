@@ -105,7 +105,9 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection }) => {
       }}
       component={Paper}
     >
-      {showShare && <Share id={id} type={AssetTypes.collection} onCloseClick={() => setShowShare(false)} />}
+      {showShare && (
+        <Share id={id} assetType={AssetTypes.collection} type="VIEWER" onCloseClick={() => setShowShare(false)} />
+      )}
       <Stack direction="row" {...getRootProps()}>
         <input {...getInputProps()} />
         <LoadingButton
