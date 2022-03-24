@@ -566,9 +566,9 @@ export const addWatcher =
   (request: AxiosInstance) =>
     async ({ id, email, type }: addWatcherType, assetType: AssetTypes): Promise<Watcher> => {
       if (assetType === AssetTypes.collection) {
-        return await request.post(`a/collection-watchers`, { email, collectionId: id }).then(res => res.data)
+        return await request.post(`a/collection-watchers`, { email, collectionId: id, type: "VIEWER" }).then(res => res.data)
       }
-      return await request.post(`a/story-watchers`, { email, storyId: id }).then(res => res.data)
+      return await request.post(`a/story-watchers`, { email, storyId: id, type: "EDITOR" }).then(res => res.data)
     }
 
 export const removeWatcher =
