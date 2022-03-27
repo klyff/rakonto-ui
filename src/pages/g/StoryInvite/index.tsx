@@ -106,7 +106,7 @@ const ContributorInvite: React.FC = () => {
   const ButtonBack: React.FC<ButtonProps> = props => {
     if (activeStep !== 0) {
       return (
-        <Button {...props} onClick={handleBack}>
+        <Button {...props} sx={{ fontSize: '1.2em' }} onClick={handleBack}>
           Back
         </Button>
       )
@@ -120,6 +120,7 @@ const ContributorInvite: React.FC = () => {
       return (
         <LoadingButton
           {...props}
+          sx={{ fontSize: '1.2em' }}
           loading={formik.isSubmitting}
           disabled={!formik.isValid}
           onClick={() => {
@@ -131,7 +132,7 @@ const ContributorInvite: React.FC = () => {
       )
     }
     return (
-      <Button {...props} onClick={handleNext}>
+      <Button {...props} sx={{ fontSize: '1.2em' }} onClick={handleNext}>
         Next
       </Button>
     )
