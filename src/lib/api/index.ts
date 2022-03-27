@@ -123,10 +123,14 @@ request.interceptors.response.use(
 
     if (e?.response?.status === 404) {
       history.push('/404')
+      window.location.reload()
+      return Promise.reject(e)
     }
 
     if (e?.response?.status === 403) {
       history.push('/403')
+      window.location.reload()
+      return Promise.reject(e)
     }
 
     e.status = e?.response?.status || 500
