@@ -46,7 +46,7 @@ const Subtitles: React.FC<iSubtitles> = ({ isEditor, storyId, refetch: reftechSt
       'Delete subtitle',
       <>
         <Typography component="span">Are you sure want to delete the subtitle</Typography>
-        <Typography fontWeight="700" component="span">{` "${subtitle.originalName}" `}</Typography>
+        <Typography fontWeight="700" component="span">{` "${subtitle.originalName || subtitle.name}" `}</Typography>
         <Typography component="span">from this story?</Typography>
       </>,
       { okText: 'Yes, delete', showOk: true, cancelText: 'Back' },
