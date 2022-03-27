@@ -171,7 +171,6 @@ export type StoryType = {
   type: MediaType
   video: VideoDetails
   watchers: Watcher[]
-  editors: Watcher[]
   persons: PersonType[]
   files: FileType[]
   links: LinkType[]
@@ -263,6 +262,7 @@ export type Watcher = {
   updatedAt: Date
   createdAt: Date
   user: UserType
+  type: WatcherType
 }
 
 export type PersonFormType = {

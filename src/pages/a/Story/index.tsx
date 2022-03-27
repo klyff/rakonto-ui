@@ -50,7 +50,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
       if (result.owner.id === user?.id) {
         setIsOwner(true)
       }
-      if (result.editors?.find(e => user?.id)) {
+      if (result.watchers?.find(e => user?.email === e.email && e.type === 'EDITOR')) {
         setIsEditor(true)
       }
     } catch (error) {
