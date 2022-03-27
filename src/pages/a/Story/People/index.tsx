@@ -17,10 +17,11 @@ import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
 
 interface iPeople {
   isEditor: boolean
+  isOwner: boolean
   storyId: string
 }
 
-const People: React.FC<iPeople> = ({ isEditor, storyId }) => {
+const People: React.FC<iPeople> = ({ isOwner, isEditor, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [searchValue, setSearchValue] = useState<string>('')
@@ -117,7 +118,7 @@ const People: React.FC<iPeople> = ({ isEditor, storyId }) => {
         flexFlow: 'column'
       }}
     >
-      {isEditor && (
+      {(isOwner || isEditor) && (
         <>
           {isOpen && <CreateEditCollection onClose={handleCloseDialog} selectedPerson={personSelectedEdit} />}
           <Typography sx={{ marginBottom: 3 }} gutterBottom>
@@ -129,13 +130,13 @@ const People: React.FC<iPeople> = ({ isEditor, storyId }) => {
               maxWidth: '422px'
             }}
           >
-            <PersonSearch handleOpen={handleOpen} handleSelect={handleSelect} people={people} />
+            <PersonSearch handleOpen={handleOpen} handleSelect={handleSelect} people={people} allowAdd={isOwner} />
           </Box>
         </>
       )}
 
       <Divider sx={{ margin: '24px 0' }} />
-      {!isEditor && (
+      {!isOwner && !isEditor && (
         <Box
           sx={{
             maxWidth: '422px',

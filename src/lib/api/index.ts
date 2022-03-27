@@ -121,6 +121,14 @@ request.interceptors.response.use(
       return Promise.reject(e)
     }
 
+    if (e?.response?.status === 404) {
+      history.push('/404')
+    }
+
+    if (e?.response?.status === 403) {
+      history.push('/403')
+    }
+
     e.status = e?.response?.status || 500
     e.data = e?.response?.data || 'server error'
 

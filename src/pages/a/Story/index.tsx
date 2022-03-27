@@ -189,13 +189,13 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               </About>
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="people">
-              <People storyId={storyId} isEditor={isOwner || isEditor} />
+              <People storyId={storyId} isOwner={isOwner} isEditor={isEditor} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="timelines">
               <Timeline storyId={storyId} isEditor={isOwner || isEditor} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="places">
-              <Places storyId={storyId} isEditor={isOwner || isEditor} />
+              <Places storyId={storyId} isOwner={isOwner} isEditor={isEditor} />
             </TabPanel>
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="transcript">
               <Transcript storyId={storyId} isEditor={isOwner || isEditor} refetch={fetch} />

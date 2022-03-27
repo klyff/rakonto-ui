@@ -23,6 +23,8 @@ const People = lazy(() => import('./a/People'))
 const CollectionInvite = lazy(() => import('./g/CollectionInvite'))
 const StoryInvite = lazy(() => import('./g/StoryInvite'))
 const ShortId = lazy(() => import('./ShortId'))
+const Error404 = lazy(() => import('./Error404'))
+const Error403 = lazy(() => import('./Error403'))
 
 const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   const token = Cookies.get('token')
@@ -89,6 +91,8 @@ const Routes: React.FC = () => {
           <Route path="/u">
             <PublicRoutes />
           </Route>
+          <Route exact path="/404" component={Error404} />
+          <Route exact path="/403" component={Error403} />
           <Route exact path="/:id([0-9A-Z]{6})" component={ShortId} />
           <Redirect to="/a" />
         </Switch>

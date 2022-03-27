@@ -18,9 +18,10 @@ interface iPlaceSearch {
   handleSelect: (place: PlaceType) => void
   handleOpen: (value: boolean, place?: PlaceType) => void
   places: PlaceType[]
+  allowAdd: boolean
 }
 
-const PlaceSearch: React.FC<iPlaceSearch> = ({ handleSelect, handleOpen, places }) => {
+const PlaceSearch: React.FC<iPlaceSearch> = ({ handleSelect, handleOpen, places, allowAdd = false }) => {
   const [options, setOptions] = useState<readonly PlaceTypeOption[]>([])
   const [value, setValue] = useState<PlaceTypeOption | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -95,7 +96,7 @@ const PlaceSearch: React.FC<iPlaceSearch> = ({ handleSelect, handleOpen, places 
         const filtered = filter(options, params)
         // Suggest the creation of a new value
         const isExisting = options.some(option => inputValue === option.name)
-        if (inputValue !== '' && !isExisting) {
+        if (inputValue !== '' && !isExisting && allowAdd) {
           filtered.push({
             id: 'new place',
             name: inputValue,

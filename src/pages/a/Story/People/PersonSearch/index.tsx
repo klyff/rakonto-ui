@@ -18,9 +18,10 @@ interface iPersonSearch {
   handleSelect: (person: PersonType) => void
   handleOpen: (value: boolean, person?: PersonType) => void
   people: PersonType[]
+  allowAdd: boolean
 }
 
-const Index: React.FC<iPersonSearch> = ({ handleSelect, handleOpen, people }) => {
+const Index: React.FC<iPersonSearch> = ({ handleSelect, handleOpen, people, allowAdd = false }) => {
   const [options, setOptions] = useState<readonly PersonTypeOption[]>([])
   const [value, setValue] = useState<PersonTypeOption | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -95,7 +96,7 @@ const Index: React.FC<iPersonSearch> = ({ handleSelect, handleOpen, people }) =>
         const filtered = filter(options, params)
         // Suggest the creation of a new value
         const isExisting = options.some(option => inputValue === option.name)
-        if (inputValue !== '' && !isExisting) {
+        if (inputValue !== '' && !isExisting && allowAdd) {
           filtered.push({
             id: 'new person',
             name: inputValue,

@@ -24,10 +24,11 @@ import { LatLngExpression } from 'leaflet'
 
 interface iPlace {
   isEditor: boolean
+  isOwner: boolean
   storyId: string
 }
 
-const Places: React.FC<iPlace> = ({ isEditor, storyId }) => {
+const Places: React.FC<iPlace> = ({ isOwner, isEditor, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [searchValue, setSearchValue] = useState<string>('')
@@ -150,7 +151,7 @@ const Places: React.FC<iPlace> = ({ isEditor, storyId }) => {
         flexFlow: 'column'
       }}
     >
-      {isEditor && (
+      {(isOwner || isEditor) && (
         <>
           {isOpen && <CreateEditPlace onClose={handleCloseDialog} selectedPlace={placeSelectedEdit} />}
           <Typography sx={{ marginBottom: 3 }} gutterBottom>
@@ -162,13 +163,13 @@ const Places: React.FC<iPlace> = ({ isEditor, storyId }) => {
               maxWidth: '422px'
             }}
           >
-            <PlaceSearch handleOpen={handleOpen} handleSelect={handleSelect} places={places} />
+            <PlaceSearch handleOpen={handleOpen} handleSelect={handleSelect} places={places} allowAdd={isOwner} />
           </Box>
         </>
       )}
 
       <Divider sx={{ margin: '24px 0' }} />
-      {!isEditor && (
+      {!isOwner && !isEditor && (
         <Box
           sx={{
             maxWidth: '422px',
