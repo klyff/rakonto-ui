@@ -28,9 +28,10 @@ interface iShare {
   published?: boolean
   onCloseClick: () => void
   type: WatcherType
+  title: string
 }
 
-const Share: React.FC<iShare> = ({ id, assetType, onCloseClick, type }) => {
+const Share: React.FC<iShare> = ({ title, id, assetType, onCloseClick, type }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [watchers, setWatchers] = useState<Watcher[]>([])
   const [published, setPublished] = useState<boolean>(false)
@@ -130,7 +131,7 @@ const Share: React.FC<iShare> = ({ id, assetType, onCloseClick, type }) => {
               flex: 1
             }}
           >
-            Share
+            {title}
           </Typography>
           <IconButton onClick={onCloseClick}>
             <CloseIcon />

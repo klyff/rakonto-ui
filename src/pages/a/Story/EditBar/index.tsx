@@ -252,7 +252,7 @@ const EditBar: React.FC<iEditBar> = ({ collection, isEditor, isOwner, id, reload
             handleMobileMenuClose()
           }}
         >
-          Share
+          Invite Editor
         </MenuItem>
       )}
       {isOwner && (
@@ -277,7 +277,13 @@ const EditBar: React.FC<iEditBar> = ({ collection, isEditor, isOwner, id, reload
           }}
         >
           {showShare && (
-            <Share id={id} assetType={AssetTypes.story} type="EDITOR" onCloseClick={() => setShowShare(false)} />
+            <Share
+              title="Invite editor"
+              id={id}
+              assetType={AssetTypes.story}
+              type="EDITOR"
+              onCloseClick={() => setShowShare(false)}
+            />
           )}
           <FormGroup>
             <FormControlLabel
@@ -400,7 +406,7 @@ const EditBar: React.FC<iEditBar> = ({ collection, isEditor, isOwner, id, reload
             {isOwner && (
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <Button color="secondary" onClick={() => setShowShare(true)} startIcon={<ShareIcon />}>
-                  Share
+                  Invite Editor
                 </Button>
               </Box>
             )}
