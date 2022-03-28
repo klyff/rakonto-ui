@@ -204,6 +204,7 @@ export type CollectionType = {
   downloadUrl: string
   stories: StoryType[]
   publicAcl: boolean
+  watchers: Watcher[]
 }
 
 export type CollectionFormType = {

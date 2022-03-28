@@ -14,15 +14,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile'
 import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
-import {
-  AssetTypes,
-  AudioDetails,
-  CollectionType,
-  ImageType,
-  StoryType,
-  UserType,
-  VideoDetails
-} from '../../../../lib/types'
+import { AssetTypes, AudioDetails, ImageType, StoryType, UserType, VideoDetails } from '../../../../lib/types'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 import api from '../../../../lib/api'
 import { SimpleDialogContext } from '../../../../components/SimpleDialog'
@@ -39,7 +31,6 @@ import Share from '../../../../components/Share'
 import ShareIcon from '@mui/icons-material/Share'
 
 interface iEditBar {
-  collection: CollectionType
   isEditor: boolean
   isOwner: boolean
   media: VideoDetails | AudioDetails
@@ -49,7 +40,7 @@ interface iEditBar {
   story?: StoryType
 }
 
-const EditBar: React.FC<iEditBar> = ({ collection, isEditor, isOwner, id, reload, loadPublished, media, story }) => {
+const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublished, media, story }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: mediaActions } = useContext(ChangeMediaContext)
@@ -63,6 +54,8 @@ const EditBar: React.FC<iEditBar> = ({ collection, isEditor, isOwner, id, reload
   const [showShare, setShowShare] = useState<boolean>(false)
 
   const canDownload = user.tier > 0 && isOwner
+
+  const canGoToCollection = story!.collections[0]!.watchers.find(e => e.email === user.email) || isOwner
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
@@ -192,7 +185,7 @@ const EditBar: React.FC<iEditBar> = ({ collection, isEditor, isOwner, id, reload
         onClick={() => {
           handleMobileMenuClose()
         }}
-        currentCollectionId={collection.id}
+        currentCollectionId={story!.collections[0]!.id}
         storyId={id}
         reload={reload}
         isMenu
@@ -305,16 +298,16 @@ const EditBar: React.FC<iEditBar> = ({ collection, isEditor, isOwner, id, reload
         component={Paper}
       >
         <Box
-          component={Link}
-          to={`/a/collections/${collection?.id}?storyId=${id}`}
+          component={canGoToCollection ? Link : 'div'}
+          to={`/a/collections/${story!.collections[0]!.id}?storyId=${id}`}
           sx={{
             flex: 1,
             display: 'flex',
             alignItems: 'center'
           }}
         >
-          <ArrowBackIcon />
-          <Typography sx={{ paddingLeft: 1 }}>{collection?.title}</Typography>
+          {canGoToCollection && <ArrowBackIcon />}
+          <Typography sx={{ paddingLeft: 1 }}>{story!.collections[0]!.title}</Typography>
         </Box>
         {isOwner && (
           <Stack direction="row">
@@ -324,7 +317,7 @@ const EditBar: React.FC<iEditBar> = ({ collection, isEditor, isOwner, id, reload
               </Button>
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
-              <CollectionMove currentCollectionId={collection.id} storyId={id} reload={reload} />
+              <CollectionMove currentCollectionId={story!.collections[0]!.id} storyId={id} reload={reload} />
             </Box>
             {isOwner && (
               <Box {...getRootProps()} sx={{ display: { xs: 'none', md: 'flex' } }} component="span">

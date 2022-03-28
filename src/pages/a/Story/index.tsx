@@ -174,7 +174,6 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               isEditor={isEditor}
               reload={fetch}
               loadPublished={published}
-              collection={collections[0]}
               media={video || audio}
             />
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="about">
