@@ -11,7 +11,7 @@ const Step1: React.FC<{ invite: InviteContributorType }> = ({ invite }) => {
           Hi! <br />
           {`${invite.user.firstName} ${invite.user.lastName} has invited you to contribute.`}
           <br />
-          {`Here is what ${invite.user.firstName} is looking for:`}
+          {`Here is what ${invite.user.firstName} ${invite.user.lastName} is looking for:`}
         </Typography>
         <Typography variant="subtitle2">Title:</Typography>
         <Typography variant="subtitle1" mb={2}>

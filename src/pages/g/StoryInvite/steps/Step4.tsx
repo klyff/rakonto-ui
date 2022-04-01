@@ -10,8 +10,8 @@ const Step4: React.FC<{ invite: InviteContributorType }> = ({ invite }) => {
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`We have notified ${invite.user.firstName} that you have submitted your contribution. If you have any questions
-          about your contribution, please contact ${invite.user.firstName} at `}
+          {`We have notified ${invite.user.firstName} ${invite.user.lastName} that you have submitted your contribution. If you have any questions
+          about your contribution, please contact ${invite.user.firstName} ${invite.user.lastName} at `}
           <Link href={`mailTo:${invite.user.email}`} target="_blank">
             {invite.user.email}
           </Link>

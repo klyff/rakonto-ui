@@ -53,7 +53,9 @@ const Step2: React.FC<{ invite: InviteContributorType }> = ({ invite }) => {
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`${invite.user.firstName} would like you to contribute with ${mediaType || 'file or image'}.`}
+          {`${invite.user.firstName} ${invite.user.lastName} would like you to contribute with ${
+            mediaType || 'file or image'
+          }.`}
         </Typography>
         <Typography variant="h6">When you are ready, drop or select your files.</Typography>
       </Grid>

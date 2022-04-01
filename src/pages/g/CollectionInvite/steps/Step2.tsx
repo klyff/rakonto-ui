@@ -11,7 +11,7 @@ const Step2: React.FC<{ invite: InviteType }> = ({ invite }) => {
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`${invite.user.firstName} would like you to record ${
+          {`${invite.user.firstName} ${invite.user.lastName} would like you to record ${
             invite.requestedMediaType?.toLowerCase() || 'audio or video'
           }.
           If possible, please keep your recording under ${invite.requestedMediaLength} minutes.`}
