@@ -4,29 +4,37 @@ import Grid from '@mui/material/Grid'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import FormHelperText from '@mui/material/FormHelperText'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import { useField } from 'formik'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import DatePicker from '@mui/lab/DatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
 import CircularProgress from '@mui/material/CircularProgress'
 
 const Step3: React.FC<{ progress: number }> = ({ progress }) => {
+  const [minutes, setMinutes] = useState<number>(0)
+  const [seconds, setSeconds] = useState<number>(0)
   const [
     { value: expireValue, onBlur: expireOnBlur },
     { touched: expireTouched, error: expireError },
     { setValue: setExpire }
   ] = useField('expire')
-  const [{ value: sizeValue, onBlur: sizeOnBlur, onChange: sizeOnChange }, { touched: sizeTouched, error: sizeError }] =
-    useField('size')
+  const [{ onBlur: sizeOnBlur }, { touched: sizeTouched, error: sizeError }, { setValue: setSize }] = useField('size')
   const [
     { value: titleValue, onBlur: titleOnBlur, onChange: titleOnChange },
     { touched: titleTouched, error: titleError }
   ] = useField('title')
   const [{ value: recordingTypeValue, onChange: recordingTypeChange }] = useField('recordingType')
+
+  useEffect(() => {
+    const time = (minutes || 0) * 60 + seconds || 0
+    setSize(time)
+  }, [minutes, seconds])
 
   return (
     <>
@@ -89,7 +97,7 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                 helperText={(titleTouched && titleError) || ' '}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="Invitation expiration date"
@@ -107,20 +115,36 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
               </LocalizationProvider>
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                label="Time limit per recording (minutes)"
-                name="size"
-                type="number"
-                InputProps={{ inputProps: { min: 1 } }}
-                value={sizeValue}
-                onChange={sizeOnChange}
-                onBlur={sizeOnBlur}
-                error={sizeTouched && Boolean(sizeError)}
-                helperText={(sizeTouched && sizeError) || ' '}
-                sx={{ width: 230 }}
-              />
+              <FormControl>
+                <FormLabel id="recordings">Time Limit for recorder</FormLabel>
+                <Stack spacing={1} direction="row" sx={{ marginTop: 1 }}>
+                  <TextField
+                    label="minutes"
+                    name="minutes"
+                    type="number"
+                    InputProps={{ inputProps: { min: 1 } }}
+                    value={minutes}
+                    onChange={e => setMinutes(Number(e.target.value))}
+                    onBlur={sizeOnBlur}
+                    error={sizeTouched && Boolean(sizeError)}
+                    sx={{ width: 130 }}
+                  />
+                  <TextField
+                    name="seconds"
+                    type="number"
+                    label="seconds"
+                    InputProps={{ inputProps: { min: 1, max: 59 } }}
+                    value={seconds}
+                    onChange={e => setSeconds(Number(e.target.value))}
+                    onBlur={sizeOnBlur}
+                    error={sizeTouched && Boolean(sizeError)}
+                    sx={{ width: 130 }}
+                  />
+                </Stack>
+                {sizeTouched && Boolean(sizeError) && <FormHelperText>sizeError</FormHelperText>}
+              </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <FormControl>
                 <FormLabel id="recordings">Recording type</FormLabel>
                 <RadioGroup

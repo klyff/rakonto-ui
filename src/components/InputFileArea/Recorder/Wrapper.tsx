@@ -55,7 +55,7 @@ const CountDown: React.FC<{ expire: () => void }> = ({ expire }) => {
 
 const useCountDown = (countdown = 0, expire?: () => void) => {
   const time = new Date()
-  time.setSeconds(time.getSeconds() + countdown * 60)
+  time.setSeconds(time.getSeconds() + countdown)
   const timer = useTimer({
     expiryTimestamp: time,
     autoStart: false,
@@ -87,7 +87,6 @@ interface iWrapper {
 const Recorder: React.FC<iWrapper> = ({ countdown, isRecordingType, onDrop, onChangeRecordingType }) => {
   const [showCountdown, setShowCountdown] = useStateCallback<boolean>(false)
   const [hideStartRecording, setHideStartRecording] = useStateCallback<boolean>(false)
-  console.log('Media recorder', isRecordingType, isRecordingType === 'VIDEO')
   const { previewStream, previewAudioStream, status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
     useReactMediaRecorder({
       video: isRecordingType === 'VIDEO',
