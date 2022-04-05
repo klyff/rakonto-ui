@@ -47,7 +47,7 @@ export const schema = yup.object().shape({
     .test('fileSize', 'File is more large than 125 MB', value => !value || value?.size <= 250000000)
     .label('File'),
   recordingTypeValue: yup.string(),
-  expire: yup.date().required().label('Date'),
+  expire: yup.date().label('Date').nullable(),
   size: yup.number().min(1).required().label('Time limit'),
   title: yup.string().required().label('Title')
 })

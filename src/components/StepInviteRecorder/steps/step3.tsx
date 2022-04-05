@@ -17,14 +17,18 @@ import Stack from '@mui/material/Stack'
 import CircularProgress from '@mui/material/CircularProgress'
 
 const Step3: React.FC<{ progress: number }> = ({ progress }) => {
-  const [minutes, setMinutes] = useState<number>(0)
+  const [minutes, setMinutes] = useState<number>(1)
   const [seconds, setSeconds] = useState<number>(0)
   const [
     { value: expireValue, onBlur: expireOnBlur },
     { touched: expireTouched, error: expireError },
     { setValue: setExpire }
   ] = useField('expire')
-  const [{ onBlur: sizeOnBlur }, { touched: sizeTouched, error: sizeError }, { setValue: setSize }] = useField('size')
+  const [
+    { onBlur: sizeOnBlur },
+    { touched: sizeTouched, error: sizeError },
+    { setValue: setSize, setTouched: setSizeTouchted }
+  ] = useField('size')
   const [
     { value: titleValue, onBlur: titleOnBlur, onChange: titleOnChange },
     { touched: titleTouched, error: titleError }
@@ -35,7 +39,7 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
     const time = (minutes || 0) * 60 + seconds || 0
     setSize(time)
   }, [minutes, seconds])
-
+  console.log(sizeTouched)
   return (
     <>
       {!!progress && (
@@ -116,7 +120,9 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
             </Grid>
             <Grid item xs={12} md={6}>
               <FormControl>
-                <FormLabel id="recordings">Time Limit for recorder</FormLabel>
+                <FormLabel error={sizeTouched && Boolean(sizeError)} id="recordings">
+                  Time Limit for recorder
+                </FormLabel>
                 <Stack spacing={1} direction="row" sx={{ marginTop: 1 }}>
                   <TextField
                     label="minutes"
@@ -125,7 +131,7 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                     InputProps={{ inputProps: { min: 1 } }}
                     value={minutes}
                     onChange={e => setMinutes(Number(e.target.value))}
-                    onBlur={sizeOnBlur}
+                    onBlur={() => setSizeTouchted(true)}
                     error={sizeTouched && Boolean(sizeError)}
                     sx={{ width: 130 }}
                   />
@@ -133,15 +139,15 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                     name="seconds"
                     type="number"
                     label="seconds"
-                    InputProps={{ inputProps: { min: 1, max: 59 } }}
+                    InputProps={{ inputProps: { min: 0, max: 59 } }}
                     value={seconds}
                     onChange={e => setSeconds(Number(e.target.value))}
-                    onBlur={sizeOnBlur}
+                    onBlur={() => setSizeTouchted(true)}
                     error={sizeTouched && Boolean(sizeError)}
                     sx={{ width: 130 }}
                   />
                 </Stack>
-                {sizeTouched && Boolean(sizeError) && <FormHelperText>sizeError</FormHelperText>}
+                {sizeTouched && Boolean(sizeError) && <FormHelperText error={true}>{sizeError}</FormHelperText>}
               </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>

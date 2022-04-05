@@ -29,6 +29,6 @@ export const schemaStep4 = yup.object().shape(
 export const schema = yup.object().shape({
   instructions: yup.string().required().label('Instructions'),
   recordingTypeValue: yup.string(),
-  expire: yup.date().required().label('Date'),
+  expire: yup.date().label('Date').nullable(),
   title: yup.string().required().label('Title')
 })
