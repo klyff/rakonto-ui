@@ -21,6 +21,7 @@ import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 import { useFormik, FormikValues, FormikProvider } from 'formik'
 import schema from './schema'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
+import * as yup from 'yup'
 
 const CollectionInvite: React.FC = () => {
   const location = useLocation()
@@ -69,17 +70,27 @@ const CollectionInvite: React.FC = () => {
     file: File | null
     name: string
     email: string
+    allowEmail: boolean
+    allowShareInfo: boolean
   } = {
     file: null,
     name: '',
-    email: ''
+    email: '',
+    allowEmail: true,
+    allowShareInfo: false
   }
 
   const handleSubmit = async (values: FormikValues) => {
-    await api.sendInviteSubmission(id, token, { name: values.name, email: values.email }, values.file, event => {
-      const progress = Math.round((event.loaded * 100) / event.total)
-      setProgress(progress)
-    })
+    await api.sendInviteSubmission(
+      id,
+      token,
+      { name: values.name, email: values.email, allowEmail: values.allowEmail, allowShareInfo: values.allowShareInfo },
+      values.file,
+      event => {
+        const progress = Math.round((event.loaded * 100) / event.total)
+        setProgress(progress)
+      }
+    )
     handleNext()
     setProgress(0)
   }

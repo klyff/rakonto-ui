@@ -4,6 +4,8 @@ export default yup.object().shape({
   email: yup.string().email().required().label('E-mail'),
   firstName: yup.string().required().label('First name'),
   lastName: yup.string().required().label('Last name'),
+  allowEmail: yup.boolean(),
+  allowShareInfo: yup.boolean(),
   password: yup
     .string()
     .required()

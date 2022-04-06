@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Form, Formik } from 'formik'
+import { Form, Formik, Field, FieldProps } from 'formik'
 import schema from './schema'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -12,14 +12,25 @@ import api from '../../../lib/api'
 import { RouteComponentProps } from 'react-router-dom'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
+import FormGroup from '@mui/material/FormGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
 
 const Signup: React.FC<RouteComponentProps> = ({ history }) => {
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
-  const handleSubmit = async ({ email, firstName, lastName, password, confirmation }: SingupFormType) => {
+  const handleSubmit = async ({
+    email,
+    firstName,
+    lastName,
+    password,
+    confirmation,
+    allowEmail,
+    allowShareInfo
+  }: SingupFormType) => {
     try {
-      await api.singup({ email, firstName, lastName, password, confirmation })
+      await api.singup({ email, firstName, lastName, password, confirmation, allowEmail, allowShareInfo })
       history.push('/u/signin')
       dialogActions.open('Confirm email', 'We sent an email to you to confirm your account. Please check this.', {
         cancelText: 'Close'
@@ -40,7 +51,9 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
     password: '',
     confirmation: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
+    allowEmail: true,
+    allowShareInfo: false
   }
 
   return (
@@ -116,6 +129,30 @@ const Signup: React.FC<RouteComponentProps> = ({ history }) => {
                 error={touched.confirmation && Boolean(errors.confirmation)}
                 helperText={(touched.confirmation && errors.confirmation) || ' '}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <FormGroup>
+                <Field name="allowEmail" type="checkbox">
+                  {({ field }: FieldProps) => (
+                    <>
+                      <FormControlLabel
+                        control={<Checkbox sx={{ alignSelf: 'start', pt: 0 }} {...field} />}
+                        label="Rakonto may send me emails about product updates and promotions"
+                      />
+                    </>
+                  )}
+                </Field>
+                <Field name="allowShareInfo" type="checkbox">
+                  {({ field }: FieldProps) => (
+                    <>
+                      <FormControlLabel
+                        control={<Checkbox {...field} />}
+                        label="Rakonto may share my information with its marketing partners"
+                      />
+                    </>
+                  )}
+                </Field>
+              </FormGroup>
             </Grid>
             <Grid item xs={12}>
               <Button color={'primary'} variant="contained" fullWidth type="submit">

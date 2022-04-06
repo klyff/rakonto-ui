@@ -4,9 +4,12 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
-import { useField } from 'formik'
+import { Field, FieldProps, useField } from 'formik'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
+import FormGroup from '@mui/material/FormGroup'
 
 const Step3: React.FC<{ invite: InviteType; progress: number }> = ({ invite, progress }) => {
   const [{ onChange: nameOnChange, onBlur: nameOnBlur, value: nameValue }, { error, touched }] = useField('name')
@@ -31,6 +34,28 @@ const Step3: React.FC<{ invite: InviteType; progress: number }> = ({ invite, pro
           </Link>
           .
         </Typography>
+        <FormGroup>
+          <Field name="allowEmail" type="checkbox">
+            {({ field }: FieldProps) => (
+              <>
+                <FormControlLabel
+                  control={<Checkbox sx={{ alignSelf: 'start', pt: 0 }} {...field} />}
+                  label="Rakonto may send me emails about product updates and promotions"
+                />
+              </>
+            )}
+          </Field>
+          <Field name="allowShareInfo" type="checkbox">
+            {({ field }: FieldProps) => (
+              <>
+                <FormControlLabel
+                  control={<Checkbox {...field} />}
+                  label="Rakonto may share my information with its marketing partners"
+                />
+              </>
+            )}
+          </Field>
+        </FormGroup>
       </Grid>
       <Grid item xs={12} md={6}>
         <TextField

@@ -98,6 +98,8 @@ export type SingupFormType = {
   email: string
   password: string
   confirmation: string
+  allowEmail: boolean
+  allowShareInfo: boolean
 }
 
 export type PasswordResetForm = {
