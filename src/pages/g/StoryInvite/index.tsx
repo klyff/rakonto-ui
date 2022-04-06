@@ -83,7 +83,6 @@ const ContributorInvite: React.FC = () => {
       values!.files,
       event => {
         const progress = Math.round((event.loaded * 100) / event.total)
-        console.log(progress)
       }
     )
     handleNext()

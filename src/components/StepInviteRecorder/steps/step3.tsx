@@ -39,7 +39,6 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
     const time = (minutes || 0) * 60 + seconds || 0
     setSize(time)
   }, [minutes, seconds])
-  console.log(sizeTouched)
   return (
     <>
       {!!progress && (

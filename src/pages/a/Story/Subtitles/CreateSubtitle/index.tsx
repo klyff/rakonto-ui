@@ -169,9 +169,6 @@ const CreateSubtitle: React.FC<iCreateSubtitle> = ({ storyId, onClose }) => {
               noClick
               multiple={false}
               onDrop={(acceptedFiles, fileRejections, event) => {
-                console.log('acceptedFiles', acceptedFiles)
-                console.log('fileRejections', fileRejections)
-                console.log('event', event)
                 setFile(acceptedFiles[0])
               }}
             >
