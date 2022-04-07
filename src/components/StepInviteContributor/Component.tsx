@@ -43,11 +43,13 @@ const StepInviteContributor: React.FC<{ storyId: string }> = ({ storyId }) => {
     instructions: string
     recordingType: 'FILE' | 'GALLERY_ENTRY' | 'NONE'
     expire: Date
+    allowExpire: boolean
   } = {
     title: '',
     instructions: '',
     recordingType: 'NONE',
-    expire: addDays(new Date(), 7)
+    expire: addDays(new Date(), 7),
+    allowExpire: false
   }
 
   const handleNext = () => {
@@ -62,7 +64,7 @@ const StepInviteContributor: React.FC<{ storyId: string }> = ({ storyId }) => {
     try {
       const invite = await api.createContributorInvite({
         storyId,
-        dueAt: values.expire,
+        dueAt: values.allowExpire ? values!.expire : null,
         title: values.title,
         description: values.instructions,
         requestedMediaType: values.recordingType === 'NONE' ? null : values.recordingType

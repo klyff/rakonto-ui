@@ -11,6 +11,7 @@ import FormLabel from '@mui/material/FormLabel'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Radio from '@mui/material/Radio'
+import Switch from '@mui/material/Switch'
 
 const Step1 = () => {
   const [{ onChange, onBlur, value }, { error, touched }] = useField('instructions')
@@ -23,6 +24,7 @@ const Step1 = () => {
     { touched: expireTouched, error: expireError },
     { setValue: setExpire }
   ] = useField('expire')
+  const [{ value: allowExpire }, , { setValue: setAllowExpire }] = useField('allowExpire')
   const [{ value: recordingTypeValue, onChange: recordingTypeChange }] = useField('recordingType')
   return (
     <>
@@ -71,21 +73,29 @@ const Step1 = () => {
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
+          <FormControl>
+            <FormControlLabel
+              sx={{ mr: 'unset', ml: 'unset' }}
+              control={<Switch checked={allowExpire} onChange={e => setAllowExpire(e.target.checked)} />}
               label="Invitation expiration date"
-              value={expireValue}
-              onChange={date => setExpire(date)}
-              renderInput={params => (
-                <TextField
-                  {...params}
-                  onBlur={expireOnBlur}
-                  error={expireTouched && Boolean(expireError)}
-                  helperText={(expireTouched && expireError) || ' '}
-                />
-              )}
+              labelPlacement="start"
             />
-          </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                disabled={!allowExpire}
+                value={expireValue}
+                onChange={date => setExpire(date)}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    onBlur={expireOnBlur}
+                    error={expireTouched && Boolean(expireError)}
+                    helperText={(expireTouched && expireError) || ' '}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </FormControl>
         </Grid>
         <Grid item xs={12} md={6}>
           <FormControl>

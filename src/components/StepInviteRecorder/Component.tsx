@@ -64,6 +64,7 @@ const StepInviteRecorder = () => {
     expire: Date
     size: string
     title: string
+    allowExpire: boolean
   } = {
     collection: null,
     instructions: '',
@@ -71,7 +72,8 @@ const StepInviteRecorder = () => {
     recordingType: 'NONE',
     expire: addDays(new Date(), 7),
     size: '10',
-    title: ''
+    title: '',
+    allowExpire: false
   }
 
   const handleNext = () => {
@@ -89,7 +91,7 @@ const StepInviteRecorder = () => {
           collectionId: values!.collection!.entity!.id,
           title: values!.title,
           description: values!.instructions,
-          dueAt: values!.expire,
+          dueAt: values.allowExpire ? values!.expire : null,
           requestedMediaLength: Number(values!.size),
           requestedMediaType: values.recordingType === 'NONE' ? null : values.recordingType
         },

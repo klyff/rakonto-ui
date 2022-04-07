@@ -15,6 +15,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import CircularProgress from '@mui/material/CircularProgress'
+import Switch from '@mui/material/Switch'
+import { addDays } from 'date-fns'
 
 const Step3: React.FC<{ progress: number }> = ({ progress }) => {
   const [minutes, setMinutes] = useState<number>(1)
@@ -24,6 +26,7 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
     { touched: expireTouched, error: expireError },
     { setValue: setExpire }
   ] = useField('expire')
+  const [{ value: allowExpire }, , { setValue: setAllowExpire }] = useField('allowExpire')
   const [
     { onBlur: sizeOnBlur },
     { touched: sizeTouched, error: sizeError },
@@ -39,6 +42,7 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
     const time = (minutes || 0) * 60 + seconds || 0
     setSize(time)
   }, [minutes, seconds])
+
   return (
     <>
       {!!progress && (
@@ -101,25 +105,33 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
+              <FormControl>
+                <FormControlLabel
+                  sx={{ mr: 'unset', ml: 'unset' }}
+                  control={<Switch checked={allowExpire} onChange={e => setAllowExpire(e.target.checked)} />}
                   label="Invitation expiration date"
-                  value={expireValue}
-                  onChange={date => setExpire(date)}
-                  renderInput={params => (
-                    <TextField
-                      {...params}
-                      onBlur={expireOnBlur}
-                      error={expireTouched && Boolean(expireError)}
-                      helperText={(expireTouched && expireError) || ' '}
-                    />
-                  )}
+                  labelPlacement="start"
                 />
-              </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    disabled={!allowExpire}
+                    value={expireValue}
+                    onChange={date => setExpire(date)}
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        onBlur={expireOnBlur}
+                        error={expireTouched && Boolean(expireError)}
+                        helperText={(expireTouched && expireError) || ' '}
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
+              </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
               <FormControl>
-                <FormLabel error={sizeTouched && Boolean(sizeError)} id="recordings">
+                <FormLabel sx={{ color: '#fff' }} error={sizeTouched && Boolean(sizeError)} id="recordings">
                   Time Limit for recorder
                 </FormLabel>
                 <Stack spacing={1} direction="row" sx={{ marginTop: 1 }}>
