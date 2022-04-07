@@ -13,14 +13,12 @@ const Step1: React.FC<{ invite: InviteType }> = ({ invite }) => {
           Hi! <br />
           {`${invite.user.firstName} ${invite.user.lastName} has invited you to record a story.`}
           <br />
-          {`Here is what ${invite.user.firstName} ${invite.user.lastName} is looking for:`}
+          {`Here is their message to you:`}
         </Typography>
-        <Typography variant="subtitle2">Title:</Typography>
         <Typography variant="subtitle1" mb={2}>
           {invite.title}
         </Typography>
-        <Typography variant="subtitle2">Instructions:</Typography>
-        <Typography variant="subtitle1" mb={2}>
+        <Typography variant="subtitle1" sx={{ fontStyle: 'italic' }} mb={2}>
           {invite.description}
         </Typography>
       </Grid>
