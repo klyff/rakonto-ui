@@ -27,20 +27,7 @@ export const schemaStep4 = yup.object().shape(
 )
 
 export const schema = yup.object().shape({
-  collection: yup
-    .object()
-    .shape({
-      entity: yup
-        .object()
-        .shape({
-          id: yup.string(),
-          title: yup.string().required()
-        })
-        .required()
-    })
-    .nullable()
-    .required('Collection must be selected')
-    .label('Collection'),
+  collection: yup.object().nullable().required().label('Collection'),
   instructions: yup.string().required().label('Instructions'),
   file: yup
     .mixed()

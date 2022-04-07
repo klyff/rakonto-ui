@@ -29,7 +29,8 @@ const Collections: React.FC<RouteComponentProps> = () => {
   })
 
   const handleCallback = useCallback(
-    (collection: CollectionType) => {
+    (collection: CollectionType | null) => {
+      if (!collection) return
       setItems([{ kind: 'COLLECTION', entity: collection }, ...items])
     },
     [items, setItems]

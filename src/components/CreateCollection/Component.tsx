@@ -22,8 +22,8 @@ import { CircularProgress } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-const CreateCollection = () => {
-  const { store, actions } = useContext(CreateCollectionContext)
+const CreateCollection: React.FC<{ initialTitle: string }> = ({ initialTitle }) => {
+  const { actions } = useContext(CreateCollectionContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [progress, setProgress] = useState<number>(0)
   const theme = useTheme()
@@ -31,7 +31,7 @@ const CreateCollection = () => {
 
   const onSubmit = async ({ title, cover, description }: FormikValues) => {
     try {
-      const collection = await api.createCollection({ title, coverId: cover.id, description })
+      const collection = await api.createCollection({ title, coverId: cover?.id, description })
       actions.close(collection)
     } catch (e) {
       console.error(e)
@@ -39,34 +39,23 @@ const CreateCollection = () => {
   }
 
   const initialValues: { title: string; description: string; cover: ImageType | null } = {
-    title: '',
+    title: initialTitle,
     description: '',
     cover: null
   }
 
-  const {
-    isSubmitting,
-    isValid,
-    values,
-    setFieldValue,
-    handleBlur,
-    handleChange,
-    touched,
-    errors,
-    handleSubmit,
-    handleReset
-  } = useFormik({
-    initialValues,
-    validationSchema: schema,
-    onSubmit
-  })
+  const { isSubmitting, isValid, values, setFieldValue, handleBlur, handleChange, touched, errors, handleSubmit } =
+    useFormik({
+      initialValues,
+      validationSchema: schema,
+      onSubmit
+    })
 
   useEffect(() => {
-    if (store.isOpen) {
-      setProgress(0)
-      handleReset(initialValues)
+    if (initialTitle) {
+      setFieldValue('title', initialTitle)
     }
-  }, [store.isOpen])
+  }, [initialTitle])
 
   const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
@@ -94,7 +83,7 @@ const CreateCollection = () => {
             actions.close()
           }
         }}
-        open={store.isOpen}
+        open
       >
         <DialogTitle>
           New collection

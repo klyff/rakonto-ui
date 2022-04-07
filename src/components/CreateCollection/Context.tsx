@@ -1,42 +1,34 @@
 import React, { useState, createContext } from 'react'
-import { iCreateCollection } from './index'
 import Component from './Component'
 import { CollectionType } from '../../lib/types'
 
 // @ts-ignore
 export const CreateCollectionContext = createContext<{
   actions: {
-    open: (callback: (collection: CollectionType) => void) => void
+    open: (callback: (collection: CollectionType | null) => void, title?: string) => void
     close: (collection?: CollectionType) => void
   }
-  store: iCreateCollection
 }>({
   // @ts-ignore
-  actions: {},
-  store: {
-    isOpen: false
-  }
+  actions: {}
 })
 
 export const CreateCollectionProvider: React.FC = ({ children }) => {
-  const [stepStoryUpload, setCreateCollection] = useState<iCreateCollection>({
-    isOpen: false
-  })
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [initialTitle, setInitialTitle] = useState<string>('')
 
-  const [callBack, setCallBack] = useState<((collection: CollectionType) => void) | undefined>(undefined)
+  const [callBack, setCallBack] = useState<((collection: CollectionType | null) => void) | undefined>(undefined)
 
-  const open = (callback: (collection: CollectionType) => void) => {
-    setCreateCollection({
-      isOpen: true
-    })
+  const open = (callback: (collection: CollectionType | null) => void, title?: string) => {
+    setIsOpen(true)
+    if (title) setInitialTitle(title)
     setCallBack(() => callback)
   }
 
   const close = (collection?: CollectionType) => {
-    setCreateCollection({
-      isOpen: false
-    })
-    if (callBack && collection) callBack(collection)
+    setIsOpen(false)
+    setInitialTitle('')
+    if (callBack) callBack(collection || null)
     setCallBack(undefined)
   }
 
@@ -46,11 +38,10 @@ export const CreateCollectionProvider: React.FC = ({ children }) => {
         actions: {
           open,
           close
-        },
-        store: stepStoryUpload
+        }
       }}
     >
-      <Component />
+      {isOpen && <Component initialTitle={initialTitle} />}
       {children}
     </CreateCollectionContext.Provider>
   )

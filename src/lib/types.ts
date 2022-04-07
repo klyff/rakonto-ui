@@ -197,6 +197,7 @@ export type StoryUpdateType = {
 }
 
 export type CollectionType = {
+  entity: string
   id: string
   title: string
   description: string

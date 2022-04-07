@@ -21,6 +21,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import CloseIcon from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
+import SearchCollections from '../../../../../components/SearchCollections'
 
 interface iCollectionMove {
   storyId: string
@@ -125,44 +126,16 @@ const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload, currentCol
             <Typography variant="body2" fontWeight="700" marginBottom={3} gutterBottom>
               Select a target collection to move this story!
             </Typography>
-            <Autocomplete
-              size="small"
-              loading={loading}
-              disableClearable
-              options={options}
-              isOptionEqualToValue={({ entity }, value) => entity.title === value.entity.title}
-              getOptionLabel={({ entity }) => entity.title}
-              onInputChange={(event, value) => setSearchValue(value)}
-              fullWidth
-              onChange={(event, value: SearchResultType) => handleSelected(value)}
-              renderOption={(props, option) => {
-                return (
-                  <li {...props} key={option.entity.id}>
-                    {option.entity.title}
-                  </li>
-                )
+            <SearchCollections
+              handleSelect={collection => {
+                if (!collection) {
+                  return
+                }
+                handleSelected({ kind: 'COLLECTION', entity: collection })
               }}
-              renderInput={params => (
-                <TextField
-                  {...params}
-                  placeholder="Type the collection title"
-                  InputProps={{
-                    ...params.InputProps,
-                    type: 'search',
-                    endAdornment: (
-                      <React.Fragment>
-                        {loading ? (
-                          <CircularProgress color="inherit" size={20} />
-                        ) : (
-                          <InputAdornment position="end">
-                            <SearchIcon />
-                          </InputAdornment>
-                        )}
-                      </React.Fragment>
-                    )
-                  }}
-                />
-              )}
+              name="collection"
+              allowAdd
+              helperText=" "
             />
           </DialogContentText>
         </DialogContent>
