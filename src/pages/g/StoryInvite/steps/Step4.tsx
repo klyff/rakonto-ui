@@ -4,22 +4,51 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 import Button from '@mui/material/Button'
+import FormGroup from '@mui/material/FormGroup'
+import { Field, FieldProps } from 'formik'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
 
 const Step4: React.FC<{ invite: InviteContributorType }> = ({ invite }) => {
   return (
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`We have notified ${invite.user.firstName} ${invite.user.lastName} that you have submitted your contribution. If you have any questions
-          about your contribution, please contact ${invite.user.firstName} ${invite.user.lastName} at `}
+          {`Thank you for using Rakonto to submit your content! We have notified ${invite.user.firstName} ${invite.user.lastName} that you have submitted your content. If you have any questions
+          about your content, please contact ${invite.user.firstName} ${invite.user.lastName} at `}
           <Link href={`mailTo:${invite.user.email}`} target="_blank">
             {invite.user.email}
           </Link>
           .
         </Typography>
         <Typography variant="h6">
-          We now invite you to create a Rakonto account so you too can record, share and view stories.
+          At Rakonto, we take your privacy seriously. To best serve you, please let us know how we may use the contact
+          information you entered when submitting your recording:
         </Typography>
+      </Grid>
+      <Grid textAlign="center" item xs={12} mt={4}>
+        <FormGroup>
+          <Field name="allowEmail" type="checkbox">
+            {({ field }: FieldProps) => (
+              <>
+                <FormControlLabel
+                  control={<Checkbox sx={{ alignSelf: 'start', pt: 0 }} {...field} />}
+                  label="Rakonto may send me emails about product updates and promotions"
+                />
+              </>
+            )}
+          </Field>
+          <Field name="allowShareInfo" type="checkbox">
+            {({ field }: FieldProps) => (
+              <>
+                <FormControlLabel
+                  control={<Checkbox {...field} />}
+                  label="Rakonto may share my information with its marketing partners"
+                />
+              </>
+            )}
+          </Field>
+        </FormGroup>
       </Grid>
       <Grid textAlign="center" item xs={12} mt={4}>
         <Button

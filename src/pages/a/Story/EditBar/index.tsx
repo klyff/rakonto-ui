@@ -190,7 +190,7 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
         reload={reload}
         isMenu
       />
-      <MenuItem onClick={() => inviteContributorActions.open(id)}>Add Contributor</MenuItem>
+      <MenuItem onClick={() => inviteContributorActions.open(id)}>Request content</MenuItem>
       {isOwner && (
         <>
           {' '}
@@ -313,7 +313,7 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
           <Stack direction="row">
             <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
               <Button color="secondary" onClick={() => inviteContributorActions.open(id)} startIcon={<PersonAddIcon />}>
-                Contributor
+                Request content
               </Button>
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">

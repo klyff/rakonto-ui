@@ -18,9 +18,9 @@ const Step3: React.FC<{ invite: InviteContributorType; progress: number }> = ({ 
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`Your contribution is saved! Please enter your name and email so we can inform
-          ${invite.user.firstName} ${invite.user.lastName} that you have submitted your contribution, and that you authorize
-          ${invite.user.firstName} ${invite.user.lastName} to share it in accordance with our `}
+          {`Your content is saved! Please enter your name and email so we can inform
+          ${invite.user.firstName} ${invite.user.lastName} that you have submitted your content, and that you authorize
+          ${invite.user.firstName} ${invite.user.lastName} to contact you and share your submission in accordance with our `}
           <Link href="https://rakonto.io/terms-and-conditions" target="_blank">
             terms
           </Link>{' '}

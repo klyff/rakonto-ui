@@ -23,7 +23,7 @@ const Step3: React.FC<{ invite: InviteType; progress: number }> = ({ invite, pro
         <Typography variant="h6" mb={2}>
           {`Your recording is saved! Please enter your name and email so we can inform
           ${invite.user.firstName} ${invite.user.lastName} that you have submitted your recording, and that you authorize
-          ${invite.user.firstName} ${invite.user.lastName} to share it in accordance with our `}
+          ${invite.user.firstName} ${invite.user.lastName} to contact you and share your submission in accordance with our `}
           <Link href="https://rakonto.io/terms-and-conditions" target="_blank">
             terms
           </Link>{' '}
@@ -34,28 +34,6 @@ const Step3: React.FC<{ invite: InviteType; progress: number }> = ({ invite, pro
           </Link>
           .
         </Typography>
-        <FormGroup>
-          <Field name="allowEmail" type="checkbox">
-            {({ field }: FieldProps) => (
-              <>
-                <FormControlLabel
-                  control={<Checkbox sx={{ alignSelf: 'start', pt: 0 }} {...field} />}
-                  label="Rakonto may send me emails about product updates and promotions"
-                />
-              </>
-            )}
-          </Field>
-          <Field name="allowShareInfo" type="checkbox">
-            {({ field }: FieldProps) => (
-              <>
-                <FormControlLabel
-                  control={<Checkbox {...field} />}
-                  label="Rakonto may share my information with its marketing partners"
-                />
-              </>
-            )}
-          </Field>
-        </FormGroup>
       </Grid>
       <Grid item xs={12} md={6}>
         <TextField
