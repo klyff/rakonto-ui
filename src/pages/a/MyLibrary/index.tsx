@@ -34,7 +34,7 @@ const MyLibrary: React.FC<RouteComponentProps> = () => {
           <Grid item xs={12} sm minWidth={180} textAlign="right">
             <ButtonGroup sx={{ height: '56px' }} size="large" variant="outlined">
               <Button onClick={() => newStoryActions.open()}>New story</Button>
-              <Button onClick={() => recorderActions.open()}>Request a story</Button>
+              <Button onClick={() => recorderActions.open(null)}>Request a story</Button>
             </ButtonGroup>
           </Grid>
         </Grid>

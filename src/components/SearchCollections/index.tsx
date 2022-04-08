@@ -111,8 +111,6 @@ const CollectionSearch: React.FC<iCollectionSearch> = ({
     setValue(newOption)
   }, [newOption])
 
-  console.log(optionsState, inputValue, value)
-
   return (
     <Autocomplete
       onInputChange={(event, newInputValue) => {

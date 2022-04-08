@@ -20,13 +20,13 @@ import Step4 from './steps/step4'
 import Step2 from './steps/step2'
 import Step3 from './steps/step3'
 import Step1 from './steps/step1'
-import { InviteType, MediaType, SearchResultType } from '../../lib/types'
+import { InviteType, MediaType, CollectionType, SearchResultType } from '../../lib/types'
 import { addDays } from 'date-fns'
 import api from '../../lib/api'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useMitt } from 'react-mitt'
 
-const StepInviteRecorder = () => {
+const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }> = ({ initialCollection }) => {
   const { actions } = useContext(StepInviteRecorderContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [selectedSuggestion, setSelectedSuggestion] = useState<string>('')
@@ -57,7 +57,7 @@ const StepInviteRecorder = () => {
   }
 
   const initialValues: {
-    collection: SearchResultType | null
+    collection: CollectionType | null
     instructions: string
     file: File | null
     recordingType: MediaType | 'NONE'
@@ -66,7 +66,7 @@ const StepInviteRecorder = () => {
     title: string
     allowExpire: boolean
   } = {
-    collection: null,
+    collection: initialCollection,
     instructions: '',
     file: null,
     recordingType: 'NONE',
@@ -88,7 +88,7 @@ const StepInviteRecorder = () => {
     try {
       const inviteResult = await api.createInvite(
         {
-          collectionId: values!.collection!.entity!.id,
+          collectionId: values!.collection!.id,
           title: values!.title,
           description: values!.instructions,
           dueAt: values.allowExpire ? values!.expire : null,
@@ -208,7 +208,7 @@ const StepInviteRecorder = () => {
           </Box>
           <Box sx={{ width: '100%', marginY: 3, minHeight: 328 }}>
             <FormikProvider value={formik}>
-              {activeStep === 0 && <Step1 />}
+              {activeStep === 0 && <Step1 allowSelectCollection={!initialValues.collection} />}
               {activeStep === 1 && <Step2 />}
               {activeStep === 2 && <Step3 progress={progress} />}
             </FormikProvider>

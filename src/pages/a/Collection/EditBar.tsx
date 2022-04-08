@@ -14,11 +14,13 @@ import api from '../../../lib/api'
 import Typography from '@mui/material/Typography'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import { SimpleDialogContext } from '../../../components/SimpleDialog'
+import { StepInviteRecorderContext } from '../../../components/StepInviteRecorder'
 import { useHistory } from 'react-router-dom'
 import { Menu, MenuItem } from '@mui/material'
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
 import DownloadIcon from '@mui/icons-material/Download'
 import Cookies from 'js-cookie'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 interface iEditBar {
   canEdit: boolean
@@ -30,6 +32,7 @@ interface iEditBar {
 const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
+  const { actions: recorderInviteActions } = useContext(StepInviteRecorderContext)
   const history = useHistory()
   const [progress, setProgress] = useState<number>(0)
   const [showShare, setShowShare] = useState<boolean>(false)
@@ -162,6 +165,13 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection }) => {
             </React.Fragment>
           )}
         </PopupState>
+        <Button
+          color="secondary"
+          onClick={() => recorderInviteActions.open(collection || null)}
+          startIcon={<PersonAddIcon />}
+        >
+          Request recorder
+        </Button>
         <Button color="secondary" onClick={() => setShowShare(true)} startIcon={<ShareIcon />}>
           Share
         </Button>

@@ -61,7 +61,7 @@ const Stories: React.FC<RouteComponentProps> = () => {
           <Box sx={{ flex: '1' }} />
           <ButtonGroup sx={{ height: '56px' }} size="large" variant="outlined">
             <Button onClick={() => newStoryActions.open()}>New story</Button>
-            <Button onClick={() => recorderActions.open()}>Request a story</Button>
+            <Button onClick={() => recorderActions.open(null)}>Request a story</Button>
           </ButtonGroup>
         </Box>
       </Grid>

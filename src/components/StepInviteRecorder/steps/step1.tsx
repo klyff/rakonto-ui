@@ -1,12 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Typography from '@mui/material/Typography'
 import SearchCollections from '../../../components/SearchCollections'
 import { useField } from 'formik'
-import { CreateCollectionContext } from '../../CreateCollection'
+import { TextField } from '@mui/material'
+import { CollectionType } from '../../../lib/types'
 
-const Step1 = () => {
+const Step1: React.FC<{ allowSelectCollection: boolean | null }> = ({ allowSelectCollection }) => {
   const [{ value }, { touched: collectionTouched, error: collectionError }, { setValue, setTouched }] =
-    useField('collection')
+    useField<CollectionType | null>('collection')
 
   return (
     <>
@@ -16,22 +17,26 @@ const Step1 = () => {
       </Typography>
       <Typography mb={2}>First, where would you like to save these recordings?</Typography>
       <div>
-        <SearchCollections
-          handleSelect={collection => {
-            if (!collection) {
-              setValue(null)
-              return
-            }
-            setValue({ kind: 'COLLECTION', entity: collection })
-          }}
-          name="collection"
-          onBlur={() => {
-            setTouched(true)
-          }}
-          error={collectionTouched && Boolean(collectionError)}
-          helperText={(collectionTouched && collectionError) || ' '}
-          allowAdd
-        />
+        {allowSelectCollection ? (
+          <SearchCollections
+            handleSelect={collection => {
+              if (!collection) {
+                setValue(null)
+                return
+              }
+              setValue(collection)
+            }}
+            name="collection"
+            onBlur={() => {
+              setTouched(true)
+            }}
+            error={collectionTouched && Boolean(collectionError)}
+            helperText={(collectionTouched && collectionError) || ' '}
+            allowAdd
+          />
+        ) : (
+          <TextField value={value?.title} fullWidth disabled />
+        )}
       </div>
     </>
   )
