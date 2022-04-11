@@ -130,7 +130,7 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
     onDrop,
     noClick: true,
     noDrag: true,
-    accept: 'image/png, image/jpeg'
+    accept: 'image/png, image/jpeg, image/jpg'
   })
 
   const handleDelete = () => {
@@ -321,6 +321,7 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
             </Box>
             {isOwner && (
               <Box {...getRootProps()} sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
+                <input {...getInputProps()} />
                 <PopupState variant="popover" popupId="demo-popup-menu">
                   {popupState => (
                     <React.Fragment>
@@ -333,7 +334,6 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
                         Replace
                       </Button>
                       <Menu {...bindMenu(popupState)}>
-                        <input {...getInputProps()} />
                         <MenuItem
                           onClick={() => {
                             mediaActions.open(id)
