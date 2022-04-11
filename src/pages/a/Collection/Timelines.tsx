@@ -19,7 +19,9 @@ const Timelines: React.FC<iTimelines> = ({ list }) => {
 
   useEffect(() => {
     list.forEach(s => {
-      setEvents([...events, ...s.timelineEntries.map(t => ({ storyId: s.id, storyTitle: s.title, ...t }))])
+      setEvents(oldEntroies => {
+        return [...oldEntroies, ...s.timelineEntries.map(t => ({ storyId: s.id, storyTitle: s.title, ...t }))]
+      })
     })
   }, [list])
   return (
