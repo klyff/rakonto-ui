@@ -220,7 +220,7 @@ const Places: React.FC<iPlace> = ({ isOwner, isEditor, storyId }) => {
                   }}
                   onMouseLeave={() => setOpenMarker(undefined)}
                   secondaryAction={
-                    isEditor && (
+                    isOwner && (
                       <>
                         <IconButton
                           onClick={() => {
