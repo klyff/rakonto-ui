@@ -170,7 +170,7 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection }) => {
           onClick={() => recorderInviteActions.open(collection || null)}
           startIcon={<PersonAddIcon />}
         >
-          Request recorder
+          Request a story
         </Button>
         <Button color="secondary" onClick={() => setShowShare(true)} startIcon={<ShareIcon />}>
           Share
