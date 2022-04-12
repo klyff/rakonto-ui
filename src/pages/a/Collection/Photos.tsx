@@ -6,6 +6,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar'
 import { GalleryType, StoryType } from '../../../lib/types'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
+import ImageViewer from '../../../components/ImageViewer'
 
 interface iPhotos {
   list: StoryType[]
@@ -13,6 +14,7 @@ interface iPhotos {
 
 const Photos: React.FC<iPhotos> = ({ list }) => {
   const [gallery, setGallery] = useState<(GalleryType & { storyId: string; storyTitle: string })[]>([])
+  const [current, setCurrent] = useState<number | null>(null)
   useEffect(() => {
     list.forEach(story =>
       story.galleryEntries.forEach(g => {
@@ -26,11 +28,26 @@ const Photos: React.FC<iPhotos> = ({ list }) => {
         marginBottom: 3
       }}
     >
+      {current !== null && (
+        <ImageViewer
+          images={gallery}
+          onClose={() => {
+            setCurrent(null)
+          }}
+          index={current}
+        />
+      )}
       {gallery.length ? (
         <ImageList variant="masonry" cols={3} gap={8}>
-          {gallery.map(photo => (
+          {gallery.map((photo, index) => (
             <ImageListItem key={photo.id}>
               <img
+                style={{
+                  cursor: 'pointer'
+                }}
+                onClick={() => {
+                  setCurrent(index)
+                }}
                 src={`${photo.image.url}`}
                 srcSet={`${photo.image.url}`}
                 alt={photo.image.originalName}

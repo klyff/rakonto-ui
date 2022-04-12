@@ -8,6 +8,7 @@ import Button from '@mui/material/Button'
 import api from '../../../../lib/api'
 import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
 import { GalleryType } from '../../../../lib/types'
+import ImageViewer from '../../../../components/ImageViewer'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import ImageListItemBar from '@mui/material/ImageListItemBar'
@@ -28,6 +29,7 @@ const Photos: React.FC<iPhotos> = ({ isEditor, storyId }) => {
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [photos, setPhotos] = useState<GalleryType[]>([])
+  const [current, setCurrent] = useState<number | null>(null)
   const [progress, setProgress] = useState<{ [key: string]: number }>({})
 
   const fetch = async () => {
@@ -107,6 +109,15 @@ const Photos: React.FC<iPhotos> = ({ isEditor, storyId }) => {
         flexFlow: 'column'
       }}
     >
+      {current !== null && (
+        <ImageViewer
+          images={photos}
+          onClose={() => {
+            setCurrent(null)
+          }}
+          index={current}
+        />
+      )}
       {isEditor && (
         <>
           <Box>
@@ -158,9 +169,15 @@ const Photos: React.FC<iPhotos> = ({ isEditor, storyId }) => {
         {photos.length ? (
           <Box sx={{ width: '100%', minHeight: 400 }}>
             <ImageList variant="masonry" cols={3} gap={8}>
-              {photos.map(photo => (
+              {photos.map((photo, index) => (
                 <ImageListItem key={photo.id}>
                   <img
+                    style={{
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => {
+                      setCurrent(index)
+                    }}
                     src={`${photo.image.url}`}
                     srcSet={`${photo.image.url}`}
                     alt={photo.image.originalName}
