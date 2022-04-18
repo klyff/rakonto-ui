@@ -50,7 +50,7 @@ const RemoveFile: React.FC<RemoveFile> = ({ file, onRemove, quotaError, onSubscr
         </Typography>
         <Box flex={1} />
         <Box>
-          <Button onClick={onRemove}>Remove</Button>
+          <Button onClick={onRemove}>Re-recorder</Button>
         </Box>
       </Box>
       <Player maxHeight="520px" subtitles={[]} type={'VIDEO'} media={{ id: 'local', url: URL.createObjectURL(file) }} />
