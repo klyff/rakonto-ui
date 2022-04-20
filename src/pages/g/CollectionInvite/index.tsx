@@ -102,7 +102,7 @@ const CollectionInvite: React.FC = () => {
   })
 
   const steps = [
-    { label: 'Story request', error: false },
+    { label: '', error: false },
     { label: 'The green room', error: false },
     { label: 'Submit your recording', error: false },
     { label: 'Thank you!', error: false }
