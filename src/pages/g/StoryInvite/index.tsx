@@ -165,14 +165,23 @@ const ContributorInvite: React.FC = () => {
       {activeStep !== 3 && (
         <>
           <MobileStepper
-            sx={{ display: { xs: 'flex', md: 'none' }, width: '100%', position: 'fixed', bottom: 0 }}
+            sx={{ display: { xs: 'flex', md: 'none' }, width: '100%', position: 'fixed', bottom: 0, zIndex: 11 }}
             steps={steps.length}
             position="static"
             activeStep={activeStep}
             backButton={<ButtonBack size="large" startIcon={<KeyboardArrowLeft />} />}
             nextButton={<ButtonNext size="large" endIcon={activeStep < 2 && <KeyboardArrowRight />} />}
           />
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, width: '100%', position: 'fixed', bottom: 24, right: 24 }}>
+          <Box
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              width: '100%',
+              position: 'fixed',
+              bottom: 24,
+              right: 24,
+              zIndex: 11
+            }}
+          >
             <div style={{ flex: 1 }} />
             <ButtonBack size="large" />
             <Box sx={{ marginX: 1 }} />
