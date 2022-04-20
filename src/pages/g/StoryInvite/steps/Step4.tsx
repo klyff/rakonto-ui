@@ -63,7 +63,7 @@ const Step4: React.FC<{ invite: InviteContributorType }> = ({ invite }) => {
       </Grid>
       <Grid textAlign="center" justifySelf="center" item xs={12} mt={2}>
         <Button href="http://rakonto.io" sx={{ maxWidth: { xs: 'inherit', md: '400px' } }} variant="outlined" fullWidth>
-          Confirm without creating a Ralonto account
+          Confirm without creating a Rakonto account
         </Button>
       </Grid>
       <Grid textAlign="center" justifySelf="center" item xs={12} mt={2}>
