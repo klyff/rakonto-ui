@@ -45,7 +45,7 @@ const Player: React.FC<iVideoPlayer> = ({
       }
     ]
     return (
-      <Box sx={{ maxHeight: { xs: '50vh', md: maxHeight }, height: { xs: '50vh', md: maxHeight } }}>
+      <Box sx={{ maxHeight: { xs: '30vh', md: maxHeight }, height: { xs: '30vh', md: maxHeight } }}>
         <VideoJsWrapper subtitles={subtitles} key={id} handleEnd={handleEnd} preview={gifUrl} options={options} />
       </Box>
     )
@@ -60,7 +60,7 @@ const Player: React.FC<iVideoPlayer> = ({
       }
     ]
     return (
-      <Box sx={{ maxHeight: { xs: '50vh', md: maxHeight }, height: { xs: '50vh', md: maxHeight } }}>
+      <Box sx={{ maxHeight: { xs: '30vh', md: maxHeight }, height: { xs: '30vh', md: maxHeight } }}>
         <AudioJsWrapper subtitles={subtitles} key={id} handleEnd={handleEnd} id={media?.id || ''} options={options} />
       </Box>
     )

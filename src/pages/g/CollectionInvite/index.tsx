@@ -21,7 +21,6 @@ import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 import { useFormik, FormikValues, FormikProvider } from 'formik'
 import schema from './schema'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
-import * as yup from 'yup'
 
 const CollectionInvite: React.FC = () => {
   const location = useLocation()

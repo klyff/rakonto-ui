@@ -1,11 +1,16 @@
 import React from 'react'
 import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { InviteType } from '../../../../lib/types'
 import Player from '../../../../components/Player'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
 
 const Step1: React.FC<{ invite: InviteType }> = ({ invite }) => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   return (
     <Grid container>
       <Grid item xs={12}>
