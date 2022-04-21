@@ -15,17 +15,10 @@ const Step1: React.FC<{ invite: InviteType }> = ({ invite }) => {
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          Hi! <br />
-          {`${invite.user.firstName} ${invite.user.lastName} has invited you to record a story.`}
+          {`Hi! ${invite.user.firstName} ${invite.user.lastName} has invited you to record a story.`}
           <br />
-          {`Here is their message to you:`}
+          {`Here is their message to you: ${invite.description}`}
         </Typography>
-        {/* <Typography variant="subtitle1" mb={2}> */}
-        {/*  {invite.title} */}
-        {/* </Typography> */}
-        {/* <Typography variant="subtitle1" sx={{ fontStyle: 'italic' }} mb={2}> */}
-        {/*  {invite.description} */}
-        {/* </Typography> */}
       </Grid>
       {invite.video && (
         <Grid item xs={12} mb={12}>
