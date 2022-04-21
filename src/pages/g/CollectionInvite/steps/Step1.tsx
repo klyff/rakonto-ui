@@ -17,7 +17,9 @@ const Step1: React.FC<{ invite: InviteType }> = ({ invite }) => {
         <Typography variant="h6" mb={2}>
           {`Hi! ${invite.user.firstName} ${invite.user.lastName} has invited you to record a story.`}
           <br />
-          {`Here is their message to you: ${invite.description}`}
+          {`Here is their message to you:`}
+          <br />
+          {`${invite.description}`}
         </Typography>
       </Grid>
       {invite.video && (
