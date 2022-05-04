@@ -2,18 +2,15 @@ import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 
 export type ReactMediaRecorderRenderProps = {
   error: string
-  muteAudio: () => void
-  unMuteAudio: () => void
   startRecording: () => void
-  pauseRecording: () => void
-  resumeRecording: () => void
   stopRecording: () => void
+  devices: MediaDeviceInfo[]
+  currentDevices: MediaStreamTrack[]
   mediaBlobUrl: null | string
   status: StatusMessages
-  isAudioMuted: boolean
   previewStream: MediaStream | null
-  previewAudioStream: MediaStream | null
   clearBlobUrl: () => void
+  switchDevice: (deviceId: string) => void
 }
 
 export type ReactMediaRecorderHookProps = {
@@ -62,43 +59,35 @@ export function useReactMediaRecorder({
   onStop = () => null,
   blobPropertyBag,
   screen = false,
-  mediaRecorderOptions = null,
-  askPermissionOnMount = false
+  mediaRecorderOptions = null
 }: ReactMediaRecorderHookProps): ReactMediaRecorderRenderProps {
   const mediaRecorder = useRef<MediaRecorder | null>(null)
   const mediaChunks = useRef<Blob[]>([])
   const mediaStream = useRef<MediaStream | null>(null)
   const [status, setStatus] = useState<StatusMessages>('idle')
-  const [isAudioMuted, setIsAudioMuted] = useState<boolean>(false)
   const [mediaBlobUrl, setMediaBlobUrl] = useState<string | null>(null)
   const [error, setError] = useState<keyof typeof RecorderErrors>('NONE')
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([])
+  const [currentDevices, setCurrenttDevices] = useState<MediaStreamTrack[]>([])
 
-  const getMediaStream = useCallback(async () => {
-    setStatus('acquiring_media')
-    const requiredMedia: MediaStreamConstraints = {
-      audio: typeof audio === 'boolean' ? !!audio : audio,
-      video: typeof video === 'boolean' ? !!video : video
-    }
-    try {
-      if (screen) {
-        // @ts-ignore
-        const stream = (await window.navigator.mediaDevices.getDisplayMedia({
-          video: video || true
-        })) as MediaStream
-        stream.getVideoTracks()[0].addEventListener('ended', () => {
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
-          stopRecording()
-        })
-        if (audio) {
-          const audioStream = await window.navigator.mediaDevices.getUserMedia({
-            audio
-          })
+  const getDevices = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices()
+    setDevices(devices)
+  }
 
-          audioStream.getAudioTracks().forEach(audioTrack => stream.addTrack(audioTrack))
-        }
-        mediaStream.current = stream
-      } else {
-        const stream = await window.navigator.mediaDevices.getUserMedia({
+  useEffect(() => {
+    getDevices()
+  }, [])
+
+  const getMediaStream = useCallback(
+    async (deviceId?: string) => {
+      setStatus('acquiring_media')
+      const requiredMedia: MediaStreamConstraints = {
+        audio: typeof audio === 'boolean' ? !!audio : audio,
+        video: typeof video === 'boolean' ? !!video : video
+      }
+      try {
+        const constraints: MediaStreamConstraints = {
           audio: requiredMedia.audio,
           video: requiredMedia.video
             ? {
@@ -107,15 +96,73 @@ export function useReactMediaRecorder({
                 aspectRatio: { ideal: 1.7777777778 }
               }
             : requiredMedia.video
-        })
+        }
+        if (deviceId) {
+          const device = devices.find(item => item.deviceId === deviceId)
+          if (!device) {
+            setError('NotFoundError')
+            return
+          }
+          if (device.kind === 'videoinput') {
+            constraints.video = {
+              deviceId: {
+                exact: deviceId
+              }
+            }
+          } else if (device.kind === 'audioinput') {
+            constraints.audio = {
+              deviceId: {
+                exact: deviceId
+              }
+            }
+          }
+        }
+        const stream = await window.navigator.mediaDevices.getUserMedia(constraints)
         mediaStream.current = stream
+        setCurrenttDevices(stream.getTracks())
+        setStatus('idle')
+      } catch (error: any) {
+        setError(error.name)
+        setStatus('idle')
       }
-      setStatus('idle')
-    } catch (error: any) {
-      setError(error.name)
-      setStatus('idle')
+    },
+    [audio, video, screen]
+  )
+
+  const onRecordingActive = ({ data }: BlobEvent) => {
+    mediaChunks.current.push(data)
+  }
+
+  const onRecordingStop = () => {
+    const [chunk] = mediaChunks.current
+    const blobProperty: BlobPropertyBag = Object.assign(
+      { type: chunk.type },
+      blobPropertyBag || (video ? { type: 'video/mp4' } : { type: 'audio/wav' })
+    )
+    const blob = new Blob(mediaChunks.current, blobProperty)
+    const url = URL.createObjectURL(blob)
+    setStatus('stopped')
+    setMediaBlobUrl(url)
+    onStop(url, blob)
+  }
+
+  const init = useCallback(async () => {
+    setError('NONE')
+    if (!mediaStream.current) {
+      await getMediaStream()
     }
-  }, [audio, video, screen])
+    if (mediaStream.current) {
+      const isStreamEnded = mediaStream.current.getTracks().some(track => track.readyState === 'ended')
+      if (isStreamEnded) {
+        await getMediaStream()
+      }
+    }
+  }, [])
+
+  const switchDevice = async (deviceId: string) => {
+    await getMediaStream(deviceId)
+    await init()
+  }
 
   useEffect(() => {
     if (!window.MediaRecorder) {
@@ -157,9 +204,7 @@ export function useReactMediaRecorder({
       }
     }
 
-    if (!mediaStream.current && askPermissionOnMount) {
-      getMediaStream()
-    }
+    init()
 
     return () => {
       if (mediaStream.current) {
@@ -167,42 +212,10 @@ export function useReactMediaRecorder({
         tracks.forEach(track => track.stop())
       }
     }
-  }, [audio, screen, video, getMediaStream, mediaRecorderOptions, askPermissionOnMount])
-
-  // Media Recorder Handlers
-
-  const onRecordingActive = ({ data }: BlobEvent) => {
-    mediaChunks.current.push(data)
-  }
-
-  const onRecordingStop = () => {
-    const [chunk] = mediaChunks.current
-    const blobProperty: BlobPropertyBag = Object.assign(
-      { type: chunk.type },
-      blobPropertyBag || (video ? { type: 'video/mp4' } : { type: 'audio/wav' })
-    )
-    const blob = new Blob(mediaChunks.current, blobProperty)
-    const url = URL.createObjectURL(blob)
-    setStatus('stopped')
-    setMediaBlobUrl(url)
-    onStop(url, blob)
-  }
+  }, [])
 
   const startRecording = async () => {
-    setError('NONE')
-    if (!mediaStream.current) {
-      await getMediaStream()
-    }
     if (mediaStream.current) {
-      const isStreamEnded = mediaStream.current.getTracks().some(track => track.readyState === 'ended')
-      if (isStreamEnded) {
-        await getMediaStream()
-      }
-
-      // User blocked the permissions (getMediaStream errored out)
-      if (!mediaStream.current.active) {
-        return
-      }
       mediaRecorder.current = new MediaRecorder(mediaStream.current)
       mediaRecorder.current.ondataavailable = onRecordingActive
       mediaRecorder.current.onstop = onRecordingStop
@@ -212,26 +225,6 @@ export function useReactMediaRecorder({
       }
       mediaRecorder.current.start()
       setStatus('recording')
-    }
-  }
-
-  const muteAudio = (mute: boolean) => {
-    setIsAudioMuted(mute)
-    if (mediaStream.current) {
-      mediaStream.current.getAudioTracks().forEach(audioTrack => (audioTrack.enabled = !mute))
-    }
-  }
-
-  const pauseRecording = () => {
-    if (mediaRecorder.current && mediaRecorder.current.state === 'recording') {
-      setStatus('paused')
-      mediaRecorder.current.pause()
-    }
-  }
-  const resumeRecording = () => {
-    if (mediaRecorder.current && mediaRecorder.current.state === 'paused') {
-      setStatus('recording')
-      mediaRecorder.current.resume()
     }
   }
 
@@ -248,17 +241,14 @@ export function useReactMediaRecorder({
 
   return {
     error: RecorderErrors[error],
-    muteAudio: () => muteAudio(true),
-    unMuteAudio: () => muteAudio(false),
     startRecording,
-    pauseRecording,
-    resumeRecording,
     stopRecording,
+    currentDevices,
+    devices,
     mediaBlobUrl,
     status,
-    isAudioMuted,
-    previewStream: mediaStream.current ? new MediaStream(mediaStream.current.getVideoTracks()) : null,
-    previewAudioStream: mediaStream.current ? new MediaStream(mediaStream.current.getAudioTracks()) : null,
+    switchDevice,
+    previewStream: mediaStream.current || null,
     clearBlobUrl: () => {
       if (mediaBlobUrl) {
         URL.revokeObjectURL(mediaBlobUrl)

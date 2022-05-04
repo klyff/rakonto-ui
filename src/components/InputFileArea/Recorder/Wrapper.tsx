@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
@@ -9,18 +9,89 @@ import { useStopwatch, useTimer } from 'react-timer-hook'
 import { useReactMediaRecorder } from '../../MediaRecorder'
 import redColor from '@mui/material/colors/red'
 import useStateCallback from '../../hooks/useStateCallback'
+import MenuItem from '@mui/material/MenuItem'
+import Menu from '@mui/material/Menu'
+import IconButton from '@mui/material/IconButton'
+import SettingsIcon from '@mui/icons-material/Settings'
+import Divider from '@mui/material/Divider'
+import useAudioAnalyser from './useAudioAnalyzer'
+
+const AudioPreview = ({ stream }: { stream: MediaStream | null }) => {
+  const analyser = useAudioAnalyser(stream)
+  const visualizerRef = useRef<HTMLCanvasElement>(null)
+  const boxRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!analyser) {
+      return
+    }
+    let raf: number
+
+    const data = new Uint8Array(analyser.frequencyBinCount)
+
+    const draw = () => {
+      raf = requestAnimationFrame(draw)
+      analyser.getByteTimeDomainData(data)
+      const canvas = visualizerRef.current
+
+      if (canvas) {
+        const { height, width } = canvas
+        const context = canvas.getContext('2d')
+        let x = 0
+        const sliceWidth = (width * 1.0) / data.length
+
+        if (context) {
+          context.lineWidth = 2
+          context.strokeStyle = '#fff'
+          context.clearRect(0, 0, width, height)
+
+          context.beginPath()
+          context.moveTo(0, height / 2)
+          // @ts-ignore
+          for (const item of data) {
+            const y = (item / 255.0) * height
+            context.lineTo(x, y)
+            x += sliceWidth
+          }
+          context.lineTo(x, height / 2)
+          context.stroke()
+        }
+      }
+    }
+    draw()
+
+    return () => {
+      cancelAnimationFrame(raf)
+    }
+  }, [visualizerRef, analyser])
+
+  return (
+    <Box
+      ref={boxRef}
+      sx={{
+        width: '100%',
+        overflow: 'hidden'
+      }}
+    >
+      {analyser && <canvas ref={visualizerRef} width={850} />}
+    </Box>
+  )
+}
 
 const VideoPreview = ({ stream }: { stream: MediaStream | null }) => {
   const videoRef = useCallback(node => {
     if (node && stream) {
-      node.srcObject = stream
+      if (window.URL) {
+        node.srcObject = stream
+      } else {
+        node.src = stream
+      }
     }
   }, [])
 
   if (!stream) {
     return null
   }
-  return <video height="100%" width="auto" ref={videoRef} autoPlay muted={true} />
+  return <video height="100%" width="auto" ref={videoRef} autoPlay muted playsInline />
 }
 
 const CountDown: React.FC<{ expire: () => void }> = ({ expire }) => {
@@ -87,18 +158,36 @@ interface iWrapper {
 const Recorder: React.FC<iWrapper> = ({ countdown, isRecordingType, onDrop, onChangeRecordingType }) => {
   const [showCountdown, setShowCountdown] = useStateCallback<boolean>(false)
   const [hideStartRecording, setHideStartRecording] = useStateCallback<boolean>(false)
-  const { previewStream, previewAudioStream, status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
-    useReactMediaRecorder({
-      video: isRecordingType === 'VIDEO',
-      audio: true,
-      onStop: (blobUrl: string, blob: Blob) => {
-        onDrop(
-          new File([blob], `Recorded.${isRecordingType === 'VIDEO' ? 'mp4' : 'wav'}`, {
-            type: isRecordingType === 'VIDEO' ? 'video/mp4' : 'audio/wav'
-          })
-        )
-      }
-    })
+  const {
+    previewStream,
+    status,
+    startRecording,
+    stopRecording,
+    mediaBlobUrl,
+    clearBlobUrl,
+    devices,
+    currentDevices,
+    switchDevice
+  } = useReactMediaRecorder({
+    video: isRecordingType === 'VIDEO',
+    audio: true,
+    onStop: (blobUrl: string, blob: Blob) => {
+      onDrop(
+        new File([blob], `Recorded.${isRecordingType === 'VIDEO' ? 'mp4' : 'wav'}`, {
+          type: isRecordingType === 'VIDEO' ? 'video/mp4' : 'audio/wav'
+        })
+      )
+    }
+  })
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
 
   const { Component, start, pause, reset } = useCountDown(countdown, stopRecording)
 
@@ -135,6 +224,12 @@ const Recorder: React.FC<iWrapper> = ({ countdown, isRecordingType, onDrop, onCh
       }}
     >
       <>
+        {(status === 'idle' || status === 'recording') &&
+          (isRecordingType === 'VIDEO' ? (
+            <VideoPreview stream={previewStream} />
+          ) : (
+            <AudioPreview stream={previewStream} />
+          ))}
         {!showCountdown && status === 'recording' ? (
           <>
             <Box
@@ -170,25 +265,93 @@ const Recorder: React.FC<iWrapper> = ({ countdown, isRecordingType, onDrop, onCh
                 Stop recording
               </Button>
             </Box>
-            <VideoPreview stream={isRecordingType === 'VIDEO' ? previewStream : previewAudioStream} />
           </>
         ) : (
           mediaBlobUrl && <video height={'100%'} width="auto" src={mediaBlobUrl} controls autoPlay />
         )}
       </>
-      <Box sx={{ position: 'absolute' }}>
-        {showCountdown && <CountDown expire={handleExpire} />}
+      <Box sx={{ position: 'absolute', width: '100%', height: '100%' }}>
+        {showCountdown && (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%'
+            }}
+          >
+            <CountDown expire={handleExpire} />
+          </Box>
+        )}
         {!hideStartRecording && status === 'idle' && (
-          <ButtonGroup disableElevation size="large" variant="outlined">
-            <Button size="large" variant="outlined" onClick={handleStart}>
-              Start recording
-            </Button>
-            {!mediaBlobUrl && (
-              <Button size="large" variant="outlined" onClick={onChangeRecordingType}>
-                Change recording type
-              </Button>
-            )}
-          </ButtonGroup>
+          <>
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '16px'
+              }}
+            >
+              <IconButton
+                onClick={handleClick}
+                size="small"
+                sx={{ ml: 2 }}
+                aria-controls={open ? 'account-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+              >
+                <SettingsIcon />
+              </IconButton>
+              <Menu anchorEl={anchorEl} id="account-menu" open={open} onClose={handleClose} onClick={handleClose}>
+                <MenuItem disabled>Audio</MenuItem>
+                {devices
+                  .filter(item => item.kind === 'audioinput')
+                  .map(item => (
+                    <MenuItem
+                      selected={currentDevices.some(device => device.getSettings().deviceId === item.deviceId)}
+                      key={item.deviceId}
+                      value={item.deviceId}
+                      onClick={() => switchDevice(item.deviceId)}
+                    >
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                {isRecordingType === 'VIDEO' && <Divider />}
+                {isRecordingType === 'VIDEO' && <MenuItem disabled>Video</MenuItem>}
+                {isRecordingType === 'VIDEO' &&
+                  devices
+                    .filter(item => item.kind === 'videoinput')
+                    .map(item => (
+                      <MenuItem
+                        selected={currentDevices.some(device => device.getSettings().deviceId === item.deviceId)}
+                        key={item.deviceId}
+                        value={item.deviceId}
+                        onClick={() => switchDevice(item.deviceId)}
+                      >
+                        {item.label}
+                      </MenuItem>
+                    ))}
+              </Menu>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%'
+              }}
+            >
+              <ButtonGroup disableElevation size="large" variant="contained">
+                <Button size="large" onClick={handleStart}>
+                  Start recording
+                </Button>
+                {!mediaBlobUrl && (
+                  <Button size="large" onClick={onChangeRecordingType}>
+                    Change recording type
+                  </Button>
+                )}
+              </ButtonGroup>
+            </Box>
+          </>
         )}
         {status === 'stopped' && mediaBlobUrl && (
           <Button

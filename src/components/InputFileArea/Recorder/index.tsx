@@ -8,34 +8,6 @@ import MovieIcon from '@mui/icons-material/Movie'
 import HeadphonesIcon from '@mui/icons-material/Headphones'
 import CameraIndoorIcon from '@mui/icons-material/CameraIndoor'
 import Wrapper from './Wrapper'
-import { useStopwatch, useTimer } from 'react-timer-hook'
-import { useReactMediaRecorder } from '../../MediaRecorder'
-import useStateCallback from '../../hooks/useStateCallback'
-import redColor from '@mui/material/colors/red'
-
-const useCountDown = (countdown = 0, expire?: () => void) => {
-  const time = new Date()
-  time.setSeconds(time.getSeconds() + countdown * 60)
-  const timer = useTimer({
-    expiryTimestamp: time,
-    autoStart: false,
-    onExpire: expire
-  })
-  const stopwatch = useStopwatch({ autoStart: false })
-
-  const current = countdown ? timer : stopwatch
-  const Component = () => (
-    <Typography>{`${current.hours.toString().padStart(2, '0')}:${current.minutes
-      .toString()
-      .padStart(2, '0')}:${current.seconds.toString().padStart(2, '0')}`}</Typography>
-  )
-  return {
-    reset: countdown ? () => timer.restart(time, false) : stopwatch.reset,
-    start: current.start,
-    pause: current.pause,
-    Component
-  }
-}
 
 interface iRecorder {
   onSelected?: (isSelected: boolean) => void
