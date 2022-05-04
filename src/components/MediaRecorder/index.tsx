@@ -100,6 +100,7 @@ export function useReactMediaRecorder({
         if (deviceId) {
           const device = devices.find(item => item.deviceId === deviceId)
           if (!device) {
+            debugger
             setError('NotFoundError')
             return
           }
@@ -119,6 +120,7 @@ export function useReactMediaRecorder({
         }
         const stream = await window.navigator.mediaDevices.getUserMedia(constraints)
         mediaStream.current = stream
+
         setCurrenttDevices(stream.getTracks())
         setStatus('idle')
       } catch (error: any) {
@@ -126,7 +128,7 @@ export function useReactMediaRecorder({
         setStatus('idle')
       }
     },
-    [audio, video, screen]
+    [audio, video, screen, devices]
   )
 
   const onRecordingActive = ({ data }: BlobEvent) => {
@@ -146,22 +148,8 @@ export function useReactMediaRecorder({
     onStop(url, blob)
   }
 
-  const init = useCallback(async () => {
-    setError('NONE')
-    if (!mediaStream.current) {
-      await getMediaStream()
-    }
-    if (mediaStream.current) {
-      const isStreamEnded = mediaStream.current.getTracks().some(track => track.readyState === 'ended')
-      if (isStreamEnded) {
-        await getMediaStream()
-      }
-    }
-  }, [])
-
   const switchDevice = async (deviceId: string) => {
     await getMediaStream(deviceId)
-    await init()
   }
 
   useEffect(() => {
@@ -204,7 +192,7 @@ export function useReactMediaRecorder({
       }
     }
 
-    init()
+    getMediaStream()
 
     return () => {
       if (mediaStream.current) {
