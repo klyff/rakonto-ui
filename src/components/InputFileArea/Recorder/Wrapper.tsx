@@ -288,19 +288,24 @@ const Recorder: React.FC<iWrapper> = ({ countdown, isRecordingType, onDrop, onCh
             <Box
               sx={{
                 position: 'absolute',
-                top: '16px'
+                bottom: '10px',
+                left: '50%',
+                transform: 'translate(-50%)'
               }}
             >
-              <IconButton
+              <Button
                 onClick={handleClick}
-                size="small"
+                variant="contained"
+                color="secondary"
+                size="large"
                 sx={{ ml: 2 }}
                 aria-controls={open ? 'account-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
+                endIcon={<SettingsIcon />}
               >
-                <SettingsIcon />
-              </IconButton>
+                Select your devices
+              </Button>
               <Menu anchorEl={anchorEl} id="account-menu" open={open} onClose={handleClose} onClick={handleClose}>
                 <MenuItem disabled>Audio</MenuItem>
                 {devices
@@ -337,7 +342,8 @@ const Recorder: React.FC<iWrapper> = ({ countdown, isRecordingType, onDrop, onCh
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: '100%'
+                height: '100%',
+                flexFlow: 'column'
               }}
             >
               <ButtonGroup disableElevation size="large" variant="contained">
