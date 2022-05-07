@@ -3,7 +3,10 @@ import { Link, useHistory, useLocation } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
+import LinearProgress from '@mui/material/LinearProgress'
+import CircularProgress from '@mui/material/CircularProgress'
 import Avatar from '@mui/material/Avatar'
+import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
@@ -16,8 +19,10 @@ import MovieIcon from '@mui/icons-material/Movie'
 import useUser from '../../../../components/hooks/useUser'
 import { GreetingsDialogContext } from '../../../../components/GreetingsDialog'
 import RateReviewIcon from '@mui/icons-material/RateReview'
+import useStorage from '../../../../components/hooks/useStorage'
 
 export default function PrimarySearchAppBar() {
+  const { storage, isLoading, refetch } = useStorage()
   const user = useUser()
   const history = useHistory()
   const location = useLocation()
@@ -30,6 +35,7 @@ export default function PrimarySearchAppBar() {
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
+    refetch()
   }
 
   const handleMobileMenuClose = () => {
@@ -43,6 +49,7 @@ export default function PrimarySearchAppBar() {
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget)
+    refetch()
   }
 
   const menuOptions = [
@@ -53,8 +60,33 @@ export default function PrimarySearchAppBar() {
   ]
 
   const menuId = 'primary-search-account-menu'
+
+  const storageInfo = (
+    <MenuItem sx={{ pointerEvents: 'none' }}>
+      <Box sx={{ width: '100%', display: 'flex', flexFlow: 'column' }}>
+        Storage
+        <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+          {isLoading && <CircularProgress size={15} />}
+          {!isLoading && (
+            <>
+              <Box sx={{ width: '100%', mr: 1 }}>
+                <LinearProgress variant="determinate" value={storage!.percentual} />
+              </Box>
+              <Box sx={{ minWidth: 35 }}>{storage!.percentual}%</Box>
+            </>
+          )}
+        </Box>
+      </Box>
+    </MenuItem>
+  )
+
   const renderMenu = (
     <Menu
+      PaperProps={{
+        style: {
+          width: 220
+        }
+      }}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: 'top',
@@ -69,6 +101,8 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      {storageInfo}
+      <Divider />
       <MenuItem
         onClick={() => {
           greetingsActions.open()
@@ -107,6 +141,11 @@ export default function PrimarySearchAppBar() {
   const mobileMenuId = 'primary-search-account-menu-mobile'
   const renderMobileMenu = (
     <Menu
+      PaperProps={{
+        style: {
+          width: 150
+        }
+      }}
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
         vertical: 'top',
@@ -121,6 +160,8 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      {storageInfo}
+      <Divider />
       {menuOptions.map(item => (
         <MenuItem
           key={item.name}

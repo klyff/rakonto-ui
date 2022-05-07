@@ -51,6 +51,13 @@ export type SearchResultType = {
   entity: CollectionType | StoryType
 }
 
+export type UserQuotaType = {
+  available: string
+  used: string
+  free: string
+  percentual: number
+}
+
 export type UserType = {
   id: string
   email: string

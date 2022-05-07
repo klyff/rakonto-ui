@@ -5,9 +5,11 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Password from './Password'
 import Subscription from './Subscription'
+import Storage from './Storage'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import SecurityIcon from '@mui/icons-material/Security'
 import CreditCardIcon from '@mui/icons-material/CreditCard'
+import CloudIcon from '@mui/icons-material/Cloud'
 import Info from './Info'
 import Stack from '@mui/material/Stack'
 import { parse } from 'qs'
@@ -90,6 +92,16 @@ const Profile: React.FC<RouteComponentProps> = () => {
               Subscription
             </Box>
           </Button>
+          <Button
+            color={t === 'storage' ? 'primary' : 'secondary'}
+            fullWidth
+            startIcon={<CloudIcon />}
+            onClick={() => onTabClick('storage')}
+          >
+            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
+              Storage
+            </Box>
+          </Button>
         </Box>
         <Box
           sx={{
@@ -99,6 +111,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
           {t === 'info' && <Info />}
           {t === 'password' && <Password />}
           {t === 'subscription' && <Subscription />}
+          {t === 'storage' && <Storage />}
         </Box>
       </Box>
     </>

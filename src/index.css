@@ -29,6 +29,10 @@ a {
   -webkit-box-orient: vertical;
 }
 
+.opacityOff {
+  opacity: unset;
+}
+
 
 @keyframes blink {
   from, to { opacity: 1 }

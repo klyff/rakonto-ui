@@ -43,7 +43,7 @@ import {
   InviteType,
   InviteContributorInput,
   InviteContributorType,
-  ShortIdType
+  ShortIdType, UserQuotaType
 } from '../types'
 
 class CustomError extends Error {
@@ -78,6 +78,10 @@ export const verifyStorageUsage = (request: AxiosInstance) => async (previewQuot
 // User api
 export const getMe = (request: AxiosInstance) => async (): Promise<UserType> => {
   return await request.get('a/me').then(res => res.data)
+}
+
+export const getStorageQuota = (request: AxiosInstance) => async (): Promise<UserQuotaType> => {
+  return await request.get('a/storage-quota').then(res => res.data)
 }
 
 export const updateMe =
