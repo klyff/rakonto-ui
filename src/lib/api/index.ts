@@ -91,7 +91,8 @@ import {
   getContributorInviteSubmission,
   sendContributorInviteSubmission,
   getShortId,
-  getStorageQuota
+  getStorageQuota,
+  optimizeStorage
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -234,5 +235,6 @@ export default {
   getContributorInviteSubmission: getContributorInviteSubmission(request),
   sendContributorInviteSubmission: sendContributorInviteSubmission(request),
   getShortId: getShortId(request),
-  getStorageQuota: getStorageQuota(request)
+  getStorageQuota: getStorageQuota(request),
+  optimizeStorage: optimizeStorage(request)
 }

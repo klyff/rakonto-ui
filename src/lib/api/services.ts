@@ -84,6 +84,12 @@ export const getStorageQuota = (request: AxiosInstance) => async (): Promise<Use
   return await request.get('a/storage-quota').then(res => res.data)
 }
 
+export const optimizeStorage =
+  (request: AxiosInstance) =>
+    async (): Promise<void> => {
+      await request.post(`a/account/optimize-all`).then(res => res.data)
+    }
+
 export const updateMe =
   (request: AxiosInstance) =>
     async (data: UserFormType): Promise<UserType> => {
