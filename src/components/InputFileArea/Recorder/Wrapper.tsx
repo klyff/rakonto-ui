@@ -11,7 +11,6 @@ import redColor from '@mui/material/colors/red'
 import useStateCallback from '../../hooks/useStateCallback'
 import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
-import IconButton from '@mui/material/IconButton'
 import SettingsIcon from '@mui/icons-material/Settings'
 import Divider from '@mui/material/Divider'
 import useAudioAnalyser from './useAudioAnalyzer'
@@ -189,7 +188,7 @@ const Recorder: React.FC<iWrapper> = ({ countdown, isRecordingType, onDrop, onCh
     setAnchorEl(null)
   }
 
-  const { Component, start, pause, reset } = useCountDown(countdown, stopRecording)
+  const { Component, start, pause, reset } = useCountDown(countdown)
 
   const handleExpire = () => {
     // @ts-ignore
