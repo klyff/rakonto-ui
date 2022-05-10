@@ -8,9 +8,11 @@ import useStorage from '../../../components/hooks/useStorage'
 import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 import api from '../../../lib/api'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
+import useUser from '../../../components/hooks/useUser'
 
 const Storage: React.FC = () => {
   const { storage, isLoading } = useStorage()
+  const user = useUser()
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
   const handleOptimize = async () => {
@@ -45,7 +47,8 @@ const Storage: React.FC = () => {
           <Typography sx={{ paddingBottom: 4 }} variant="h5">
             You still have <b>{storage!.free}</b> remaining storage quota.
           </Typography>
-          {storage!.percentual > 80 && (
+
+          {user!.tier > 0 && storage!.percentual > 80 && (
             <>
               <Typography sx={{ paddingBottom: 4, color: 'secondary.main', pb: 'unset' }} variant="h5">
                 {`You have already reached more than 80% of your storage quota. You can request a storage `}

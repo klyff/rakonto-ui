@@ -6,7 +6,7 @@ import api from '../../../lib/api'
 const calcPercentUsage = (used: string, available: string) => {
   const usage = parseInt(used)
   const total = parseInt(available)
-  return (100 * usage) / total
+  return Math.round((100 * usage) / total)
 }
 
 const useStorage = (): {
