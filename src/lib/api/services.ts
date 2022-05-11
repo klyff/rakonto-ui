@@ -84,6 +84,12 @@ export const getStorageQuota = (request: AxiosInstance) => async (): Promise<Use
   return await request.get('a/storage-quota').then(res => res.data)
 }
 
+export const toogleOptimizeStorage =
+  (request: AxiosInstance) =>
+    async (isToKeep: boolean): Promise<void> => {
+      await request.put(`a/account/keep-only-optimized`, { keepOnlyOptimized: isToKeep }).then(res => res.data)
+    }
+
 export const optimizeStorage =
   (request: AxiosInstance) =>
     async (): Promise<void> => {

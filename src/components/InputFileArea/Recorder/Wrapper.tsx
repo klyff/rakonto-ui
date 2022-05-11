@@ -303,7 +303,7 @@ const Recorder: React.FC<iWrapper> = ({ countdown, isRecordingType, onDrop, onCh
                 aria-expanded={open ? 'true' : undefined}
                 endIcon={<SettingsIcon />}
               >
-                Select your devices
+                Select your camera / microphone
               </Button>
               <Menu anchorEl={anchorEl} id="account-menu" open={open} onClose={handleClose} onClick={handleClose}>
                 <MenuItem disabled>Audio</MenuItem>

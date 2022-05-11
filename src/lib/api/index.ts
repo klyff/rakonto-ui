@@ -92,7 +92,8 @@ import {
   sendContributorInviteSubmission,
   getShortId,
   getStorageQuota,
-  optimizeStorage
+  optimizeStorage,
+  toogleOptimizeStorage
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -236,5 +237,6 @@ export default {
   sendContributorInviteSubmission: sendContributorInviteSubmission(request),
   getShortId: getShortId(request),
   getStorageQuota: getStorageQuota(request),
-  optimizeStorage: optimizeStorage(request)
+  optimizeStorage: optimizeStorage(request),
+  toogleOptimizeStorage: toogleOptimizeStorage(request)
 }

@@ -20,7 +20,7 @@ import api from '../../../lib/api'
 import { parse } from 'qs'
 import MetaTags from 'react-meta-tags'
 import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
-import useUser from '../../../components/hooks/useUser'
+import useUser from '../../../components/UserProvider/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
 import Paper from '@mui/material/Paper'
@@ -28,7 +28,7 @@ import EditBar from './EditBar'
 
 const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ match, history, location }) => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
-  const user = useUser()
+  const { user } = useUser()
   const { collectionId } = match.params
   const { autoplay, storyId } = parse(location?.search as string, { ignoreQueryPrefix: true })
   const [collection, setCollection] = useState<CollectionType | null>(null)

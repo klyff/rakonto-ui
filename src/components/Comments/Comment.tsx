@@ -11,7 +11,7 @@ import Divider from '@mui/material/Divider'
 import initials from 'initials'
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 import { MentionData } from '@draft-js-plugins/mention'
-import useUser from '../hooks/useUser'
+import useUser from '../UserProvider/useUser'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
 import EditorWithMentions from './EditorWithMentions'
 import { AxiosError } from 'axios'
@@ -30,7 +30,7 @@ interface iComments {
 const Comment: React.FC<iComments> = ({ comment, type, editComment, deleteComment, mentions, id }) => {
   const { author } = comment
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
-  const user = useUser()
+  const { user } = useUser()
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(convertFromRaw(JSON.parse(comment.body)))
   )

@@ -20,14 +20,14 @@ import Photos from './Photos'
 import Files from './Files'
 import Subtitles from './Subtitles'
 import Links from './Links'
-import useUser from '../../../components/hooks/useUser'
+import useUser from '../../../components/UserProvider/useUser'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import Comments from '../../../components/Comments'
 import EditBar from './EditBar'
 import { useMitt } from 'react-mitt'
 
 const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, history }) => {
-  const user = useUser()
+  const { user } = useUser()
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { storyId } = match.params
   const [tab, setTab] = useState<string>('')

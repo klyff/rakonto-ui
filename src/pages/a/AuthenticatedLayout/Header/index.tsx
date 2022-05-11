@@ -16,14 +16,14 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import FolderSpecialIcon from '@mui/icons-material/FolderSpecial'
 import HomeIcon from '@mui/icons-material/Home'
 import MovieIcon from '@mui/icons-material/Movie'
-import useUser from '../../../../components/hooks/useUser'
+import useUser from '../../../../components/UserProvider/useUser'
 import { GreetingsDialogContext } from '../../../../components/GreetingsDialog'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import useStorage from '../../../../components/hooks/useStorage'
 
 export default function PrimarySearchAppBar() {
   const { storage, isLoading, refetch } = useStorage()
-  const user = useUser()
+  const { user } = useUser()
   const history = useHistory()
   const location = useLocation()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)

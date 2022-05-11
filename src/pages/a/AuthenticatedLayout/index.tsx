@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './Header'
-import Cookies from 'js-cookie'
 import { StepStoryUploadProvider } from '../../../components/StepStoryUpload'
 import { StepInviteRecorderProvider } from '../../../components/StepInviteRecorder'
 import { StepInviteContributorProvider } from '../../../components/StepInviteContributor'
@@ -10,35 +9,40 @@ import { CreateCollectionProvider } from '../../../components/CreateCollection'
 import { SocketConnectorProvider } from '../../../components/SocketConnector'
 import { ChangeMediaProvider } from '../../../components/ChangeMedia'
 import api from '../../../lib/api'
+import { UserProvider } from '../../../components/UserProvider'
+import { UserType } from '../../../lib/types'
 
 const AuthenticatedLayout: React.FC = ({ children }) => {
+  const [user, setUser] = useState<UserType | null>()
   useEffect(() => {
     const fetch = async () => {
-      const user = await api.getMe()
-      Cookies.set('user', JSON.stringify(user))
+      const userResponse = await api.getMe()
+      setUser(userResponse)
     }
     fetch()
   }, [])
   return (
     <>
-      <SocketConnectorProvider>
-        <QueueProcessorProvider>
-          <CreateCollectionProvider>
-            <StepStoryUploadProvider>
-              <StepInviteContributorProvider>
-                <StepInviteRecorderProvider>
-                  <ChangeMediaProvider>
-                    <GreetingsDialogProvider>
-                      <Header />
-                      {children}
-                    </GreetingsDialogProvider>
-                  </ChangeMediaProvider>
-                </StepInviteRecorderProvider>
-              </StepInviteContributorProvider>
-            </StepStoryUploadProvider>
-          </CreateCollectionProvider>
-        </QueueProcessorProvider>
-      </SocketConnectorProvider>
+      <UserProvider initialUser={user}>
+        <SocketConnectorProvider>
+          <QueueProcessorProvider>
+            <CreateCollectionProvider>
+              <StepStoryUploadProvider>
+                <StepInviteContributorProvider>
+                  <StepInviteRecorderProvider>
+                    <ChangeMediaProvider>
+                      <GreetingsDialogProvider>
+                        <Header />
+                        {children}
+                      </GreetingsDialogProvider>
+                    </ChangeMediaProvider>
+                  </StepInviteRecorderProvider>
+                </StepInviteContributorProvider>
+              </StepStoryUploadProvider>
+            </CreateCollectionProvider>
+          </QueueProcessorProvider>
+        </SocketConnectorProvider>
+      </UserProvider>
     </>
   )
 }

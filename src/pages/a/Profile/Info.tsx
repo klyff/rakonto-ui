@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import api from '../../../lib/api'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
-import useUser from '../../../components/hooks/useUser'
+import useUser from '../../../components/UserProvider/useUser'
 import { UserFormType } from '../../../lib/types'
 import { FormikValues, useFormik } from 'formik'
 import { updateUserSchema, closeAccountSchema } from './schemas'
@@ -21,7 +21,7 @@ const Info: React.FC = () => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: formDialogActions } = useContext(FormDialogContext)
   const [progress, setProgress] = useState<number>(0)
-  const user = useUser()
+  const { user, refetch } = useUser()
 
   const handleCloseSubmit = async (data: FormikValues) => {
     try {
@@ -53,9 +53,9 @@ const Info: React.FC = () => {
 
   const updateProfile = async (data: UserFormType) => {
     try {
-      const me = await api.updateMe(data)
+      await api.updateMe(data)
       snackActions.open('User info updated!')
-      Cookies.set('user', JSON.stringify(me))
+      await refetch()
     } catch (error) {
       // @ts-ignore
       const { data } = error
@@ -77,10 +77,11 @@ const Info: React.FC = () => {
     about: user?.about || ''
   }
 
-  const { isSubmitting, handleSubmit, handleBlur, values, handleChange, errors, touched } = useFormik({
+  const { isSubmitting, handleSubmit, handleBlur, values, handleChange, errors, touched, setValues } = useFormik({
     initialValues,
     validationSchema: updateUserSchema,
-    onSubmit
+    onSubmit,
+    enableReinitialize: true
   })
 
   const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =

@@ -1,6 +1,6 @@
 import React from 'react'
 import Cookies from 'js-cookie'
-import useUser from '../../../components/hooks/useUser'
+import useUser from '../../../components/UserProvider/useUser'
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
@@ -109,7 +109,7 @@ const plans = [
 ]
 
 const Subscription: React.FC = () => {
-  const user = useUser()
+  const { user } = useUser()
   const token = Cookies.get('token')
   const returnUrl = `${window.location.origin}/a/profile?tab=subscription`
   const [checked, setChecked] = React.useState<boolean>(true)

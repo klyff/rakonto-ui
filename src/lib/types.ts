@@ -64,6 +64,7 @@ export type UserType = {
   firstName: string
   lastName: string
   picture: ImageType
+  keepOnlyOptimized: boolean
   about: string
   location: string
   tier: number
