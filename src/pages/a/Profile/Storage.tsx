@@ -65,31 +65,35 @@ const Storage: React.FC = () => {
             You still have <b>{storage!.free}</b> remaining on library capacity.
           </Typography>
 
-          <Typography sx={{ paddingBottom: 4, color: 'secondary.main', pb: 'unset' }} variant="h5">
-            {`To Increase your library capacity, You may `}
-            <Link href="/a/profile?tab=subscription">upgrade your plan</Link>.
+          <Typography sx={{ paddingBottom: 4, color: 'secondary.main', pb: 'unset', mb: 4 }} variant="h5">
+            {`You have tow options to increase your available library capacity:`}
           </Typography>
-          {user.tier !== 3 && (
-            <>
-              <Typography sx={{ paddingBottom: 4, color: 'secondary.main', pb: 'unset', mt: 4 }} variant="h5">
-                {`Alternatively, you may `}
-                <Button onClick={handleOptimize} size="large" variant="contained">
-                  optimize
-                </Button>
-                {` your library by only keeping converted .mp3 audio and .mp4 (720p) video files.`}
-              </Typography>
-              <Typography sx={{ paddingBottom: 4, color: 'secondary.main', pb: 'unset', mt: 4 }} variant="h5">
-                You can let Rakonto always optimize your new uploaded media, remember, Rakonto will only keep converted
-                .mp3 audio and .mp4 (720p) video files.
-              </Typography>
-              <FormGroup>
-                <FormControlLabel
-                  control={<Switch value={user.keepOnlyOptimized} onChange={handleOptimizeToogleChange} />}
-                  label="Automatic optimization"
-                />
-              </FormGroup>
-            </>
-          )}
+          <Typography sx={{ paddingBottom: 4, color: 'secondary.main', pb: 'unset', mb: 4 }} variant="h5">
+            <Link href="/a/profile?tab=subscription">Upgrade my plan</Link>
+            {` Choose this to upgrade to another pan and increase your library capacity.`}
+          </Typography>
+          <Typography sx={{ paddingBottom: 4, color: 'secondary.main', pb: 'unset', mb: 4 }} variant="h5">
+            <Link sx={{ cursor: 'pointer' }} onClick={handleOptimize}>
+              Optimize my library
+            </Link>
+            {` Choose this to remove previous audio / video original recordings, and only keep optimized* recordings.`}
+          </Typography>
+          <Typography
+            sx={{ paddingBottom: 4, color: 'secondary.main', pb: 'unset', display: 'inline-flex', mb: 4 }}
+            variant="h5"
+          >
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch value={user.keepOnlyOptimized} onChange={handleOptimizeToogleChange} />}
+                label="Auto optimize"
+              />
+            </FormGroup>
+            {` Keep only optimized* recordings from now on.`}
+          </Typography>
+          <Typography sx={{ paddingBottom: 4, color: 'secondary.main', pb: 'unset' }} variant="body1">
+            {`*Recordings uploaded or recorded directly into Rakonto are converted automatically and optimized for streaming. Optimized audio recordings are stored in 128Khz mp3 format. Optimized video recordings are stored in 720p mp4 format. For more information about optimization please contact us at `}
+            <Link href="mailto:support@rakonto.io">support@rakonto.io</Link>
+          </Typography>
         </Box>
       )}
     </Box>
