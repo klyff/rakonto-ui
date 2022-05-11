@@ -61,23 +61,18 @@ export default function PrimarySearchAppBar() {
 
   const menuId = 'primary-search-account-menu'
 
-  const storageInfo = (
-    <MenuItem sx={{ pointerEvents: 'none' }}>
-      <Box sx={{ width: '100%', display: 'flex', flexFlow: 'column' }}>
-        Storage
-        <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-          {isLoading && <CircularProgress size={15} />}
-          {!isLoading && (
-            <>
-              <Box sx={{ width: '100%', mr: 1 }}>
-                <LinearProgress variant="determinate" value={storage!.percentual} />
-              </Box>
-              <Box sx={{ minWidth: 35 }}>{storage!.percentual}%</Box>
-            </>
-          )}
-        </Box>
-      </Box>
-    </MenuItem>
+  const StorageInfo = () => (
+    <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, width: '100%' }}>
+      {isLoading && <CircularProgress size={15} />}
+      {!isLoading && (
+        <>
+          <Box sx={{ width: '100%', mr: 1 }}>
+            <LinearProgress variant="determinate" value={storage!.percentual} />
+          </Box>
+          <Box sx={{ minWidth: 35 }}>{storage!.percentual}%</Box>
+        </>
+      )}
+    </Box>
   )
 
   const renderMenu = (
@@ -101,8 +96,6 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {storageInfo}
-      <Divider />
       <MenuItem
         onClick={() => {
           greetingsActions.open()
@@ -160,7 +153,12 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {storageInfo}
+      <MenuItem sx={{ pointerEvents: 'none' }}>
+        <Box sx={{ width: '100%', display: 'flex', flexFlow: 'column' }}>
+          Storage
+          <StorageInfo />
+        </Box>
+      </MenuItem>
       <Divider />
       {menuOptions.map(item => (
         <MenuItem
@@ -239,6 +237,9 @@ export default function PrimarySearchAppBar() {
             </IconButton>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ minWidth: '150px', display: { xs: 'none', md: 'flex' } }}>
+            <StorageInfo />
+          </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Avatar
               sx={{
