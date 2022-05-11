@@ -79,8 +79,8 @@ const Storage: React.FC = () => {
                 {` your library by only keeping converted .mp3 audio and .mp4 (720p) video files.`}
               </Typography>
               <Typography sx={{ paddingBottom: 4, color: 'secondary.main', pb: 'unset', mt: 4 }} variant="h5">
-                You can let Rakonto always optimize your library, remember, Rakonto will only keep converted .mp3 audio
-                and .mp4 (720p) video files.
+                You can let Rakonto always optimize your new uploaded media, remember, Rakonto will only keep converted
+                .mp3 audio and .mp4 (720p) video files.
               </Typography>
               <FormGroup>
                 <FormControlLabel
