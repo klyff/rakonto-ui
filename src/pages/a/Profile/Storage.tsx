@@ -86,7 +86,7 @@ const Storage: React.FC = () => {
               />
             </FormGroup>
             {` Keep only optimized* recordings from now on.`}
-          </Typography>          
+          </Typography>
           <Typography sx={{ color: 'secondary.main', pb: 'unset' }} variant="body1">
             {`*Recordings uploaded or recorded directly into Rakonto are converted automatically and optimized for streaming. Optimized audio recordings are stored in 128Khz mp3 format. Optimized video recordings are stored in 720p mp4 format. For more information about optimization please contact us at `}
             <Link href="mailto:support@rakonto.io">support@rakonto.io</Link>
