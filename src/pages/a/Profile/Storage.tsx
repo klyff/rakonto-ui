@@ -66,7 +66,7 @@ const Storage: React.FC = () => {
           </Typography>
 
           <Typography sx={{ color: 'secondary.main', pb: 'unset', mb: 3 }} variant="h5">
-            {`You have tow options to increase your available library capacity:`}
+            {`You have two options to increase your available library capacity:`}
           </Typography>
           <Typography sx={{ color: 'secondary.main', pb: 'unset', mb: 1 }} variant="h6">
             <Link href="/a/profile?tab=subscription">Upgrade my plan</Link>
