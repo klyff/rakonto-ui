@@ -150,6 +150,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               onClick={handlePlay}
               hidePlayButton={!story?.id}
               buttonLabel="View most recent story"
+              date={collection.updatedAt}
             />
           )}
         </Box>

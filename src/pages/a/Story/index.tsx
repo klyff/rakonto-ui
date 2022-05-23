@@ -93,8 +93,20 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
     return <CircularLoadingCentred />
   }
 
-  const { type, video, audio, thumbnailUrl, subtitles, owner, title, description, collections, published, watchers } =
-    story as StoryType
+  const {
+    type,
+    video,
+    audio,
+    thumbnailUrl,
+    subtitles,
+    owner,
+    title,
+    description,
+    collections,
+    published,
+    watchers,
+    updatedAt
+  } = story as StoryType
 
   const handlePlay = () => {
     setPlay(true)
@@ -132,6 +144,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
               description={description}
               onClick={handlePlay}
               buttonLabel="View video"
+              date={updatedAt}
             />
           )}
         </Box>

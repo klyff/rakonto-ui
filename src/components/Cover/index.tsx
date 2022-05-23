@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import AuthorAvatar from '../AuthorAvatar'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import { format, parseJSON } from 'date-fns'
 
 interface iCover {
   src: string
@@ -14,9 +15,10 @@ interface iCover {
   hidePlayButton?: boolean
   author?: UserType
   onClick: () => void
+  date?: string
 }
 
-const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description, author, hidePlayButton }) => {
+const Cover: React.FC<iCover> = ({ src, date, buttonLabel, onClick, title, description, author, hidePlayButton }) => {
   const fullName = `${author?.firstName} ${author?.lastName}`
 
   return (
@@ -67,11 +69,12 @@ const Cover: React.FC<iCover> = ({ src, buttonLabel, onClick, title, description
           </Typography>
           <Box
             sx={{
-              paddingBottom: 3
+              paddingBottom: 1
             }}
           >
             <AuthorAvatar prefix={'By'} fullName={fullName} thumbnail={author?.picture?.url} />
           </Box>
+          {date && <Typography variant="caption">{`on ${format(parseJSON(date), 'PPPpp')}`}</Typography>}
           {!hidePlayButton && (
             <Button onClick={onClick} startIcon={<PlayArrowIcon />} variant="contained">
               {buttonLabel}

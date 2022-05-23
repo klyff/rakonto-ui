@@ -190,6 +190,7 @@ export type StoryType = {
   places: PlaceType[]
   subtitles: SubtitleType[]
   submission: SubmissipnType
+  updatedAt: string
 }
 
 export type StoryCreateType = {
@@ -216,6 +217,7 @@ export type CollectionType = {
   stories: StoryType[]
   publicAcl: boolean
   watchers: Watcher[]
+  updatedAt: string
 }
 
 export type CollectionFormType = {
