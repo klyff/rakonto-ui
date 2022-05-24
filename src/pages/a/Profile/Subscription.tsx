@@ -118,7 +118,8 @@ const Subscription: React.FC = () => {
     setChecked(event.target.checked)
   }
 
-  const currentPlan = plans.find(plan => plan.tier === user!.tier)! || null
+  const currentPlan = plans.find(plan => plan!.tier === user!.tier) || null
+
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       {user!.tier === 0 && (

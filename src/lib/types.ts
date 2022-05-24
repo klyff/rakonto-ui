@@ -509,9 +509,10 @@ export enum LanguageEnum {
   'yoruba' = 'yoruba'
 }
 
-// export interface iPlayer extends VideoJsPlayer {
-//   recordedData: any
-//   convertedData: any
-//   deviceErrorCode: any
-//   record: any
-// }
+export type ProductSubscriptionType = {
+  id: string
+  stripePriceId: string
+  stripeSubscriptionId: string
+  updatedAt: Date
+  createdAt: Date
+}
