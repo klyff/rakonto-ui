@@ -148,7 +148,7 @@ const Requests: React.FC<RouteComponentProps> = () => {
                   }}
                   color="secondary"
                 >
-                  Copy
+                  Share
                 </Button>
                 <Button
                   color="secondary"
