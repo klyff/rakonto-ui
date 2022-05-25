@@ -69,12 +69,13 @@ const Cover: React.FC<iCover> = ({ src, date, buttonLabel, onClick, title, descr
           </Typography>
           <Box
             sx={{
-              paddingBottom: 1
+              mb: 4
             }}
           >
             <AuthorAvatar prefix={'By'} fullName={fullName} thumbnail={author?.picture?.url} />
+            {date && <Typography variant="caption">{`on ${format(parseJSON(date), 'PPPpp')}`}</Typography>}
           </Box>
-          {date && <Typography variant="caption">{`on ${format(parseJSON(date), 'PPPpp')}`}</Typography>}
+
           {!hidePlayButton && (
             <Button onClick={onClick} startIcon={<PlayArrowIcon />} variant="contained">
               {buttonLabel}

@@ -110,7 +110,7 @@ const Requests: React.FC<RouteComponentProps> = () => {
             }}
             rows={4}
             autoComplete="off"
-            placeholder="Type person name for filter list"
+            placeholder="Type request or collection title to filter"
             margin="dense"
             value={searchValue}
             onChange={e => setSearchValue(e.target.value)}

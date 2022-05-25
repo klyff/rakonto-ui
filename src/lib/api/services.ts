@@ -728,8 +728,14 @@ export const getInvites =
 
 export const downloadInvitesSubmissions =
   (request: AxiosInstance) =>
-    async (id: string): Promise<Pageable<InviteType>> => {
-      return await request.get(`a/collection-invites/${id}/submissions`).then(res => res.data)
+    async (id: string): Promise<void> => {
+      const file = await request.get(`a/collection-invites/${id}/submissions`, { responseType: 'blob' }).then(res => res.data)
+      const url = window.URL.createObjectURL(new Blob([file]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'file.csv');
+      document.body.appendChild(link);
+      link.click();
     }
 
 export const createInvite =
