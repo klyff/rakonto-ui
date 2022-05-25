@@ -93,7 +93,10 @@ import {
   getShortId,
   getStorageQuota,
   optimizeStorage,
-  toogleOptimizeStorage
+  toogleOptimizeStorage,
+  getInvites,
+  deleteInvite,
+  downloadInvitesSubmissions
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -228,6 +231,9 @@ export default {
   searchSuggestions: searchSuggestions(request),
   getComments: getComments(request),
   createInvite: createInvite(request),
+  deleteInvite: deleteInvite(request),
+  getInvites: getInvites(request),
+  downloadInvitesSubmissions: downloadInvitesSubmissions(request),
   sendInviteEmails: sendInviteEmails(request),
   getInviteSubmission: getInviteSubmission(request),
   sendInviteSubmission: sendInviteSubmission(request),

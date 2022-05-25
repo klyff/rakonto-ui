@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
 import MoreIcon from '@mui/icons-material/MoreVert'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
+import CameraFrontIcon from '@mui/icons-material/CameraFront'
 import FolderSpecialIcon from '@mui/icons-material/FolderSpecial'
 import HomeIcon from '@mui/icons-material/Home'
 import MovieIcon from '@mui/icons-material/Movie'
@@ -56,6 +57,7 @@ export default function PrimarySearchAppBar() {
     { name: 'my-library', href: '/a/my-library', icon: <HomeIcon />, text: 'My Library' },
     { name: 'collections', href: '/a/collections', icon: <FolderSpecialIcon />, text: 'Collections' },
     { name: 'stories', href: '/a/stories', icon: <MovieIcon />, text: 'Stories' },
+    { name: 'requests', href: '/a/requests', icon: <CameraFrontIcon />, text: 'Requests' },
     { name: 'people', href: '/a/people', icon: <PeopleAltIcon />, text: 'People' }
   ]
 
@@ -69,7 +71,7 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ width: '100%', mr: 1 }}>
             <LinearProgress variant="determinate" value={storage!.percentual} />
           </Box>
-          <Box sx={{ minWidth: 35 }}>{storage!.percentual}%</Box>
+          <Box sx={{ minWidth: 35, mr: 3 }}>{storage!.percentual}%</Box>
         </>
       )}
     </Box>

@@ -78,7 +78,6 @@ const People: React.FC<RouteComponentProps> = () => {
             ))}
           {hasNextPage && (
             <Grid item xs>
-              <Card loading={true} title={''} subTitle={''} thumbnail={''} preview={''} />
               <div ref={sentryRef} />
             </Grid>
           )}

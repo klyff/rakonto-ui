@@ -719,6 +719,19 @@ export const publish =
     }
 
 // Invites
+
+export const getInvites =
+  (request: AxiosInstance) =>
+    async (page: number, size: number): Promise<Pageable<InviteType>> => {
+      return await request.get(`a/collection-invites?page=${page}&size=${size}`).then(res => res.data)
+    }
+
+export const downloadInvitesSubmissions =
+  (request: AxiosInstance) =>
+    async (id: string): Promise<Pageable<InviteType>> => {
+      return await request.get(`a/collection-invites/${id}/submissions`).then(res => res.data)
+    }
+
 export const createInvite =
   (request: AxiosInstance) =>
     async (data: InviteInput, file?: File | null, progressCallback?: (progress: { total: number; loaded: number }) => void): Promise<InviteType> => {
@@ -733,6 +746,12 @@ export const createInvite =
       return await request.post(`a/collection-invites`, formdata, {
         onUploadProgress: e => progressCallback && progressCallback({ total: e.total, loaded: e.loaded })
       }).then(res => res.data)
+    }
+
+export const deleteInvite =
+  (request: AxiosInstance) =>
+    async (id: string): Promise<void> => {
+      return await request.delete(`a/collection-invites/${id}`).then(res => res.data)
     }
 
 export const sendInviteEmails =

@@ -388,6 +388,7 @@ export type InviteInput = {
 export type InviteType = {
   id: string
   collectionId: string
+  collectionTitle: string
   video: {
     id: string
     url: string
@@ -402,7 +403,7 @@ export type InviteType = {
   token: string
   url: string
   dueAt: Date
-  createdAt: Date
+  createdAt: string
   ready: boolean
 }
 
