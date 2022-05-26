@@ -73,7 +73,7 @@ const Cover: React.FC<iCover> = ({ src, date, buttonLabel, onClick, title, descr
             }}
           >
             <AuthorAvatar prefix={'By'} fullName={fullName} thumbnail={author?.picture?.url} />
-            {date && <Typography variant="caption">{`on ${format(parseJSON(date), 'PPPpp')}`}</Typography>}
+            {date && <Typography variant="caption">{`on ${format(parseJSON(date), 'PPPp')}`}</Typography>}
           </Box>
 
           {!hidePlayButton && (

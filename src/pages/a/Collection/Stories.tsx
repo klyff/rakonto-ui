@@ -8,6 +8,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import { isMobile } from 'react-device-detect'
+import { format, parseJSON } from 'date-fns'
 
 interface iStory {
   story: StoryType
@@ -107,9 +108,17 @@ const StoryTile: React.FC<iStory> = ({ story, collectionId, playing, isSelected 
             padding: 3
           }}
         >
-          <Typography sx={{ fontWeight: '700' }} variant="h5" gutterBottom>
-            {`${story.title}${story.submission ? ` by ${story.submission.name}` : ''} `}
-          </Typography>
+          <Box mb="0.35em">
+            <Typography sx={{ fontWeight: '700', mb: 'unset' }} variant="h5" gutterBottom>
+              {`${story.title}${story.submission ? ` by ${story.submission.name}` : ''} `}
+            </Typography>
+            {story.updatedAt && (
+              <Typography component="div" variant="caption">{`on ${format(
+                parseJSON(story.updatedAt),
+                'PPPp'
+              )}`}</Typography>
+            )}
+          </Box>
           <Typography
             sx={{
               fontWeight: '400'

@@ -33,7 +33,7 @@ const RequestItem: React.FC<iRequestItem> = ({ invite, children }) => {
           Request <b>{invite.title}</b> to collection <b>{invite.collectionTitle}</b>
         </Typography>
         <Typography variant="caption" color="secondary">
-          on {format(parseISO(invite.createdAt), 'PPPpp')}
+          on {format(parseISO(invite.createdAt), 'PPPp')}
         </Typography>
       </Box>
       <Box>{children}</Box>
