@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Link from '@mui/material/Link'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -13,31 +12,12 @@ import api from '../../../lib/api'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import useUser from '../../../components/UserProvider/useUser'
 import { SimpleDialogContext } from '../../../components/SimpleDialog'
-import Cookies from 'js-cookie'
-import { ProductSubscriptionType } from '../../../lib/types'
-import Grid from '@mui/material/Grid'
 
 const Storage: React.FC = () => {
   const { storage, isLoading } = useStorage()
   const { user, refetch } = useUser()
-  const token = Cookies.get('token')
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: simpleDialogActions } = useContext(SimpleDialogContext)
-  const [productSubscriptions, setProductSubscriptions] = useState<Array<ProductSubscriptionType>>([])
-
-  useEffect(() => {
-    const fetch = async () => {
-      const productSubscriptions: Array<ProductSubscriptionType> = await api.getProductSubscriptions()
-      setProductSubscriptions(productSubscriptions)
-    }
-    fetch()
-  }, [])
-
-  const cancelProductSubscription = async (productSubscription: ProductSubscriptionType) => {
-    const { id } = productSubscription
-    await api.cancelProductSubscription(id)
-    snackActions.open('Subscription cancelled')
-  }
 
   const handleOptimize = async () => {
     simpleDialogActions.open(
@@ -65,8 +45,6 @@ const Storage: React.FC = () => {
     await api.toogleOptimizeStorage(!user.keepOnlyOptimized)
     await refetch()
   }
-
-  const returnUrl = `${window.location.origin}/a/profile?tab=storage`
 
   return (
     <Box component="form" sx={{ width: '100%', height: '100%', bgcolor: 'background.paper', padding: 2 }}>
@@ -112,59 +90,6 @@ const Storage: React.FC = () => {
             {`*Recordings uploaded or recorded directly into Rakonto are converted automatically and optimized for streaming. Optimized audio recordings are stored in 128Khz mp3 format. Optimized video recordings are stored in 720p mp4 format. For more information about optimization please contact us at `}
             <Link href="mailto:support@rakonto.io">support@rakonto.io</Link>
           </Typography>
-
-          <br />
-          <br />
-          <br />
-          <br />
-
-          <Grid container direction="row">
-            <form
-              action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_STORAGE_50_MONTH}&returnUrl=${returnUrl}&jwt=${token}`}
-              method="POST"
-            >
-              <Button type="submit" variant="contained">
-                Buy 50GB more storage (MONTH)
-              </Button>
-            </form>
-
-            <form
-              action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_STORAGE_50_YEAR}&returnUrl=${returnUrl}&jwt=${token}`}
-              method="POST"
-            >
-              <Button type="submit" variant="contained">
-                Buy 50GB more storage (YEAR)
-              </Button>
-            </form>
-          </Grid>
-
-          <br />
-          <br />
-
-          {productSubscriptions.length > 0 && (
-            <table>
-              <tr>
-                <th>id</th>
-                <th>stripePriceId</th>
-                <th>stripeSubscriptionId</th>
-                <th>updatedAt</th>
-                <th>createdAt</th>
-                <th> - </th>
-              </tr>
-              {productSubscriptions.map(p => (
-                <tr key={p.id}>
-                  <td>{p.id}</td>
-                  <td>{p.stripePriceId}</td>
-                  <td>{p.stripeSubscriptionId}</td>
-                  <td>{p.updatedAt}</td>
-                  <td>{p.createdAt}</td>
-                  <td>
-                    <Button onClick={() => cancelProductSubscription(p)}>Cancel</Button>
-                  </td>
-                </tr>
-              ))}
-            </table>
-          )}
         </Box>
       )}
     </Box>

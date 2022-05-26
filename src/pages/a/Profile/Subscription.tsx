@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import Cookies from 'js-cookie'
 import useUser from '../../../components/UserProvider/useUser'
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
+import ButtonGroup from '@mui/material/ButtonGroup'
 import Button from '@mui/material/Button'
 import Link from '@mui/material/Link'
 import Box from '@mui/material/Box'
@@ -12,6 +13,12 @@ import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import { ProductSubscriptionType } from '../../../lib/types'
+import api from '../../../lib/api'
+import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
+import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
+import { format, parseJSON } from 'date-fns'
 
 const plans = [
   {
@@ -109,16 +116,40 @@ const plans = [
 ]
 
 const Subscription: React.FC = () => {
-  const { user } = useUser()
+  const { user, isLoading } = useUser()
+  const storage1 = useRef<HTMLFormElement>(null)
+  const storage2 = useRef<HTMLFormElement>(null)
+  const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const token = Cookies.get('token')
   const returnUrl = `${window.location.origin}/a/profile?tab=subscription`
   const [checked, setChecked] = React.useState<boolean>(true)
+  const [productSubscriptions, setProductSubscriptions] = useState<Array<ProductSubscriptionType>>([])
+
+  const fetchStorageSubscriptions = async () => {
+    const productSubscriptions: Array<ProductSubscriptionType> = await api.getProductSubscriptions()
+    setProductSubscriptions(productSubscriptions)
+  }
+
+  useEffect(() => {
+    fetchStorageSubscriptions()
+  }, [])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked)
   }
 
-  const currentPlan = plans.find(plan => plan!.tier === user!.tier) || null
+  const currentPlan = (user && plans.find(plan => plan!.tier === user!.tier)) || null
+
+  const cancelProductSubscription = async (productSubscription: ProductSubscriptionType) => {
+    const { id } = productSubscription
+    await api.cancelProductSubscription(id)
+    await fetchStorageSubscriptions()
+    snackActions.open('Subscription cancelled')
+  }
+
+  if (isLoading) {
+    return <CircularLoadingCentred />
+  }
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
@@ -222,10 +253,73 @@ const Subscription: React.FC = () => {
             </Typography>
           </Box>
           <form action={`/api/a/stripe/customer-portal?returnUrl=${returnUrl}&jwt=${token}`} method="POST">
-            <Button variant="contained" type="submit">
+            <Button
+              sx={{
+                mb: 4
+              }}
+              variant="contained"
+              type="submit"
+            >
               Manage Billing
             </Button>
           </form>
+
+          {user!.tier === 3 && (
+            <>
+              <form
+                ref={storage1}
+                action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_STORAGE_50_MONTH}&returnUrl=${returnUrl}&jwt=${token}`}
+                method="POST"
+              />
+              <form
+                ref={storage2}
+                action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_STORAGE_50_YEAR}&returnUrl=${returnUrl}&jwt=${token}`}
+                method="POST"
+              />
+              <ButtonGroup variant="contained">
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    storage1 && storage1.current?.submit()
+                  }}
+                >
+                  Buy 50GB additional storage ($10 monthly)
+                </Button>
+
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    storage2 && storage2.current?.submit()
+                  }}
+                >
+                  Buy 50GB additional storage ($8 annually)
+                </Button>
+              </ButtonGroup>
+              {!!productSubscriptions.length && (
+                <>
+                  <Typography mt={2} variant="h5">
+                    Active storage subscriptions
+                  </Typography>
+                  <List>
+                    {productSubscriptions.map(p => (
+                      <ListItem
+                        button
+                        key={p.id}
+                        secondaryAction={<Button onClick={() => cancelProductSubscription(p)}>Cancel</Button>}
+                      >
+                        <ListItemText
+                          primary={`50GB ${
+                            process.env.REACT_APP_PIRCE_ID_STORAGE_50_YEAR === p.stripePriceId ? 'Year' : 'Month'
+                          }`}
+                          secondary={`on ${format(parseJSON(p.createdAt), 'PPPp')}`}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </>
+              )}
+            </>
+          )}
         </>
       )}
     </Box>

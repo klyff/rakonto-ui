@@ -2,9 +2,9 @@ import { useContext } from 'react'
 import { UserContext } from './Context'
 
 const useUser = () => {
-  const { refetch, user } = useContext(UserContext)
+  const { refetch, user, isLoading } = useContext(UserContext)
 
-  return { refetch, user }
+  return { refetch, user, isLoading }
 }
 
 export default useUser
