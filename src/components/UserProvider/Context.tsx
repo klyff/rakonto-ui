@@ -8,6 +8,7 @@ import initials from 'initials'
 export const UserContext = createContext<{
   refetch: () => void
   user: UserType & { initials: string; fullName: string }
+  isLoading: boolean
 }>({
   // @ts-ignore
   refetch: {}
@@ -15,13 +16,23 @@ export const UserContext = createContext<{
 
 export const UserProvider: React.FC<{ initialUser?: UserType | null }> = ({ children, initialUser }) => {
   const [userString, setUserString] = useState<string>()
+  const [loading, setLoading] = useState<boolean>(false)
 
   const fetch = async () => {
-    const user = await api.getMe()
-    const userString = JSON.stringify(user)
-    Cookies.set('user', userString)
-    setUserString(userString)
+    setLoading(true)
+    try {
+      const user = await api.getMe()
+      const userString = JSON.stringify(user)
+      Cookies.set('user', userString)
+      setUserString(userString)
+    } finally {
+      setLoading(false)
+    }
   }
+
+  useEffect(() => {
+    fetch()
+  }, [])
 
   useEffect(() => {
     setUserString(JSON.stringify(initialUser))
@@ -31,6 +42,7 @@ export const UserProvider: React.FC<{ initialUser?: UserType | null }> = ({ chil
     <UserContext.Provider
       value={{
         refetch: fetch,
+        isLoading: loading,
         user: (() => {
           if (userString) {
             const user = JSON.parse(userString)
