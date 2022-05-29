@@ -43,7 +43,7 @@ import {
   InviteType,
   InviteContributorInput,
   InviteContributorType,
-  ShortIdType, UserQuotaType
+  ShortIdType, UserQuotaType, ProductSubscriptionType
 } from '../types'
 
 class CustomError extends Error {
@@ -73,6 +73,14 @@ export const verifyStorageUsage = (request: AxiosInstance) => async (previewQuot
       }
     })
   }
+}
+
+export const getProductSubscriptions = (request: AxiosInstance) => async (): Promise<Array<ProductSubscriptionType>> => {
+  return await request.get('a/stripe/product-subscriptions').then(res => res.data)
+}
+
+export const cancelProductSubscription = (request: AxiosInstance) => async (id: string): Promise<void> => {
+  return await request.delete(`a/stripe/product-subscriptions/${id}`).then(res => res.data)
 }
 
 // User api
