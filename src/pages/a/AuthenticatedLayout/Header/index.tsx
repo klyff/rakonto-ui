@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, forwardRef } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -22,7 +22,7 @@ import { GreetingsDialogContext } from '../../../../components/GreetingsDialog'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import useStorage from '../../../../components/hooks/useStorage'
 
-export default function PrimarySearchAppBar() {
+const Header = forwardRef((props, ref) => {
   const { storage, isLoading, refetch } = useStorage()
   const { user } = useUser()
   const history = useHistory()
@@ -108,6 +108,14 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
       <MenuItem
         onClick={() => {
+          history.push(`/a/organisation`)
+          handleMenuClose()
+        }}
+      >
+        Organisation
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
           history.push('/a/profile')
           handleMenuClose()
         }}
@@ -175,6 +183,14 @@ export default function PrimarySearchAppBar() {
       ))}
       <MenuItem
         onClick={() => {
+          history.push(`/a/organisation`)
+          handleMenuClose()
+        }}
+      >
+        Organisation
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
           history.push(`/a/profile`)
           handleMenuClose()
         }}
@@ -201,7 +217,7 @@ export default function PrimarySearchAppBar() {
   )
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }} ref={ref}>
       <AppBar position="static">
         <Toolbar>
           <Link to="/">
@@ -279,4 +295,6 @@ export default function PrimarySearchAppBar() {
       {renderMenu}
     </Box>
   )
-}
+})
+
+export default Header

@@ -3,28 +3,44 @@ import { RouteComponentProps, useHistory, useLocation } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Password from './Password'
-import Subscription from './Subscription'
-import Storage from './Storage'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import SecurityIcon from '@mui/icons-material/Security'
-import CreditCardIcon from '@mui/icons-material/CreditCard'
-import CloudIcon from '@mui/icons-material/Cloud'
 import Info from './Info'
+import Members from './Members'
 import Stack from '@mui/material/Stack'
 import { parse } from 'qs'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import PeopleIcon from '@mui/icons-material/People'
+import ApartmentIcon from '@mui/icons-material/Apartment'
+import api from '../../../lib/api'
+import { OrganizationInput, OrganizationType } from '../../../lib/types'
+import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 
-const Profile: React.FC<RouteComponentProps> = () => {
+const Organisation: React.FC<RouteComponentProps> = () => {
   const theme = useTheme()
   const isMd = useMediaQuery(theme.breakpoints.down('md'))
-  const [t, setTab] = useState('info')
+  const [t, setTab] = useState<string>('info')
+  const [loading, setLoading] = useState<boolean>(true)
+  const [organization, setOrganization] = useState<OrganizationType | null>(null)
   const history = useHistory()
   const location = useLocation()
 
   const onTabClick = (tab: string) => {
-    history.push(`/a/profile?tab=${tab}`)
+    history.push(`/a/organisation?tab=${tab}`)
+  }
+
+  const fetch = async () => {
+    setLoading(true)
+    try {
+      const { content } = await api.getOrganizations()
+      if (content.length) setOrganization(content[0])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const save = async (input: OrganizationInput) => {
+    const newOrganization = organization?.id ? await api.createOrganization(input) : await api.createOrganization(input)
+    setOrganization(newOrganization)
   }
 
   useEffect(() => {
@@ -33,6 +49,10 @@ const Profile: React.FC<RouteComponentProps> = () => {
     })
     setTab(tab as string)
   }, [location])
+
+  useEffect(() => {
+    fetch()
+  }, [])
 
   return (
     <>
@@ -44,7 +64,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
         }}
         variant="h4"
       >
-        Profile
+        Organisation
       </Typography>
       <Box
         sx={{
@@ -65,41 +85,22 @@ const Profile: React.FC<RouteComponentProps> = () => {
           <Button
             color={t === 'info' ? 'primary' : 'secondary'}
             fullWidth
-            startIcon={<AccountCircleIcon />}
+            startIcon={<ApartmentIcon />}
             onClick={() => onTabClick('info')}
           >
             <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
-              Personal info
+              Organisation info
             </Box>
           </Button>
           <Button
-            color={t === 'password' ? 'primary' : 'secondary'}
+            color={t === 'members' ? 'primary' : 'secondary'}
             fullWidth
-            startIcon={<SecurityIcon />}
-            onClick={() => onTabClick('password')}
+            startIcon={<PeopleIcon />}
+            onClick={() => onTabClick('members')}
+            disabled={!organization?.id}
           >
             <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
-              Password
-            </Box>
-          </Button>
-          <Button
-            color={t === 'subscription' ? 'primary' : 'secondary'}
-            fullWidth
-            startIcon={<CreditCardIcon />}
-            onClick={() => onTabClick('subscription')}
-          >
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
-              Subscription
-            </Box>
-          </Button>
-          <Button
-            color={t === 'storage' ? 'primary' : 'secondary'}
-            fullWidth
-            startIcon={<CloudIcon />}
-            onClick={() => onTabClick('storage')}
-          >
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
-              Storage
+              Members
             </Box>
           </Button>
         </Box>
@@ -108,14 +109,18 @@ const Profile: React.FC<RouteComponentProps> = () => {
             flex: '1'
           }}
         >
-          {t === 'info' && <Info />}
-          {t === 'password' && <Password />}
-          {t === 'subscription' && <Subscription />}
-          {t === 'storage' && <Storage />}
+          {loading ? (
+            <CircularLoadingCentred />
+          ) : (
+            <>
+              {t === 'info' && <Info organization={organization} onSave={save} />}
+              {t === 'members' && <Members id={organization!.id} initialMembers={organization!.memberships} />}
+            </>
+          )}
         </Box>
       </Box>
     </>
   )
 }
 
-export default Profile
+export default Organisation

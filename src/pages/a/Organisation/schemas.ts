@@ -1,27 +1,19 @@
 import * as yup from 'yup'
 
-export const updatePasswordSchema = yup.object().shape({
-  newPassword: yup
-    .string()
-    .required()
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      'Must contain at least 8 characters and include uppercase, lowercase, numbers and special characters'
-    )
-    .label('Password'),
-  confirmation: yup
-    .string()
-    .oneOf([yup.ref('newPassword'), null], 'Passwords must match')
-    .required()
-    .label('Password confirmation')
-})
-
-export const updateUserSchema = yup.object().shape({
-  firstName: yup.string().required().label('First name'),
-  lastName: yup.string().required().label('Last name'),
-  about: yup.string().label('About')
-})
-
-export const closeAccountSchema = yup.object().shape({
-  password: yup.string().required().label('Password')
+export const organisationSchema = yup.object().shape({
+  logoId: yup.string().required().nullable().label('Logo'),
+  name: yup.string().required().label('Organisation'),
+  addressLine1: yup.string().required().label('Address'),
+  addressLine2: yup.string().label('Address'),
+  city: yup.string().required().label('City'),
+  state: yup.string().required().label('State'),
+  postalCode: yup.string().required().label('Postal'),
+  country: yup.string().required().label('Country'),
+  phone: yup.string().required().label('Phone'),
+  email: yup.string().email().required().label('Email'),
+  socialFacebook: yup.string().url().label('Facebook'),
+  socialTwitter: yup.string().url().label('Twitter'),
+  socialInstagram: yup.string().url().label('Instagram'),
+  socialLinkedin: yup.string().url().label('Linkedin'),
+  socialWhatsapp: yup.string().url().label('Whatsapp')
 })

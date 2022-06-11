@@ -98,7 +98,13 @@ import {
   toogleOptimizeStorage,
   getInvites,
   deleteInvite,
-  downloadInvitesSubmissions
+  downloadInvitesSubmissions,
+  getOrganizations,
+  getOrganization,
+  createOrganization,
+  updateOrganization,
+  organizationAddMembers,
+  organizationDeleteMembers
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -248,5 +254,11 @@ export default {
   getShortId: getShortId(request),
   getStorageQuota: getStorageQuota(request),
   optimizeStorage: optimizeStorage(request),
-  toogleOptimizeStorage: toogleOptimizeStorage(request)
+  toogleOptimizeStorage: toogleOptimizeStorage(request),
+  getOrganization: getOrganization(request),
+  getOrganizations: getOrganizations(request),
+  createOrganization: createOrganization(request),
+  updateOrganization: updateOrganization(request),
+  organizationAddMembers: organizationAddMembers(request),
+  organizationDeleteMembers: organizationDeleteMembers(request)
 }

@@ -68,6 +68,7 @@ export type UserType = {
   about: string
   location: string
   tier: number
+  organizations: OrganizationType[]
 }
 
 export type UserFormType = {
@@ -516,4 +517,50 @@ export type ProductSubscriptionType = {
   stripeSubscriptionId: string
   updatedAt: Date
   createdAt: Date
+}
+
+export type OrganizationType = {
+  id: string
+  memberships: OrganizationMemberType[]
+  logo: ImageType
+  name: string
+  addressLine1: string
+  addressLine2: string
+  city: string
+  state: string
+  postalCode: string
+  country: string
+  phone: string
+  email: string
+  socialFacebook?: string
+  socialTwitter?: string
+  socialInstagram?: string
+  socialLinkedin?: string
+  socialWhatsapp?: string
+  updatedAt: Date
+  createdAt: Date
+}
+
+export type OrganizationInput = {
+  logoId?: string | null
+  name: string
+  addressLine1: string
+  addressLine2: string
+  city: string
+  state: string
+  postalCode: string
+  country: string
+  phone: string
+  email: string
+  socialFacebook?: string
+  socialTwitter?: string
+  socialInstagram?: string
+  socialLinkedin?: string
+  socialWhatsapp?: string
+}
+
+export type OrganizationMemberType = {
+  id: string
+  user: UserType
+  status: 'ÁCCEPETD' | 'PENDING' | 'DECLINED'
 }

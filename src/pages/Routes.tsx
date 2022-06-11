@@ -20,12 +20,14 @@ const Collections = lazy(() => import('./a/Collections'))
 const Collection = lazy(() => import('./a/Collection'))
 const Profile = lazy(() => import('./a/Profile'))
 const People = lazy(() => import('./a/People'))
+const Organisation = lazy(() => import('./a/Organisation'))
 const Requests = lazy(() => import('./a/Requests'))
 const CollectionInvite = lazy(() => import('./g/CollectionInvite'))
 const StoryInvite = lazy(() => import('./g/StoryInvite'))
 const ShortId = lazy(() => import('./ShortId'))
 const Error404 = lazy(() => import('./Error404'))
 const Error403 = lazy(() => import('./Error403'))
+const EmbededPlayer = lazy(() => import('./u/Signin'))
 
 const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   const token = Cookies.get('token')
@@ -33,6 +35,7 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   return (
     <AuthenticatedLayout>
       <Switch>
+        <Route exact path="/a/organisation" component={Organisation} />
         <Route exact path="/a/people" component={People} />
         <Route exact path="/a/profile" component={Profile} />
         <Route exact path="/a/my-library" component={MyLibrary} />
@@ -73,6 +76,7 @@ const PublicRoutes: React.FC<RouteProps> = () => {
         <Route path="/u/forgot-password" component={ForgotPassword} />
         <Route path="/u/password-reset" component={PasswordReset} />
         <Route path="/u/confirmation-email" component={ConfirmationEmail} />
+        <Route path="/u/embeded" component={EmbededPlayer} />
         <Redirect to="/u/signin" />
       </Switch>
     </PublicLayout>

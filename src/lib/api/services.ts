@@ -43,7 +43,12 @@ import {
   InviteType,
   InviteContributorInput,
   InviteContributorType,
-  ShortIdType, UserQuotaType, ProductSubscriptionType
+  ShortIdType,
+  UserQuotaType,
+  ProductSubscriptionType,
+  OrganizationInput,
+  OrganizationType,
+  OrganizationMemberType
 } from '../types'
 
 class CustomError extends Error {
@@ -845,3 +850,41 @@ export const sendContributorInviteSubmission =
         }
       }).then(res => res.data)
     }
+
+// Organization
+export const getOrganizations =
+  (request: AxiosInstance) =>
+    async (): Promise<Pageable<OrganizationType>> => {
+      return await request.get(`a/organizations`).then(res => res.data)
+    }
+
+export const getOrganization =
+  (request: AxiosInstance) =>
+    async (id: string): Promise<OrganizationType> => {
+      return await request.get(`a/organizations/${id}`).then(res => res.data)
+    }
+
+
+export const createOrganization =
+  (request: AxiosInstance) =>
+    async (data: OrganizationInput): Promise<OrganizationType> => {
+      return await request.post(`a/organizations`, data).then(res => res.data)
+    }
+
+export const updateOrganization =
+    (request: AxiosInstance) =>
+      async (id: string, data: OrganizationInput): Promise<OrganizationType> => {
+        return await request.put(`a/organizations/${id}`, data).then(res => res.data)
+      }
+
+export const organizationAddMembers =
+    (request: AxiosInstance) =>
+      async (id: string, email: string): Promise<OrganizationMemberType> => {
+        return await request.post(`a/organizations/${id}/memberships`, { email }).then(res => res.data)
+      }
+
+export const organizationDeleteMembers =
+    (request: AxiosInstance) =>
+      async (id: string, memberId: string): Promise<void> => {
+        return await request.delete(`a/organizations/${id}/memberships/${memberId}`).then(res => res.data)
+      }

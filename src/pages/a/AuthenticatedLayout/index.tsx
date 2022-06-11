@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+import Box from '@mui/material/Box'
 import Header from './Header'
 import { StepStoryUploadProvider } from '../../../components/StepStoryUpload'
 import { StepInviteRecorderProvider } from '../../../components/StepInviteRecorder'
@@ -13,6 +14,7 @@ import { UserProvider } from '../../../components/UserProvider'
 import { UserType } from '../../../lib/types'
 
 const AuthenticatedLayout: React.FC = ({ children }) => {
+  const headerRef = useRef<HTMLDivElement>(null)
   const [user, setUser] = useState<UserType | null>()
   useEffect(() => {
     const fetch = async () => {
@@ -32,8 +34,15 @@ const AuthenticatedLayout: React.FC = ({ children }) => {
                   <StepInviteRecorderProvider>
                     <ChangeMediaProvider>
                       <GreetingsDialogProvider>
-                        <Header />
-                        {children}
+                        <Header ref={headerRef} />
+                        <Box
+                          sx={{
+                            width: '100%',
+                            height: `calc(100% - ${headerRef?.current?.clientHeight || 0}px)`
+                          }}
+                        >
+                          {children}
+                        </Box>
                       </GreetingsDialogProvider>
                     </ChangeMediaProvider>
                   </StepInviteRecorderProvider>
