@@ -17,9 +17,10 @@ import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 interface iInfo {
   organization?: OrganizationType | null
   onSave: (input: OrganizationInput) => void
+  onDelete: () => void
 }
 
-const Info: React.FC<iInfo> = ({ organization, onSave }) => {
+const Info: React.FC<iInfo> = ({ organization, onSave, onDelete }) => {
   const [progress, setProgress] = useState<number>(0)
   const [image, setImage] = useState<ImageType | null>(organization?.logo || null)
 
@@ -27,8 +28,12 @@ const Info: React.FC<iInfo> = ({ organization, onSave }) => {
     onSave({ ...data, logoId: image?.id || null })
   }
 
+  const handleDelete = async () => {
+    onDelete()
+  }
+
   const initialValues: OrganizationInput = {
-    logoId: image?.id || null,
+    logoId: organization?.logo?.id || null,
     name: organization?.name || '',
     addressLine1: organization?.addressLine1 || '',
     addressLine2: organization?.addressLine2 || '',
@@ -65,22 +70,15 @@ const Info: React.FC<iInfo> = ({ organization, onSave }) => {
 
   const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
-      setFieldTouched('logoId')
       const selectedFile = acceptedFiles[0]
-      const image = await api.uploadImage(selectedFile, event => {
+      const imageUploaded = await api.uploadImage(selectedFile, event => {
         setProgress(Math.round((event.loaded * 100) / event.total))
       })
-      setImage(image)
+      setFieldTouched('logoId')
+      setFieldValue('logoId', imageUploaded?.id || null)
+      setImage(imageUploaded)
       setProgress(0)
     }
-
-  const onRemove = async () => {
-    setImage(null)
-  }
-
-  useEffect(() => {
-    setFieldValue('logoId', image?.id || null)
-  }, [image])
 
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
@@ -101,6 +99,11 @@ const Info: React.FC<iInfo> = ({ organization, onSave }) => {
           <Button color={'primary'} variant="contained" disabled={!dirty} onClick={() => handleSubmit()}>
             Save
           </Button>
+          {organization?.id && (
+            <Button sx={{ ml: 2 }} color={'error'} variant="contained" onClick={() => handleDelete()}>
+              Delete
+            </Button>
+          )}
           <Box
             sx={{
               paddingTop: 2,
@@ -109,7 +112,7 @@ const Info: React.FC<iInfo> = ({ organization, onSave }) => {
               flexFlow: 'column'
             }}
           >
-            <Typography sx={{ pb: 1, ml: 2 }} variant="body1">
+            <Typography sx={{ pb: 1, ml: 2 }} variant="h6">
               Logo
             </Typography>
             <Box sx={{ mb: 0 }}>
@@ -168,6 +171,33 @@ const Info: React.FC<iInfo> = ({ organization, onSave }) => {
               error={touched.name && Boolean(errors.name)}
               helperText={(touched.name && errors.name) || ' '}
             />
+            <TextField
+              name="phone"
+              fullWidth
+              placeholder="Phone"
+              label="Phone"
+              type="text"
+              value={values.phone}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.phone && Boolean(errors.phone)}
+              helperText={(touched.phone && errors.phone) || ' '}
+            />
+            <TextField
+              name="email"
+              fullWidth
+              placeholder="Email"
+              label="Email"
+              type="text"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.email && Boolean(errors.email)}
+              helperText={(touched.email && errors.email) || ' '}
+            />
+            <Typography sx={{ pb: 1, ml: 2 }} variant="h6">
+              Localization
+            </Typography>
             <TextField
               name="addressLine1"
               fullWidth
@@ -240,32 +270,9 @@ const Info: React.FC<iInfo> = ({ organization, onSave }) => {
               error={touched.country && Boolean(errors.country)}
               helperText={(touched.country && errors.country) || ' '}
             />
-          </Grid>
-          <Grid item xs={12} md sx={{ '&.MuiGrid-item': { xs: { paddingTop: 'unset' }, md: { paddingTop: '16px' } } }}>
-            <TextField
-              name="phone"
-              fullWidth
-              placeholder="Phone"
-              label="Phone"
-              type="text"
-              value={values.phone}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.phone && Boolean(errors.phone)}
-              helperText={(touched.phone && errors.phone) || ' '}
-            />
-            <TextField
-              name="email"
-              fullWidth
-              placeholder="Email"
-              label="Email"
-              type="text"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.email && Boolean(errors.email)}
-              helperText={(touched.email && errors.email) || ' '}
-            />
+            <Typography sx={{ pb: 1, ml: 2 }} variant="h6">
+              Social
+            </Typography>
             <TextField
               name="socialFacebook"
               fullWidth

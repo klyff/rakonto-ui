@@ -16,9 +16,11 @@ import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import CircularProgress from '@mui/material/CircularProgress'
 import Switch from '@mui/material/Switch'
-import { addDays } from 'date-fns'
+import MenuItem from '@mui/material/MenuItem'
+import useUser from '../../UserProvider/useUser'
 
 const Step3: React.FC<{ progress: number }> = ({ progress }) => {
+  const { user } = useUser()
   const [minutes, setMinutes] = useState<number>(1)
   const [seconds, setSeconds] = useState<number>(0)
   const [
@@ -37,6 +39,11 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
     { touched: titleTouched, error: titleError }
   ] = useField('title')
   const [{ value: recordingTypeValue, onChange: recordingTypeChange }] = useField('recordingType')
+  const [
+    { value: organizationIdValue, onBlur: organizationIdOnBlur },
+    { touched: organizationIdTouched, error: organizationIdError },
+    { setValue: setOrganizationId }
+  ] = useField('organizationId')
 
   useEffect(() => {
     const time = (minutes || 0) * 60 + seconds || 0
@@ -104,7 +111,7 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                 helperText={(titleTouched && titleError) || ' '}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <FormControl>
                 <FormControlLabel
                   sx={{ mr: 'unset', ml: 'unset' }}
@@ -128,6 +135,29 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                   />
                 </LocalizationProvider>
               </FormControl>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                autoFocus
+                select
+                name="organizationId"
+                fullWidth
+                label="Organisation"
+                placeholder="Select an organization"
+                type="text"
+                value={organizationIdValue}
+                onChange={e => setOrganizationId(e.target.value as string)}
+                onBlur={organizationIdOnBlur}
+                error={organizationIdTouched && Boolean(organizationIdError)}
+                helperText={(organizationIdTouched && organizationIdError) || ' '}
+              >
+                <MenuItem sx={{ height: '36px' }} value={'default'}>{` `}</MenuItem>
+                {user.organizations.map(({ id, name }) => (
+                  <MenuItem key={id} value={id}>
+                    {name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item xs={12} md={6}>
               <FormControl>

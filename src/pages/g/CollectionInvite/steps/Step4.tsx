@@ -10,12 +10,13 @@ import Checkbox from '@mui/material/Checkbox'
 import FormGroup from '@mui/material/FormGroup'
 
 const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
+  const name = invite.organization.name || `${invite.user.firstName} ${invite.user.lastName}`
   return (
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`Thank you for using Rakonto to submit your recording! We have notified ${invite.user.firstName} ${invite.user.lastName} that you have submitted your recording. If you have any questions
-          about your recording, please contact ${invite.user.firstName} ${invite.user.lastName} at `}
+          {`Thank you for using Rakonto to submit your recording! We have notified ${name} that you have submitted your recording. If you have any questions
+          about your recording, please contact ${name} at `}
           <Link href={`mailTo:${invite.user.email}`} target="_blank">
             {invite.user.email}
           </Link>

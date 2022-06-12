@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect, RouteProps } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import GuestLayout from './g/GuestLayout'
+import { GuestLayoutProvider } from './g/GuestLayout'
 import AuthenticatedLayout from './a/AuthenticatedLayout'
 import PublicLayout from './u/PublicLayout'
 import CircularLoadingCentred from '../components/CircularLoadingCentred'
@@ -54,13 +54,13 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
 
 const GuestRoutes: React.FC<RouteProps> = ({ location }) => {
   return (
-    <GuestLayout>
+    <GuestLayoutProvider>
       <Switch>
         <Route exact path="/g/collection-invite/:id" component={CollectionInvite} />
         <Route exact path="/g/story-invite/:id" component={StoryInvite} />
         <Redirect to="/" />
       </Switch>
-    </GuestLayout>
+    </GuestLayoutProvider>
   )
 }
 

@@ -100,7 +100,6 @@ export function useReactMediaRecorder({
         if (deviceId) {
           const device = devices.find(item => item.deviceId === deviceId)
           if (!device) {
-            debugger
             setError('NotFoundError')
             return
           }

@@ -57,6 +57,7 @@ const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }>
   }
 
   const initialValues: {
+    organizationId: string | null
     collection: CollectionType | null
     instructions: string
     file: File | null
@@ -73,7 +74,8 @@ const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }>
     expire: addDays(new Date(), 7),
     size: '10',
     title: '',
-    allowExpire: false
+    allowExpire: false,
+    organizationId: null
   }
 
   const handleNext = () => {
@@ -89,6 +91,7 @@ const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }>
       const inviteResult = await api.createInvite(
         {
           collectionId: values!.collection!.id,
+          organizationId: values?.organizationId !== 'default' ? values!.organizationId : null,
           title: values!.title,
           description: values!.instructions,
           dueAt: values.allowExpire ? values!.expire : null,

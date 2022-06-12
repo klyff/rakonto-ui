@@ -11,11 +11,12 @@ import DialogContent from '@mui/material/DialogContent'
 const Step1: React.FC<{ invite: InviteType }> = ({ invite }) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const name = invite.organization.name || `${invite.user.firstName} ${invite.user.lastName}`
   return (
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`Hi! ${invite.user.firstName} ${invite.user.lastName} has invited you to record a story.`}
+          {`Hi! ${name} has invited you to record a story.`}
           <br />
           {`Here is their message to you: ${invite.description}`}
         </Typography>

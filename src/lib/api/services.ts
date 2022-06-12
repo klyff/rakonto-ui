@@ -864,6 +864,11 @@ export const getOrganization =
       return await request.get(`a/organizations/${id}`).then(res => res.data)
     }
 
+export const deleteOrganization =
+  (request: AxiosInstance) =>
+    async (id: string): Promise<void> => {
+      return await request.delete(`a/organizations/${id}`).then(res => res.data)
+    }
 
 export const createOrganization =
   (request: AxiosInstance) =>

@@ -17,13 +17,14 @@ const Step3: React.FC<{ invite: InviteType; progress: number }> = ({ invite, pro
     { onChange: emailOnChange, onBlur: emailOnBlur, value: emailValue },
     { error: emailError, touched: emailTouched }
   ] = useField('email')
+  const name = invite.organization.name || `${invite.user.firstName} ${invite.user.lastName}`
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
           {`Your recording is saved! Please enter your name and email so we can inform
-          ${invite.user.firstName} ${invite.user.lastName} that you have submitted your recording, and that you authorize
-          ${invite.user.firstName} ${invite.user.lastName} to contact you and share your submission in accordance with our `}
+          ${name} that you have submitted your recording, and that you authorize
+          ${name} to contact you and share your submission in accordance with our `}
           <Link href="https://rakonto.io/terms-and-conditions" target="_blank">
             terms
           </Link>{' '}

@@ -39,8 +39,19 @@ const Organisation: React.FC<RouteComponentProps> = () => {
   }
 
   const save = async (input: OrganizationInput) => {
-    const newOrganization = organization?.id ? await api.createOrganization(input) : await api.createOrganization(input)
+    const newOrganization = organization?.id
+      ? await api.updateOrganization(organization?.id, input)
+      : await api.createOrganization(input)
     setOrganization(newOrganization)
+  }
+
+  const remove = async () => {
+    try {
+      await api.deleteOrganization(organization!.id)
+      setOrganization(null)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
@@ -113,7 +124,7 @@ const Organisation: React.FC<RouteComponentProps> = () => {
             <CircularLoadingCentred />
           ) : (
             <>
-              {t === 'info' && <Info organization={organization} onSave={save} />}
+              {t === 'info' && <Info organization={organization} onSave={save} onDelete={remove} />}
               {t === 'members' && <Members id={organization!.id} initialMembers={organization!.memberships} />}
             </>
           )}

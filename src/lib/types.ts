@@ -379,6 +379,7 @@ export type LocationSearchType = {
 
 export type InviteInput = {
   collectionId: string
+  organizationId: string | null
   title: string
   description: string
   requestedMediaType: MediaType | null
@@ -390,6 +391,7 @@ export type InviteType = {
   id: string
   collectionId: string
   collectionTitle: string
+  organization: OrganizationType
   video: {
     id: string
     url: string

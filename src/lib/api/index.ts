@@ -104,7 +104,8 @@ import {
   createOrganization,
   updateOrganization,
   organizationAddMembers,
-  organizationDeleteMembers
+  organizationDeleteMembers,
+  deleteOrganization
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -260,5 +261,6 @@ export default {
   createOrganization: createOrganization(request),
   updateOrganization: updateOrganization(request),
   organizationAddMembers: organizationAddMembers(request),
-  organizationDeleteMembers: organizationDeleteMembers(request)
+  organizationDeleteMembers: organizationDeleteMembers(request),
+  deleteOrganization: deleteOrganization(request)
 }

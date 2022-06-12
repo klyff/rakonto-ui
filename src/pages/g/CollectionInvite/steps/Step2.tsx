@@ -9,14 +9,12 @@ import { intervalToDuration, formatDuration } from 'date-fns'
 const Step2: React.FC<{ invite: InviteType }> = ({ invite }) => {
   const [{ value: file }, , { setValue }] = useField('file')
   const duration = intervalToDuration({ start: 0, end: invite.requestedMediaLength * 1000 })
-
+  const name = invite.organization.name || `${invite.user.firstName} ${invite.user.lastName}`
   return (
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`${invite.user.firstName} ${invite.user.lastName} would like you to record ${
-            invite.requestedMediaType?.toLowerCase() || 'audio or video'
-          }.
+          {`${name} would like you to record ${invite.requestedMediaType?.toLowerCase() || 'audio or video'}.
           If possible, please keep your recording duration under ${String(
             (duration.hours || 0) * 60 + (duration.minutes || 0)
           ).padStart(2, '0')} minutes${

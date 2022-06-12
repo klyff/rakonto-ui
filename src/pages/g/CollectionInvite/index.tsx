@@ -21,6 +21,7 @@ import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 import { useFormik, FormikValues, FormikProvider } from 'formik'
 import schema from './schema'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
+import { GuestLayoutContext } from '../GuestLayout'
 
 const CollectionInvite: React.FC = () => {
   const location = useLocation()
@@ -31,12 +32,15 @@ const CollectionInvite: React.FC = () => {
   const [progress, setProgress] = useState(0)
   const [loading, setLoading] = useState(true)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
+  const { setLogo, setIsloading: setIsLoadingHeader } = useContext(GuestLayoutContext)
   const history = useHistory()
 
   const fetch = async () => {
     try {
       const inviteResult = await api.getInviteSubmission(id, token)
+      if (inviteResult.organization) setLogo(inviteResult.organization.logo.url)
       setInvite(inviteResult)
+      setIsLoadingHeader(false)
       setLoading(false)
     } catch (e) {
       snackActions.open('This link was expired.')
