@@ -10,7 +10,7 @@ import Checkbox from '@mui/material/Checkbox'
 import FormGroup from '@mui/material/FormGroup'
 
 const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
-  const name = invite.organization.name || `${invite.user.firstName} ${invite.user.lastName}`
+  const name = invite.organization?.name || `${invite.user.firstName} ${invite.user.lastName}`
   return (
     <Grid container>
       <Grid item xs={12}>

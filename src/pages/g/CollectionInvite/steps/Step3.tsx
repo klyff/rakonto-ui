@@ -17,7 +17,7 @@ const Step3: React.FC<{ invite: InviteType; progress: number }> = ({ invite, pro
     { onChange: emailOnChange, onBlur: emailOnBlur, value: emailValue },
     { error: emailError, touched: emailTouched }
   ] = useField('email')
-  const name = invite.organization.name || `${invite.user.firstName} ${invite.user.lastName}`
+  const name = invite.organization?.name || `${invite.user.firstName} ${invite.user.lastName}`
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
