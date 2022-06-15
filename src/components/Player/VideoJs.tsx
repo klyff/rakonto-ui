@@ -122,7 +122,7 @@ export const AudioJsWrapper: React.FC<{
   }
 
   const myErrorHandler = (error: Error, info: { componentStack: string }) => {
-    console.log(error)
+    console.error(error)
   }
 
   return (

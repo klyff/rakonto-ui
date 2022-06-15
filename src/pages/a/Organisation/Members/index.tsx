@@ -49,7 +49,6 @@ const Members: React.FC<iMembers> = ({ initialMembers, id }) => {
     },
     [localMembers]
   )
-  console.log(localMembers)
   return (
     <>
       <Box sx={{ width: '100%', height: '100%', minHeight: 'inherit', bgcolor: 'background.paper' }}>

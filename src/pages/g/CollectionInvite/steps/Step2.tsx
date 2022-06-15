@@ -9,7 +9,7 @@ import { intervalToDuration, formatDuration } from 'date-fns'
 const Step2: React.FC<{ invite: InviteType }> = ({ invite }) => {
   const [{ value: file }, , { setValue }] = useField('file')
   const duration = intervalToDuration({ start: 0, end: invite.requestedMediaLength * 1000 })
-  const name = invite.organization.name || `${invite.user.firstName} ${invite.user.lastName}`
+  const name = invite.organization?.name || `${invite.user.firstName} ${invite.user.lastName}`
   return (
     <Grid container>
       <Grid item xs={12}>

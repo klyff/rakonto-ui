@@ -133,7 +133,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
           flexFlow: 'column'
         }}
       >
-        <Box sx={{ width: '100%', height: '100%', maxHeight: '720px' }}>
+        <Box style={{ backgroundColor: 'black' }} sx={{ width: '100%', height: '100%', maxHeight: '720px' }}>
           {play ? (
             <Player subtitles={subtitles || []} type={type} media={video || audio} cover={thumbnailUrl} />
           ) : (
