@@ -26,7 +26,7 @@ const Cover: React.FC<iCover> = ({ src, date, buttonLabel, onClick, title, descr
       sx={{
         position: 'relative',
         width: '100%',
-        height: 720,
+        aspectRatio: '16/9',
         backgroundImage: `url(${src || '/images/CoverDefault.png'})`,
         backgroundSize: src ? 'contain' : 'cover',
         backgroundPosition: 'center',
