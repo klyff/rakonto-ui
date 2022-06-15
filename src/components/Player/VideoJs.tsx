@@ -15,7 +15,7 @@ interface iVideoJs {
     logo: string | null
   }
   onReady?: any
-  type: 'audio' | 'video'
+  type?: 'audio' | 'video'
   handleEnd?: () => void
   subtitles?: SubtitleType[]
 }
@@ -74,7 +74,7 @@ export const VideoJS: React.FC<iVideoJs> = ({ subtitles, options, handleEnd, onR
   }, [])
   return (
     <div data-vjs-player>
-      {type === 'video' && <video id="player" className="video-js" crossOrigin="anonymous" />}
+      {type !== 'audio' && <video id="player" className="video-js" crossOrigin="anonymous" />}
       {type === 'audio' && <audio id="player" className="video-js" crossOrigin="anonymous" />}
     </div>
   )
