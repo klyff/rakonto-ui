@@ -120,8 +120,8 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
       <textarea style={{ height: '200px', width: '100%' }}>
         {`
         <iframe
-          width='560'
-          height='315'
+          width='640'
+          height='360'
           src='${window.location.origin}/embed/collections/${collectionId}'
           title='Rakonto'
           frameBorder='0'
