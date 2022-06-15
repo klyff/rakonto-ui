@@ -16,7 +16,6 @@ const Embed: React.FC<RouteComponentProps<{ type: string; id: string }>> = ({ ma
         setLoading(true)
         const response = type === 'stories' ? await api.getEmbedStory(id) : await api.getEmbedCollection(id)
         let playlist: any[] = []
-        debugger
 
         if (type === 'stories') {
           const story = response as StoryType
