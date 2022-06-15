@@ -77,7 +77,6 @@ const PublicRoutes: React.FC<RouteProps> = () => {
         <Route path="/u/forgot-password" component={ForgotPassword} />
         <Route path="/u/password-reset" component={PasswordReset} />
         <Route path="/u/confirmation-email" component={ConfirmationEmail} />
-        <Route path="/u/embed/:type(story|collection)/:id" component={Embed} />
         <Redirect to="/u/signin" />
       </Switch>
     </PublicLayout>
@@ -102,6 +101,7 @@ const Routes: React.FC = () => {
           <Route exact path="/403" component={Error403} />
           <Route exact path="/500" component={Error500} />
           <Route exact path="/:id([0-9A-Z]{6})" component={ShortId} />
+          <Route exact path="/embed/:type(stories|collections)/:id" component={Embed} />
           <Redirect to="/a" />
         </Switch>
       </Suspense>

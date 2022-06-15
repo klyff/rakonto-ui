@@ -192,6 +192,9 @@ export type StoryType = {
   subtitles: SubtitleType[]
   submission: SubmissipnType
   updatedAt: string
+  duration: string
+  mimeType: string
+  url: string
 }
 
 export type StoryCreateType = {

@@ -896,12 +896,12 @@ export const organizationDeleteMembers =
 
 export const getEmbedStory =
 (request: AxiosInstance) =>
-async (id: string): Promise<void> => {
-  return await request.get(`u/embed/story/${id}`).then(res => res.data)
+async (id: string): Promise<StoryType> => {
+  return await request.get(`u/embed/stories/${id}`).then(res => res.data)
 }
 
 export const getEmbedCollection =
 (request: AxiosInstance) =>
-async (id: string): Promise<void> => {
-  return await request.get(`u/embed/collection/${id}`).then(res => res.data)
+async (id: string): Promise<CollectionType> => {
+  return await request.get(`u/embed/collections/${id}`).then(res => res.data)
 }

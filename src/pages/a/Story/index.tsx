@@ -174,6 +174,9 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             <Tab label="Links" value="links" onClick={() => onTabClick('links')} />
             <Tab label="Subtitles" value="subtitles" onClick={() => onTabClick('subtitles')} />
           </Box>
+
+          <textarea style={{ height: '400px', width: '100%' }}>aaaa</textarea>
+
           <Box
             sx={{
               width: '100%',
