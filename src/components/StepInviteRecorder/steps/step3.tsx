@@ -142,7 +142,7 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                 select
                 name="organizationId"
                 fullWidth
-                label="Organisation"
+                label="Organization"
                 placeholder="Select an organization"
                 type="text"
                 value={organizationIdValue}

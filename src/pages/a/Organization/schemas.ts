@@ -1,8 +1,8 @@
 import * as yup from 'yup'
 
-export const organisationSchema = yup.object().shape({
+export const organizationSchema = yup.object().shape({
   logoId: yup.string().required().nullable().label('Logo'),
-  name: yup.string().required().label('Organisation'),
+  name: yup.string().required().label('Organization'),
   addressLine1: yup.string().required().label('Address'),
   addressLine2: yup.string().label('Address'),
   city: yup.string().required().label('City'),

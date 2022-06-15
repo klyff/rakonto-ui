@@ -44,7 +44,7 @@ const Members: React.FC<iMembers> = ({ initialMembers, id }) => {
         })
         snackActions.open(`Member removed with success`)
       } catch (error) {
-        snackActions.open(`Problem to remove member from organisation`)
+        snackActions.open(`Problem to remove member from organization`)
       }
     },
     [localMembers]
@@ -56,7 +56,7 @@ const Members: React.FC<iMembers> = ({ initialMembers, id }) => {
           <Box sx={{ minWidth: '320px', width: '100%', maxWidth: '422px' }}>
             <Box sx={{ mb: 4 }}>
               <Typography sx={{ paddingTop: 1, ml: 2, mb: 2 }} variant="h6">
-                Add member to your organisation
+                Add member to your organization
               </Typography>
               <Button onClick={() => setShowAddModal(true)} startIcon={<AddIcon />} variant="outlined">
                 Add

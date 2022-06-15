@@ -15,7 +15,7 @@ import api from '../../../lib/api'
 import { OrganizationInput, OrganizationType } from '../../../lib/types'
 import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 
-const Organisation: React.FC<RouteComponentProps> = () => {
+const Organization: React.FC<RouteComponentProps> = () => {
   const theme = useTheme()
   const isMd = useMediaQuery(theme.breakpoints.down('md'))
   const [t, setTab] = useState<string>('info')
@@ -25,7 +25,7 @@ const Organisation: React.FC<RouteComponentProps> = () => {
   const location = useLocation()
 
   const onTabClick = (tab: string) => {
-    history.push(`/a/organisation?tab=${tab}`)
+    history.push(`/a/organization?tab=${tab}`)
   }
 
   const fetch = async () => {
@@ -75,7 +75,7 @@ const Organisation: React.FC<RouteComponentProps> = () => {
         }}
         variant="h4"
       >
-        Organisation
+        Organization
       </Typography>
       <Box
         sx={{
@@ -100,7 +100,7 @@ const Organisation: React.FC<RouteComponentProps> = () => {
             onClick={() => onTabClick('info')}
           >
             <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
-              Organisation info
+              Organization info
             </Box>
           </Button>
           <Button
@@ -134,4 +134,4 @@ const Organisation: React.FC<RouteComponentProps> = () => {
   )
 }
 
-export default Organisation
+export default Organization

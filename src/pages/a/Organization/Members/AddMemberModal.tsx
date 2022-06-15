@@ -26,10 +26,10 @@ const AddMemberModal: React.FC<iAddMemberModal> = ({ id, onClose }) => {
   const onSubmit = async ({ email }: { email: string }) => {
     try {
       const member = await api.organizationAddMembers(id, email)
-      snackActions.open(`${email} added to organisation`)
+      snackActions.open(`${email} added to organization`)
       onClose(member)
     } catch (error) {
-      snackActions.open(`Problem to add ${email} to organisation`)
+      snackActions.open(`Problem to add ${email} to organization`)
     }
   }
 
@@ -42,7 +42,7 @@ const AddMemberModal: React.FC<iAddMemberModal> = ({ id, onClose }) => {
 
   return (
     <Dialog open fullScreen={fullScreen} fullWidth maxWidth="md">
-      <DialogTitle id="alert-dialog-title">Add new organisation member</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Add new organization member</DialogTitle>
       <DialogContent>
         {' '}
         <form>

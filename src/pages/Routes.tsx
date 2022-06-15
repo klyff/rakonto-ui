@@ -20,7 +20,7 @@ const Collections = lazy(() => import('./a/Collections'))
 const Collection = lazy(() => import('./a/Collection'))
 const Profile = lazy(() => import('./a/Profile'))
 const People = lazy(() => import('./a/People'))
-const Organisation = lazy(() => import('./a/Organisation'))
+const Organization = lazy(() => import('./a/Organization'))
 const Requests = lazy(() => import('./a/Requests'))
 const CollectionInvite = lazy(() => import('./g/CollectionInvite'))
 const StoryInvite = lazy(() => import('./g/StoryInvite'))
@@ -35,7 +35,7 @@ const AuthenticadeRoutes: React.FC<RouteProps> = () => {
   return (
     <AuthenticatedLayout>
       <Switch>
-        <Route exact path="/a/organisation" component={Organisation} />
+        <Route exact path="/a/organization" component={Organization} />
         <Route exact path="/a/people" component={People} />
         <Route exact path="/a/profile" component={Profile} />
         <Route exact path="/a/my-library" component={MyLibrary} />

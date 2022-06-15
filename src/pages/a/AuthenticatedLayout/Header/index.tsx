@@ -108,11 +108,11 @@ const Header = forwardRef((props, ref) => {
       </MenuItem>
       <MenuItem
         onClick={() => {
-          history.push(`/a/organisation`)
+          history.push(`/a/organization`)
           handleMenuClose()
         }}
       >
-        Organisation
+        Organization
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -183,11 +183,11 @@ const Header = forwardRef((props, ref) => {
       ))}
       <MenuItem
         onClick={() => {
-          history.push(`/a/organisation`)
+          history.push(`/a/organization`)
           handleMenuClose()
         }}
       >
-        Organisation
+        Organization
       </MenuItem>
       <MenuItem
         onClick={() => {

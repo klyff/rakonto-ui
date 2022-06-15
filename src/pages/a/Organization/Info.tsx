@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField'
 import { ImageType, OrganizationInput, OrganizationType } from '../../../lib/types'
 import api from '../../../lib/api'
 import { useFormik } from 'formik'
-import { organisationSchema } from './schemas'
+import { organizationSchema } from './schemas'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 
 interface iInfo {
@@ -63,7 +63,7 @@ const Info: React.FC<iInfo> = ({ organization, onSave, onDelete }) => {
     dirty
   } = useFormik({
     initialValues,
-    validationSchema: organisationSchema,
+    validationSchema: organizationSchema,
     onSubmit,
     enableReinitialize: true
   })
@@ -162,8 +162,8 @@ const Info: React.FC<iInfo> = ({ organization, onSave, onDelete }) => {
             <TextField
               name="name"
               fullWidth
-              placeholder="Organisation name"
-              label="Organisation name"
+              placeholder="Organization name"
+              label="Organization name"
               type="text"
               value={values.name}
               onChange={handleChange}
