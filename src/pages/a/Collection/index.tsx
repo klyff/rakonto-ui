@@ -122,7 +122,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
         <iframe
           width='560'
           height='315'
-          src='${window.location.origin}/u/embed/stories/${collectionId}'
+          src='${window.location.origin}/embed/stories/${collectionId}'
           title='Rakonto'
           frameBorder='0'
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'

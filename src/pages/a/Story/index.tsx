@@ -123,7 +123,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
         <iframe
           width='560'
           height='315'
-          src='${window.location.origin}/u/embed/stories/${storyId}'
+          src='${window.location.origin}/embed/stories/${storyId}'
           title='Rakonto'
           frameBorder='0'
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
