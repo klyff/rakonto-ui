@@ -95,15 +95,7 @@ const Info: React.FC<iInfo> = ({ organization, onSave, onDelete }) => {
   return (
     <Box sx={{ width: '100%', height: '100%', minHeight: 'inherit' }}>
       <Box component="form" sx={{ bgcolor: 'background.paper', padding: 2, marginBottom: 3 }}>
-        <Box sx={{ minWidth: '320px', width: '100%', maxWidth: '422px' }}>
-          <Button color={'primary'} variant="contained" disabled={!dirty} onClick={() => handleSubmit()}>
-            Save
-          </Button>
-          {organization?.id && (
-            <Button sx={{ ml: 2 }} color={'error'} variant="contained" onClick={() => handleDelete()}>
-              Delete
-            </Button>
-          )}
+        <Box sx={{ minWidth: '320px', width: '100%' }}>
           <Box
             sx={{
               paddingTop: 2,
@@ -112,8 +104,11 @@ const Info: React.FC<iInfo> = ({ organization, onSave, onDelete }) => {
               flexFlow: 'column'
             }}
           >
-            <Typography sx={{ pb: 1, ml: 2 }} variant="h6">
-              Logo
+            <Typography sx={{ ml: 2 }} variant="h6">
+              Your organization logo
+            </Typography>
+            <Typography sx={{ pb: 2, ml: 2 }} variant="subtitle1">
+              Your logo will look best in Rakonto if it is a PNG file with transparent background and 135x40 dimensions.
             </Typography>
             <Box sx={{ mb: 0 }}>
               <Box
@@ -152,13 +147,13 @@ const Info: React.FC<iInfo> = ({ organization, onSave, onDelete }) => {
                 {image?.id ? 'Change' : 'Add'}
               </Button>
             </Box>
-            <Typography sx={{ paddingTop: 1, ml: 2 }} variant="h6">
-              Better fit with dimensions of 135x40, transparent background and PNG file.
-            </Typography>
           </Box>
         </Box>
         <Grid container sx={{ maxWidth: '844px' }} spacing={2}>
           <Grid item xs={12} md>
+            <Typography sx={{ pb: 2, ml: 2 }} variant="h6">
+              Name and Contact information
+            </Typography>
             <TextField
               name="name"
               fullWidth
@@ -195,8 +190,8 @@ const Info: React.FC<iInfo> = ({ organization, onSave, onDelete }) => {
               error={touched.email && Boolean(errors.email)}
               helperText={(touched.email && errors.email) || ' '}
             />
-            <Typography sx={{ pb: 1, ml: 2 }} variant="h6">
-              Localization
+            <Typography sx={{ pb: 2, ml: 2 }} variant="h6">
+              Address
             </Typography>
             <TextField
               name="addressLine1"
@@ -270,7 +265,7 @@ const Info: React.FC<iInfo> = ({ organization, onSave, onDelete }) => {
               error={touched.country && Boolean(errors.country)}
               helperText={(touched.country && errors.country) || ' '}
             />
-            <Typography sx={{ pb: 1, ml: 2 }} variant="h6">
+            <Typography sx={{ pb: 2, ml: 2 }} variant="h6">
               Social
             </Typography>
             <TextField
@@ -333,6 +328,22 @@ const Info: React.FC<iInfo> = ({ organization, onSave, onDelete }) => {
               error={touched.socialWhatsapp && Boolean(errors.socialWhatsapp)}
               helperText={(touched.socialWhatsapp && errors.socialWhatsapp) || ' '}
             />
+            <div style={{ display: 'flex', flexFlow: 'row-reverse' }}>
+              <Button
+                sx={{ ml: 2 }}
+                color={'primary'}
+                variant="contained"
+                disabled={!dirty}
+                onClick={() => handleSubmit()}
+              >
+                Save
+              </Button>
+              {organization?.id && (
+                <Button color={'error'} variant="contained" onClick={() => handleDelete()}>
+                  Delete
+                </Button>
+              )}
+            </div>
           </Grid>
         </Grid>
       </Box>

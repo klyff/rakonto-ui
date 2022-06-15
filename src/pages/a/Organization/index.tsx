@@ -100,10 +100,10 @@ const Organization: React.FC<RouteComponentProps> = () => {
             onClick={() => onTabClick('info')}
           >
             <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
-              Organization info
+              Organization
             </Box>
           </Button>
-          <Button
+          {/* <Button
             color={t === 'members' ? 'primary' : 'secondary'}
             fullWidth
             startIcon={<PeopleIcon />}
@@ -113,7 +113,7 @@ const Organization: React.FC<RouteComponentProps> = () => {
             <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
               Members
             </Box>
-          </Button>
+          </Button> */}
         </Box>
         <Box
           sx={{
