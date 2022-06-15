@@ -118,6 +118,19 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
 
   return (
     <>
+      <textarea style={{ height: '200px', width: '100%' }}>
+        {`
+        <iframe
+          width='560'
+          height='315'
+          src='${window.location.origin}/u/embed/stories/${storyId}'
+          title='Rakonto'
+          frameBorder='0'
+          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+          allowFullScreen
+        ></iframe>
+        `}
+      </textarea>
       <MetaTags>
         <title>Rakonto - {title}</title>
         <meta property="description" content={description || ''} />
@@ -130,10 +143,11 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
           width: '100%',
           height: `100%`,
           display: 'flex',
-          flexFlow: 'column'
+          flexFlow: 'column',
+          backgroundColor: 'black'
         }}
       >
-        <Box style={{ backgroundColor: 'black' }} sx={{ width: '100%', height: '100%', maxHeight: '720px' }}>
+        <Box style={{ margin: 'auto', backgroundColor: 'black', width: '100%', aspectRatio: '16/9', maxHeight: 720 }}>
           {play ? (
             <Player subtitles={subtitles || []} type={type} media={video || audio} cover={thumbnailUrl} />
           ) : (
@@ -174,9 +188,6 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
             <Tab label="Links" value="links" onClick={() => onTabClick('links')} />
             <Tab label="Subtitles" value="subtitles" onClick={() => onTabClick('subtitles')} />
           </Box>
-
-          <textarea style={{ height: '400px', width: '100%' }}>aaaa</textarea>
-
           <Box
             sx={{
               width: '100%',

@@ -108,12 +108,12 @@ export const VideoJS: React.FC<iVideoJs> = ({
       }
     }
   }, [])
-  return (
-    <div data-vjs-player>
-      {type !== 'audio' && <video id="player" className="video-js" crossOrigin="anonymous" />}
-      {type === 'audio' && <audio id="player" className="video-js" crossOrigin="anonymous" />}
-    </div>
-  )
+
+  if (type === 'audio') {
+    return <audio id="player" className="video-js" crossOrigin="anonymous" />
+  }
+
+  return <video id="player" className="video-js" crossOrigin="anonymous" />
 }
 
 export const VideoJsWrapper: React.FC<{

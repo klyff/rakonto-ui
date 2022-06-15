@@ -117,6 +117,19 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
 
   return (
     <>
+      <textarea style={{ height: '200px', width: '100%' }}>
+        {`
+        <iframe
+          width='560'
+          height='315'
+          src='${window.location.origin}/u/embed/stories/${collectionId}'
+          title='Rakonto'
+          frameBorder='0'
+          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+          allowFullScreen
+        ></iframe>
+        `}
+      </textarea>
       <MetaTags>
         <title>Rakonto - {title}</title>
         <meta property="description" content={description || ''} />
