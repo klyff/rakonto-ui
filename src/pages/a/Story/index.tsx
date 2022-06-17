@@ -118,19 +118,6 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
 
   return (
     <>
-      <textarea style={{ height: '200px', width: '100%' }}>
-        {`
-        <iframe
-          width='640'
-          height='360'
-          src='${window.location.origin}/embed/stories/${storyId}'
-          title='Rakonto'
-          frameBorder='0'
-          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-          allowFullScreen
-        ></iframe>
-        `}
-      </textarea>
       <MetaTags>
         <title>Rakonto - {title}</title>
         <meta property="description" content={description || ''} />
