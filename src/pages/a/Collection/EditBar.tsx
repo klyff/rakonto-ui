@@ -29,10 +29,11 @@ interface iEditBar {
   canEdit: boolean
   id: string
   onChange?: (image: ImageType) => void
+  refetch?: () => void
   collection?: CollectionType
 }
 
-const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection }) => {
+const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection, refetch }) => {
   const embededCode = `
   <iframe
     width='640'
@@ -129,7 +130,10 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection }) => {
           title="Share"
           assetType={AssetTypes.collection}
           type="VIEWER"
-          onCloseClick={() => setShowShare(false)}
+          onCloseClick={() => {
+            if (refetch) refetch()
+            setShowShare(false)
+          }}
         />
       )}
       <Stack direction="row" {...getRootProps()}>

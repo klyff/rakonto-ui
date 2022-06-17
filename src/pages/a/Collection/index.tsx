@@ -45,9 +45,6 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
   const computeCollection = (value: CollectionType) => {
     setCollection(value)
     setIsLoading(false)
-    if (value.owner.id === user?.id) {
-      setIsOwner(true)
-    }
   }
 
   const updateCollection = async (formData: CollectionFormType) => {
@@ -75,6 +72,12 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
     setIsLoading(true)
     fetch()
   }, [])
+
+  useEffect(() => {
+    if (collection?.owner.id === user?.id) {
+      setIsOwner(true)
+    }
+  }, [user, collection])
 
   useEffect(() => {
     if (!collection?.id || !storyId) return
@@ -185,7 +188,13 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
               padding: 3
             }}
           >
-            <EditBar id={collectionId} onChange={updateCover} canEdit={isOwner} collection={collection} />
+            <EditBar
+              id={collectionId}
+              refetch={fetch}
+              onChange={updateCover}
+              canEdit={isOwner}
+              collection={collection}
+            />
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="content">
               <Content
                 update={updateCollection}
