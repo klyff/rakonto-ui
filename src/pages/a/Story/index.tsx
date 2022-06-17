@@ -134,7 +134,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
           backgroundColor: 'black'
         }}
       >
-        <Box style={{ margin: 'auto', backgroundColor: 'black', width: '100%', aspectRatio: '16/9', maxHeight: 720 }}>
+        <Box sx={{ margin: 'auto', backgroundColor: 'black', width: '100%', maxHeight: '720px' }}>
           {play ? (
             <Player subtitles={subtitles || []} type={type} media={video || audio} cover={thumbnailUrl} />
           ) : (

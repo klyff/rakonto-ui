@@ -9,6 +9,7 @@ import ImageIcon from '@mui/icons-material/Image'
 import Button from '@mui/material/Button'
 import ShareIcon from '@mui/icons-material/Share'
 import DeleteIcon from '@mui/icons-material/Delete'
+import CodeIcon from '@mui/icons-material/Code'
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
 import api from '../../../lib/api'
 import Typography from '@mui/material/Typography'
@@ -21,6 +22,8 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
 import DownloadIcon from '@mui/icons-material/Download'
 import Cookies from 'js-cookie'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+// @ts-ignore
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 interface iEditBar {
   canEdit: boolean
@@ -30,6 +33,17 @@ interface iEditBar {
 }
 
 const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection }) => {
+  const embededCode = `
+  <iframe
+    width='640'
+    height='360'
+    src='${window.location.origin}/embed/collections/${id}'
+    title='Rakonto'
+    frameBorder='0'
+    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+    allowFullScreen
+  ></iframe>
+  `
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const { actions: dialogActions } = useContext(SimpleDialogContext)
   const { actions: recorderInviteActions } = useContext(StepInviteRecorderContext)
@@ -37,6 +51,7 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection }) => {
   const [progress, setProgress] = useState<number>(0)
   const [showShare, setShowShare] = useState<boolean>(false)
   const token = Cookies.get('token') as string
+  const canCopyEmbeded = collection?.publicAcl
 
   const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
@@ -165,6 +180,16 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection }) => {
             </React.Fragment>
           )}
         </PopupState>
+        {canCopyEmbeded && (
+          <CopyToClipboard
+            text={embededCode}
+            startIcon={<CodeIcon />}
+            options={{ format: 'text' }}
+            onCopy={() => snackActions.open('Embded code copied to clipboard!')}
+          >
+            <Button color="secondary">Embeded</Button>
+          </CopyToClipboard>
+        )}
         <Button
           color="secondary"
           onClick={() => recorderInviteActions.open(collection || null)}

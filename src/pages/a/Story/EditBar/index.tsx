@@ -68,6 +68,7 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
   const [showShare, setShowShare] = useState<boolean>(false)
 
   const canDownload = user.tier > 0 && isOwner
+  const canCopyEmbeded = isOwner && story?.published
 
   const canGoToCollection = story!.collections[0]!.watchers.find(e => e.email === user.email) || isOwner
 
@@ -204,13 +205,15 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
         reload={reload}
         isMenu
       />
-      <CopyToClipboard
-        text={embededCode}
-        options={{ format: 'text' }}
-        onCopy={() => snackActions.open('Embded code copied to clipboard!')}
-      >
-        <MenuItem>Embeded</MenuItem>
-      </CopyToClipboard>
+      {canCopyEmbeded && (
+        <CopyToClipboard
+          text={embededCode}
+          options={{ format: 'text' }}
+          onCopy={() => snackActions.open('Embded code copied to clipboard!')}
+        >
+          <MenuItem>Embeded</MenuItem>
+        </CopyToClipboard>
+      )}
       <MenuItem onClick={() => inviteContributorActions.open(id)}>Request content</MenuItem>
       {isOwner && (
         <>
@@ -332,16 +335,18 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
         </Box>
         {isOwner && (
           <Stack direction="row">
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
-              <CopyToClipboard
-                text={embededCode}
-                startIcon={<CodeIcon />}
-                options={{ format: 'text' }}
-                onCopy={() => snackActions.open('Embded code copied to clipboard!')}
-              >
-                <Button color="secondary">Embeded</Button>
-              </CopyToClipboard>
-            </Box>
+            {canCopyEmbeded && (
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
+                <CopyToClipboard
+                  text={embededCode}
+                  startIcon={<CodeIcon />}
+                  options={{ format: 'text' }}
+                  onCopy={() => snackActions.open('Embded code copied to clipboard!')}
+                >
+                  <Button color="secondary">Embeded</Button>
+                </CopyToClipboard>
+              </Box>
+            )}
             <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
               <Button color="secondary" onClick={() => inviteContributorActions.open(id)} startIcon={<PersonAddIcon />}>
                 Request content
