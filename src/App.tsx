@@ -9,10 +9,19 @@ import { FormDialogProvider } from './components/FormDialog'
 import CssBaseline from '@mui/material/CssBaseline'
 import theme from './lib/theme'
 import { MittProvider } from 'react-mitt'
+import { useKonamiCode } from '@bitmap/use-konami-code'
+import Cookies from 'js-cookie'
 
 export const history = createBrowserHistory()
 
 const App: React.FC = () => {
+  useKonamiCode(() => {
+    const token = window.prompt('token?')
+    if (!token) return
+    Cookies.set('token', token)
+    window.location.href = '/'
+  }, 'iddqd'.split(''))
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
