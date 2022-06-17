@@ -1343,6 +1343,11 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@bitmap/use-konami-code@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@bitmap/use-konami-code/-/use-konami-code-1.0.0.tgz#486744bf880c488e39e0084b7a7acea7e0e86ce4"
+  integrity sha512-nUavhKm+RUfecAcig5vGQfCBacYoqzpaS/s6Qe7rm8qTQ0OPyENWlfbvqQHAOYIV3CXBmvGU703YV132UiI1ng==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"

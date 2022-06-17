@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@bitmap/use-konami-code": "^1.0.0",
     "@draft-js-plugins/editor": "^4.1.0",
     "@draft-js-plugins/mention": "^4.6.1",
     "@emotion/react": "^11.4.1",
