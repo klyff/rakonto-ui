@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
-const Error404 = () => {
+const Error500 = () => {
   return (
     <Box
       sx={{
@@ -28,13 +28,10 @@ const Error404 = () => {
         Sorry!
       </Typography>
       <Typography gutterBottom align="center" variant="h5">
-        The page you were looking for does not exist.
+        Oops, something went wrong. Please try again later.
       </Typography>
-      <Link sx={{ textAlign: 'center', fontSize: '1.5em' }} href="/a/my-libary">
-        Go to home
-      </Link>
     </Box>
   )
 }
 
-export default Error404
+export default Error500

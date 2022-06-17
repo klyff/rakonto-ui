@@ -893,3 +893,15 @@ export const organizationDeleteMembers =
       async (id: string, memberId: string): Promise<void> => {
         return await request.delete(`a/organizations/${id}/memberships/${memberId}`).then(res => res.data)
       }
+
+export const getEmbedStory =
+(request: AxiosInstance) =>
+async (id: string): Promise<StoryType> => {
+  return await request.get(`u/embed/stories/${id}`).then(res => res.data)
+}
+
+export const getEmbedCollection =
+(request: AxiosInstance) =>
+async (id: string): Promise<CollectionType> => {
+  return await request.get(`u/embed/collections/${id}`).then(res => res.data)
+}

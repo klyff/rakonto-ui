@@ -105,7 +105,9 @@ import {
   updateOrganization,
   organizationAddMembers,
   organizationDeleteMembers,
-  deleteOrganization
+  deleteOrganization,
+  getEmbedStory,
+  getEmbedCollection
 } from './services'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -156,6 +158,8 @@ request.interceptors.response.use(
 )
 
 export default {
+  getEmbedStory: getEmbedStory(request),
+  getEmbedCollection: getEmbedCollection(request),
   verifyStorageUsage: verifyStorageUsage(request),
   singup: singup(request),
   singout: singout(request),

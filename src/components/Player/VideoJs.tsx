@@ -6,26 +6,43 @@ import './overrides.css'
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js'
 import '../../lib/videojs/components/nuevo'
 import '../../lib/videojs/components/visualizer'
+import '../../lib/videojs/components/playlist'
 import { SubtitleType } from '../../lib/types'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 
 interface iVideoJs {
-  options: VideoJsPlayerOptions
-  nuevoOptions?: {
-    logo: string | null
-  }
+  embedded?: boolean
+  options?: VideoJsPlayerOptions
+  playlist?: any
+  nuevoOptions?: any
   onReady?: any
-  type: 'audio' | 'video'
+  type?: 'audio' | 'video' | 'playlist'
   handleEnd?: () => void
   subtitles?: SubtitleType[]
 }
 
-export const VideoJS: React.FC<iVideoJs> = ({ subtitles, options, handleEnd, onReady, type, nuevoOptions }) => {
+export const VideoJS: React.FC<iVideoJs> = ({
+  subtitles,
+  options,
+  handleEnd,
+  onReady,
+  type,
+  nuevoOptions,
+  embedded,
+  playlist
+}) => {
   const playerRef = React.useRef<VideoJsPlayer | null>(null)
 
   useEffect(() => {
     // make sure Video.js player is only initialized once
     if (!playerRef.current) {
+      if (embedded) {
+        options = {
+          ...options,
+          fill: true
+        }
+      }
+
       playerRef.current = videojs('player', options, () => {
         onReady && onReady(playerRef.current)
         // @ts-ignore
@@ -42,9 +59,6 @@ export const VideoJS: React.FC<iVideoJs> = ({ subtitles, options, handleEnd, onR
           default: '1'
         })) || []
 
-      // @ts-ignore
-      playerRef.current.nuevo(nuevoOptions)
-
       playerRef.current!.on('nuevoReady', () => {
         if (captions.length) {
           // @ts-ignore
@@ -56,6 +70,28 @@ export const VideoJS: React.FC<iVideoJs> = ({ subtitles, options, handleEnd, onR
         //  @ts-ignore
         playerRef.current.visualizer({ video: true })
       }
+
+      if (type === 'playlist') {
+        //  @ts-ignore
+        playerRef.current.playsinline(true)
+
+        // @ts-ignore
+        nuevoOptions = {
+          ...nuevoOptions,
+          playlistUI: true, // set to disable playlist UI completely
+          playlistShow: false, // set to hide playlist UI on start
+          playlistAutoHide: false, // Disable playlist UI autohide on video play event
+          playlistNavigation: true, // set to show playlist navigation arrows
+          playlistRepeat: false // set to repeat playlist playback
+        }
+
+        console.log(playlist)
+        // @ts-ignore
+        playerRef.current.playlist(playlist)
+      }
+
+      // @ts-ignore
+      playerRef.current.nuevo(nuevoOptions)
     } else {
       // const player = playerRef.current
       // player.options(options)
