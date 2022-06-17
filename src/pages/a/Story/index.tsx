@@ -38,25 +38,24 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
   const [isEditor, setIsEditor] = useState<boolean>(false)
   const { emitter } = useMitt()
 
-  const computeStory = (value: StoryType) => {
-    setStory(value)
-  }
-
   const fetch = async () => {
     try {
       const result = await api.getStory(storyId)
-      computeStory(result)
+      setStory(result)
       setIsLoading(false)
-      if (result.owner.id === user?.id) {
-        setIsOwner(true)
-      }
-      if (result.watchers?.find(e => user?.email === e.email && e.type === 'EDITOR')) {
-        setIsEditor(true)
-      }
     } catch (error) {
       history.push('/a/my-library')
     }
   }
+
+  useEffect(() => {
+    if (story?.owner?.id === user?.id) {
+      setIsOwner(true)
+    }
+    if (story?.watchers?.find(e => user?.email === e.email && e.type === 'EDITOR')) {
+      setIsEditor(true)
+    }
+  }, [story, user])
 
   useEffect(() => {
     setIsLoading(true)
@@ -76,7 +75,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
   const updateStory = async (formData: StoryUpdateType) => {
     try {
       const result = await api.updateStory(storyId, formData)
-      computeStory(result)
+      setStory(result)
     } catch (error) {
       // @ts-ignore
       const { data } = error

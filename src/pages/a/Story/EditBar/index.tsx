@@ -89,6 +89,7 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
   const handlePublished = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
       await api.updateStoryStatus(id, event.target.checked)
+      await reload()
       fetchIsPublished()
     } catch (error) {
       // @ts-ignore
@@ -299,7 +300,10 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
               id={id}
               assetType={AssetTypes.story}
               type="EDITOR"
-              onCloseClick={() => setShowShare(false)}
+              onCloseClick={() => {
+                reload()
+                setShowShare(false)
+              }}
             />
           )}
           <FormGroup>
