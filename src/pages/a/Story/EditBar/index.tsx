@@ -44,7 +44,7 @@ interface iEditBar {
 }
 
 const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublished, media, story }) => {
-  const embededCode = `
+  const embedCode = `
   <iframe
     width='640'
     height='360'
@@ -68,7 +68,7 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
   const [showShare, setShowShare] = useState<boolean>(false)
 
   const canDownload = user.tier > 0 && isOwner
-  const canCopyEmbeded = isOwner && story?.published
+  const canCopyEmbed = isOwner && story?.published
 
   const canGoToCollection = story!.collections[0]!.watchers.find(e => e.email === user.email) || isOwner
 
@@ -206,13 +206,13 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
         reload={reload}
         isMenu
       />
-      {canCopyEmbeded && (
+      {canCopyEmbed && (
         <CopyToClipboard
-          text={embededCode}
+          text={embedCode}
           options={{ format: 'text' }}
           onCopy={() => snackActions.open('Embded code copied to clipboard!')}
         >
-          <MenuItem>Embeded</MenuItem>
+          <MenuItem>Embed</MenuItem>
         </CopyToClipboard>
       )}
       <MenuItem onClick={() => inviteContributorActions.open(id)}>Request content</MenuItem>
@@ -339,15 +339,15 @@ const EditBar: React.FC<iEditBar> = ({ isEditor, isOwner, id, reload, loadPublis
         </Box>
         {isOwner && (
           <Stack direction="row">
-            {canCopyEmbeded && (
+            {canCopyEmbed && (
               <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="span">
                 <CopyToClipboard
-                  text={embededCode}
+                  text={embedCode}
                   startIcon={<CodeIcon />}
                   options={{ format: 'text' }}
                   onCopy={() => snackActions.open('Embded code copied to clipboard!')}
                 >
-                  <Button color="secondary">Embeded</Button>
+                  <Button color="secondary">Embed</Button>
                 </CopyToClipboard>
               </Box>
             )}

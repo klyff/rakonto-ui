@@ -34,7 +34,7 @@ interface iEditBar {
 }
 
 const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection, refetch }) => {
-  const embededCode = `
+  const embedCode = `
   <iframe
     width='640'
     height='360'
@@ -52,7 +52,7 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection, refetc
   const [progress, setProgress] = useState<number>(0)
   const [showShare, setShowShare] = useState<boolean>(false)
   const token = Cookies.get('token') as string
-  const canCopyEmbeded = collection?.publicAcl
+  const canCopyEmbed = collection?.publicAcl
 
   const onDrop: <T extends File>(acceptedFiles: T[], fileRejections: FileRejection[], event: DropEvent) => void =
     async acceptedFiles => {
@@ -184,14 +184,14 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection, refetc
             </React.Fragment>
           )}
         </PopupState>
-        {canCopyEmbeded && (
+        {canCopyEmbed && (
           <CopyToClipboard
-            text={embededCode}
+            text={embedCode}
             startIcon={<CodeIcon />}
             options={{ format: 'text' }}
             onCopy={() => snackActions.open('Embded code copied to clipboard!')}
           >
-            <Button color="secondary">Embeded</Button>
+            <Button color="secondary">Embed</Button>
           </CopyToClipboard>
         )}
         <Button
