@@ -84,8 +84,6 @@ export const VideoJS: React.FC<iVideoJs> = ({
           playlistNavigation: true, // set to show playlist navigation arrows
           playlistRepeat: false // set to repeat playlist playback
         }
-
-        console.log(playlist)
         // @ts-ignore
         playerRef.current.playlist(playlist)
       }
