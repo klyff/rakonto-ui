@@ -4,9 +4,10 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { useField } from 'formik'
 import InputFileArea from '../../../../components/InputFileArea'
-import { intervalToDuration, formatDuration } from 'date-fns'
+import { intervalToDuration } from 'date-fns'
+import { isMobile } from 'react-device-detect'
 
-const Step2: React.FC<{ invite: InviteType }> = ({ invite }) => {
+const Step2: React.FC<{ invite: InviteType; handleNext: () => void }> = ({ invite, handleNext }) => {
   const [{ value: file }, , { setValue }] = useField('file')
   const duration = intervalToDuration({ start: 0, end: invite.requestedMediaLength * 1000 })
   const name = invite.organization?.name || `${invite.user.firstName} ${invite.user.lastName}`
@@ -36,7 +37,10 @@ const Step2: React.FC<{ invite: InviteType }> = ({ invite }) => {
       >
         <InputFileArea
           file={file}
-          callback={file => setValue(file)}
+          callback={file => {
+            setValue(file)
+            if (isMobile) handleNext()
+          }}
           countdown={invite.requestedMediaLength}
           disableChangeMediaType={!!invite.requestedMediaType}
           startType={invite.requestedMediaType || null}

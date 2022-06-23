@@ -28,7 +28,7 @@ export const schemaStep4 = yup.object().shape(
 
 export const schema = yup.object().shape({
   collection: yup.object().nullable().required().label('Collection'),
-  instructions: yup.string().required().label('Instructions'),
+  instructions: yup.string().label('Instructions'),
   file: yup
     .mixed()
     .test('fileSize', 'File is more large than 125 MB', value => !value || value?.size <= 250000000)

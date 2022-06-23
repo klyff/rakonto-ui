@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import Box from '@mui/material/Box'
 import Droparea from './DropArea'
 import Recorder from './Recorder'
 import MobileUpload from './MobileUpload'
 import RemoveFile from './RemoveFile'
-import api from '../../lib/api'
 
 interface iInputFileArea {
   file: File | null

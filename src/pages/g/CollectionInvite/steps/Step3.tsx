@@ -4,12 +4,9 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
-import { Field, FieldProps, useField } from 'formik'
+import { useField } from 'formik'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
-import FormGroup from '@mui/material/FormGroup'
 
 const Step3: React.FC<{ invite: InviteType; progress: number }> = ({ invite, progress }) => {
   const [{ onChange: nameOnChange, onBlur: nameOnBlur, value: nameValue }, { error, touched }] = useField('name')

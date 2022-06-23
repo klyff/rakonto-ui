@@ -3,14 +3,8 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { InviteType } from '../../../../lib/types'
 import Player from '../../../../components/Player'
-import { useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
 
 const Step1: React.FC<{ invite: InviteType }> = ({ invite }) => {
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const name = invite.organization?.name || `${invite.user.firstName} ${invite.user.lastName}`
   return (
     <Grid container>

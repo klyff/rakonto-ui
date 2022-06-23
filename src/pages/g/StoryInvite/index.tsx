@@ -11,8 +11,6 @@ import Box from '@mui/material/Box'
 import MobileStepper from '@mui/material/MobileStepper'
 import Button, { ButtonProps } from '@mui/material/Button'
 import LoadingButton from '@mui/lab/LoadingButton'
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import Step1 from './steps/Step1'
 import Step2 from './steps/Step2'
 import Step3 from './steps/Step3'
@@ -169,8 +167,8 @@ const ContributorInvite: React.FC = () => {
             steps={steps.length}
             position="static"
             activeStep={activeStep}
-            backButton={<ButtonBack size="large" startIcon={<KeyboardArrowLeft />} />}
-            nextButton={<ButtonNext size="large" endIcon={activeStep < 2 && <KeyboardArrowRight />} />}
+            backButton={<ButtonBack size="large" />}
+            nextButton={<ButtonNext variant="contained" size="large" />}
           />
           <Box
             sx={{
