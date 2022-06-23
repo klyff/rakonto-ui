@@ -16,7 +16,6 @@ import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import CircularProgress from '@mui/material/CircularProgress'
 import Switch from '@mui/material/Switch'
-import MenuItem from '@mui/material/MenuItem'
 import useUser from '../../UserProvider/useUser'
 
 const Step3: React.FC<{ progress: number }> = ({ progress }) => {
@@ -29,6 +28,7 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
     { setValue: setExpire }
   ] = useField('expire')
   const [{ value: allowExpire }, , { setValue: setAllowExpire }] = useField('allowExpire')
+  const [{ value: allowOrganization }, , { setValue: setAllowOrganization }] = useField('allowOrganization')
   const [
     { onBlur: sizeOnBlur },
     { touched: sizeTouched, error: sizeError },
@@ -39,11 +39,6 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
     { touched: titleTouched, error: titleError }
   ] = useField('title')
   const [{ value: recordingTypeValue, onChange: recordingTypeChange }] = useField('recordingType')
-  const [
-    { value: organizationIdValue, onBlur: organizationIdOnBlur },
-    { touched: organizationIdTouched, error: organizationIdError },
-    { setValue: setOrganizationId }
-  ] = useField('organizationId')
 
   useEffect(() => {
     const time = (minutes || 0) * 60 + seconds || 0
@@ -137,29 +132,6 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
               </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                autoFocus
-                select
-                name="organizationId"
-                fullWidth
-                label="Organization"
-                placeholder="Select an organization"
-                type="text"
-                value={organizationIdValue}
-                onChange={e => setOrganizationId(e.target.value as string)}
-                onBlur={organizationIdOnBlur}
-                error={organizationIdTouched && Boolean(organizationIdError)}
-                helperText={(organizationIdTouched && organizationIdError) || ' '}
-              >
-                <MenuItem sx={{ height: '36px' }} value={'default'}>{` `}</MenuItem>
-                {user.organizations.map(({ id, name }) => (
-                  <MenuItem key={id} value={id}>
-                    {name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} md={6}>
               <FormControl>
                 <FormLabel sx={{ color: '#fff' }} error={sizeTouched && Boolean(sizeError)} id="recordings">
                   Time Limit for recorder
@@ -206,6 +178,14 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                 </RadioGroup>
               </FormControl>
             </Grid>
+            {!!user.organizations.length && (
+              <Grid item xs={12} md={6}>
+                <FormControl>
+                  <FormLabel id="recordings">Organization</FormLabel>
+                  <Switch checked={allowOrganization} onChange={e => setAllowOrganization(e.target.checked)} />
+                </FormControl>
+              </Grid>
+            )}
           </Grid>
         </>
       )}

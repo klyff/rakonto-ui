@@ -20,13 +20,15 @@ import Step4 from './steps/step4'
 import Step2 from './steps/step2'
 import Step3 from './steps/step3'
 import Step1 from './steps/step1'
-import { InviteType, MediaType, CollectionType, SearchResultType } from '../../lib/types'
+import { InviteType, MediaType, CollectionType } from '../../lib/types'
 import { addDays } from 'date-fns'
 import api from '../../lib/api'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useMitt } from 'react-mitt'
+import useUser from '../UserProvider/useUser'
 
 const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }> = ({ initialCollection }) => {
+  const { user } = useUser()
   const { actions } = useContext(StepInviteRecorderContext)
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [selectedSuggestion, setSelectedSuggestion] = useState<string>('')
@@ -57,7 +59,6 @@ const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }>
   }
 
   const initialValues: {
-    organizationId: string | null
     collection: CollectionType | null
     instructions: string
     file: File | null
@@ -66,6 +67,7 @@ const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }>
     size: string
     title: string
     allowExpire: boolean
+    allowOrganization: boolean
   } = {
     collection: initialCollection,
     instructions: '',
@@ -75,7 +77,7 @@ const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }>
     size: '10',
     title: '',
     allowExpire: false,
-    organizationId: null
+    allowOrganization: false
   }
 
   const handleNext = () => {
@@ -91,7 +93,7 @@ const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }>
       const inviteResult = await api.createInvite(
         {
           collectionId: values!.collection!.id,
-          organizationId: values?.organizationId !== 'default' ? values!.organizationId : null,
+          organizationId: values.allowExpire ? user.organizations[0].id : null,
           title: values!.title,
           description: values!.instructions,
           dueAt: values.allowExpire ? values!.expire : null,
