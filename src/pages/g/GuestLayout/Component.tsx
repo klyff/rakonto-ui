@@ -27,7 +27,7 @@ const GuestLayout: React.FC<{ logo: string; isLoading: boolean; showPoweredByLog
         {}
         {children}
       </Box>
-      {!showPoweredByLogo && (
+      {showPoweredByLogo && (
         <Box
           component="a"
           href="/"
