@@ -4,10 +4,12 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 import { Field, FieldProps } from 'formik'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import FormGroup from '@mui/material/FormGroup'
+import InfoIcon from '@mui/icons-material/Info'
 
 const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
   const name = invite.organization?.name || `${invite.user.firstName} ${invite.user.lastName}`
@@ -51,27 +53,64 @@ const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
           </Field>
         </FormGroup>
       </Grid>
-      <Grid textAlign="center" item xs={12} mt={4}>
-        <Button
-          autoFocus
-          href={'/u/signup'}
-          sx={{ maxWidth: { xs: 'inherit', md: '400px' } }}
-          variant="contained"
-          fullWidth
-        >
-          Confirm and create a Rakonto account now
-        </Button>
-      </Grid>
-      <Grid textAlign="center" justifySelf="center" item xs={12} mt={2}>
-        <Button href="http://rakonto.io" sx={{ maxWidth: { xs: 'inherit', md: '400px' } }} variant="outlined" fullWidth>
-          Confirm without creating a Rakonto account
-        </Button>
-      </Grid>
-      <Grid textAlign="center" justifySelf="center" item xs={12} mt={2}>
-        <Button href={'/u/signin'} sx={{ maxWidth: { xs: 'inherit', md: '400px' } }} fullWidth>
-          If you already have a Rakonto account, you may login.
-        </Button>
-      </Grid>
+      {invite?.callToAction && invite?.callToActionButtonLabel ? (
+        <Grid textAlign="center" justifySelf="center" item xs={12} mt={6}>
+          {invite.callToActionInstructions && (
+            <Box
+              sx={{
+                maxWidth: { xs: 'inherit', md: '400px' },
+                position: 'relative',
+                left: 18,
+                right: 0,
+                marginX: 'auto'
+              }}
+            >
+              <Typography align="left" variant="body1" gutterBottom>
+                <InfoIcon sx={{ fontSize: '0.8rem' }} /> {invite.callToActionInstructions}
+              </Typography>
+            </Box>
+          )}
+          <Button
+            href={invite.callToAction}
+            target="_blank"
+            rel="noreferrer"
+            sx={{ maxWidth: { xs: 'inherit', md: '400px' } }}
+            fullWidth
+            variant="contained"
+          >
+            {invite.callToActionButtonLabel}
+          </Button>
+        </Grid>
+      ) : (
+        <>
+          <Grid textAlign="center" item xs={12} mt={4}>
+            <Button
+              autoFocus
+              href={'/u/signup'}
+              sx={{ maxWidth: { xs: 'inherit', md: '400px' } }}
+              variant="contained"
+              fullWidth
+            >
+              Confirm and create a Rakonto account now
+            </Button>
+          </Grid>
+          <Grid textAlign="center" justifySelf="center" item xs={12} mt={2}>
+            <Button
+              href="http://rakonto.io"
+              sx={{ maxWidth: { xs: 'inherit', md: '400px' } }}
+              variant="outlined"
+              fullWidth
+            >
+              Confirm without creating a Rakonto account
+            </Button>
+          </Grid>
+          <Grid textAlign="center" justifySelf="center" item xs={12} mt={2}>
+            <Button href={'/u/signin'} sx={{ maxWidth: { xs: 'inherit', md: '400px' } }} fullWidth>
+              If you already have a Rakonto account, you may login.
+            </Button>
+          </Grid>
+        </>
+      )}
     </Grid>
   )
 }

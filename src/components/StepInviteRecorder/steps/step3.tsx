@@ -22,22 +22,51 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
   const { user } = useUser()
   const [minutes, setMinutes] = useState<number>(1)
   const [seconds, setSeconds] = useState<number>(0)
+
   const [
     { value: expireValue, onBlur: expireOnBlur },
     { touched: expireTouched, error: expireError },
     { setValue: setExpire }
   ] = useField('expire')
+
   const [{ value: allowExpire }, , { setValue: setAllowExpire }] = useField('allowExpire')
+
   const [{ value: allowOrganization }, , { setValue: setAllowOrganization }] = useField('allowOrganization')
+
   const [
     { onBlur: sizeOnBlur },
     { touched: sizeTouched, error: sizeError },
     { setValue: setSize, setTouched: setSizeTouchted }
   ] = useField('size')
+
+  const [
+    { value: callToActionValue, onBlur: callToActionOnBlur, onChange: callToActionOnChange },
+    { touched: callToActionTouched, error: callToActionError }
+  ] = useField('callToAction')
+
+  const [
+    {
+      value: callToActionButtonLabelValue,
+      onBlur: callToActionButtonLabelOnBlur,
+      onChange: callToActionButtonLabelOnChange
+    },
+    { touched: callToActionButtonLabelTouched, error: callToActionButtonLabelError }
+  ] = useField('callToActionButtonLabel')
+
+  const [
+    {
+      value: callToActionInstructionsValue,
+      onBlur: callToActionInstructionsOnBlur,
+      onChange: callToActionInstructionsOnChange
+    },
+    { touched: callToActionInstructionsTouched, error: callToActionInstructionsError }
+  ] = useField('callToActionInstructions')
+
   const [
     { value: titleValue, onBlur: titleOnBlur, onChange: titleOnChange },
     { touched: titleTouched, error: titleError }
   ] = useField('title')
+
   const [{ value: recordingTypeValue, onChange: recordingTypeChange }] = useField('recordingType')
 
   useEffect(() => {
@@ -186,6 +215,60 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                 </FormControl>
               </Grid>
             )}
+            <Grid item xs={12}>
+              <FormLabel id="recordings">Call to action</FormLabel>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                InputLabelProps={{
+                  shrink: true
+                }}
+                placeholder="Type a label for call to action button"
+                label="Button label"
+                name="callToActionButtonLabel"
+                type="text"
+                value={callToActionButtonLabelValue}
+                onChange={callToActionButtonLabelOnChange}
+                onBlur={callToActionButtonLabelOnBlur}
+                error={callToActionButtonLabelTouched && Boolean(callToActionButtonLabelError)}
+                helperText={(callToActionButtonLabelTouched && callToActionButtonLabelError) || ' '}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                InputLabelProps={{
+                  shrink: true
+                }}
+                placeholder="Type the action link"
+                label="Action link"
+                name="callToAction"
+                type="text"
+                value={callToActionValue}
+                onChange={callToActionOnChange}
+                onBlur={callToActionOnBlur}
+                error={callToActionTouched && Boolean(callToActionError)}
+                helperText={(callToActionTouched && callToActionError) || ' '}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                InputLabelProps={{
+                  shrink: true
+                }}
+                placeholder="Type the action button instruction"
+                label="Instructions"
+                name="callToActionInstructions"
+                type="text"
+                value={callToActionInstructionsValue}
+                onChange={callToActionInstructionsOnChange}
+                onBlur={callToActionInstructionsOnBlur}
+                error={callToActionInstructionsTouched && Boolean(callToActionInstructionsError)}
+                helperText={(callToActionInstructionsTouched && callToActionInstructionsError) || ' '}
+              />
+            </Grid>
           </Grid>
         </>
       )}

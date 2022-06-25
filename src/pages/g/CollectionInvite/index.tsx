@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { parse } from 'qs'
 import { useLocation, useParams, useHistory } from 'react-router-dom'
 import api from '../../../lib/api'
@@ -9,7 +9,8 @@ import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Box from '@mui/material/Box'
 import MobileStepper from '@mui/material/MobileStepper'
-import Button, { ButtonProps } from '@mui/material/Button'
+import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup'
 import LoadingButton from '@mui/lab/LoadingButton'
 
 import Step1 from './steps/Step1'
@@ -21,16 +22,6 @@ import { useFormik, FormikValues, FormikProvider } from 'formik'
 import schema from './schema'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import { GuestLayoutContext } from '../GuestLayout'
-
-const ButtonNext: React.FC<
-  ButtonProps & { label: string; loading: boolean | undefined; disabled: boolean | undefined }
-> = ({ label, loading, disabled, onClick, ...props }) => {
-  return (
-    <LoadingButton {...props} sx={{ fontSize: '1.2em' }} loading={loading} disabled={disabled} onClick={onClick}>
-      {label}
-    </LoadingButton>
-  )
-}
 
 const CollectionInvite: React.FC = () => {
   const location = useLocation()
@@ -126,22 +117,43 @@ const CollectionInvite: React.FC = () => {
     initialValues: initialValues,
     validationSchema: schema,
     validateOnBlur: true,
+    validateOnMount: true,
     onSubmit: handleSubmit
   })
 
-  const ButtonBack: React.FC<ButtonProps> = props => {
-    if (activeStep > 0) {
-      return (
-        <Button {...props} sx={{ fontSize: '1.2em' }} onClick={handleBack}>
-          Back
-        </Button>
-      )
-    }
-
-    return <div></div>
-  }
+  const buttons = useCallback(
+    () => (
+      <ButtonGroup>
+        {activeStep > 0 ? (
+          <Button sx={{ fontSize: '1.2em' }} onClick={handleBack}>
+            Back
+          </Button>
+        ) : (
+          <div></div>
+        )}
+        <LoadingButton
+          sx={{ fontSize: '1.2em' }}
+          loading={steps[activeStep].id === 'submit' ? formik.isSubmitting : undefined}
+          disabled={steps[activeStep].id === 'submit' ? !formik.isValid : undefined}
+          onClick={() => {
+            if (activeStep === 2) {
+              formik.handleSubmit()
+              return
+            }
+            handleNext()
+          }}
+          variant="contained"
+          size="large"
+        >
+          {steps[activeStep].id === 'submit' ? 'Submit' : 'Next'}
+        </LoadingButton>
+      </ButtonGroup>
+    ),
+    [formik, activeStep, steps]
+  )
 
   if (loading) return <CircularLoadingCentred />
+
   return (
     <>
       <Box sx={{ width: '100%', paddingY: 5, paddingX: 2 }}>
@@ -183,22 +195,11 @@ const CollectionInvite: React.FC = () => {
             steps={steps.length}
             position="static"
             activeStep={activeStep}
-            backButton={<ButtonBack size="large" />}
+            backButton={<div />}
             nextButton={
-              <ButtonNext
-                label={steps[activeStep].id === 'submit' ? 'Submit' : 'Next'}
-                loading={steps[activeStep].id === 'submit' ? formik.isSubmitting : undefined}
-                disabled={steps[activeStep].id === 'submit' ? !formik.isValid : undefined}
-                onClick={() => {
-                  if (activeStep === 2) {
-                    formik.handleSubmit()
-                    return
-                  }
-                  handleNext()
-                }}
-                variant="contained"
-                size="large"
-              />
+              <Box sx={{ position: 'relative', height: '57px' }}>
+                <Box sx={{ position: 'absolute', right: 0 }}>{buttons()}</Box>
+              </Box>
             }
           />
           <Box
@@ -211,23 +212,8 @@ const CollectionInvite: React.FC = () => {
               zIndex: 11
             }}
           >
-            <div style={{ flex: 1 }} />
-            <ButtonBack size="large" />
-            <Box sx={{ marginX: 1 }} />
-            <ButtonNext
-              label={steps[activeStep].id === 'submit' ? 'Submit' : 'Next'}
-              loading={steps[activeStep].id === 'submit' ? formik.isSubmitting : undefined}
-              disabled={steps[activeStep].id === 'submit' ? !formik.isValid : undefined}
-              onClick={() => {
-                if (steps[activeStep].id === 'submit') {
-                  formik.handleSubmit()
-                  return
-                }
-                handleNext()
-              }}
-              size="large"
-              variant="contained"
-            />
+            <Box sx={{ flex: 1 }} />
+            {buttons()}
           </Box>
         </>
       )}

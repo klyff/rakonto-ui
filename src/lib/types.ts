@@ -388,6 +388,9 @@ export type InviteInput = {
   requestedMediaType: MediaType | null
   requestedMediaLength: number
   dueAt: Date
+  callToActionInstructions: string
+  callToActionButtonLabel: string
+  callToAction: string
 }
 
 export type InviteType = {
@@ -411,6 +414,9 @@ export type InviteType = {
   dueAt: Date
   createdAt: string
   ready: boolean
+  callToActionInstructions: string
+  callToActionButtonLabel: string
+  callToAction: string
 }
 
 export type InviteContributorInput = {

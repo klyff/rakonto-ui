@@ -68,6 +68,9 @@ const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }>
     title: string
     allowExpire: boolean
     allowOrganization: boolean
+    callToActionInstructions: string
+    callToActionButtonLabel: string
+    callToAction: string
   } = {
     collection: initialCollection,
     instructions: '',
@@ -77,7 +80,10 @@ const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }>
     size: '10',
     title: '',
     allowExpire: false,
-    allowOrganization: false
+    allowOrganization: false,
+    callToActionInstructions: '',
+    callToActionButtonLabel: '',
+    callToAction: ''
   }
 
   const handleNext = () => {
@@ -98,7 +104,10 @@ const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }>
           description: values!.instructions,
           dueAt: values.allowExpire ? values!.expire : null,
           requestedMediaLength: Number(values!.size),
-          requestedMediaType: values.recordingType === 'NONE' ? null : values.recordingType
+          requestedMediaType: values.recordingType === 'NONE' ? null : values.recordingType,
+          callToActionInstructions: values?.callToActionInstructions,
+          callToActionButtonLabel: values?.callToActionButtonLabel,
+          callToAction: values?.callToAction
         },
         values.file,
         event => {

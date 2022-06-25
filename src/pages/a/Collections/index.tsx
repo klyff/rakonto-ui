@@ -55,7 +55,11 @@ const Collections: React.FC<RouteComponentProps> = () => {
           }}
         >
           <Box sx={{ flex: '1' }} />
-          <Button variant="outlined" onClick={() => createCollectionActions.open(handleCallback)}>
+          <Button
+            variant="outlined"
+            sx={{ height: '56px' }}
+            onClick={() => createCollectionActions.open(handleCallback)}
+          >
             New collection
           </Button>
         </Box>

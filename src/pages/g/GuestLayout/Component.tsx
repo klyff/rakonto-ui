@@ -1,8 +1,15 @@
 import React from 'react'
 import Header from './Header'
 import Box from '@mui/material/Box'
+import { useTheme } from '@mui/material/styles'
 
-const GuestLayout: React.FC<{ logo: string; isLoading: boolean }> = ({ logo, isLoading, children }) => {
+const GuestLayout: React.FC<{ logo: string; isLoading: boolean; showPoweredByLogo: boolean }> = ({
+  logo,
+  isLoading,
+  showPoweredByLogo,
+  children
+}) => {
+  const theme = useTheme()
   return (
     <>
       <Header logo={logo} isLoading={isLoading} />
@@ -20,6 +27,15 @@ const GuestLayout: React.FC<{ logo: string; isLoading: boolean }> = ({ logo, isL
         {}
         {children}
       </Box>
+      {!showPoweredByLogo && (
+        <Box
+          component="a"
+          href="/"
+          sx={{ position: 'absolute', bottom: '16px', left: '16px', zIndex: theme.zIndex.tooltip }}
+        >
+          <img width={135} src={'/images/poweredByRakonto.svg'} alt="rakonto" />
+        </Box>
+      )}
     </>
   )
 }

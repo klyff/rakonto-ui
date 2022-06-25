@@ -13,10 +13,12 @@ export const GuestLayoutContext = createContext<{
 
 export const GuestLayoutProvider: React.FC = ({ children }) => {
   const [logo, setLogoState] = useState<string>('/images/logo-withe.svg')
+  const [showPoweredByLogo, setShowPoweredByLogo] = useState<boolean>(false)
   const [isLoading, setIsLoadingState] = useState<boolean>(true)
 
   const setLogo = (logoUrl: string) => {
     setLogoState(logoUrl)
+    setShowPoweredByLogo(true)
   }
 
   const setIsloading = (value: boolean) => {
@@ -30,7 +32,7 @@ export const GuestLayoutProvider: React.FC = ({ children }) => {
         setIsloading
       }}
     >
-      <GuestLayout isLoading={isLoading} logo={logo}>
+      <GuestLayout isLoading={isLoading} logo={logo} showPoweredByLogo={showPoweredByLogo}>
         {children}
       </GuestLayout>
     </GuestLayoutContext.Provider>
