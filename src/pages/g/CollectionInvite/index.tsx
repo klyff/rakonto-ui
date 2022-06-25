@@ -44,12 +44,19 @@ const CollectionInvite: React.FC = () => {
   const { setLogo, setIsloading: setIsLoadingHeader } = useContext(GuestLayoutContext)
   const history = useHistory()
 
-  const steps = [
-    { id: 0, label: '', error: false, allow: !!invite?.description || !!invite?.video },
-    { id: 1, label: 'The green room', error: false, allow: true },
-    { id: 2, label: 'Submit your recording', error: false, allow: true },
-    { id: 3, label: 'Thank you!', error: false, allow: true }
-  ].filter(item => item.allow)
+  const allowFirsStep = !!invite?.description || !!invite?.video
+  const steps = allowFirsStep
+    ? [
+        { id: 'initial', label: '', error: false },
+        { id: 'greenRoom', label: 'The green room', error: false },
+        { id: 'submit', label: 'Submit your recording', error: false },
+        { id: 'thankYoy', label: 'Thank you!', error: false }
+      ]
+    : [
+        { id: 'greenRoom', label: 'The green room', error: false },
+        { id: 'submit', label: 'Submit your recording', error: false },
+        { id: 'thankYoy', label: 'Thank you!', error: false }
+      ]
 
   const fetch = async () => {
     try {
@@ -58,7 +65,7 @@ const CollectionInvite: React.FC = () => {
       setInvite(inviteResult)
       setIsLoadingHeader(false)
       setLoading(false)
-      setActiveStep(!!inviteResult?.description || !!inviteResult?.video ? 0 : 1)
+      setActiveStep(0)
     } catch (e) {
       snackActions.open('This link was expired.')
       history.push('u/signin')
@@ -111,8 +118,8 @@ const CollectionInvite: React.FC = () => {
         setProgress(progress)
       }
     )
-    handleNext()
     setProgress(0)
+    handleNext()
   }
 
   const formik = useFormik({
@@ -123,7 +130,7 @@ const CollectionInvite: React.FC = () => {
   })
 
   const ButtonBack: React.FC<ButtonProps> = props => {
-    if (activeStep > (!!invite?.description || !!invite?.video ? 0 : 1)) {
+    if (activeStep > 0) {
       return (
         <Button {...props} sx={{ fontSize: '1.2em' }} onClick={handleBack}>
           Back
@@ -152,14 +159,24 @@ const CollectionInvite: React.FC = () => {
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <Box sx={{ width: '100%', maxWidth: 1080, paddingX: { xs: 3, md: 2 } }}>
           <FormikProvider value={formik}>
-            {activeStep === 0 && <Step1 invite={invite!} />}
-            {activeStep === 1 && <Step2 invite={invite!} handleNext={handleNext} />}
-            {activeStep === 2 && <Step3 invite={invite!} progress={progress} />}
-            {activeStep === 3 && <Step4 invite={invite!} />}
+            {allowFirsStep ? (
+              <>
+                {activeStep === 0 && <Step1 invite={invite!} />}
+                {activeStep === 1 && <Step2 invite={invite!} handleNext={handleNext} />}
+                {activeStep === 2 && <Step3 invite={invite!} progress={progress} />}
+                {activeStep === 3 && <Step4 invite={invite!} />}
+              </>
+            ) : (
+              <>
+                {activeStep === 0 && <Step2 invite={invite!} handleNext={handleNext} />}
+                {activeStep === 1 && <Step3 invite={invite!} progress={progress} />}
+                {activeStep === 2 && <Step4 invite={invite!} />}
+              </>
+            )}
           </FormikProvider>
         </Box>
       </Box>
-      {activeStep !== 3 && (
+      {(allowFirsStep ? activeStep !== 3 : activeStep !== 2) && (
         <>
           <MobileStepper
             sx={{ display: { xs: 'flex', md: 'none' }, width: '100%', position: 'fixed', bottom: 0, zIndex: 11 }}
@@ -169,9 +186,9 @@ const CollectionInvite: React.FC = () => {
             backButton={<ButtonBack size="large" />}
             nextButton={
               <ButtonNext
-                label={activeStep === 2 ? 'Submit' : 'Next'}
-                loading={activeStep === 2 ? formik.isSubmitting : undefined}
-                disabled={activeStep === 2 ? !formik.isValid : undefined}
+                label={steps[activeStep].id === 'submit' ? 'Submit' : 'Next'}
+                loading={steps[activeStep].id === 'submit' ? formik.isSubmitting : undefined}
+                disabled={steps[activeStep].id === 'submit' ? !formik.isValid : undefined}
                 onClick={() => {
                   if (activeStep === 2) {
                     formik.handleSubmit()
@@ -198,11 +215,11 @@ const CollectionInvite: React.FC = () => {
             <ButtonBack size="large" />
             <Box sx={{ marginX: 1 }} />
             <ButtonNext
-              label={activeStep === 2 ? 'Submit' : 'Next'}
-              loading={activeStep === 2 ? formik.isSubmitting : undefined}
-              disabled={activeStep === 2 ? !formik.isValid : undefined}
+              label={steps[activeStep].id === 'submit' ? 'Submit' : 'Next'}
+              loading={steps[activeStep].id === 'submit' ? formik.isSubmitting : undefined}
+              disabled={steps[activeStep].id === 'submit' ? !formik.isValid : undefined}
               onClick={() => {
-                if (activeStep === 2) {
+                if (steps[activeStep].id === 'submit') {
                   formik.handleSubmit()
                   return
                 }
