@@ -122,10 +122,10 @@ const CollectionInvite: React.FC = () => {
   })
 
   const buttons = useCallback(
-    () => (
+    ({ size = 'large' }: { size: 'small' | 'medium' | 'large' }) => (
       <ButtonGroup>
         {activeStep > 0 ? (
-          <Button sx={{ fontSize: '1.2em' }} onClick={handleBack}>
+          <Button size={size} sx={{ fontSize: '1.2em' }} onClick={handleBack}>
             Back
           </Button>
         ) : (
@@ -136,14 +136,14 @@ const CollectionInvite: React.FC = () => {
           loading={steps[activeStep].id === 'submit' ? formik.isSubmitting : undefined}
           disabled={steps[activeStep].id === 'submit' ? !formik.isValid : undefined}
           onClick={() => {
-            if (activeStep === 2) {
+            if (steps[activeStep].id === 'submit') {
               formik.handleSubmit()
               return
             }
             handleNext()
           }}
           variant="contained"
-          size="large"
+          size={size}
         >
           {steps[activeStep].id === 'submit' ? 'Submit' : 'Next'}
         </LoadingButton>
@@ -198,7 +198,7 @@ const CollectionInvite: React.FC = () => {
             backButton={<div />}
             nextButton={
               <Box sx={{ position: 'relative', height: '57px' }}>
-                <Box sx={{ position: 'absolute', right: 0 }}>{buttons()}</Box>
+                <Box sx={{ position: 'absolute', right: 0 }}>{buttons({ size: 'medium' })}</Box>
               </Box>
             }
           />
@@ -213,7 +213,7 @@ const CollectionInvite: React.FC = () => {
             }}
           >
             <Box sx={{ flex: 1 }} />
-            {buttons()}
+            {buttons({ size: 'large' })}
           </Box>
         </>
       )}

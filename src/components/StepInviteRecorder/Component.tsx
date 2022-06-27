@@ -99,7 +99,7 @@ const StepInviteRecorder: React.FC<{ initialCollection: CollectionType | null }>
       const inviteResult = await api.createInvite(
         {
           collectionId: values!.collection!.id,
-          organizationId: values.allowExpire ? user.organizations[0].id : null,
+          organizationId: values.allowOrganization ? user.organizations[0].id : null,
           title: values!.title,
           description: values!.instructions,
           dueAt: values.allowExpire ? values!.expire : null,
