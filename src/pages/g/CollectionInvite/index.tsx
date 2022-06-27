@@ -39,12 +39,12 @@ const CollectionInvite: React.FC = () => {
   const steps = allowFirsStep
     ? [
         { id: 'initial', label: '', error: false },
-        { id: 'greenRoom', label: 'The green room', error: false },
+        { id: 'greenRoom', label: '', error: false },
         { id: 'submit', label: 'Submit your recording', error: false },
         { id: 'thankYoy', label: 'Thank you!', error: false }
       ]
     : [
-        { id: 'greenRoom', label: 'The green room', error: false },
+        { id: 'greenRoom', label: '', error: false },
         { id: 'submit', label: 'Submit your recording', error: false },
         { id: 'thankYoy', label: 'Thank you!', error: false }
       ]
