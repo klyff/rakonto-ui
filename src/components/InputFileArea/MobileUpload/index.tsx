@@ -8,9 +8,10 @@ import Typography from '@mui/material/Typography'
 
 interface iMobileUpload {
   onDrop: (value: File | null) => void
+  filter?: 'AUDIO' | 'VIDEO' | null
 }
 
-const MobileUpload: React.FC<iMobileUpload> = ({ onDrop }) => {
+const MobileUpload: React.FC<iMobileUpload> = ({ onDrop, filter }) => {
   const handleCapture = (files: FileList | null) => {
     if (files) {
       if (files.length !== 0) {
@@ -40,16 +41,20 @@ const MobileUpload: React.FC<iMobileUpload> = ({ onDrop }) => {
         }}
       >
         <Typography sx={{ marginBottom: 6 }} fontWeight="700" align="center" variant="h6" gutterBottom>
-          Record video or audio from your device
+          {`Record ${!filter ? 'video or audio' : filter.toLowerCase()} from your device`}
         </Typography>
         <ButtonGroup disableElevation size="large" variant="outlined">
-          <Button component="label" startIcon={<MovieIcon />}>
-            Video <input accept="video/*" type="file" onChange={e => handleCapture(e.target?.files)} hidden />
-          </Button>
-          <Button component="label" endIcon={<HeadphonesIcon />}>
-            Audio
-            <input accept="audio/*" type="file" onChange={e => handleCapture(e.target?.files)} hidden />
-          </Button>
+          {(!filter || filter === 'VIDEO') && (
+            <Button component="label" startIcon={<MovieIcon />}>
+              Video <input accept="video/*" type="file" onChange={e => handleCapture(e.target?.files)} hidden />
+            </Button>
+          )}
+          {(!filter || filter === 'AUDIO') && (
+            <Button component="label" endIcon={<HeadphonesIcon />}>
+              Audio
+              <input accept="audio/*" type="file" onChange={e => handleCapture(e.target?.files)} hidden />
+            </Button>
+          )}
         </ButtonGroup>
       </Box>
     </Box>

@@ -56,6 +56,7 @@ const InputFileArea: React.FC<iInputFileArea> = ({
       {!file &&
         (isMobile ? (
           <MobileUpload
+            filter={startType}
             onDrop={f => {
               callback(f)
             }}

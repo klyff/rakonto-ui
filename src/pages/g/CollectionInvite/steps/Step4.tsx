@@ -9,80 +9,63 @@ import { Field, FieldProps } from 'formik'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import FormGroup from '@mui/material/FormGroup'
-import InfoIcon from '@mui/icons-material/Info'
 
 const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
   const name = invite.organization?.name || `${invite.user.firstName} ${invite.user.lastName}`
+  const email = invite.organization?.email || invite.user.email
   return (
     <Grid container>
-      <Grid item xs={12}>
-        <Typography variant="h6" mb={2}>
-          {`Thank you for using Rakonto to submit your recording! We have notified ${name} that you have submitted your recording. If you have any questions
-          about your recording, please contact ${name} at `}
-          <Link href={`mailTo:${invite.user.email}`} target="_blank">
-            {invite.user.email}
-          </Link>
-          .
-        </Typography>
-        <Typography variant="h6">
-          At Rakonto, we take your privacy seriously. To best serve you, please let us know how we may use the contact
-          information you entered when submitting your recording:
-        </Typography>
-      </Grid>
-      <Grid textAlign="center" item xs={12} mt={4}>
-        <FormGroup>
-          <Field name="allowEmail" type="checkbox">
-            {({ field }: FieldProps) => (
-              <>
-                <FormControlLabel
-                  control={<Checkbox sx={{ alignSelf: 'start', pt: 0 }} {...field} />}
-                  label="Rakonto may send me emails about product updates and promotions"
-                />
-              </>
-            )}
-          </Field>
-          <Field name="allowShareInfo" type="checkbox">
-            {({ field }: FieldProps) => (
-              <>
-                <FormControlLabel
-                  control={<Checkbox {...field} />}
-                  label="Rakonto may share my information with its marketing partners"
-                />
-              </>
-            )}
-          </Field>
-        </FormGroup>
-      </Grid>
       {invite?.callToAction && invite?.callToActionButtonLabel ? (
         <Grid textAlign="center" justifySelf="center" item xs={12} mt={6}>
           {invite.callToActionInstructions && (
-            <Box
-              sx={{
-                maxWidth: { xs: 'inherit', md: '400px' },
-                position: 'relative',
-                left: 18,
-                right: 0,
-                marginX: 'auto'
-              }}
-            >
-              <Typography align="left" variant="body1" gutterBottom>
-                <InfoIcon sx={{ fontSize: '0.8rem' }} /> {invite.callToActionInstructions}
-              </Typography>
-            </Box>
+            <Typography variant="h6" mb={2}>
+              {invite.callToActionInstructions}
+            </Typography>
           )}
-          <Button
-            href={invite.callToAction}
-            target="_blank"
-            rel="noreferrer"
-            sx={{ maxWidth: { xs: 'inherit', md: '400px' } }}
-            fullWidth
-            variant="contained"
-          >
+          <Button href={invite.callToAction} target="_blank" rel="noreferrer" variant="contained">
             {invite.callToActionButtonLabel}
           </Button>
         </Grid>
       ) : (
-        <>
+        <Box sx={{ mb: { xs: 10, md: 'unset' } }}>
+          <Grid item xs={12}>
+            <Typography variant="h6" mb={2}>
+              {`Thank you for using Rakonto to submit your recording! We have notified ${name} that you have submitted your recording. If you have any questions
+          about your recording, please contact ${name} at `}
+              <Link href={`mailTo:${email}`} target="_blank">
+                {email}
+              </Link>
+              .
+            </Typography>
+            <Typography variant="h6">
+              At Rakonto, we take your privacy seriously. To best serve you, please let us know how we may use the
+              contact information you entered when submitting your recording:
+            </Typography>
+          </Grid>
+          <Grid textAlign="center" item xs={12} mt={4}>
+            <FormGroup>
+              <Field name="allowEmail" type="checkbox">
+                {({ field }: FieldProps) => (
+                  <>
+                    <FormControlLabel
+                      control={<Checkbox sx={{ alignSelf: 'start', pt: 0 }} {...field} />}
+                      label="Rakonto may send me emails about product updates and promotions"
+                    />
+                  </>
+                )}
+              </Field>
+              <Field name="allowShareInfo" type="checkbox">
+                {({ field }: FieldProps) => (
+                  <>
+                    <FormControlLabel
+                      control={<Checkbox {...field} />}
+                      label="Rakonto may share my information with its marketing partners"
+                    />
+                  </>
+                )}
+              </Field>
+            </FormGroup>
+          </Grid>
           <Grid textAlign="center" item xs={12} mt={4}>
             <Button
               autoFocus
@@ -109,7 +92,7 @@ const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
               If you already have a Rakonto account, you may login.
             </Button>
           </Grid>
-        </>
+        </Box>
       )}
     </Grid>
   )

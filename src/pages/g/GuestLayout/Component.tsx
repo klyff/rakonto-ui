@@ -19,19 +19,18 @@ const GuestLayout: React.FC<{ logo: string; isLoading: boolean; showPoweredByLog
           marginBottom: 2,
           overflow: 'auto',
           height: {
-            xs: 'calc(100vh - 56px)',
-            sm: 'calc(100vh - 64px)'
+            xs: 'calc(100% - 56px)',
+            sm: 'calc(100% - 64px)'
           }
         }}
       >
-        {}
         {children}
       </Box>
       {showPoweredByLogo && (
         <Box
           component="a"
           href="/"
-          sx={{ position: 'absolute', bottom: '16px', left: '16px', zIndex: theme.zIndex.tooltip }}
+          sx={{ position: 'fixed', bottom: '16px', left: '16px', zIndex: theme.zIndex.tooltip }}
         >
           <img width={135} src={'/images/poweredByRakonto.svg'} alt="rakonto" />
         </Box>

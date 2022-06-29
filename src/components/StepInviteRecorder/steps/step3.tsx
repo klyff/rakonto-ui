@@ -113,12 +113,12 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
       )}
       {!progress && (
         <>
-          <Typography mb={2}>
-            What title would you like to give the recordings? We&apos;ll append each recorder&apos;s name to their
-            recording.
-          </Typography>
-          <Grid container spacing={2}>
+          <Grid container spacing={1}>
             <Grid item xs={12}>
+              <Typography mb={2}>
+                What title would you like to give the recordings? We&apos;ll append each recorder&apos;s name to their
+                recording.
+              </Typography>
               <TextField
                 fullWidth
                 InputLabelProps={{
@@ -136,7 +136,7 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <FormControl>
+              <FormControl sx={{ mb: 2 }}>
                 <FormControlLabel
                   sx={{ mr: 'unset', ml: 'unset' }}
                   control={<Switch checked={allowExpire} onChange={e => setAllowExpire(e.target.checked)} />}
@@ -161,9 +161,24 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
               </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
-              <FormControl>
+              {!!user.organizations.length && (
+                <FormControl sx={{ mt: 1 }}>
+                  <FormControlLabel
+                    sx={{ alignItems: 'flex-start', ml: 'unset' }}
+                    id="recordings"
+                    labelPlacement="top"
+                    control={
+                      <Switch checked={allowOrganization} onChange={e => setAllowOrganization(e.target.checked)} />
+                    }
+                    label="Use your organization information instead of your personal username, email and the Rakonto logo?"
+                  />
+                </FormControl>
+              )}
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormControl sx={{ mb: 4, width: '100%' }}>
                 <FormLabel sx={{ color: '#fff' }} error={sizeTouched && Boolean(sizeError)} id="recordings">
-                  Time Limit for recorder
+                  Suggested time limit for recorders
                 </FormLabel>
                 <Stack spacing={1} direction="row" sx={{ marginTop: 1 }}>
                   <TextField
@@ -191,10 +206,10 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                 </Stack>
                 {sizeTouched && Boolean(sizeError) && <FormHelperText error={true}>{sizeError}</FormHelperText>}
               </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6}>
               <FormControl>
-                <FormLabel id="recordings">Recording type</FormLabel>
+                <FormLabel id="recordings" sx={{ color: '#fff' }}>
+                  Desired recording type
+                </FormLabel>
                 <RadioGroup
                   value={recordingTypeValue}
                   onChange={recordingTypeChange}
@@ -207,67 +222,59 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            {!!user.organizations.length && (
-              <Grid item xs={12} md={6}>
-                <FormControl>
-                  <FormLabel id="recordings">Organization</FormLabel>
-                  <Switch checked={allowOrganization} onChange={e => setAllowOrganization(e.target.checked)} />
-                </FormControl>
-              </Grid>
-            )}
-            <Grid item xs={12}>
-              <FormLabel id="recordings">Call to action</FormLabel>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                InputLabelProps={{
-                  shrink: true
-                }}
-                placeholder="Type a label for call to action button"
-                label="Button label"
-                name="callToActionButtonLabel"
-                type="text"
-                value={callToActionButtonLabelValue}
-                onChange={callToActionButtonLabelOnChange}
-                onBlur={callToActionButtonLabelOnBlur}
-                error={callToActionButtonLabelTouched && Boolean(callToActionButtonLabelError)}
-                helperText={(callToActionButtonLabelTouched && callToActionButtonLabelError) || ' '}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                InputLabelProps={{
-                  shrink: true
-                }}
-                placeholder="Type the action link"
-                label="Action link"
-                name="callToAction"
-                type="text"
-                value={callToActionValue}
-                onChange={callToActionOnChange}
-                onBlur={callToActionOnBlur}
-                error={callToActionTouched && Boolean(callToActionError)}
-                helperText={(callToActionTouched && callToActionError) || ' '}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                InputLabelProps={{
-                  shrink: true
-                }}
-                placeholder="Type the action button instruction"
-                label="Instructions"
-                name="callToActionInstructions"
-                type="text"
-                value={callToActionInstructionsValue}
-                onChange={callToActionInstructionsOnChange}
-                onBlur={callToActionInstructionsOnBlur}
-                error={callToActionInstructionsTouched && Boolean(callToActionInstructionsError)}
-                helperText={(callToActionInstructionsTouched && callToActionInstructionsError) || ' '}
-              />
+            <Grid item xs={12} md={6}>
+              <Typography gutterBottom>Call to action</Typography>
+              <Typography gutterBottom>
+                You can replace the default rakonto &quot;Thank you&quot; page with your own call-to action-by filling
+                in the fields below.
+              </Typography>
+              <Box sx={{ mt: 3 }}>
+                <TextField
+                  fullWidth
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  placeholder="Type the action button instruction"
+                  label="Instructions"
+                  name="callToActionInstructions"
+                  type="text"
+                  value={callToActionInstructionsValue}
+                  onChange={callToActionInstructionsOnChange}
+                  onBlur={callToActionInstructionsOnBlur}
+                  error={callToActionInstructionsTouched && Boolean(callToActionInstructionsError)}
+                  helperText={(callToActionInstructionsTouched && callToActionInstructionsError) || ' '}
+                />
+                <TextField
+                  fullWidth
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  placeholder="Type the action link"
+                  label="Action link"
+                  name="callToAction"
+                  type="text"
+                  value={callToActionValue}
+                  onChange={callToActionOnChange}
+                  onBlur={callToActionOnBlur}
+                  error={callToActionTouched && Boolean(callToActionError)}
+                  helperText={(callToActionTouched && callToActionError) || ' '}
+                />
+                <TextField
+                  fullWidth
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  placeholder="Type a label for call to action button"
+                  label="Button label"
+                  name="callToActionButtonLabel"
+                  type="text"
+                  value={callToActionButtonLabelValue}
+                  onChange={callToActionButtonLabelOnChange}
+                  onBlur={callToActionButtonLabelOnBlur}
+                  error={callToActionButtonLabelTouched && Boolean(callToActionButtonLabelError)}
+                  helperText={(callToActionButtonLabelTouched && callToActionButtonLabelError) || ' '}
+                />
+              </Box>
             </Grid>
           </Grid>
         </>
