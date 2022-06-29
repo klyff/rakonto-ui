@@ -11,6 +11,7 @@ const Step2: React.FC<{ invite: InviteType; handleNext: () => void }> = ({ invit
   const [{ value: file }, , { setValue }] = useField('file')
   const duration = intervalToDuration({ start: 0, end: invite.requestedMediaLength * 1000 })
   const name = invite.organization?.name || `${invite.user.firstName} ${invite.user.lastName}`
+
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -18,7 +19,7 @@ const Step2: React.FC<{ invite: InviteType; handleNext: () => void }> = ({ invit
           {`${name} would like you to record ${invite.requestedMediaType?.toLowerCase() || 'audio or video'}.
           If possible, please keep your recording duration under ${String(
             (duration.hours || 0) * 60 + (duration.minutes || 0)
-          ).padStart(2, '0')} minutes${
+          )} minute${(duration.minutes || 0) > 1 ? 's' : ''}${
             duration.seconds ? ` and ${String(duration.seconds).padStart(2, '0')} seconds` : ''
           }.`}
         </Typography>

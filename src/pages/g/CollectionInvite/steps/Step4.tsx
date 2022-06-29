@@ -27,7 +27,7 @@ const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
           </Button>
         </Grid>
       ) : (
-        <>
+        <Box sx={{ mb: { xs: 10, md: 'unset' } }}>
           <Grid item xs={12}>
             <Typography variant="h6" mb={2}>
               {`Thank you for using Rakonto to submit your recording! We have notified ${name} that you have submitted your recording. If you have any questions
@@ -92,7 +92,7 @@ const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
               If you already have a Rakonto account, you may login.
             </Button>
           </Grid>
-        </>
+        </Box>
       )}
     </Grid>
   )

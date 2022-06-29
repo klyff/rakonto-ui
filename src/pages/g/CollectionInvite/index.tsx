@@ -39,7 +39,7 @@ const CollectionInvite: React.FC = () => {
   const steps = allowFirsStep
     ? [
         { id: 'initial', label: '', error: false },
-        { id: 'greenRoom', label: '', error: false },
+        { id: 'greenRoom', label: 'The green room', error: false },
         { id: 'submit', label: 'Submit your recording', error: false },
         { id: 'thankYoy', label: 'Thank you!', error: false }
       ]
@@ -134,7 +134,10 @@ const CollectionInvite: React.FC = () => {
         <LoadingButton
           sx={{ fontSize: '1.2em' }}
           loading={steps[activeStep].id === 'submit' ? formik.isSubmitting : undefined}
-          disabled={steps[activeStep].id === 'submit' ? !formik.isValid : undefined}
+          disabled={
+            (steps[activeStep].id === 'submit' ? !formik.isValid : undefined) ||
+            (steps[activeStep].id === 'greenRoom' ? !formik.values?.file : undefined)
+          }
           onClick={() => {
             if (steps[activeStep].id === 'submit') {
               formik.handleSubmit()
@@ -156,36 +159,35 @@ const CollectionInvite: React.FC = () => {
 
   return (
     <>
-      <Box sx={{ width: '100%', paddingY: 5, paddingX: 2 }}>
-        <Stepper sx={{ display: { xs: 'none', md: 'flex' } }} activeStep={activeStep} alternativeLabel>
-          {steps.map(item => (
-            <Step key={item.label}>
-              <StepLabel error={item.error}>{item.label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <Box sx={{ display: { md: 'none' }, textAlign: 'center' }}>
-          <Typography variant="h5">{steps[activeStep].label}</Typography>
+      <Box sx={{ width: '100%', height: '100%' }}>
+        <Box sx={{ width: '100%', paddingY: { xs: 2, md: 5 }, paddingX: 2 }}>
+          <Stepper sx={{ display: { xs: 'none', md: 'flex' } }} activeStep={activeStep} alternativeLabel>
+            {steps.map(item => (
+              <Step key={item.label}>
+                <StepLabel error={item.error}>{item.label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
         </Box>
-      </Box>
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-        <Box sx={{ width: '100%', maxWidth: 1080, paddingX: { xs: 3, md: 2 } }}>
-          <FormikProvider value={formik}>
-            {allowFirsStep ? (
-              <>
-                {activeStep === 0 && <Step1 invite={invite!} />}
-                {activeStep === 1 && <Step2 invite={invite!} handleNext={handleNext} />}
-                {activeStep === 2 && <Step3 invite={invite!} progress={progress} />}
-                {activeStep === 3 && <Step4 invite={invite!} />}
-              </>
-            ) : (
-              <>
-                {activeStep === 0 && <Step2 invite={invite!} handleNext={handleNext} />}
-                {activeStep === 1 && <Step3 invite={invite!} progress={progress} />}
-                {activeStep === 2 && <Step4 invite={invite!} />}
-              </>
-            )}
-          </FormikProvider>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ width: '100%', maxWidth: 1080, paddingX: { xs: 3, md: 2 } }}>
+            <FormikProvider value={formik}>
+              {allowFirsStep ? (
+                <>
+                  {activeStep === 0 && <Step1 invite={invite!} />}
+                  {activeStep === 1 && <Step2 invite={invite!} handleNext={handleNext} />}
+                  {activeStep === 2 && <Step3 invite={invite!} progress={progress} />}
+                  {activeStep === 3 && <Step4 invite={invite!} />}
+                </>
+              ) : (
+                <>
+                  {activeStep === 0 && <Step2 invite={invite!} handleNext={handleNext} />}
+                  {activeStep === 1 && <Step3 invite={invite!} progress={progress} />}
+                  {activeStep === 2 && <Step4 invite={invite!} />}
+                </>
+              )}
+            </FormikProvider>
+          </Box>
         </Box>
       </Box>
       {(allowFirsStep ? activeStep !== 3 : activeStep !== 2) && (
@@ -198,7 +200,7 @@ const CollectionInvite: React.FC = () => {
             backButton={<div />}
             nextButton={
               <Box sx={{ position: 'relative', height: '57px' }}>
-                <Box sx={{ position: 'absolute', right: 0 }}>{buttons({ size: 'medium' })}</Box>
+                <Box sx={{ position: 'absolute', right: 0 }}>{buttons({ size: 'small' })}</Box>
               </Box>
             }
           />

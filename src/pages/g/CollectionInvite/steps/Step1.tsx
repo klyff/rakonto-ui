@@ -10,9 +10,9 @@ const Step1: React.FC<{ invite: InviteType }> = ({ invite }) => {
     <Grid container>
       <Grid item xs={12}>
         <Typography variant="h6" mb={2}>
-          {`Hi! ${name} has invited you to record a story.`}
+          {`Hi! ${name} has invited you to record a story. Here is their message to you:`}
           <br />
-          {`Here is their message to you: ${invite.description}`}
+          {invite.description}
         </Typography>
       </Grid>
       {invite.video && (
