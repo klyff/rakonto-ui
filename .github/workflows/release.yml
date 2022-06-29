@@ -23,6 +23,7 @@ jobs:
       - uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SCP_HOST }}
+          username: ${{ secrets.SCP_USERNAME }}
           key: ${{ secrets.SCP_RSA_KEY }}
           source: "build-*.tar.gz"
           target: "release"
