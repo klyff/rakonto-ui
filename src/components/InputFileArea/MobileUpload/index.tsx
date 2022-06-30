@@ -46,13 +46,13 @@ const MobileUpload: React.FC<iMobileUpload> = ({ onDrop, filter }) => {
         <ButtonGroup disableElevation size="large" variant="outlined">
           {(!filter || filter === 'VIDEO') && (
             <Button component="label" startIcon={<MovieIcon />}>
-              Video <input accept="video/*" type="file" onChange={e => handleCapture(e.target?.files)} hidden />
+              Video <input accept="video/*;capture=camcorder" type="file" onChange={e => handleCapture(e.target?.files)} hidden capture="user" />
             </Button>
           )}
           {(!filter || filter === 'AUDIO') && (
             <Button component="label" endIcon={<HeadphonesIcon />}>
               Audio
-              <input accept="audio/*" type="file" onChange={e => handleCapture(e.target?.files)} hidden />
+              <input accept="audio/*;capture=microphone" type="file" onChange={e => handleCapture(e.target?.files)} hidden capture="user" />
             </Button>
           )}
         </ButtonGroup>
