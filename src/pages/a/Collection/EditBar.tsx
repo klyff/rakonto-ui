@@ -41,7 +41,7 @@ const EditBar: React.FC<iEditBar> = ({ canEdit, id, onChange, collection, refetc
     src='${window.location.origin}/embed/collections/${id}'
     title='Rakonto'
     frameBorder='0'
-    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+    allow='camera; microphone; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
     allowFullScreen
   ></iframe>
   `
