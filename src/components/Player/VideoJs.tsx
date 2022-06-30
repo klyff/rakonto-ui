@@ -10,6 +10,12 @@ import '../../lib/videojs/components/playlist'
 import { SubtitleType } from '../../lib/types'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 
+const defaultNuevoOptions = {
+  contextText: 'Powered by Rakonto',
+  contextUrl: '//app.rakonto.io',
+  contextIcon: '/images/logo.svg'
+}
+
 interface iVideoJs {
   embedded?: boolean
   options?: VideoJsPlayerOptions
@@ -77,19 +83,24 @@ export const VideoJS: React.FC<iVideoJs> = ({
 
         // @ts-ignore
         nuevoOptions = {
+          ...defaultNuevoOptions,
           ...nuevoOptions,
           playlistUI: true, // set to disable playlist UI completely
           playlistShow: false, // set to hide playlist UI on start
           playlistAutoHide: false, // Disable playlist UI autohide on video play event
           playlistNavigation: true, // set to show playlist navigation arrows
-          playlistRepeat: false // set to repeat playlist playback
+          playlistRepeat: false, // set to repeat playlist playback
+          contextText: 'Powered by Rakonto'
         }
         // @ts-ignore
         playerRef.current.playlist(playlist)
       }
 
       // @ts-ignore
-      playerRef.current.nuevo(nuevoOptions)
+      playerRef.current.nuevo({
+        ...defaultNuevoOptions,
+        nuevoOptions
+      })
     } else {
       // const player = playerRef.current
       // player.options(options)
@@ -124,7 +135,9 @@ export const VideoJsWrapper: React.FC<{
     ...options
   }
 
-  const nuevoOptions = { logo: null }
+  const nuevoOptions = {
+    logo: null
+  }
 
   return (
     <VideoJS subtitles={subtitles} handleEnd={handleEnd} options={_options} type="video" nuevoOptions={nuevoOptions} />

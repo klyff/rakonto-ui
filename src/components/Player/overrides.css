@@ -6,6 +6,10 @@
   width: 200px;
 }
 
-.vjs-logo>img {
+.vjs-logo > img {
   width: 100%;
+}
+
+.vjs-context-menu img {
+  width: 24px;
 }
