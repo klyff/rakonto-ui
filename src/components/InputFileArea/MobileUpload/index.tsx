@@ -46,7 +46,7 @@ const MobileUpload: React.FC<iMobileUpload> = ({ onDrop, filter }) => {
         <ButtonGroup disableElevation size="large" variant="outlined">
           {(!filter || filter === 'VIDEO') && (
             <Button component="label" startIcon={<MovieIcon />}>
-              Video{' '}
+              Video
               <input
                 accept="video/*;capture=camcorder"
                 type="file"
