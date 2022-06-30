@@ -36,10 +36,10 @@ const plans = [
       }
     },
     features: [
-      <>Record / upload audio & video stories</>,
+      <>Record / upload audio and video stories</>,
       <>1 GB total library capacity</>,
       <>People/places/timeline tagging, photo/file uploads</>,
-      <>Shared recording</>
+      <>Shared recording (request a story)</>
     ]
   },
   {
@@ -57,11 +57,11 @@ const plans = [
       }
     },
     features: [
-      <>Record / upload audio & video stories</>,
+      <>Record / upload audio and video stories</>,
       <>10 GB total library capacity</>,
       <>People/places/timeline tagging, photo/file uploads</>,
-      <>Shared recording</>,
-      <>Automated English transcription</>
+      <>Shared recording (request a story)</>,
+      <>Automated English transcription (coming soon Spanish, French, Italian, German, Dutch and Portuguese)</>
     ]
   },
   {
@@ -72,20 +72,20 @@ const plans = [
     price: {
       month: {
         id: process.env.REACT_APP_PIRCE_ID_TIER_2_MONTH,
-        price: 19
+        price: 39
       },
       year: {
         id: process.env.REACT_APP_PIRCE_ID_TIER_2_YEAR,
-        price: 15
+        price: 31
       }
     },
     features: [
-      <>Record / upload audio & video stories</>,
-      <>30 GB total library capacity</>,
+      <>Record / upload audio and video stories</>,
+      <>100 GB total library capacity</>,
       <>People/places/timeline tagging, photo/file uploads</>,
       <>Shared recording</>,
-      <>Automated English transcription</>,
-      <>Contributor access</>
+      <>Automated English transcription (coming soon Spanish, French, Italian, German, Dutch and Portuguese)</>,
+      <>Collaboration (contributors and editors)</>
     ]
   },
   {
@@ -103,14 +103,15 @@ const plans = [
       }
     },
     features: [
-      <>Record / upload audio & video stories</>,
-      <>60 GB total library capacity</>,
+      <>Record / upload audio and video stories</>,
+      <>Unlimited storage</>,
       <>People/places/timeline tagging, photo/file uploads</>,
       <>Shared recording</>,
-      <>Automated English transcription</>,
-      <>Contributor access</>,
-      <>Editor access</>,
-      <>Collection ownership transfer</>
+      <>Automated English transcription (coming soon Spanish, French, Italian, German, Dutch and Portuguese)</>,
+      <>Collaboration (contributors and editors)</>,
+      <>White label recorder interface and messaging</>,
+      <>Customized call-to-action</>,
+      <>Rakonto embedded player</>
     ]
   }
 ]
@@ -264,62 +265,62 @@ const Subscription: React.FC = () => {
             </Button>
           </form>
 
-          {user!.tier === 3 && (
-            <>
-              <form
-                ref={storage1}
-                action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_STORAGE_50_MONTH}&returnUrl=${returnUrl}&jwt=${token}`}
-                method="POST"
-              />
-              <form
-                ref={storage2}
-                action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_STORAGE_50_YEAR}&returnUrl=${returnUrl}&jwt=${token}`}
-                method="POST"
-              />
-              <ButtonGroup variant="contained">
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    storage1 && storage1.current?.submit()
-                  }}
-                >
-                  Buy 50GB additional storage ($10 monthly)
-                </Button>
+          {/* {user!.tier === 3 && ( */}
+          {/*  <> */}
+          {/*    <form */}
+          {/*      ref={storage1} */}
+          {/*      action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_STORAGE_50_MONTH}&returnUrl=${returnUrl}&jwt=${token}`} */}
+          {/*      method="POST" */}
+          {/*    /> */}
+          {/*    <form */}
+          {/*      ref={storage2} */}
+          {/*      action={`/api/a/stripe/checkout?priceId=${process.env.REACT_APP_PIRCE_ID_STORAGE_50_YEAR}&returnUrl=${returnUrl}&jwt=${token}`} */}
+          {/*      method="POST" */}
+          {/*    /> */}
+          {/*    <ButtonGroup variant="contained"> */}
+          {/*      <Button */}
+          {/*        variant="contained" */}
+          {/*        onClick={() => { */}
+          {/*          storage1 && storage1.current?.submit() */}
+          {/*        }} */}
+          {/*      > */}
+          {/*        Buy 50GB additional storage ($10 monthly) */}
+          {/*      </Button> */}
 
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    storage2 && storage2.current?.submit()
-                  }}
-                >
-                  Buy 50GB additional storage ($8 annually)
-                </Button>
-              </ButtonGroup>
-              {!!productSubscriptions.length && (
-                <>
-                  <Typography mt={2} variant="h5">
-                    Active storage subscriptions
-                  </Typography>
-                  <List>
-                    {productSubscriptions.map(p => (
-                      <ListItem
-                        button
-                        key={p.id}
-                        secondaryAction={<Button onClick={() => cancelProductSubscription(p)}>Cancel</Button>}
-                      >
-                        <ListItemText
-                          primary={`50GB ${
-                            process.env.REACT_APP_PIRCE_ID_STORAGE_50_YEAR === p.stripePriceId ? 'Year' : 'Month'
-                          }`}
-                          secondary={`on ${format(parseJSON(p.createdAt), 'PPPp')}`}
-                        />
-                      </ListItem>
-                    ))}
-                  </List>
-                </>
-              )}
-            </>
-          )}
+          {/*      <Button */}
+          {/*        variant="contained" */}
+          {/*        onClick={() => { */}
+          {/*          storage2 && storage2.current?.submit() */}
+          {/*        }} */}
+          {/*      > */}
+          {/*        Buy 50GB additional storage ($8 annually) */}
+          {/*      </Button> */}
+          {/*    </ButtonGroup> */}
+          {/*    {!!productSubscriptions.length && ( */}
+          {/*      <> */}
+          {/*        <Typography mt={2} variant="h5"> */}
+          {/*          Active storage subscriptions */}
+          {/*        </Typography> */}
+          {/*        <List> */}
+          {/*          {productSubscriptions.map(p => ( */}
+          {/*            <ListItem */}
+          {/*              button */}
+          {/*              key={p.id} */}
+          {/*              secondaryAction={<Button onClick={() => cancelProductSubscription(p)}>Cancel</Button>} */}
+          {/*            > */}
+          {/*              <ListItemText */}
+          {/*                primary={`50GB ${ */}
+          {/*                  process.env.REACT_APP_PIRCE_ID_STORAGE_50_YEAR === p.stripePriceId ? 'Year' : 'Month' */}
+          {/*                }`} */}
+          {/*                secondary={`on ${format(parseJSON(p.createdAt), 'PPPp')}`} */}
+          {/*              /> */}
+          {/*            </ListItem> */}
+          {/*          ))} */}
+          {/*        </List> */}
+          {/*      </> */}
+          {/*    )} */}
+          {/*  </> */}
+          {/* )} */}
         </>
       )}
     </Box>

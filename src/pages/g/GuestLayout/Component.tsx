@@ -32,7 +32,7 @@ const GuestLayout: React.FC<{ logo: string; isLoading: boolean; showPoweredByLog
           href="/"
           sx={{ position: 'fixed', bottom: '16px', left: '16px', zIndex: theme.zIndex.tooltip }}
         >
-          <img width={135} src={'/images/poweredByRakonto.svg'} alt="rakonto" />
+          <img width={135} src={'/images/poweredByRakonto.png'} alt="rakonto" />
         </Box>
       )}
     </>

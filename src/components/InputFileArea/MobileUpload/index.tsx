@@ -5,6 +5,7 @@ import HeadphonesIcon from '@mui/icons-material/Headphones'
 import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { isAndroid } from 'react-device-detect'
 
 interface iMobileUpload {
   onDrop: (value: File | null) => void
@@ -46,26 +47,18 @@ const MobileUpload: React.FC<iMobileUpload> = ({ onDrop, filter }) => {
         <ButtonGroup disableElevation size="large" variant="outlined">
           {(!filter || filter === 'VIDEO') && (
             <Button component="label" startIcon={<MovieIcon />}>
-              Video
-              <input
-                accept="video/*;capture=camcorder"
-                type="file"
-                onChange={e => handleCapture(e.target?.files)}
-                hidden
-                capture="user"
-              />
+              Video{' '}
+              {isAndroid ? (
+                <input accept="video/*" type="file" capture="user" onChange={e => handleCapture(e.target?.files)} hidden />
+              ) : (
+                <input accept="video/*" type="file" onChange={e => handleCapture(e.target?.files)} hidden />
+              )}
             </Button>
           )}
           {(!filter || filter === 'AUDIO') && (
             <Button component="label" endIcon={<HeadphonesIcon />}>
               Audio
-              <input
-                accept="audio/*;capture=microphone"
-                type="file"
-                onChange={e => handleCapture(e.target?.files)}
-                hidden
-                capture="user"
-              />
+              <input accept="audio/*" type="file" onChange={e => handleCapture(e.target?.files)} hidden />
             </Button>
           )}
         </ButtonGroup>

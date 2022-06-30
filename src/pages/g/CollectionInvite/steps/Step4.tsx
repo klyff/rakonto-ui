@@ -18,7 +18,7 @@ const Step4: React.FC<{ invite: InviteType }> = ({ invite }) => {
       {invite?.callToAction && invite?.callToActionButtonLabel ? (
         <Grid textAlign="center" justifySelf="center" item xs={12} mt={6}>
           {invite.callToActionInstructions && (
-            <Typography variant="h6" mb={2}>
+            <Typography variant="h6" mb={5}>
               {invite.callToActionInstructions}
             </Typography>
           )}
