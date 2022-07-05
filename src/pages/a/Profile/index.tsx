@@ -11,10 +11,12 @@ import SecurityIcon from '@mui/icons-material/Security'
 import CreditCardIcon from '@mui/icons-material/CreditCard'
 import CloudIcon from '@mui/icons-material/Cloud'
 import Info from './Info'
+import ProfessionalServices from './ProfessionalServices'
 import Stack from '@mui/material/Stack'
 import { parse } from 'qs'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import EngineeringIcon from '@mui/icons-material/Engineering'
 
 const Profile: React.FC<RouteComponentProps> = () => {
   const theme = useTheme()
@@ -102,6 +104,16 @@ const Profile: React.FC<RouteComponentProps> = () => {
               Storage
             </Box>
           </Button>
+          <Button
+            color={t === 'professionalServices' ? 'primary' : 'secondary'}
+            fullWidth
+            startIcon={<EngineeringIcon />}
+            onClick={() => onTabClick('professionalServices')}
+          >
+            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
+              Professional Services
+            </Box>
+          </Button>
         </Box>
         <Box
           sx={{
@@ -112,6 +124,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
           {t === 'password' && <Password />}
           {t === 'subscription' && <Subscription />}
           {t === 'storage' && <Storage />}
+          {t === 'professionalServices' && <ProfessionalServices />}
         </Box>
       </Box>
     </>
