@@ -8,10 +8,10 @@ import Paper from '@mui/material/Paper'
 import Cookies from 'js-cookie'
 
 const plans = [
-  { content: ['$149 one-time fee'], plan: 'price_1LGC9AFsDy5d94v4wJ7aqwgs', isPopular: false },
+  { content: ['$149 one-time fee'], plan: '00g8xbcpy6uS2888wG', isPopular: false },
   {
     content: ['Pay-as-you-go', 'Includes Training +', '1 Story Request Campaign', '$249 per campaign', '($249 total)'],
-    plan: 'price_1LGCA4FsDy5d94v4IvBdvNfD',
+    plan: '28o6p39dm6uSbII5kt',
     isPopular: false
   },
   {
@@ -23,7 +23,7 @@ const plans = [
       '$209 per campaign',
       '($627 total)'
     ],
-    plan: 'price_1LGCBAFsDy5d94v4JZ8rN5FG',
+    plan: 'cN26p34X6f1ocMM008',
     isPopular: true
   },
   {
@@ -35,7 +35,7 @@ const plans = [
       '$179 per campaign',
       '($1,074 total)'
     ],
-    plan: 'price_1LGCBVFsDy5d94v4u1yJhk67',
+    plan: '28o7t72OY4mKbIIeV1',
     isPopular: false
   }
 ]
@@ -127,41 +127,36 @@ const Subscription: React.FC = () => {
           <Grid container spacing={2}>
             {plans.map((item, i) => (
               <Grid key={i} item xs={12} md={3}>
-                <form
-                  action={`/api/a/stripe/checkout?priceId=${item.plan}&returnUrl=${returnUrl}&jwt=${token}`}
-                  method="POST"
+                <Box
+                  elevation={item.isPopular ? 12 : 3}
+                  component={Paper}
+                  sx={{
+                    borderRadius: '40px',
+                    padding: 3,
+                    minHeight: '260px',
+                    maxHeight: '320px',
+                    height: '100%',
+                    display: 'flex',
+                    flexFlow: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}
                 >
                   <Box
-                    elevation={item.isPopular ? 12 : 3}
-                    component={Paper}
                     sx={{
-                      borderRadius: '40px',
-                      padding: 3,
-                      minHeight: '260px',
-                      maxHeight: '320px',
-                      height: '100%',
-                      display: 'flex',
-                      flexFlow: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
+                      mb: 2
                     }}
                   >
-                    <Box
-                      sx={{
-                        mb: 2
-                      }}
-                    >
-                      {item.content.map((value, i) => (
-                        <Typography align="center" key={i}>
-                          {value}
-                        </Typography>
-                      ))}
-                    </Box>
-                    <Button size="large" variant="contained" type="submit">
-                      Buy
-                    </Button>
+                    {item.content.map((value, i) => (
+                      <Typography align="center" key={i}>
+                        {value}
+                      </Typography>
+                    ))}
                   </Box>
-                </form>
+                  <Button size="large" variant="contained" href={`https://buy.stripe.com/${item.plan}`} target="_blank">
+                    Buy
+                  </Button>
+                </Box>
               </Grid>
             ))}
           </Grid>
