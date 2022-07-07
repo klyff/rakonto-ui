@@ -68,7 +68,8 @@ export type UserType = {
   about: string
   location: string
   tier: number
-  isTrial: boolean
+  trial: boolean
+  freeTrialUntilAt: string
   organizations: OrganizationType[]
 }
 

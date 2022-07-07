@@ -132,6 +132,14 @@ const Header = forwardRef((props, ref) => {
       </MenuItem>
       <MenuItem
         onClick={() => {
+          history.push(`/a/profile?tab=professionalServices`)
+          handleMenuClose()
+        }}
+      >
+        Professional services
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
           history.push('/a/signout')
           handleMenuClose()
         }}
@@ -146,7 +154,7 @@ const Header = forwardRef((props, ref) => {
     <Menu
       PaperProps={{
         style: {
-          width: 150
+          width: 200
         }
       }}
       anchorEl={mobileMoreAnchorEl}
@@ -207,6 +215,14 @@ const Header = forwardRef((props, ref) => {
       </MenuItem>
       <MenuItem
         onClick={() => {
+          history.push(`/a/profile?tab=professionalServices`)
+          handleMenuClose()
+        }}
+      >
+        Professional services
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
           history.push('/a/signout')
           handleMenuClose()
         }}
@@ -221,7 +237,7 @@ const Header = forwardRef((props, ref) => {
       <AppBar position="static">
         <Toolbar>
           <Link to="/">
-            <img width={135} height={40} src={'/images/logo-withe.svg'} alt="rakonto" />
+            <Box component="img" sx={{ width: 135, height: 40 }} src={'/images/logo-withe.svg'} alt="rakonto" />
           </Link>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, paddingLeft: 8 }}>
             {menuOptions.map(({ href, text, icon, name }, index) => {

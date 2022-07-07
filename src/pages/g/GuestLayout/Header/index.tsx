@@ -9,7 +9,7 @@ const Header: React.FC<{ logo: string; isLoading: boolean }> = ({ logo, isLoadin
         <Toolbar>
           {!isLoading && (
             <a href="/">
-              <img width={135} height={40} src={logo} alt="rakonto" />
+              <Box component="img" sx={{ width: 192.5, maxHeight: 57 }} src={logo} alt="rakonto" />
             </a>
           )}
         </Toolbar>

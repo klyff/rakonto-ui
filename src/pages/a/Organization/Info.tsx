@@ -108,15 +108,17 @@ const Info: React.FC<iInfo> = ({ organization, onSave, onDelete }) => {
               Your organization logo
             </Typography>
             <Typography sx={{ pb: 2, ml: 2 }} variant="subtitle1">
-              Your logo will look best in Rakonto if it is a PNG file with transparent background and 135x40 dimensions.
+              Your logo will look best in Rakonto if it is a PNG file with transparent background and 192.5x57
+              dimensions.
             </Typography>
             <Box sx={{ mb: 0 }}>
               <Box
                 {...getRootProps()}
                 sx={{
                   ml: 2,
-                  height: '40px',
-                  width: '135px',
+                  maxHeight: '57px',
+                  height: '100vh',
+                  width: '192.5px',
                   border: '1px solid',
                   display: 'flex',
                   justifyContent: 'center',

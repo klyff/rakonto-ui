@@ -85,33 +85,27 @@ const Subscription: React.FC = () => {
               </Typography>
               <ul>
                 <li>
-                  <Typography>One remote 60-minute recorded end user training (invite as many as you like)</Typography>
-                  <ul>
-                    <li>
-                      <Typography>
-                        Story request definition, including collection creation, question framing, instruction drafting,
-                        assistance recording video requests, parameter configuration, custom call-to-action
-                        configuration and QR code / link generation
-                      </Typography>
-                    </li>
-                    <li>
-                      <Typography>Delivery of QR codes and links to you for distribution</Typography>
-                    </li>
-                    <li>
-                      <Typography>Monitoring of recording submissions</Typography>
-                    </li>
-                    <li>
-                      <Typography>
-                        Curation of content received according to your criteria and approval workflows
-                      </Typography>
-                    </li>
-                    <li>
-                      <Typography>
-                        Publishing of curated content via the Rakonto Player (provision of embed code to your web
-                        developer)
-                      </Typography>
-                    </li>
-                  </ul>
+                  <Typography>
+                    Story request definition, including collection creation, question framing, instruction drafting,
+                    assistance recording video requests, parameter configuration, custom call-to-action configuration
+                    and QR code / link generation
+                  </Typography>
+                </li>
+                <li>
+                  <Typography>Delivery of QR codes and links to you for distribution</Typography>
+                </li>
+                <li>
+                  <Typography>Monitoring of recording submissions</Typography>
+                </li>
+                <li>
+                  <Typography>
+                    Curation of content received according to your criteria and approval workflows
+                  </Typography>
+                </li>
+                <li>
+                  <Typography>
+                    Publishing of curated content via the Rakonto Player (provision of embed code to your web developer)
+                  </Typography>
                 </li>
                 <li>
                   <Typography>

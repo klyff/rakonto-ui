@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState, useRef } from 'react'
+import React from 'react'
 import Cookies from 'js-cookie'
+import { formatDuration, intervalToDuration, parseJSON } from 'date-fns'
 import useUser from '../../../components/UserProvider/useUser'
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
@@ -115,9 +116,31 @@ const Subscription: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      {user!.tier === 0 || user.isTrial ? (
+      {user!.tier === 0 || user!.trial ? (
         <>
           <Box sx={{ width: '100%' }}>
+            {user!.trial && user!.freeTrialUntilAt && (
+              <Box mb={4}>
+                <Typography component="span" variant="h5">
+                  Your trial period ends in{' '}
+                  <Box component="span" sx={{ color: 'primary.main' }}>
+                    {formatDuration(
+                      intervalToDuration({
+                        start: new Date(),
+                        end: parseJSON(user.freeTrialUntilAt)
+                      }),
+                      {
+                        format: ['days']
+                      }
+                    )}
+                  </Box>
+                </Typography>
+                <Typography component="span" variant="h6">
+                  {' '}
+                  choose a plan and subscribe
+                </Typography>
+              </Box>
+            )}
             <Stack justifyContent="center" direction="row" spacing={1}>
               <Stack direction="row" spacing={1} alignItems="center">
                 <Typography variant="h5">Monthly</Typography>
