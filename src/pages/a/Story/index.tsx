@@ -129,8 +129,7 @@ const Story: React.FC<RouteComponentProps<{ storyId: string }>> = ({ match, hist
           width: '100%',
           height: `100%`,
           display: 'flex',
-          flexFlow: 'column',
-          backgroundColor: 'black'
+          flexFlow: 'column'
         }}
       >
         <Box sx={{ margin: 'auto', backgroundColor: 'black', width: '100%', maxHeight: '720px' }}>

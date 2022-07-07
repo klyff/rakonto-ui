@@ -22,17 +22,20 @@ const Embed: React.FC<RouteComponentProps<{ type: string; id: string }>> = ({ ma
 
           playlist = [
             {
-              src: story.url,
-              type: story.mimeType,
+              sources: [
+                {
+                  src: story.url,
+                  type: story.mimeType
+                }
+              ],
               thumb: story.thumbnailUrl,
               title: `${story.title}${story.submission ? ` by ${story.submission.name}` : ''}`,
               duration: story.duration,
               tracks:
                 story.subtitles?.map(subtitle => ({
-                  // If develop mode need replace proxy port = subtitle.url.replace('8080', '3000')
                   kind: 'captions',
                   src: subtitle.url,
-                  srlang: subtitle.language,
+                  srclang: subtitle.language,
                   label: subtitle.language,
                   default: '1'
                 })) || []
@@ -44,17 +47,20 @@ const Embed: React.FC<RouteComponentProps<{ type: string; id: string }>> = ({ ma
           const collection = response as CollectionType
 
           playlist = collection?.stories?.map(story => ({
-            src: story.url,
-            type: story.mimeType,
+            sources: [
+              {
+                src: story.url,
+                type: story.mimeType
+              }
+            ],
             thumb: story.thumbnailUrl,
             title: `${story.title}${story.submission ? ` by ${story.submission.name}` : ''}`,
             duration: story.duration,
             tracks:
               story.subtitles?.map(subtitle => ({
-                // If develop mode need replace proxy port = subtitle.url.replace('8080', '3000')
                 kind: 'captions',
                 src: subtitle.url,
-                srlang: subtitle.language,
+                srclang: subtitle.language,
                 label: subtitle.language,
                 default: '1'
               })) || []

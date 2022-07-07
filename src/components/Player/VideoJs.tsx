@@ -40,16 +40,23 @@ export const VideoJS: React.FC<iVideoJs> = ({
   const playerRef = React.useRef<VideoJsPlayer | null>(null)
 
   useEffect(() => {
+    let localOptions = {
+      ...options
+    }
+    let localNuevoOptions = {
+      ...defaultNuevoOptions,
+      ...nuevoOptions
+    }
     // make sure Video.js player is only initialized once
     if (!playerRef.current) {
       if (embedded) {
-        options = {
-          ...options,
+        localOptions = {
+          ...localOptions,
           fill: true
         }
       }
 
-      playerRef.current = videojs('player', options, () => {
+      playerRef.current = videojs('player', localOptions, () => {
         onReady && onReady(playerRef.current)
         // @ts-ignore
         handleEnd && playerRef.current.on('ended', handleEnd)
@@ -60,7 +67,7 @@ export const VideoJS: React.FC<iVideoJs> = ({
           // If develop mode need replace proxy port = subtitle.url.replace('8080', '3000')
           kind: 'captions',
           src: subtitle.url,
-          srlang: subtitle.language,
+          srclang: subtitle.language,
           label: subtitle.language,
           default: '1'
         })) || []
@@ -82,9 +89,8 @@ export const VideoJS: React.FC<iVideoJs> = ({
         playerRef.current.playsinline(true)
 
         // @ts-ignore
-        nuevoOptions = {
-          ...defaultNuevoOptions,
-          ...nuevoOptions,
+        localNuevoOptions = {
+          ...localNuevoOptions,
           playlistUI: true, // set to disable playlist UI completely
           playlistShow: false, // set to hide playlist UI on start
           playlistAutoHide: false, // Disable playlist UI autohide on video play event
@@ -92,15 +98,16 @@ export const VideoJS: React.FC<iVideoJs> = ({
           playlistRepeat: false, // set to repeat playlist playback
           contextText: 'Powered by Rakonto'
         }
-        // @ts-ignore
-        playerRef.current.playlist(playlist)
       }
 
+      console.log(localNuevoOptions)
       // @ts-ignore
       playerRef.current.nuevo({
-        ...defaultNuevoOptions,
-        nuevoOptions
+        ...localNuevoOptions
       })
+
+      // @ts-ignore
+      if (type === 'playlist') playerRef.current.playlist(playlist)
     } else {
       // const player = playerRef.current
       // player.options(options)
