@@ -18,6 +18,7 @@ import CircularLoadingCentred from '../../../components/CircularLoadingCentred'
 const plans = [
   {
     tier: 0,
+    buttonLabel: 'Subscribe today!',
     link: 'https://rakonto.io/#pricing',
     title: 'Free',
     price: {
@@ -31,14 +32,19 @@ const plans = [
       }
     },
     features: [
-      <>Record / upload audio and video stories</>,
-      <>1 GB total library capacity</>,
-      <>People / places / timeline tagging, photo / file uploads</>,
-      <>Shared recording (request a story)</>
+      <>
+        <Box component="ul" sx={{ paddingInlineStart: '10px' }}>
+          <li>Record / upload audio and video stories</li>
+          <li>1 GB total library capacity</li>
+          <li>People / places / timeline tagging, photo / file uploads</li>
+          <li>Shared recording (request a story)</li>
+        </Box>
+      </>
     ]
   },
   {
     tier: 1,
+    buttonLabel: 'Subscribe today!',
     link: 'https://rakonto.io/#pricing',
     title: 'Standard',
     price: {
@@ -51,10 +57,19 @@ const plans = [
         price: 7
       }
     },
-    features: [<>Everything in Free plus:</>, <>10 GB total library capacity</>, <>Automated English transcription</>]
+    features: [
+      <>Everything in Free plus:</>,
+      <>
+        <Box component="ul">
+          <li>10 GB total library capacity</li>
+          <li>Automated English transcription</li>
+        </Box>
+      </>
+    ]
   },
   {
     tier: 2,
+    buttonLabel: 'Subscribe today!',
     link: 'https://rakonto.io/#pricing',
     title: 'Advanced',
     marked: true,
@@ -70,13 +85,18 @@ const plans = [
     },
     features: [
       <>Everything in Standard plus:</>,
-      <>100 GB total library capacity</>,
-      <>Collaboration (contributors and editors)</>,
-      <>Rakonto embedded player</>
+      <>
+        <Box component="ul">
+          <li>100 GB total library capacity</li>
+          <li>Collaboration (contributors and editors)</li>
+          <li>Rakonto embedded player</li>
+        </Box>
+      </>
     ]
   },
   {
     tier: 3,
+    buttonLabel: 'Subscribe today!',
     link: 'https://rakonto.io/#pricing',
     title: 'Professional',
     price: {
@@ -91,9 +111,41 @@ const plans = [
     },
     features: [
       <>Everything in Advanced plus:</>,
-      <>Unlimited storage</>,
-      <>Branded recorder interface and messaging</>,
-      <>Customized call-to-action</>
+      <>
+        <Box component="ul">
+          <li>Unlimited storage</li>
+          <li>Branded recorder interface and messaging</li>
+          <li>Customized call-to-action</li>
+        </Box>
+      </>
+    ]
+  },
+  {
+    tier: 4,
+    buttonLabel: 'Contact us!',
+    link: 'https://rakonto.io/#getintouch',
+    title: 'Enterprise',
+    price: {
+      month: {
+        id: '',
+        price: null
+      },
+      year: {
+        id: '',
+        price: null
+      }
+    },
+    features: [
+      <>Need more features?</>,
+      <>
+        <ul>
+          <li>Multiple users</li>
+          <li>Third party integrations</li>
+          <li>Hosting in your technology stack</li>
+          <li>Customizations</li>
+        </ul>
+      </>,
+      <>Contact our sales team today for pricing</>
     ]
   }
 ]
@@ -147,13 +199,13 @@ const Subscription: React.FC = () => {
               </Stack>
               <Switch onChange={handleChange} checked={checked} />
               <Stack direction="row" spacing={1} alignItems="center">
-                <Typography variant="h5">Yearly</Typography> <Typography variant="body2">(save up to 22%)</Typography>
+                <Typography variant="h5">Yearly save up to 25%</Typography>
               </Stack>
             </Stack>
           </Box>
           <Box mt={4} marginX={2}>
             <Grid container spacing={2}>
-              {plans.map(({ marked, tier, title, price, features }) => {
+              {plans.map(({ marked, tier, title, price, features, buttonLabel, link }) => {
                 const selectedPrice = price[checked ? 'year' : 'month']
                 return (
                   <Grid key={title} item xs minWidth={300}>
@@ -172,11 +224,14 @@ const Subscription: React.FC = () => {
                         </Box>
                         <Box>
                           <Stack direction="row" justifyContent="center" alignItems="center">
-                            <Box textAlign="center" sx={{ height: 166 }}>
-                              <form
-                                action={`/api/a/stripe/checkout?priceId=${selectedPrice.id}&returnUrl=${returnUrl}&jwt=${token}`}
-                                method="POST"
-                              >
+                            <Box
+                              component="form"
+                              action={`/api/a/stripe/checkout?priceId=${selectedPrice.id}&returnUrl=${returnUrl}&jwt=${token}`}
+                              method="POST"
+                              textAlign="center"
+                              sx={{ height: 166, display: 'flex', flexFlow: 'column', justifyContent: 'space-between' }}
+                            >
+                              {selectedPrice.price !== null ? (
                                 <Stack>
                                   <Typography color={marked ? 'primary' : ''} variant="h5" paddingY={2}>
                                     {`$ ${selectedPrice.price} / mo`}
@@ -194,13 +249,19 @@ const Subscription: React.FC = () => {
                                     )}
                                   </Box>
                                 </Stack>
-                                {/* @ts-ignore */}
-                                {tier !== 0 && (
-                                  <Button type="submit" variant="contained">
-                                    Choose your plan
-                                  </Button>
-                                )}
-                              </form>
+                              ) : (
+                                <Box sx={{ flex: 1 }} />
+                              )}
+                              {tier !== 0 && tier !== 4 && (
+                                <Button type="submit" variant="contained">
+                                  {buttonLabel}
+                                </Button>
+                              )}
+                              {tier === 4 && (
+                                <Button href={link} target="_Blank" variant="contained">
+                                  {buttonLabel}
+                                </Button>
+                              )}
                             </Box>
                           </Stack>
                         </Box>
