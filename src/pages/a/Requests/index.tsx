@@ -106,7 +106,7 @@ const Requests: React.FC<RouteComponentProps> = () => {
             key="search"
             name="search"
             sx={{
-              minWidth: '422px'
+              minWidth: { xs: '300px', md: '422px' }
             }}
             rows={4}
             autoComplete="off"
