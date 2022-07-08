@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { RouteComponentProps, useHistory, useLocation } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 import Password from './Password'
 import Subscription from './Subscription'
 import Storage from './Storage'
@@ -12,7 +14,6 @@ import CreditCardIcon from '@mui/icons-material/CreditCard'
 import CloudIcon from '@mui/icons-material/Cloud'
 import Info from './Info'
 import ProfessionalServices from './ProfessionalServices'
-import Stack from '@mui/material/Stack'
 import { parse } from 'qs'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -50,70 +51,64 @@ const Profile: React.FC<RouteComponentProps> = () => {
       </Typography>
       <Box
         sx={{
-          height: `calc(100% - 155px)`,
+          height: `100%`,
           display: 'flex',
           flexFlow: isMd ? 'column' : 'row'
         }}
       >
-        <Box
-          component={Stack}
-          direction={isMd ? 'row' : 'column'}
-          spacing={2}
-          sx={{
-            paddingLeft: 2,
-            paddingRight: 2
-          }}
-        >
-          <Button
-            color={t === 'info' ? 'primary' : 'secondary'}
-            fullWidth
-            startIcon={<AccountCircleIcon />}
-            onClick={() => onTabClick('info')}
+        <Box sx={{ display: 'flex' }}>
+          <Tabs
+            value={t}
+            orientation={isMd ? 'horizontal' : 'vertical'}
+            variant="fullWidth"
+            onChange={(event, value) => onTabClick(value)}
           >
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
-              Personal info
-            </Box>
-          </Button>
-          <Button
-            color={t === 'password' ? 'primary' : 'secondary'}
-            fullWidth
-            startIcon={<SecurityIcon />}
-            onClick={() => onTabClick('password')}
-          >
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
-              Password
-            </Box>
-          </Button>
-          <Button
-            color={t === 'subscription' ? 'primary' : 'secondary'}
-            fullWidth
-            startIcon={<CreditCardIcon />}
-            onClick={() => onTabClick('subscription')}
-          >
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
-              Subscription
-            </Box>
-          </Button>
-          <Button
-            color={t === 'storage' ? 'primary' : 'secondary'}
-            fullWidth
-            startIcon={<CloudIcon />}
-            onClick={() => onTabClick('storage')}
-          >
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
-              Storage
-            </Box>
-          </Button>
-          <Button
-            color={t === 'professionalServices' ? 'primary' : 'secondary'}
-            fullWidth
-            startIcon={<EngineeringIcon />}
-            onClick={() => onTabClick('professionalServices')}
-          >
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, width: { xs: 'unset', sm: '122px' }, textAlign: 'start' }}>
-              Professional Services
-            </Box>
-          </Button>
+            <Tab
+              sx={{ minWidth: '70px' }}
+              value="info"
+              label={
+                <Tooltip placement="right" title="Info">
+                  <AccountCircleIcon />
+                </Tooltip>
+              }
+            />
+            <Tab
+              sx={{ minWidth: '70px' }}
+              value="password"
+              label={
+                <Tooltip placement="right" title="Password">
+                  <SecurityIcon />
+                </Tooltip>
+              }
+            />
+            <Tab
+              sx={{ minWidth: '70px' }}
+              value="subscription"
+              label={
+                <Tooltip placement="right" title="Subscription">
+                  <CreditCardIcon />
+                </Tooltip>
+              }
+            />
+            <Tab
+              sx={{ minWidth: '70px' }}
+              value="storage"
+              label={
+                <Tooltip placement="right" title="Storage">
+                  <CloudIcon />
+                </Tooltip>
+              }
+            />
+            <Tab
+              sx={{ minWidth: '70px' }}
+              value="professionalServices"
+              label={
+                <Tooltip placement="right" title="Professional Services">
+                  <EngineeringIcon />
+                </Tooltip>
+              }
+            />
+          </Tabs>
         </Box>
         <Box
           sx={{

@@ -115,7 +115,7 @@ const Subscription: React.FC = () => {
   }
 
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
+    <Box sx={{ width: '100%', minHeight: '100%', bgcolor: 'background.paper', padding: 2 }}>
       {user!.tier === 0 || user!.trial ? (
         <>
           <Box sx={{ width: '100%' }}>

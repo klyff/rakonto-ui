@@ -100,7 +100,6 @@ export const VideoJS: React.FC<iVideoJs> = ({
         }
       }
 
-      console.log(localNuevoOptions)
       // @ts-ignore
       playerRef.current.nuevo({
         ...localNuevoOptions

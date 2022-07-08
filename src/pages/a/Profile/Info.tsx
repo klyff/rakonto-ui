@@ -210,13 +210,13 @@ const Info: React.FC = () => {
             </Button>
           </Box>
         </Box>
-      </Box>
-      <Box sx={{ mb: 4, bgcolor: 'background.paper', padding: 2 }}>
-        <Typography variant="body1">
-          <Link component="button" onClick={handleCloseAccount} underline="hover" variant="body1">
-            Close account
-          </Link>
-        </Typography>
+        <Box sx={{ mt: 4, padding: 2 }}>
+          <Typography variant="body1">
+            <Link component="button" onClick={handleCloseAccount} underline="hover" variant="body1">
+              Close account
+            </Link>
+          </Typography>
+        </Box>
       </Box>
     </Box>
   )
