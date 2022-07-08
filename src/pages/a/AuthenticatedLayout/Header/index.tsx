@@ -120,7 +120,7 @@ const Header = forwardRef((props, ref) => {
           handleMenuClose()
         }}
       >
-        Profile
+        My profile
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -203,7 +203,7 @@ const Header = forwardRef((props, ref) => {
           handleMenuClose()
         }}
       >
-        Profile
+        My profile
       </MenuItem>
       <MenuItem
         onClick={() => {

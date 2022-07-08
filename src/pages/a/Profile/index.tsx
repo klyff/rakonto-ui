@@ -46,7 +46,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
         }}
         variant="h4"
       >
-        Profile
+        My Profile
       </Typography>
       <Box
         sx={{
