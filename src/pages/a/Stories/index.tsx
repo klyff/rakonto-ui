@@ -67,11 +67,9 @@ const Stories: React.FC<RouteComponentProps> = () => {
       </Grid>
       <Grid item xs={12}>
         <Grid container>
-          {items
-            .map(item => item.entity as StoryType)
-            .map(item => (
-              <StoryCard key={item.id} story={item} />
-            ))}
+          {items.map(item => (
+            <StoryCard key={item.id} id={item.id} />
+          ))}
           {hasNextPage && (
             <Grid item xs>
               <Card loading={true} title={''} subTitle={''} thumbnail={''} preview={''} />

@@ -31,7 +31,14 @@ const Collections: React.FC<RouteComponentProps> = () => {
   const handleCallback = useCallback(
     (collection: CollectionType | null) => {
       if (!collection) return
-      setItems([{ kind: 'COLLECTION', entity: collection }, ...items])
+      setItems([
+        {
+          kind: 'COLLECTION',
+          title: collection.title,
+          id: collection.id
+        },
+        ...items
+      ])
     },
     [items, setItems]
   )
@@ -66,11 +73,9 @@ const Collections: React.FC<RouteComponentProps> = () => {
       </Grid>
       <Grid item xs={12}>
         <Grid container>
-          {items
-            .map(item => item.entity as CollectionType)
-            .map(item => (
-              <CollectionCard key={item.id} collection={item} />
-            ))}
+          {items.map(item => (
+            <CollectionCard key={item.id} id={item.id} />
+          ))}
           {hasNextPage && (
             <Grid item xs>
               <Card loading={true} title={''} subTitle={''} thumbnail={''} preview={''} />

@@ -57,11 +57,9 @@ const StoriesSliderTile: React.FC<iStoriesSliderTiler> = ({ q }) => {
       }}
       container
     >
-      {items
-        .map(item => item.entity as StoryType)
-        .map(story => (
-          <StoryCard key={story.id} story={story} />
-        ))}
+      {items.map(item => (
+        <StoryCard key={item.id} id={item.id} />
+      ))}
       {hasNextPage && (
         <Grid>
           <Card loading={true} title={''} subTitle={''} thumbnail={''} preview={''} />

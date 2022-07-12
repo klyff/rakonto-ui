@@ -2,6 +2,7 @@
 
 import { LatLngExpression } from 'leaflet'
 import { ReactNode } from 'react'
+import internal from 'stream'
 
 export type apiOptions = {
   errorBoundary: boolean
@@ -47,8 +48,9 @@ export type Pageable<T> = {
 export type SearchResultKindType = 'COLLECTION' | 'STORY'
 
 export type SearchResultType = {
+  id: string
   kind: SearchResultKindType
-  entity: CollectionType | StoryType
+  title: string
 }
 
 export type UserQuotaType = {

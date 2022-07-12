@@ -1,11 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StoryType } from '../../lib/types'
 import Box from '@mui/material/Box'
 import Card from '../Card'
 import { useHistory } from 'react-router-dom'
+import api from '../../lib/api'
 
-const StoryCard: React.FC<{ story: StoryType }> = ({ story }) => {
+const StoryCard: React.FC<{ id: string }> = ({ id }) => {
   const history = useHistory()
+  const [story, setStory] = useState(null as StoryType | null)
+  useEffect(() => {
+    api.getStory(id).then(setStory)
+  })
+
+  if (story === null) {
+    return (
+      <Box
+        key={id}
+        sx={{
+          cursor: 'pointer',
+          marginBottom: 2
+        }}
+      >
+        <Card loading={true} title={''} subTitle={''} thumbnail={''} preview={''} />
+      </Box>
+    )
+  }
+
   return (
     <Box
       key={story.id}

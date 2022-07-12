@@ -72,8 +72,8 @@ const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload, currentCol
 
   const handleMove = async () => {
     try {
-      if (selectedCollection?.entity.id) {
-        await api.changeStoryToCollection(storyId, selectedCollection.entity.id, currentCollectionId)
+      if (selectedCollection?.id) {
+        await api.changeStoryToCollection(storyId, selectedCollection.id, currentCollectionId)
         reload()
         snackActions.open('This story was moved to new collection!')
         handleClose()
@@ -131,7 +131,7 @@ const CollectionMove: React.FC<iCollectionMove> = ({ storyId, reload, currentCol
                 if (!collection) {
                   return
                 }
-                handleSelected({ kind: 'COLLECTION', entity: collection })
+                handleSelected({ kind: 'COLLECTION', id: collection.id, title: collection.title })
               }}
               name="collection"
               allowAdd
