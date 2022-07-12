@@ -637,12 +637,6 @@ export const searchCollections =
       return await request.get(`a/search?q=${q || ''}&page=${page}&size=${size}&t=COLLECTION`).then(res => res.data)
     }
 
-export const searchSuggestions =
-  (request: AxiosInstance) =>
-    async (query: string): Promise<{ suggestions: string[] }> => {
-      return await request.get(`a/search/suggestions?q=${query || ''}&page=${0}&size=${10}`).then(res => res.data)
-    }
-
 // Comments api
 
 export const getComments =

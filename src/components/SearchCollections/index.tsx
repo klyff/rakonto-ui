@@ -45,7 +45,7 @@ const CollectionSearch: React.FC<iCollectionSearch> = ({
       debounce(async (query: string, callback: (results: readonly CollectionTypeOption[]) => void) => {
         setLoading(true)
         const { content } = await api.searchCollections(0, 100, query)
-        callback(content.filter(i => i.kind === 'COLLECTION').map(p => ({ ...p, label: p.entity.title })))
+        callback(content.filter(i => i.kind === 'COLLECTION').map(p => ({ ...p, label: p.title })))
         setLoading(false)
       }, 1500),
     []
@@ -62,7 +62,7 @@ const CollectionSearch: React.FC<iCollectionSearch> = ({
       newOptions = [
         ...newOptions,
         ...results.filter(function (item) {
-          return item?.entity?.id !== value?.entity?.id
+          return item?.id !== value?.id
         })
       ]
     }
@@ -80,7 +80,13 @@ const CollectionSearch: React.FC<iCollectionSearch> = ({
       // @ts-ignore
       setOptions([value])
     }
-    handleSelect((value?.entity as CollectionType) || null)
+
+    ;(async function () {
+      if (value?.id) {
+        const collection = await api.getCollection(value.id)
+        handleSelect(collection)
+      }
+    })()
   }, [value])
 
   useEffect(() => {
@@ -102,7 +108,14 @@ const CollectionSearch: React.FC<iCollectionSearch> = ({
       setValue(null)
       return
     }
-    const option: CollectionTypeOption = { entity: collection, kind: 'COLLECTION', label: collection.title }
+
+    const option: CollectionTypeOption = {
+      id: collection.id,
+      title: collection.title,
+      label: collection.title,
+      kind: 'COLLECTION'
+    }
+
     setOptions([option])
     setNewOption(option)
   }
@@ -118,7 +131,7 @@ const CollectionSearch: React.FC<iCollectionSearch> = ({
       }}
       onChange={(event, newValue) => {
         event.preventDefault()
-        if (newValue?.entity!.id === 'new place') {
+        if (newValue?.id === 'new place') {
           createCollectionActions.open(addCallback, inputValue)
           setInputValue('')
           return
@@ -133,7 +146,7 @@ const CollectionSearch: React.FC<iCollectionSearch> = ({
       filterOptions={(options, params) => {
         const filtered = filter(options, params)
         // Suggest the creation of a new value
-        const isExisting = options.some(option => inputValue === option.entity!.title)
+        const isExisting = options.some(option => inputValue === option.title)
         if (inputValue !== '' && !isExisting && allowAdd) {
           filtered.push({
             // @ts-ignore
@@ -147,7 +160,7 @@ const CollectionSearch: React.FC<iCollectionSearch> = ({
       }}
       renderOption={(props, option) => {
         return (
-          <li {...props} key={option.entity!.id}>
+          <li {...props} key={option.id}>
             {option.label}
           </li>
         )
@@ -178,7 +191,7 @@ const CollectionSearch: React.FC<iCollectionSearch> = ({
       )}
       options={optionsState}
       fullWidth
-      getOptionLabel={option => option!.entity?.title || ''}
+      getOptionLabel={option => option!.title || ''}
       inputValue={inputValue}
       value={value || undefined}
       size="small"

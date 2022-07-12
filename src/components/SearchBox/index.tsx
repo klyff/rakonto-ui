@@ -44,8 +44,8 @@ const SearchBox: React.FC<iSearchBox> = ({ onSearch, q, autoFocus }) => {
   const fetchOptions = useMemo(
     () =>
       throttle(async (query: string) => {
-        const { suggestions } = await api.searchSuggestions(query)
-        setOptions(suggestions)
+        const { content } = await api.search(0, 10, query)
+        setOptions(content.map(item => item.title))
       }, 200),
     []
   )

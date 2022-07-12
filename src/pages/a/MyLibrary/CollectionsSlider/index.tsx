@@ -44,11 +44,9 @@ const CollectionsSlider: React.FC<iCollectionsSlider> = ({ q }) => {
       }}
       container
     >
-      {items
-        .map(item => item.entity as CollectionType)
-        .map(collection => (
-          <CollectionCard key={collection.id} collection={collection} />
-        ))}
+      {items.map(item => (
+        <CollectionCard key={item.id} id={item.id} />
+      ))}
       {hasNextPage && (
         <Grid>
           <Card loading={true} title={''} subTitle={''} thumbnail={''} preview={''} />
