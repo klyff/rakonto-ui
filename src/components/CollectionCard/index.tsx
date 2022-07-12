@@ -10,7 +10,7 @@ const CollectionCard: React.FC<{ id: string }> = ({ id }) => {
   const [collection, setCollection] = useState(null as CollectionType | null)
   useEffect(() => {
     api.getCollection(id).then(setCollection)
-  })
+  }, [id])
 
   if (collection === null) {
     return (

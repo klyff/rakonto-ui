@@ -10,7 +10,7 @@ const StoryCard: React.FC<{ id: string }> = ({ id }) => {
   const [story, setStory] = useState(null as StoryType | null)
   useEffect(() => {
     api.getStory(id).then(setStory)
-  })
+  }, [id])
 
   if (story === null) {
     return (
