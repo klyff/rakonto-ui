@@ -271,9 +271,11 @@ const Header = forwardRef((props, ref) => {
             </IconButton>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ minWidth: '150px', display: { xs: 'none', md: 'flex' } }}>
-            <StorageInfo />
-          </Box>
+          {user?.tier < 3 && (
+            <Box sx={{ minWidth: '150px', display: { xs: 'none', md: 'flex' } }}>
+              <StorageInfo />
+            </Box>
+          )}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Avatar
               sx={{

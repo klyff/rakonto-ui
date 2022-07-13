@@ -51,45 +51,55 @@ const Storage: React.FC = () => {
       {isLoading && <CircularLoadingCentred />}
       {!isLoading && (
         <Box sx={{ minWidth: '320px', width: '100%' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', marginY: 4, maxWidth: '422px' }}>
-            <Box sx={{ width: '100%', mr: 1 }}>
-              <LinearProgress variant="determinate" value={storage!.percentual} />
+          {!(user?.tier < 3) ? (
+            <Box sx={{ marginY: 4, maxWidth: '422px' }}>
+              <Typography sx={{}} variant="h5">
+                You are using <b>{storage!.used}</b>.
+              </Typography>
             </Box>
-            <Box sx={{ minWidth: 35 }}>{storage!.percentual}%</Box>
-          </Box>
-          <Typography sx={{}} variant="h5">
-            You are using <b>{storage!.used}</b> of you available <b>{storage!.available}</b> quota.
-          </Typography>
-          <Typography sx={{ mb: 6 }} variant="h5">
-            You still have <b>{storage!.free}</b> remaining on library capacity.
-          </Typography>
+          ) : (
+            <>
+              <Box sx={{ display: 'flex', alignItems: 'center', marginY: 4, maxWidth: '422px' }}>
+                <Box sx={{ width: '100%', mr: 1 }}>
+                  <LinearProgress variant="determinate" value={storage!.percentual} />
+                </Box>
+                <Box sx={{ minWidth: 35 }}>{storage!.percentual}%</Box>
+              </Box>
+              <Typography sx={{}} variant="h5">
+                You are using <b>{storage!.used}</b> of you available <b>{storage!.available}</b> quota.
+              </Typography>
+              <Typography sx={{ mb: 6 }} variant="h5">
+                You still have <b>{storage!.free}</b> remaining on library capacity.
+              </Typography>
 
-          <Typography sx={{ color: 'secondary.main', pb: 'unset', mb: 3 }} variant="h5">
-            {`You have two options to increase your available library capacity:`}
-          </Typography>
-          <Typography sx={{ color: 'secondary.main', pb: 'unset', mb: 1 }} variant="h6">
-            <Link href="/a/profile?tab=subscription">Upgrade my plan</Link>
-            {` Choose this to upgrade to another plan and increase your library capacity.`}
-          </Typography>
-          <Typography sx={{ color: 'secondary.main', pb: 'unset', mb: 1 }} variant="h6">
-            <Link sx={{ cursor: 'pointer' }} onClick={handleOptimize}>
-              Optimize my library
-            </Link>
-            {` Choose this to remove previous audio / video original recordings, and only keep optimized* recordings.`}
-          </Typography>
-          <Typography sx={{ color: 'secondary.main', pb: 'unset', display: 'inline-flex', mb: 1 }} variant="h6">
-            <FormGroup>
-              <FormControlLabel
-                control={<Switch value={user.keepOnlyOptimized} onChange={handleOptimizeToogleChange} />}
-                label="Auto optimize"
-              />
-            </FormGroup>
-            {` Keep only optimized* recordings from now on.`}
-          </Typography>
-          <Typography sx={{ color: 'secondary.main', pb: 'unset' }} variant="body1">
-            {`*Recordings uploaded or recorded directly into Rakonto are converted automatically and optimized for streaming. Optimized audio recordings are stored in 128Khz mp3 format. Optimized video recordings are stored in 720p mp4 format. For more information about optimization please contact us at `}
-            <Link href="mailto:support@rakonto.io">support@rakonto.io</Link>
-          </Typography>
+              <Typography sx={{ color: 'secondary.main', pb: 'unset', mb: 3 }} variant="h5">
+                {`You have two options to increase your available library capacity:`}
+              </Typography>
+              <Typography sx={{ color: 'secondary.main', pb: 'unset', mb: 1 }} variant="h6">
+                <Link href="/a/profile?tab=subscription">Upgrade my plan</Link>
+                {` Choose this to upgrade to another plan and increase your library capacity.`}
+              </Typography>
+              <Typography sx={{ color: 'secondary.main', pb: 'unset', mb: 1 }} variant="h6">
+                <Link sx={{ cursor: 'pointer' }} onClick={handleOptimize}>
+                  Optimize my library
+                </Link>
+                {` Choose this to remove previous audio / video original recordings, and only keep optimized* recordings.`}
+              </Typography>
+              <Typography sx={{ color: 'secondary.main', pb: 'unset', display: 'inline-flex', mb: 1 }} variant="h6">
+                <FormGroup>
+                  <FormControlLabel
+                    control={<Switch value={user.keepOnlyOptimized} onChange={handleOptimizeToogleChange} />}
+                    label="Auto optimize"
+                  />
+                </FormGroup>
+                {` Keep only optimized* recordings from now on.`}
+              </Typography>
+              <Typography sx={{ color: 'secondary.main', pb: 'unset' }} variant="body1">
+                {`*Recordings uploaded or recorded directly into Rakonto are converted automatically and optimized for streaming. Optimized audio recordings are stored in 128Khz mp3 format. Optimized video recordings are stored in 720p mp4 format. For more information about optimization please contact us at `}
+                <Link href="mailto:support@rakonto.io">support@rakonto.io</Link>
+              </Typography>
+            </>
+          )}
         </Box>
       )}
     </Box>
