@@ -56,12 +56,9 @@ const Search: React.FC<RouteComponentProps> = () => {
       <Grid item xs={12}>
         <Grid container>
           {items.map(item => {
-            // @ts-ignore
-            if (kind === 'COLLECTION') {
-              // @ts-ignore
+            if (item.kind === 'COLLECTION') {
               return <CollectionCard key={item.id} id={item.id} />
             }
-            // @ts-ignore
             return <StoryCard key={item.id} id={item.id} />
           })}
           {hasNextPage && (
