@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { Form, Formik } from 'formik'
 import schema from './schema'
@@ -7,7 +7,6 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Link from '@mui/material/Link'
-import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import { SigninFormType } from '../../../lib/types'
 import api from '../../../lib/api'
@@ -87,7 +86,7 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
       {({ isSubmitting, values, handleBlur, handleChange, errors, touched }) => {
         return (
           <Form>
-            <Grid container spacing={4} direction="row" justifyContent="center" alignItems="center">
+            <Grid container direction="row" justifyContent="center" alignItems="center">
               <Grid item xs={12}>
                 <TextField
                   size="medium"
@@ -118,7 +117,7 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
                   helperText={(touched.password && errors.password) || ' '}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid marginTop={'16px'} item xs={12}>
                 <LoadingButton
                   color={'primary'}
                   variant="contained"
@@ -129,27 +128,28 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
                 >
                   Login
                 </LoadingButton>
-                <Box textAlign="center" paddingTop={2.5}>
-                  <Link href="/u/forgot-password">Forgot password?</Link>
-                </Box>
               </Grid>
-              {/* <Grid item xs={12}> */}
-              {/*  <Divider>or</Divider> */}
-              {/* </Grid> */}
-              {/* <Grid item xs={12}> */}
-              {/*  <FacebookButton /> */}
-              {/* </Grid> */}
-              {/* <Grid item xs={12}> */}
-              {/*  <GoogleButton /> */}
-              {/* </Grid> */}
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
-              <Grid item xs={12}>
+              <Grid marginTop={'16px'} item xs={12}>
                 <LoadingButton href={'/u/signup'} variant="outlined" fullWidth>
                   Create new account
                 </LoadingButton>
               </Grid>
+              <Grid marginTop={'16px'} textAlign={'center'} item xs={12}>
+                <Link href="/u/forgot-password">Forgot password?</Link>
+              </Grid>
+              {process.env.REACT_APP_SOCIAL_LOGIN_ENABLED === 'true' && (
+                <Fragment>
+                  <Grid margin={'32px 0'} item xs={12}>
+                    <Divider>or</Divider>
+                  </Grid>
+                  <Grid marginTop={'16px'} item xs={12}>
+                    <GoogleButton />
+                  </Grid>
+                  <Grid marginTop={'16px'} item xs={12}>
+                    <FacebookButton />
+                  </Grid>
+                </Fragment>
+              )}
             </Grid>
           </Form>
         )
