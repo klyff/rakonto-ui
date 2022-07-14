@@ -1,3 +1,4 @@
+import request from './request'
 import {
   addPersonToStory,
   addWatcher,
@@ -108,53 +109,6 @@ import {
   getEmbedStory,
   getEmbedCollection
 } from './services'
-import axios from 'axios'
-import Cookies from 'js-cookie'
-import { history } from '../../App'
-
-const request = axios.create({
-  baseURL: '/api'
-})
-
-request.interceptors.request.use(function (config) {
-  const token = Cookies.get('token')
-  if (config!.url!.startsWith('g/')) return config
-  config.headers.Authorization = `Bearer ${token}`
-  return config
-})
-
-request.interceptors.response.use(
-  response => {
-    return response
-  },
-  e => {
-    if (e?.response?.status === 401) {
-      Cookies.remove('token')
-      Cookies.remove('user')
-      if (history.location.pathname === '/u/signin') return Promise.reject(e)
-      history.push('/u/signin')
-      window.location.reload()
-      return Promise.reject(e)
-    }
-
-    if (e?.response?.status === 404) {
-      history.push('/404')
-      window.location.reload()
-      return Promise.reject(e)
-    }
-
-    if (e?.response?.status === 403) {
-      history.push('/403')
-      window.location.reload()
-      return Promise.reject(e)
-    }
-
-    e.status = e?.response?.status || 500
-    e.data = e?.response?.data || 'server error'
-
-    return Promise.reject(e)
-  }
-)
 
 export default {
   getEmbedStory: getEmbedStory(request),

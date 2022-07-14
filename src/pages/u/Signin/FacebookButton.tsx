@@ -55,8 +55,6 @@ const Component = () => {
       window.FB.getLoginStatus((response: any) => {
         if (response.status === 'connected') {
           callback(response.authResponse.accessToken)
-        } else {
-          snackActions.open('Something was wrong! please try again.')
         }
       })
     }
