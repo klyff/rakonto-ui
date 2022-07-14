@@ -5,6 +5,7 @@ import { GuestLayoutProvider } from './g/GuestLayout'
 import AuthenticatedLayout from './a/AuthenticatedLayout'
 import PublicLayout from './u/PublicLayout'
 import CircularLoadingCentred from '../components/CircularLoadingCentred'
+import FacebookDataDeletion from './u/FacebookDataDeletion'
 
 const Signin = lazy(() => import('./u/Signin'))
 const Search = lazy(() => import('./a/Search'))
@@ -77,6 +78,7 @@ const PublicRoutes: React.FC<RouteProps> = () => {
         <Route path="/u/forgot-password" component={ForgotPassword} />
         <Route path="/u/password-reset" component={PasswordReset} />
         <Route path="/u/confirmation-email" component={ConfirmationEmail} />
+        <Route path="/u/facebook/data-deletion" component={FacebookDataDeletion} />
         <Redirect to="/u/signin" />
       </Switch>
     </PublicLayout>
