@@ -44,10 +44,6 @@ export const usePageableRequest = <T>({
     }
   }
 
-  useEffect(() => {
-    reload()
-  }, [q])
-
   async function loadMore() {
     setLoading(true)
     try {
