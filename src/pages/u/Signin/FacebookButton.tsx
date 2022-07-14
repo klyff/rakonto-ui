@@ -12,14 +12,12 @@ const Component = () => {
   // @ts-ignore
   const { returnUrl } = parse(location.search, { ignoreQueryPrefix: true })
   const { actions: snackActions } = React.useContext(SimpleSnackbarContext)
-  const [_, error] = useScript({
-    src: `https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v14.0&appId=${
-      process.env.REACT_APP_FB_APP_ID || ''
-    }&autoLogAppEvents=1`,
-    nonce: 'VFrl1nvC',
+  const [ready, error] = useScript({
+    src: `https://connect.facebook.net/en_US/sdk.js?t=${Date.now()}`,
     async: true,
     defer: true,
-    crossorigin: 'anonymous'
+    crossorigin: 'anonymous',
+    id: 'facebook-jssdk'
   })
 
   const callback = async (accessToken: string) => {
@@ -37,13 +35,44 @@ const Component = () => {
     }
   }
 
-  // @ts-ignore
-  window.test = function () {
+  useEffect(() => {
     // @ts-ignore
-    window.FB.login(({ authResponse: { accessToken } }) => {
-      callback(accessToken)
+    if (!window.FB) {
+      return
+    }
+
+    // @ts-ignore
+    window.FB.init({
+      appId: process.env.REACT_APP_FB_APP_ID,
+      autoLogAppEvents: true,
+      xfbml: true,
+      version: 'v14.0'
     })
-  }
+
+    // @ts-ignore
+    window.fbcallback = function () {
+      // @ts-ignore
+      window.FB.getLoginStatus((response: any) => {
+        if (response.status === 'connected') {
+          callback(response.authResponse.accessToken)
+        } else {
+          snackActions.open('Something was wrong! please try again.')
+        }
+      })
+    }
+
+    return () => {
+      // @ts-ignore
+      window.fbcallback = null
+      // @ts-ignore
+      window.FB = null
+      // @ts-ignore
+      window.fbAsyncInit = null
+      // @ts-ignore
+      window.document.getElementById('facebook-jssdk')?.remove()
+    }
+    // @ts-ignore
+  }, [window.FB])
 
   return (
     <Fragment>
@@ -60,7 +89,8 @@ const Component = () => {
               data-layout="default"
               data-auto-logout-link="false"
               data-use-continue-as="true"
-              data-onlogin="test"
+              data-onlogin="fbcallback"
+              data-scope="public_profile, email"
             ></div>
           </div>
         )

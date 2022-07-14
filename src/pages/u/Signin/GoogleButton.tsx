@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
+import React from 'react'
+import { GoogleLogin } from '@react-oauth/google'
 import Cookies from 'js-cookie'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
 import api from '../../../lib/api'
@@ -9,7 +9,6 @@ import { parse } from 'qs'
 const Component = () => {
   const history = useHistory()
   // @ts-ignore
-  const [ready, setReady] = useState(false)
   const { returnUrl } = parse(location.search, { ignoreQueryPrefix: true })
   const { actions: snackActions } = React.useContext(SimpleSnackbarContext)
 
@@ -29,13 +28,9 @@ const Component = () => {
   }
 
   return (
-    <GoogleOAuthProvider onScriptLoadSuccess={() => setReady(true)} clientId={process.env.REACT_APP_GG_APP_ID || ''}>
-      {ready && (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <GoogleLogin onSuccess={ok} />
-        </div>
-      )}
-    </GoogleOAuthProvider>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <GoogleLogin onSuccess={ok} />
+    </div>
   )
 }
 

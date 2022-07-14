@@ -11,6 +11,7 @@ import theme from './lib/theme'
 import { MittProvider } from 'react-mitt'
 import { useKonamiCode } from '@bitmap/use-konami-code'
 import Cookies from 'js-cookie'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export const history = createBrowserHistory()
 
@@ -23,20 +24,22 @@ const App: React.FC = () => {
   }, 'iddqd'.split(''))
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <MittProvider>
-        <SimpleSnackbarProvider>
-          <SimpleDialogProvider>
-            <FormDialogProvider>
-              <Router history={history}>
-                <Routes />
-              </Router>
-            </FormDialogProvider>
-          </SimpleDialogProvider>
-        </SimpleSnackbarProvider>
-      </MittProvider>
-    </ThemeProvider>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GG_APP_ID || ''}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <MittProvider>
+          <SimpleSnackbarProvider>
+            <SimpleDialogProvider>
+              <FormDialogProvider>
+                <Router history={history}>
+                  <Routes />
+                </Router>
+              </FormDialogProvider>
+            </SimpleDialogProvider>
+          </SimpleSnackbarProvider>
+        </MittProvider>
+      </ThemeProvider>
+    </GoogleOAuthProvider>
   )
 }
 
