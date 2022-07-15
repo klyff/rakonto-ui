@@ -28,7 +28,7 @@ const Component = () => {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', minWidth: '228px', minHeight: '40px' }}>
       <GoogleLogin onSuccess={ok} />
     </div>
   )

@@ -73,11 +73,11 @@ const Component = () => {
   }, [window.FB])
 
   return (
-    <Fragment>
+    <div style={{ display: 'flex', justifyContent: 'center', minWidth: '228px', minHeight: '40px' }}>
       {
         // @ts-ignore
         !error && window.FB && (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Fragment>
             <div id="fb-root"></div>
             <div
               className="fb-login-button"
@@ -90,10 +90,10 @@ const Component = () => {
               data-onlogin="fbcallback"
               data-scope="public_profile, email"
             ></div>
-          </div>
+          </Fragment>
         )
       }
-    </Fragment>
+    </div>
   )
 }
 
