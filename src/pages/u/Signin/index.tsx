@@ -87,6 +87,19 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
         return (
           <Form>
             <Grid container direction="row" justifyContent="center" alignItems="center">
+              {process.env.REACT_APP_SOCIAL_LOGIN_ENABLED === 'true' && (
+                <Fragment>
+                  <Grid marginTop={'16px'} item xs={12}>
+                    <GoogleButton />
+                  </Grid>
+                  <Grid marginTop={'16px'} item xs={12}>
+                    <FacebookButton />
+                  </Grid>
+                  <Grid margin={'32px 0'} item xs={12}>
+                    <Divider>or</Divider>
+                  </Grid>
+                </Fragment>
+              )}
               <Grid item xs={12}>
                 <TextField
                   size="medium"
@@ -129,27 +142,17 @@ const Signin: React.FC<RouteComponentProps> = ({ location, history }) => {
                   Login
                 </LoadingButton>
               </Grid>
+              <Grid marginTop={'16px'} textAlign={'center'} item xs={12}>
+                <Link href="/u/forgot-password">Forgot password?</Link>
+              </Grid>
+              <Grid margin={'32px 0'} item xs={12}>
+                <Divider>or</Divider>
+              </Grid>
               <Grid marginTop={'16px'} item xs={12}>
                 <LoadingButton href={'/u/signup'} variant="outlined" fullWidth>
                   Create new account
                 </LoadingButton>
               </Grid>
-              <Grid marginTop={'16px'} textAlign={'center'} item xs={12}>
-                <Link href="/u/forgot-password">Forgot password?</Link>
-              </Grid>
-              {process.env.REACT_APP_SOCIAL_LOGIN_ENABLED === 'true' && (
-                <Fragment>
-                  <Grid margin={'32px 0'} item xs={12}>
-                    <Divider>or</Divider>
-                  </Grid>
-                  <Grid marginTop={'16px'} item xs={12}>
-                    <GoogleButton />
-                  </Grid>
-                  <Grid marginTop={'16px'} item xs={12}>
-                    <FacebookButton />
-                  </Grid>
-                </Fragment>
-              )}
             </Grid>
           </Form>
         )
