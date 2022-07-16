@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom'
 import { parse } from 'qs'
 import useScript from 'react-script-hook'
 
-const Component = () => {
+const Component = React.memo(() => {
   const history = useHistory()
   // @ts-ignore
   const { returnUrl } = parse(location.search, { ignoreQueryPrefix: true })
@@ -65,8 +65,6 @@ const Component = () => {
       // @ts-ignore
       window.FB = null
       // @ts-ignore
-      window.fbAsyncInit = null
-      // @ts-ignore
       window.document.getElementById('facebook-jssdk')?.remove()
     }
     // @ts-ignore
@@ -95,6 +93,6 @@ const Component = () => {
       }
     </div>
   )
-}
+})
 
 export default Component
