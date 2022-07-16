@@ -21,6 +21,10 @@ import useUser from '../../../../components/UserProvider/useUser'
 import { GreetingsDialogContext } from '../../../../components/GreetingsDialog'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import useStorage from '../../../../components/hooks/useStorage'
+import { FormDialogContext } from '../../../../components/FormDialog'
+import api from '../../../../lib/api'
+import { SimpleSnackbarContext } from '../../../../components/SimpleSnackbar'
+import Cookies from 'js-cookie'
 
 const Header = forwardRef((props, ref) => {
   const { storage, isLoading, refetch } = useStorage()
@@ -30,6 +34,8 @@ const Header = forwardRef((props, ref) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null)
   const { actions: greetingsActions } = useContext(GreetingsDialogContext)
+  const { actions: formDialogActions } = useContext(FormDialogContext)
+  const { actions: snackActions } = useContext(SimpleSnackbarContext)
 
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
@@ -51,6 +57,37 @@ const Header = forwardRef((props, ref) => {
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget)
     refetch()
+  }
+
+  const switchAccount = () => {
+    handleMenuClose()
+    formDialogActions.open(
+      'Switch account',
+      'You will access logged with team member account that you choose.',
+      [
+        {
+          label: 'Email',
+          name: 'email',
+          placeholder: 'select email to switch account',
+          type: 'select',
+          options: user.teams
+        }
+      ],
+      { email: '' },
+      null,
+      async ({ email }: { email: string }) => {
+        try {
+          const newAccess = await api.switchAccount(email)
+          Cookies.set('token', newAccess.token)
+          console.log('token changed')
+          await refetch()
+          snackActions.open('Account switched with success!')
+        } catch (error) {
+          snackActions.open('You access was revoked.')
+        }
+      },
+      { okText: 'Switch account', cancelText: `cancel` }
+    )
   }
 
   const menuOptions = [
@@ -138,6 +175,7 @@ const Header = forwardRef((props, ref) => {
       >
         Professional services
       </MenuItem>
+      {!!user?.teams.length && <MenuItem onClick={switchAccount}>Switch account</MenuItem>}
       <MenuItem
         onClick={() => {
           history.push('/a/signout')
@@ -221,6 +259,7 @@ const Header = forwardRef((props, ref) => {
       >
         Professional services
       </MenuItem>
+      {!!user?.teams.length && <MenuItem onClick={switchAccount}>Switch account</MenuItem>}
       <MenuItem
         onClick={() => {
           history.push('/a/signout')

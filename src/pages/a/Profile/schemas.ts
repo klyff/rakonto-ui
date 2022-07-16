@@ -25,3 +25,7 @@ export const updateUserSchema = yup.object().shape({
 export const closeAccountSchema = yup.object().shape({
   password: yup.string().required().label('Password')
 })
+
+export const emailSchema = yup.object().shape({
+  email: yup.string().required().email().label('Email')
+})

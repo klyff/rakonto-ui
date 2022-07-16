@@ -73,6 +73,7 @@ export type UserType = {
   trial: boolean
   freeTrialUntilAt: string
   organizations: OrganizationType[]
+  teams: string[]
 }
 
 export type UserFormType = {
@@ -578,4 +579,11 @@ export type OrganizationMemberType = {
   id: string
   user: UserType
   status: 'ÁCCEPETD' | 'PENDING' | 'DECLINED'
+}
+
+export type TeamMemberType = {
+  id: string
+  user: UserType
+  updatedAt: Date
+  createdAt: Date
 }

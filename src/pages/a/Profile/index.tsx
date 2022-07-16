@@ -5,27 +5,30 @@ import Box from '@mui/material/Box'
 import Tooltip from '@mui/material/Tooltip'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import Password from './Password'
-import Subscription from './Subscription'
-import Storage from './Storage'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import SecurityIcon from '@mui/icons-material/Security'
 import CreditCardIcon from '@mui/icons-material/CreditCard'
 import CloudIcon from '@mui/icons-material/Cloud'
+import GroupIcon from '@mui/icons-material/Group'
+import Password from './Password'
+import Subscription from './Subscription'
+import Storage from './Storage'
 import Info from './Info'
 import ProfessionalServices from './ProfessionalServices'
+import TeamMembers from './TeamMembers'
 import { parse } from 'qs'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import EngineeringIcon from '@mui/icons-material/Engineering'
+import useUser from '../../../components/UserProvider/useUser'
 
 const Profile: React.FC<RouteComponentProps> = () => {
+  const { user } = useUser()
   const theme = useTheme()
   const isMd = useMediaQuery(theme.breakpoints.down('md'))
   const [t, setTab] = useState('info')
   const history = useHistory()
   const location = useLocation()
-
   const onTabClick = (tab: string) => {
     history.push(`/a/profile?tab=${tab}`)
   }
@@ -64,7 +67,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
             onChange={(event, value) => onTabClick(value)}
           >
             <Tab
-              sx={{ minWidth: '70px' }}
+              sx={{ minWidth: { xs: '60px', md: '70px' } }}
               value="info"
               label={
                 <Tooltip placement="right" title="Info">
@@ -72,8 +75,19 @@ const Profile: React.FC<RouteComponentProps> = () => {
                 </Tooltip>
               }
             />
+            {user?.tier >= 3 && (
+              <Tab
+                sx={{ minWidth: { xs: '60px', md: '70px' } }}
+                value="teamMembers"
+                label={
+                  <Tooltip placement="right" title="Team members">
+                    <GroupIcon />
+                  </Tooltip>
+                }
+              />
+            )}
             <Tab
-              sx={{ minWidth: '70px' }}
+              sx={{ minWidth: { xs: '60px', md: '70px' } }}
               value="password"
               label={
                 <Tooltip placement="right" title="Password">
@@ -82,7 +96,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
               }
             />
             <Tab
-              sx={{ minWidth: '70px' }}
+              sx={{ minWidth: { xs: '60px', md: '70px' } }}
               value="subscription"
               label={
                 <Tooltip placement="right" title="Subscription">
@@ -91,7 +105,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
               }
             />
             <Tab
-              sx={{ minWidth: '70px' }}
+              sx={{ minWidth: { xs: '60px', md: '70px' } }}
               value="storage"
               label={
                 <Tooltip placement="right" title="Storage">
@@ -100,7 +114,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
               }
             />
             <Tab
-              sx={{ minWidth: '70px' }}
+              sx={{ minWidth: { xs: '60px', md: '70px' } }}
               value="professionalServices"
               label={
                 <Tooltip placement="right" title="Professional Services">
@@ -116,6 +130,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
           }}
         >
           {t === 'info' && <Info />}
+          {user?.tier >= 3 && t === 'teamMembers' && <TeamMembers />}
           {t === 'password' && <Password />}
           {t === 'subscription' && <Subscription />}
           {t === 'storage' && <Storage />}

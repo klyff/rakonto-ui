@@ -61,6 +61,7 @@ import {
   signinGoogle,
   singout,
   singup,
+  switchAccount,
   updateCollection,
   updateCollectionCover,
   updateMe,
@@ -107,7 +108,11 @@ import {
   organizationDeleteMembers,
   deleteOrganization,
   getEmbedStory,
-  getEmbedCollection
+  getEmbedCollection,
+  deleteTeamMember,
+  getTeamMember,
+  getTeamMembers,
+  addTeamMember
 } from './services'
 
 export default {
@@ -116,6 +121,7 @@ export default {
   verifyStorageUsage: verifyStorageUsage(request),
   singup: singup(request),
   singout: singout(request),
+  switchAccount: switchAccount(request),
   requestPasswordReset: requestPasswordReset(request),
   getMe: getMe(request),
   getProductSubscriptions: getProductSubscriptions(request),
@@ -218,5 +224,9 @@ export default {
   updateOrganization: updateOrganization(request),
   organizationAddMembers: organizationAddMembers(request),
   organizationDeleteMembers: organizationDeleteMembers(request),
-  deleteOrganization: deleteOrganization(request)
+  deleteOrganization: deleteOrganization(request),
+  deleteTeamMember: deleteTeamMember(request),
+  getTeamMember: getTeamMember(request),
+  getTeamMembers: getTeamMembers(request),
+  addTeamMember: addTeamMember(request)
 }

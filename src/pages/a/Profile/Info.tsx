@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Box from '@mui/material/Box'
 import api from '../../../lib/api'
 import { SimpleSnackbarContext } from '../../../components/SimpleSnackbar'
@@ -108,108 +108,110 @@ const Info: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%', height: '100%', minHeight: 'inherit' }}>
-      <Box component="form" sx={{ bgcolor: 'background.paper', padding: 2, marginBottom: 3 }}>
-        <Typography sx={{ paddingBottom: 2, paddingTop: 2 }} variant="h6">
-          Let people know about you!
-        </Typography>
-        <Box sx={{ minWidth: '320px', width: '100%', maxWidth: '422px' }}>
-          <Box
-            sx={{
-              paddingTop: 2,
-              paddingBottom: 4,
-              display: 'flex',
-              flexFlow: 'row',
-              alignItems: 'center'
-            }}
-          >
-            <Box
-              {...getRootProps()}
-              sx={{
-                height: '120px',
-                minWidth: '120px',
-                borderRadius: '50%',
-                border: '1px solid',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundImage: user?.picture?.url ? `url(${user.picture.url})` : 'none',
-                backgroundSize: 'contain',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
-              }}
-            >
-              <input {...getInputProps()} />
-              {!user?.picture?.url && <CameraAltIcon sx={{ fontSize: 40 }} />}
-            </Box>
-            <Box
-              sx={{
-                paddingLeft: 2
-              }}
-            >
-              <div>
-                <Button onClick={open} startIcon={<CreateIcon />} variant="outlined">
-                  Change
-                </Button>
-                {user?.picture?.url && (
-                  <Button onClick={onRemove} color="secondary" startIcon={<CloseIcon />}>
-                    Remove
-                  </Button>
-                )}
-              </div>
-              <Typography sx={{ paddingTop: 1 }} variant="h6">
-                JPG or PNG. Max size of 5 MB.
-              </Typography>
-            </Box>
-          </Box>
-
-          <TextField
-            autoFocus
-            name="firstName"
-            fullWidth
-            placeholder="First name"
-            label="First name"
-            type="text"
-            value={values.firstName}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.firstName && Boolean(errors.firstName)}
-            helperText={(touched.firstName && errors.firstName) || ' '}
-          />
-          <TextField
-            name="lastName"
-            fullWidth
-            placeholder="Last name"
-            label="Last name"
-            type="text"
-            value={values.lastName}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.lastName && Boolean(errors.lastName)}
-            helperText={(touched.lastName && errors.lastName) || ' '}
-          />
-          <Typography sx={{ paddingBottom: 4, paddingTop: 2 }} variant="h6">
-            Your profile will appear on stories and collections you create, as well as any comments you post.
+      <Box sx={{ bgcolor: 'background.paper', padding: 2, marginBottom: 3 }}>
+        <form>
+          <Typography sx={{ paddingBottom: 2, paddingTop: 2 }} variant="h6">
+            Let people know about you!
           </Typography>
-          <TextField
-            name="about"
-            fullWidth
-            placeholder="About"
-            multiline
-            rows={6}
-            label="About"
-            type="text"
-            value={values.about}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.about && Boolean(errors.about)}
-            helperText={(touched.about && errors.about) || ' '}
-          />
-          <Box sx={{ textAlign: 'end' }}>
-            <Button color={'primary'} variant="contained" onClick={() => handleSubmit()}>
-              Save
-            </Button>
+          <Box sx={{ minWidth: '320px', width: '100%', maxWidth: '422px' }}>
+            <Box
+              sx={{
+                paddingTop: 2,
+                paddingBottom: 4,
+                display: 'flex',
+                flexFlow: 'row',
+                alignItems: 'center'
+              }}
+            >
+              <Box
+                {...getRootProps()}
+                sx={{
+                  height: '120px',
+                  minWidth: '120px',
+                  borderRadius: '50%',
+                  border: '1px solid',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundImage: user?.picture?.url ? `url(${user.picture.url})` : 'none',
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat'
+                }}
+              >
+                <input {...getInputProps()} />
+                {!user?.picture?.url && <CameraAltIcon sx={{ fontSize: 40 }} />}
+              </Box>
+              <Box
+                sx={{
+                  paddingLeft: 2
+                }}
+              >
+                <div>
+                  <Button onClick={open} startIcon={<CreateIcon />} variant="outlined">
+                    Change
+                  </Button>
+                  {user?.picture?.url && (
+                    <Button onClick={onRemove} color="secondary" startIcon={<CloseIcon />}>
+                      Remove
+                    </Button>
+                  )}
+                </div>
+                <Typography sx={{ paddingTop: 1 }} variant="h6">
+                  JPG or PNG. Max size of 5 MB.
+                </Typography>
+              </Box>
+            </Box>
+
+            <TextField
+              autoFocus
+              name="firstName"
+              fullWidth
+              placeholder="First name"
+              label="First name"
+              type="text"
+              value={values.firstName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.firstName && Boolean(errors.firstName)}
+              helperText={(touched.firstName && errors.firstName) || ' '}
+            />
+            <TextField
+              name="lastName"
+              fullWidth
+              placeholder="Last name"
+              label="Last name"
+              type="text"
+              value={values.lastName}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.lastName && Boolean(errors.lastName)}
+              helperText={(touched.lastName && errors.lastName) || ' '}
+            />
+            <Typography sx={{ paddingBottom: 4, paddingTop: 2 }} variant="h6">
+              Your profile will appear on stories and collections you create, as well as any comments you post.
+            </Typography>
+            <TextField
+              name="about"
+              fullWidth
+              placeholder="About"
+              multiline
+              rows={6}
+              label="About"
+              type="text"
+              value={values.about}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.about && Boolean(errors.about)}
+              helperText={(touched.about && errors.about) || ' '}
+            />
+            <Box sx={{ textAlign: 'end' }}>
+              <Button color={'primary'} variant="contained" onClick={() => handleSubmit()}>
+                Save
+              </Button>
+            </Box>
           </Box>
-        </Box>
+        </form>
         <Box sx={{ mt: 4, padding: 2 }}>
           <Typography variant="body1">
             <Link component="button" onClick={handleCloseAccount} underline="hover" variant="body1">

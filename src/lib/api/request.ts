@@ -34,6 +34,7 @@ request.interceptors.response.use(
   },
   e => {
     if (e?.response?.status === 401) {
+      if (e.response.config.url === 'a/auth/team-member') return Promise.reject(e)
       Cookies.remove('token')
       Cookies.remove('user')
       if (history.location.pathname === '/u/signin') return Promise.reject(e)
