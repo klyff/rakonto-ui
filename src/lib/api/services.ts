@@ -952,7 +952,7 @@ export const getTeamMember =
 
 export const addTeamMember =
   (request: AxiosInstance) =>
-  async (email: string): Promise<OrganizationType> => {
+  async (email: string): Promise<TeamMemberType> => {
     return await request.post(`a/team-members`, { email }).then(res => res.data)
   }
 

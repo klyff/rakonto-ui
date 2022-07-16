@@ -24,7 +24,7 @@ const TeamMembers: React.FC = () => {
   const { actions: snackActions } = useContext(SimpleSnackbarContext)
   const [searchValue, setSearchValue] = useState<string>('')
 
-  const { loading, items, hasNextPage, error, loadMore, reload } = usePageableRequest<TeamMemberType>({
+  const { loading, items, hasNextPage, error, loadMore, setItems } = usePageableRequest<TeamMemberType>({
     size: 15,
     q: '',
     request: api.getTeamMembers
@@ -54,11 +54,11 @@ const TeamMembers: React.FC = () => {
       emailSchema,
       async ({ email }: { email: string }) => {
         try {
-          await api.addTeamMember(email)
-          await reload()
+          const newMember = await api.addTeamMember(email)
+          setItems([...items, newMember])
           snackActions.open('User add with success!')
         } catch (error) {
-          snackActions.open('This user cannot be added to you team.')
+          snackActions.open('This user cannot be added to your team.')
         }
       },
       { okText: 'Add user', cancelText: `cancel` }
@@ -68,12 +68,13 @@ const TeamMembers: React.FC = () => {
   const removeMember = async (id: string) => {
     simpleDialogActions.open(
       'Remove member',
-      'Are you sure? This member will be removed and cannout access your account.',
+      "Are you sure? This member will be removed and can't access your account.",
       { okText: 'Yes, remove', showOk: true, cancelText: 'cancel' },
       async success => {
         if (success) {
           try {
             await api.deleteTeamMember(id)
+            setItems(items.filter(item => item.id !== id))
             snackActions.open('Member removed with success.')
           } catch (error) {
             snackActions.open('Error when trying to remove the member.')
