@@ -175,7 +175,7 @@ const Header = forwardRef((props, ref) => {
       >
         Professional services
       </MenuItem>
-      {!!user?.teams.length && <MenuItem onClick={switchAccount}>Switch account</MenuItem>}
+      {!!user?.teams?.length && <MenuItem onClick={switchAccount}>Switch account</MenuItem>}
       <MenuItem
         onClick={() => {
           history.push('/a/signout')
@@ -259,7 +259,7 @@ const Header = forwardRef((props, ref) => {
       >
         Professional services
       </MenuItem>
-      {!!user?.teams.length && <MenuItem onClick={switchAccount}>Switch account</MenuItem>}
+      {!!user?.teams?.length && <MenuItem onClick={switchAccount}>Switch account</MenuItem>}
       <MenuItem
         onClick={() => {
           history.push('/a/signout')

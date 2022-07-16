@@ -3,6 +3,8 @@ import { RouteComponentProps } from 'react-router-dom'
 import { VideoJS } from '../../../components/Player/VideoJs'
 import api from '../../../lib/api'
 import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
+import Link from '@mui/material/Link'
 import { CollectionType, StoryType } from '../../../lib/types'
 
 const Embed: React.FC<RouteComponentProps<{ type: string; id: string }>> = ({ match, history }) => {
@@ -94,7 +96,33 @@ const Embed: React.FC<RouteComponentProps<{ type: string; id: string }>> = ({ ma
     )
   }
 
-  return <VideoJS type="playlist" playlist={playlist} embedded />
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%'
+      }}
+    >
+      <VideoJS type="playlist" playlist={playlist} embedded />
+      <Box
+        component={Link}
+        href="/"
+        target="_blank"
+        sx={{
+          position: 'absolute',
+          top: 24,
+          left: 24,
+          opacity: 0.3,
+          '&:hover': {
+            opacity: 'unset'
+          }
+        }}
+      >
+        <img width="66px" src="/images/poweredByRakonto.png" />
+      </Box>
+    </div>
+  )
 }
 
 export default Embed
