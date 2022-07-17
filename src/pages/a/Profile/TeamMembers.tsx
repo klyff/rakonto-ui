@@ -8,6 +8,7 @@ import api from '../../../lib/api'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
+import Button from '@mui/material/Button'
 import InputAdornment from '@mui/material/InputAdornment'
 import SearchIcon from '@mui/icons-material/Search'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
@@ -87,17 +88,16 @@ const TeamMembers: React.FC = () => {
   return (
     <Box sx={{ width: '100%', minHeight: '100%', bgcolor: 'background.paper', padding: 2 }}>
       <Grid container spacing={1}>
-        <Grid
-          item
-          xs={12}
-          sx={{ display: 'flex', justifyContent: { xs: 'space-between', md: 'start' }, alignItems: 'center' }}
-        >
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography sx={{ mr: 2 }} variant="h6">
-            TeamMembers
+            Team Members
           </Typography>
-          <IconButton onClick={addMember} size="large">
-            <GroupAddIcon />
-          </IconButton>
+          <Button onClick={addMember} startIcon={<GroupAddIcon />} size="large" variant="outlined">
+            Add member
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography color="secondary">Add members for you team that can manage your Library (My Library).</Typography>
         </Grid>
         <Grid item xs={12}>
           <Box
