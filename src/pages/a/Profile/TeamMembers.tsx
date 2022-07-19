@@ -96,8 +96,8 @@ const TeamMembers: React.FC = () => {
             Add member
           </Button>
         </Grid>
-        <Grid item xs={12}>
-          <Typography color="secondary">
+        <Grid item xs={12} marginBottom={2}>
+          <Typography color="secondary" maxWidth="800px">
             The Team Members feature allows you to grant others access to manage your entire library on your behalf.
             Please note that they will not have access to change your profile, password, organization, team member
             assignments, subscription, services or billing information. Also, only users with Professional or Enterprise
@@ -105,7 +105,7 @@ const TeamMembers: React.FC = () => {
           </Typography>
         </Grid>
         {items.length > 5 && (
-          <Grid item xs={12}>
+          <Grid item xs={12} marginBottom={2}>
             <Box
               sx={{
                 display: 'flex',
