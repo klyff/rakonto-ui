@@ -73,7 +73,7 @@ export type UserType = {
   trial: boolean
   freeTrialUntilAt: string
   organizations: OrganizationType[]
-  teams: string[]
+  teams: UserType[]
 }
 
 export type UserFormType = {

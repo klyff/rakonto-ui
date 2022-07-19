@@ -1,4 +1,5 @@
 import React, { useContext, forwardRef } from 'react'
+import axios from 'axios'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -62,15 +63,19 @@ const Header = forwardRef((props, ref) => {
   const switchAccount = () => {
     handleMenuClose()
     formDialogActions.open(
-      'Switch account',
-      'You will access logged with team member account that you choose.',
+      'Switch library',
+      'Select the library you wish to manage.',
       [
         {
           label: 'Email',
           name: 'email',
           placeholder: 'select email to switch account',
           type: 'select',
-          options: user.teams
+          options: user.teams.map(option => (
+            <MenuItem key={option.id} value={option.email}>
+              {`${option.firstName}${option.lastName ? ` ${option.lastName}` : ''}: ${option.email}`}
+            </MenuItem>
+          ))
         }
       ],
       { email: '' },
@@ -79,14 +84,22 @@ const Header = forwardRef((props, ref) => {
         try {
           const newAccess = await api.switchAccount(email)
           Cookies.set('token', newAccess.token)
-          console.log('token changed')
           await refetch()
           snackActions.open('Account switched with success!')
+          window.location.reload()
         } catch (error) {
-          snackActions.open('You access was revoked.')
+          if (axios.isAxiosError(error)) {
+            // @ts-ignore
+            const { code, message } = error.response.data
+            if (code) {
+              snackActions.open(message)
+              return
+            }
+          }
+          snackActions.open('Internal server error.')
         }
       },
-      { okText: 'Switch account', cancelText: `cancel` }
+      { okText: 'Switch library', cancelText: `cancel` }
     )
   }
 
@@ -145,19 +158,29 @@ const Header = forwardRef((props, ref) => {
       </MenuItem>
       <MenuItem
         onClick={() => {
-          history.push(`/a/organization`)
-          handleMenuClose()
-        }}
-      >
-        Organization
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
           history.push('/a/profile')
           handleMenuClose()
         }}
       >
         My profile
+      </MenuItem>
+      {user?.tier >= 3 && (
+        <MenuItem
+          onClick={() => {
+            history.push(`/a/organization`)
+            handleMenuClose()
+          }}
+        >
+          Organization
+        </MenuItem>
+      )}
+      <MenuItem
+        onClick={() => {
+          history.push(`/a/profile?tab=teamMembers`)
+          handleMenuClose()
+        }}
+      >
+        Team members
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -175,7 +198,7 @@ const Header = forwardRef((props, ref) => {
       >
         Professional services
       </MenuItem>
-      {!!user?.teams?.length && <MenuItem onClick={switchAccount}>Switch account</MenuItem>}
+      {user?.tier >= 3 && !!user?.teams?.length && <MenuItem onClick={switchAccount}>Switch library</MenuItem>}
       <MenuItem
         onClick={() => {
           history.push('/a/signout')
@@ -229,19 +252,29 @@ const Header = forwardRef((props, ref) => {
       ))}
       <MenuItem
         onClick={() => {
-          history.push(`/a/organization`)
-          handleMenuClose()
-        }}
-      >
-        Organization
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
           history.push(`/a/profile`)
           handleMenuClose()
         }}
       >
         My profile
+      </MenuItem>
+      {user?.tier >= 3 && (
+        <MenuItem
+          onClick={() => {
+            history.push(`/a/organization`)
+            handleMenuClose()
+          }}
+        >
+          Organization
+        </MenuItem>
+      )}
+      <MenuItem
+        onClick={() => {
+          history.push(`/a/profile?tab=teamMembers`)
+          handleMenuClose()
+        }}
+      >
+        Team members
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -259,7 +292,7 @@ const Header = forwardRef((props, ref) => {
       >
         Professional services
       </MenuItem>
-      {!!user?.teams?.length && <MenuItem onClick={switchAccount}>Switch account</MenuItem>}
+      {user?.tier >= 3 && !!user?.teams?.length && <MenuItem onClick={switchAccount}>Switch library</MenuItem>}
       <MenuItem
         onClick={() => {
           history.push('/a/signout')

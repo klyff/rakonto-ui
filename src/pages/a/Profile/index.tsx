@@ -75,17 +75,15 @@ const Profile: React.FC<RouteComponentProps> = () => {
                 </Tooltip>
               }
             />
-            {user?.tier >= 3 && (
-              <Tab
-                sx={{ minWidth: { xs: '60px', md: '70px' } }}
-                value="teamMembers"
-                label={
-                  <Tooltip placement="right" title="Team members">
-                    <GroupIcon />
-                  </Tooltip>
-                }
-              />
-            )}
+            <Tab
+              sx={{ minWidth: { xs: '60px', md: '70px' } }}
+              value="teamMembers"
+              label={
+                <Tooltip placement="right" title="Team members">
+                  <GroupIcon />
+                </Tooltip>
+              }
+            />
             <Tab
               sx={{ minWidth: { xs: '60px', md: '70px' } }}
               value="password"
@@ -130,7 +128,7 @@ const Profile: React.FC<RouteComponentProps> = () => {
           }}
         >
           {t === 'info' && <Info />}
-          {user?.tier >= 3 && t === 'teamMembers' && <TeamMembers />}
+          {t === 'teamMembers' && <TeamMembers />}
           {t === 'password' && <Password />}
           {t === 'subscription' && <Subscription />}
           {t === 'storage' && <Storage />}

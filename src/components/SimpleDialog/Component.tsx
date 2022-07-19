@@ -28,7 +28,7 @@ const SimpleDialog: React.FC<iSimpleDialogComponent> = ({ store }) => {
     actions.close()
   }
   return (
-    <Dialog fullScreen={fullScreen} open={true} onClose={() => handleClose(false)}>
+    <Dialog fullScreen={fullScreen} maxWidth="sm" fullWidth open={true} onClose={() => handleClose(false)}>
       <DialogTitle id="alert-dialog-title">
         {store.title}{' '}
         <IconButton

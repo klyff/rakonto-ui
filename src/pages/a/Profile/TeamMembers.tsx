@@ -41,8 +41,8 @@ const TeamMembers: React.FC = () => {
 
   const addMember = () => {
     formDialogActions.open(
-      'Add user',
-      'Type email from user that you add to your team',
+      'Add team member',
+      'Enter the email address of the person you would like to manage your library.',
       [
         {
           label: 'Email',
@@ -57,7 +57,7 @@ const TeamMembers: React.FC = () => {
         try {
           const newMember = await api.addTeamMember(email)
           setItems([...items, newMember])
-          snackActions.open('User add with success!')
+          snackActions.open('User successfully added to your team!')
         } catch (error) {
           snackActions.open('This user cannot be added to your team.')
         }
@@ -97,37 +97,44 @@ const TeamMembers: React.FC = () => {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <Typography color="secondary">Add members for you team that can manage your Library (My Library).</Typography>
+          <Typography color="secondary">
+            The Team Members feature allows you to grant others access to manage your entire library on your behalf.
+            Please note that they will not have access to change your profile, password, organization, team member
+            assignments, subscription, services or billing information. Also, only users with Professional or Enterprise
+            accounts can be assigned as team members.
+          </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between'
-            }}
-          >
-            <TextField
-              key="search"
-              name="search"
-              fullWidth
+        {items.length > 5 && (
+          <Grid item xs={12}>
+            <Box
               sx={{
-                maxWidth: '422px'
+                display: 'flex',
+                justifyContent: 'space-between'
               }}
-              autoComplete="off"
-              placeholder="Type member name for filter list"
-              margin="dense"
-              value={searchValue}
-              onChange={e => setSearchValue(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Box>
-        </Grid>
+            >
+              <TextField
+                key="search"
+                name="search"
+                fullWidth
+                sx={{
+                  maxWidth: '422px'
+                }}
+                autoComplete="off"
+                placeholder="Search for a team member"
+                margin="dense"
+                value={searchValue}
+                onChange={e => setSearchValue(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </Box>
+          </Grid>
+        )}
         <Grid item xs={12}>
           <Grid container>
             {items

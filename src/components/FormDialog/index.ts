@@ -9,7 +9,7 @@ export interface iFormDialog {
     name: string
     placeholder: string
     label: string
-    options?: string[]
+    options?: ReactNode
     type?: React.InputHTMLAttributes<unknown>['type']
   }[]
   okText?: string

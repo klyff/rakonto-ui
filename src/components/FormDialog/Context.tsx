@@ -13,7 +13,7 @@ export const FormDialogContext = createContext<{
         placeholder: string
         label: string
         type?: React.InputHTMLAttributes<unknown>['type']
-        options?: string[]
+        options?: ReactNode
       }[],
       initialValues: any,
       validationSchema: any,
@@ -55,7 +55,7 @@ export const FormDialogProvider: React.FC = ({ children }) => {
       name: string
       placeholder: string
       label: string
-      options?: string[]
+      options?: ReactNode
     }[],
     initialValues: any,
     validationSchema: any,

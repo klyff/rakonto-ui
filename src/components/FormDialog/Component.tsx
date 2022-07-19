@@ -4,7 +4,6 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
-import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 import { FormDialogContext } from './Context'
 import { useContext } from 'react'
@@ -31,7 +30,7 @@ const FormDialog: React.FC = () => {
     >
       {({ isSubmitting, handleBlur, values, handleChange, touched, errors, handleSubmit }) => (
         <Form>
-          <Dialog fullScreen={fullScreen} open={true}>
+          <Dialog fullScreen={fullScreen} open={true} fullWidth maxWidth="sm">
             <DialogTitle>{store.title}</DialogTitle>
             <DialogContent>
               <DialogContentText sx={{ paddingBottom: 3 }}>{store.content}</DialogContentText>
@@ -53,11 +52,7 @@ const FormDialog: React.FC = () => {
                       error={touched[field.name] && Boolean(errors[field.name])}
                       helperText={(touched[field.name] && errors[field.name]) || ' '}
                     >
-                      {(field.options || []).map(option => (
-                        <MenuItem key={option} value={option}>
-                          {option}
-                        </MenuItem>
-                      ))}
+                      {field.options}
                     </TextField>
                   )
                 }

@@ -222,60 +222,62 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography gutterBottom>Call to action</Typography>
-              <Typography gutterBottom>
-                You can replace the default rakonto &quot;Thank you&quot; page with your own call-to action-by filling
-                in the fields below.
-              </Typography>
-              <Box sx={{ mt: 3 }}>
-                <TextField
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  placeholder="Type the action button instruction"
-                  label="Instructions"
-                  name="callToActionInstructions"
-                  type="text"
-                  value={callToActionInstructionsValue}
-                  onChange={callToActionInstructionsOnChange}
-                  onBlur={callToActionInstructionsOnBlur}
-                  error={callToActionInstructionsTouched && Boolean(callToActionInstructionsError)}
-                  helperText={(callToActionInstructionsTouched && callToActionInstructionsError) || ' '}
-                />
-                <TextField
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  placeholder="Type the action link"
-                  label="Action link"
-                  name="callToAction"
-                  type="text"
-                  value={callToActionValue}
-                  onChange={callToActionOnChange}
-                  onBlur={callToActionOnBlur}
-                  error={callToActionTouched && Boolean(callToActionError)}
-                  helperText={(callToActionTouched && callToActionError) || ' '}
-                />
-                <TextField
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  placeholder="Type a label for call to action button"
-                  label="Button label"
-                  name="callToActionButtonLabel"
-                  type="text"
-                  value={callToActionButtonLabelValue}
-                  onChange={callToActionButtonLabelOnChange}
-                  onBlur={callToActionButtonLabelOnBlur}
-                  error={callToActionButtonLabelTouched && Boolean(callToActionButtonLabelError)}
-                  helperText={(callToActionButtonLabelTouched && callToActionButtonLabelError) || ' '}
-                />
-              </Box>
-            </Grid>
+            {user.tier > 3 && (
+              <Grid item xs={12} md={6}>
+                <Typography gutterBottom>Call to action</Typography>
+                <Typography gutterBottom>
+                  You can replace the default rakonto &quot;Thank you&quot; page with your own call-to action-by filling
+                  in the fields below.
+                </Typography>
+                <Box sx={{ mt: 3 }}>
+                  <TextField
+                    fullWidth
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    placeholder="Type the action button instruction"
+                    label="Instructions"
+                    name="callToActionInstructions"
+                    type="text"
+                    value={callToActionInstructionsValue}
+                    onChange={callToActionInstructionsOnChange}
+                    onBlur={callToActionInstructionsOnBlur}
+                    error={callToActionInstructionsTouched && Boolean(callToActionInstructionsError)}
+                    helperText={(callToActionInstructionsTouched && callToActionInstructionsError) || ' '}
+                  />
+                  <TextField
+                    fullWidth
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    placeholder="Type the action link"
+                    label="Action link"
+                    name="callToAction"
+                    type="text"
+                    value={callToActionValue}
+                    onChange={callToActionOnChange}
+                    onBlur={callToActionOnBlur}
+                    error={callToActionTouched && Boolean(callToActionError)}
+                    helperText={(callToActionTouched && callToActionError) || ' '}
+                  />
+                  <TextField
+                    fullWidth
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    placeholder="Type a label for call to action button"
+                    label="Button label"
+                    name="callToActionButtonLabel"
+                    type="text"
+                    value={callToActionButtonLabelValue}
+                    onChange={callToActionButtonLabelOnChange}
+                    onBlur={callToActionButtonLabelOnBlur}
+                    error={callToActionButtonLabelTouched && Boolean(callToActionButtonLabelError)}
+                    helperText={(callToActionButtonLabelTouched && callToActionButtonLabelError) || ' '}
+                  />
+                </Box>
+              </Grid>
+            )}
           </Grid>
         </>
       )}
