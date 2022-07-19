@@ -161,7 +161,7 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
               </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
-              {!!user.organizations.length && (
+              {user.tier >= 3 && !!user.organizations.length && (
                 <FormControl sx={{ mt: 1 }}>
                   <FormControlLabel
                     sx={{ alignItems: 'flex-start', ml: 'unset' }}
@@ -222,7 +222,7 @@ const Step3: React.FC<{ progress: number }> = ({ progress }) => {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            {user.tier > 3 && (
+            {user.tier >= 3 && (
               <Grid item xs={12} md={6}>
                 <Typography gutterBottom>Call to action</Typography>
                 <Typography gutterBottom>
