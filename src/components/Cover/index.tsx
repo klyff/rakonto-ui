@@ -10,6 +10,7 @@ import { format, parseJSON } from 'date-fns'
 interface iCover {
   src: string
   title: string
+  subtitle?: string
   buttonLabel: string
   description: string
   hidePlayButton?: boolean
@@ -18,7 +19,17 @@ interface iCover {
   date?: string
 }
 
-const Cover: React.FC<iCover> = ({ src, date, buttonLabel, onClick, title, description, author, hidePlayButton }) => {
+const Cover: React.FC<iCover> = ({
+  src,
+  date,
+  buttonLabel,
+  onClick,
+  title,
+  subtitle,
+  description,
+  author,
+  hidePlayButton
+}) => {
   const fullName = `${author?.firstName} ${author?.lastName}`
 
   return (
@@ -51,6 +62,16 @@ const Cover: React.FC<iCover> = ({ src, date, buttonLabel, onClick, title, descr
             position: 'relative'
           }}
         >
+          {subtitle && (
+            <Typography
+              sx={{ fontWeight: 400, textTransform: 'uppercase' }}
+              gutterBottom
+              color="secondary"
+              variant="subtitle1"
+            >
+              {subtitle}
+            </Typography>
+          )}
           <Typography sx={{ fontWeight: 700 }} gutterBottom variant="h3">
             {title}
           </Typography>

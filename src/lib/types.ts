@@ -2,7 +2,6 @@
 
 import { LatLngExpression } from 'leaflet'
 import { ReactNode } from 'react'
-import internal from 'stream'
 
 export type apiOptions = {
   errorBoundary: boolean
@@ -227,12 +226,14 @@ export type CollectionType = {
   publicAcl: boolean
   watchers: Watcher[]
   updatedAt: string
+  type: string
 }
 
 export type CollectionFormType = {
   title?: string
   description?: string
   coverId?: string
+  type?: string
 }
 
 export type ImageType = {

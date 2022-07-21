@@ -92,7 +92,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
     return <Redirect to={'/a/404'} />
   }
 
-  const { thumbnailUrl, title, description, stories, owner } = collection
+  const { thumbnailUrl, title, description, stories, owner, type } = collection
 
   const handlePlay = () => {
     setPlay(true)
@@ -147,6 +147,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
           ) : (
             <Cover
               author={collection.owner}
+              subtitle={collection.type}
               src={thumbnailUrl}
               title={title}
               description={description}
@@ -197,6 +198,7 @@ const Collection: React.FC<RouteComponentProps<{ collectionId: string }>> = ({ m
             />
             <TabPanel sx={{ height: '100%', padding: 'unset' }} value="content">
               <Content
+                type={type}
                 update={updateCollection}
                 canEdit={isOwner}
                 title={title}

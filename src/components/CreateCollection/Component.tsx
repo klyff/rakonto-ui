@@ -3,6 +3,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
+import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -13,7 +14,7 @@ import schema from './schema'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { DropEvent, FileRejection, useDropzone } from 'react-dropzone'
+import { DropEvent, FileRejection } from 'react-dropzone'
 import api from '../../lib/api'
 import { SimpleSnackbarContext } from '../SimpleSnackbar'
 import Droparea from './Droparea'
@@ -21,6 +22,7 @@ import { ImageType } from '../../lib/types'
 import { CircularProgress } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import collectionTypes from '../../lib/collectionTypes.json'
 
 const CreateCollection: React.FC<{ initialTitle: string }> = ({ initialTitle }) => {
   const { actions } = useContext(CreateCollectionContext)
@@ -29,18 +31,19 @@ const CreateCollection: React.FC<{ initialTitle: string }> = ({ initialTitle }) 
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
-  const onSubmit = async ({ title, cover, description }: FormikValues) => {
+  const onSubmit = async ({ title, cover, description, type }: FormikValues) => {
     try {
-      const collection = await api.createCollection({ title, coverId: cover?.id, description })
+      const collection = await api.createCollection({ title, coverId: cover?.id, description, type })
       actions.close(collection)
     } catch (e) {
       console.error(e)
     }
   }
 
-  const initialValues: { title: string; description: string; cover: ImageType | null } = {
+  const initialValues: { title: string; description: string; cover: ImageType | null; type?: string } = {
     title: initialTitle,
     description: '',
+    type: '',
     cover: null
   }
 
@@ -179,6 +182,26 @@ const CreateCollection: React.FC<{ initialTitle: string }> = ({ initialTitle }) 
               </Box>
             )}
           </Box>
+          <TextField
+            key={'type'}
+            name={'type'}
+            fullWidth
+            select
+            label={'Collection type'}
+            margin="dense"
+            placeholder="Select a subject type for your collection"
+            onBlur={handleBlur}
+            value={values.type}
+            onChange={handleChange}
+            error={touched.type && Boolean(errors.type)}
+            helperText={(touched.type && errors.type) || ' '}
+          >
+            {collectionTypes.map(item => (
+              <MenuItem key={item} value={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </TextField>
           <TextField
             key={'title'}
             name={'title'}

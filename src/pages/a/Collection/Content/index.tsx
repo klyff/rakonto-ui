@@ -10,9 +10,12 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import schema from './schema'
 import { CollectionFormType, ImageType, StoryUpdateType } from '../../../../lib/types'
+import collectionTypes from '../../../../lib/collectionTypes.json'
+import MenuItem from '@mui/material/MenuItem'
 
 interface iContent {
   title: string
+  type?: string
   id: string
   description: string
   canEdit: boolean
@@ -20,11 +23,11 @@ interface iContent {
   onChange?: (image: ImageType) => void
 }
 
-const Content: React.FC<iContent> = ({ update, title, id, description, canEdit, children }) => {
+const Content: React.FC<iContent> = ({ update, title, id, description, type, canEdit, children }) => {
   const [editMode, setEditMode] = useState<boolean>(false)
-  const initialValues = { title: title, description: description }
+  const initialValues = { title, description, type }
 
-  const onSubmit = async (values: { title: string; description: string }) => {
+  const onSubmit = async (values: { title: string; description: string; type?: string }) => {
     try {
       await update({ ...values })
       setEditMode(false)
@@ -91,6 +94,23 @@ const Content: React.FC<iContent> = ({ update, title, id, description, canEdit, 
           <form>
             <Grid container spacing={4} direction="row" justifyContent="center" alignItems="center">
               <Grid item xs={12}>
+                <TextField
+                  name="type"
+                  fullWidth
+                  label="type"
+                  select
+                  value={values.type}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.type && Boolean(errors.type)}
+                  helperText={(touched.type && errors.type) || ' '}
+                >
+                  {collectionTypes.map(item => (
+                    <MenuItem key={item} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </TextField>
                 <TextField
                   name="title"
                   fullWidth
